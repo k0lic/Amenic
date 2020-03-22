@@ -33,7 +33,7 @@ We believe great software requires time, energy and attention to even the smalle
 Security is another big focus. While dealing with sensitive information, like email addresses and passwords, it's easy to make mistakes. We strive to implement the best security practices when dealing with user data. All of the information we store is encrypted on our servers, and users can access or delete their data at any time.
 
 # Future plans :memo:
-This is a sneak peak at possible upcoming features:
+This is a sneak peek at possible upcoming features:
 * A notification / message system on the platform, so users can interact with their cinemas and be notified of any changes, or new promotions
 * We plan to support indie movie cinemas, not just the big players. This way, even people who are screening a movie from their garage can have a shot at gathering people
 * Enable online payment for movie tickets. Nobody likes to deal in physical cash, that's why we want to partner with services like Stripe, to provide our users with the ability to pay for their movie tickets - right from the browser
