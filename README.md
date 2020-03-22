@@ -43,3 +43,4 @@ The entire project would not be possible without the combined effort of the **//
 * Andrija Kolić ([Github](https://github.com/k0lic))
 * Martin Mitrović ([Github](https://github.com/Rpsaman13000), [BitBucket](https://bitbucket.org/Maximious/))
 * Miloš Živković ([Github](https://github.com/zivkovicmilos))
+![Logo](imgs/github/TODO_Logo.png)
