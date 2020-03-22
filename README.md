@@ -2,7 +2,7 @@
 # Project description
 Amenic is an online platform dedicated to making the entire process of booking a movie ticket as seamless, and easy, as possible.
 
-# Types of users :busts_in_silhouette:
+# Types of users :person_with_blond_hair:
 ## Registered user
 A registered user has the same functionality as a guest, in addition to being able to make a reservation for a movie ticket.
 
