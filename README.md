@@ -38,7 +38,7 @@ This is a sneak peak at possible upcoming features:
 * We plan to support indie movie cinemas, not just the big players. This way, even people who are screening a movie from their garage can have a shot at gathering people
 * Enable online payment for movie tickets. Nobody likes to deal in physical cash, that's why we want to partner with services like Stripe, to provide our users with the ability to pay for their movie tickets - right from the browser
 
-# Authors :neckbeard:
+# Authors :construction_worker:
 The entire project would not be possible without the combined effort of the **//TODO** team members:
 * Andrija Kolić ([Github](https://github.com/k0lic))
 * Martin Mitrović ([Github](https://github.com/Rpsaman13000), [BitBucket](https://bitbucket.org/Maximious/))
