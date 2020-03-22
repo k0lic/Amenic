@@ -44,4 +44,4 @@ The entire project would not be possible without the combined effort of the **//
 * Martin Mitrović ([Github](https://github.com/Rpsaman13000), [BitBucket](https://bitbucket.org/Maximious/))
 * Miloš Živković ([Github](https://github.com/zivkovicmilos))
 
-![Logo](imgs/github/TODO_Logo.png)
+<img src="https://github.com/zivkovicmilos/Amenic/blob/master/imgs/github/TODO_Logo.png" width="250">
