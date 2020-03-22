@@ -39,7 +39,7 @@ This is a sneak peak at possible upcoming features:
 * Enable online payment for movie tickets. Nobody likes to deal in physical cash, that's why we want to partner with services like Stripe, to provide our users with the ability to pay for their movie tickets - right from the browser
 
 # Authors
-The entire project would not be possible without the combined effort of the //TODO team members:
+The entire project would not be possible without the combined effort of the *//TODO* team members:
 * Andrija Kolić ([Github](https://github.com/k0lic))
 * Martin Mitrović ([Github](https://github.com/Rpsaman13000), [BitBucket](https://bitbucket.org/Maximious/))
 * Miloš Živković ([Github](https://github.com/zivkovicmilos))
