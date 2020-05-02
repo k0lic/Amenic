@@ -1,0 +1,215 @@
+/* BASE CSS */
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800&display=swap");
+
+:root {
+	--deepPurple: #2d2032;
+	--orange: #e27b2e;
+	--red: #cd3e30;
+	--lightGray: #9b97b6;
+	--lightPurple: #342739;
+	--imgOutline: #2b1e30;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Nunito", sans-serif;
+	background-color: var(--lightPurple);
+}
+
+.container {
+	width: 100%;
+	display: flex;
+}
+
+/* MENU BAR */
+
+.menuBar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 15%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+
+	background-color: var(--deepPurple);
+	font-weight: 600;
+	font-size: 22px;
+	text-align: center;
+}
+
+.menuBar a {
+	color: white;
+	text-decoration: none;
+	transition: color 0.2s ease-in-out;
+}
+
+.nav {
+	list-style: none;
+}
+
+.nav li {
+	margin-bottom: 14px;
+}
+
+.activeMenu {
+	color: var(--orange) !important;
+}
+
+.menuBar a:hover {
+	color: var(--orange) !important;
+	transition: color 0.2s ease-in-out;
+}
+
+.menuBar a:last-child {
+	margin-bottom: 20px;
+}
+
+.logo {
+	height: 40px;
+	margin-top: 20px;
+}
+
+/* ICON CSS */
+
+.icon {
+	display: inline-flex;
+	align-self: center;
+}
+
+.icon svg,
+.icon img {
+	height: 1em;
+	width: 1em;
+	fill: currentColor;
+}
+
+.icon.baseline svg,
+.icon img {
+	top: 0.125em;
+	position: relative;
+}
+
+/* MOVIES RIGHT PANE */
+
+.moviesWrapper {
+	width: 85%;
+	margin-left: 15%;
+	padding: 30px 80px;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--lightPurple);
+}
+
+/* SEARCH BAR */
+
+.topBar {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 30px;
+}
+
+.profPic {
+	height: 56px;
+}
+
+.searchForm {
+	align-self: center;
+	justify-self: center;
+}
+
+.user {
+	display: flex;
+	align-items: center;
+}
+
+.user span {
+	color: white;
+	font-size: 18px;
+	font-weight: 500;
+}
+
+.user img {
+	margin-right: 12px;
+}
+
+label {
+	position: relative;
+}
+
+label:before {
+	content: "";
+	position: absolute;
+	left: 10px;
+	top: 0;
+	bottom: 0;
+	width: 20px;
+	background: url(../assets/MoviesPage/imgs/search.svg) center / contain
+		no-repeat;
+}
+
+.search {
+	padding: 5px 10px 5px 35px;
+	border-radius: 15px;
+	outline: none;
+	color: white;
+	background-color: var(--deepPurple);
+	font-family: "Nunito", sans-serif;
+	font-weight: 300;
+	font-size: 16px;
+	border: rgba(255, 255, 255, 0.5) 1px solid;
+	transition: border 0.2s ease-in-out;
+}
+
+.search:focus,
+.search:hover {
+	border: rgba(255, 255, 255, 0.8) 1px solid;
+	transition: border 0.2s ease-in-out;
+}
+
+/* CATEGORY SELECT */
+
+.movieBtns {
+	list-style: none;
+	display: flex;
+	font-weight: 600;
+	font-size: 18px;
+	margin-bottom: 50px;
+}
+
+.movieBtns a {
+	color: white;
+	text-decoration: none;
+	margin-right: 60px;
+	transition: color 0.2s ease-in-out;
+}
+
+.movieBtns a:hover {
+	color: var(--orange) !important;
+	transition: color 0.2s ease-in-out;
+}
+
+/* CATEGORY SELECT */
+
+.movies {
+	display: grid;
+	/* TODO: Remove the auto-fll when you integrate media queries*/
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	grid-gap: 50px;
+	justify-items: center;
+}
+
+.movieImg {
+	height: 285px;
+	width: 190px;
+	outline: var(--imgOutline) 10px solid;
+}
