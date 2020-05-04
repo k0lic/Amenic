@@ -2,7 +2,7 @@
 
 use CodeIgniter\Model;
 
-class City extends Model
+class CityModel extends Model
 {
     protected $table = 'Cities';
     protected $primaryKey= 'idCity';

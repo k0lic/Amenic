@@ -2,9 +2,9 @@
 
 use CodeIgniter\Model;
 
-class Worker extends Model
+class VerificationModel extends Model
 {
-    protected $table = 'Workers';
+    protected $table = 'Verifications';
     protected $primaryKey= 'email';
     protected $returnType= 'object';    
 }

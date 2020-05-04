@@ -2,7 +2,7 @@
 
 use CodeIgniter\Model;
 
-class Projection extends Model
+class ProjectionModel extends Model
 {
     protected $table = 'Projections';
     protected $primaryKey= 'idPro';

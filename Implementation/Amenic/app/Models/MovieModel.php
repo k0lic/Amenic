@@ -2,7 +2,7 @@
 
 use CodeIgniter\Model;
 
-class Movie extends Model
+class MovieModel extends Model
 {
     protected $table = 'Movies';
     protected $primaryKey= 'tmdbID';

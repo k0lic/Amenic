@@ -2,10 +2,9 @@
 
 use CodeIgniter\Model;
 
-class Seat extends Model
+class RUserModel extends Model
 {
-    #kompozit
-    protected $table = 'Seats';
+    protected $table = 'RUsers';
     protected $primaryKey= 'email';
     protected $returnType= 'object';    
 }

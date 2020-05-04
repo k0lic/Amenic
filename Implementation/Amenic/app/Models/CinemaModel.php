@@ -2,9 +2,9 @@
 
 use CodeIgniter\Model;
 
-class Cinema extends Model
+class CinemaModel extends Model
 {
     protected $table = 'Cinemas';
     protected $primaryKey= 'email';
-    protected $returnType= 'object';    
+    protected $returnType= 'App\Entities\Cinema';    
 }

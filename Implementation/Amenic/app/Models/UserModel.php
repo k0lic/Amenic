@@ -2,10 +2,9 @@
 
 use CodeIgniter\Model;
 
-class Room extends Model
+class UserModel extends Model
 {
-    #opet kompozitni primarni kljuc
-    protected $table = 'Rooms';
+    protected $table = 'Users';
     protected $primaryKey= 'email';
     protected $returnType= 'object';    
 }

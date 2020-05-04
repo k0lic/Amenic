@@ -2,7 +2,7 @@
 
 use CodeIgniter\Model;
 
-class Technology extends Model
+class TechnologyModel extends Model
 {
     protected $table = 'Technologies';
     protected $primaryKey= 'idTech';

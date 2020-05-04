@@ -2,10 +2,10 @@
 
 use CodeIgniter\Model;
 
-class Reservation extends Model
+class ReservationModel extends Model
 {
     protected $table = 'Reservations';
     protected $primaryKey= 'idRes';
-    protected $returnType= 'object';  
+    protected $returnType= 'App\Entities\Reservation';  
     protected $allowedFields = ['confirmed','idPro','email'];  
 }
