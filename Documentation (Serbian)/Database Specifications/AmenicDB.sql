@@ -82,7 +82,7 @@ CREATE TABLE Movies
 	plot TEXT,
 	poster VARCHAR(255) NULL,
 	backgroundImg VARCHAR(255) NULL,
-	imdbRating DECIMAL(2) CHECK ( imdbRating <= 10 ),
+	imdbRating DECIMAL(2,1) CHECK ( imdbRating <= 10 ),
 	imdbID VARCHAR(64) NOT NULL,
 	reviews TEXT,
 	trailer VARCHAR(255)
@@ -308,3 +308,6 @@ VALUES("milos@gmail.com", "Miloš", "Živković");
 
 INSERT INTO Admins(email, firstName, lastName)
 VALUES("martin@gmail.com", "Martin", "Mitrović");
+
+INSERT INTO Movies
+VALUES("475557", "Joker", "2019-10-02", 122, " Crime, Thriller, Drama", "Todd Phillipst", "Scott Silver, Todd Phillips", "Joaquin Phoenix, Robert De Niro, Zazie Beetz, Frances Conroy, Brett Cullen, Shea Whigham", "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.", "https://image.tmdb.org/t/p/original/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg", "https://image.tmdb.org/t/p/original/f5F4cRhQdUbyVbB5lTNCwUzD6BP.jpg", "8.5", "tt7286456", "", "https://www.youtube.com/watch?v=xRjvmVaFHkk");
