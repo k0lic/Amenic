@@ -66,18 +66,16 @@
 					</li>
 				</ul>
 				<div class="movies">
-					<img src="assets/MoviesPage/imgs/posters/1.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/2.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/3.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/4.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/5.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/6.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/7.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/8.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/9.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/10.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/11.jpg" class="movieImg" alt="" />
-					<img src="assets/MoviesPage/imgs/posters/12.png" class="movieImg" alt="" />
+					<?php 
+
+					for($i = 0; $i < 12; $i++)
+					{
+						echo (
+							"<img src=".$movies[0]->poster." class=\"movieImg\" alt=\"\" />"
+						);
+					}
+
+					?>
 				</div>
 			</div>
 		</div>

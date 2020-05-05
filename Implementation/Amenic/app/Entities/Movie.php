@@ -23,5 +23,9 @@ class Movie extends Entity
         trailer
     */    
    
+    public function toString()
+    {
+        return "Movie: ".$this->tmdbID."\nTitle: ".$this->title."\nReleased: ".$this->released."\nRuntime: ".$this->runtime;
+    }
 }
 

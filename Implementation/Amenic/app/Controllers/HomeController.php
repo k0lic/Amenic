@@ -1,12 +1,13 @@
 <?php namespace App\Controllers;
 
+use App\Models\MovieModel;
+
 class HomeController extends BaseController
 {
 	public function index()
 	{
-		$db = \Config\Database::connect();	
-		return view('index.php');
-		//HomePage
+		$movies = (new MovieModel())->findAll();
+		return view('index.php',[ 'movies' => $movies]);
 	}
 
 	//connect to a database

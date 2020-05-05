@@ -2,9 +2,10 @@
 
 use CodeIgniter\Model;
 
+
 class MovieModel extends Model
 {
     protected $table = 'Movies';
     protected $primaryKey= 'tmdbID';
-    protected $returnType= 'object';    
+    protected $returnType= 'App\Entities\Movie';    
 }
