@@ -68,10 +68,10 @@
 				<div class="movies">
 					<?php 
 
-					for($i = 0; $i < 12; $i++)
+					for($i = 0; $i < count($movies); $i++)
 					{
 						echo (
-							"<img src=".$movies[0]->poster." class=\"movieImg\" alt=\"\" />"
+							"<img src=".$movies[$i]->poster." class=\"movieImg\" alt=\"\" />"
 						);
 					}
 

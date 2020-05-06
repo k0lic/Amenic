@@ -1,6 +1,8 @@
 <?php namespace App\Controllers;
 
 use App\Libraries\APIlib;
+use App\Entities\Movie;
+use App\Models\MovieModel;
 
 class AddMovieToDatabaseController extends BaseController
 {
@@ -12,7 +14,12 @@ class AddMovieToDatabaseController extends BaseController
 			$params = $apilib->getMovies($_POST['movieTitle']);
 			
 			unset($_POST['movieTitle']);
-			var_dump($params[2]);
+			echo "Results:<br/><br/>";
+			foreach($params[2]["results"] as $movie)
+			{
+				echo "TmdbID: ".$movie['id']." - Title:".$movie['title']." - Released: ".$movie['release_date']."<br/>";
+			}
+			echo "<br/>";
 			echo view('ChooseMovieToAdd.php',[ 'params' => $params]);
 		}
 		else
@@ -23,29 +30,23 @@ class AddMovieToDatabaseController extends BaseController
 
 	public function addMovie()
 	{
-		$movieID = $_POST['movieID'];
+		$tmdbID = $_POST['movieID'];
+		
 		$apilib = new APIlib();
-		$movieBasicInfo = $apilib->getMovieBasic($movieID);
-		$movieCredits = $apilib->getMovieCredits($movieID);
-		$movieVideos = $apilib->getMovieVideos($movieID);
-		$movieReviews = $apilib->getMovieReviews($movieID);
+		$movieBasicInfo = $apilib->getMovieBasic($tmdbID);
+		$movieCredits = $apilib->getMovieCredits($tmdbID);
+		$movieVideos = $apilib->getMovieVideos($tmdbID);
+		$movieReviews = $apilib->getMovieReviews($tmdbID);
 		//provera na gresku
-	
-		//var_dump($movieBasicInfo);
-		echo $movieID;
-		echo "<br />";
-		echo $movieBasicInfo[2]['original_title'];
-		echo "<br />";
-		echo $movieBasicInfo[2]['release_date'];
-		echo "<br />";
-		echo $movieBasicInfo[2]['runtime'];
-		echo "<br />";
+		
+		$title = $movieBasicInfo[2]['title'];
+		$release = $movieBasicInfo[2]['release_date'];
+		$runtime = $movieBasicInfo[2]['runtime'];
 		$genres="";
 		foreach($movieBasicInfo[2]['genres'] as $genre)
 			$genres = $genres.$genre['name'].", ";
 		$genres = substr ( $genres , 0, strlen($genres)-2 );
-		echo $genres;
-		echo "<br />";
+		
 		$directors="";
 		$writers="";
 		$actors="";
@@ -68,28 +69,21 @@ class AddMovieToDatabaseController extends BaseController
 			}
 			else break;
 		}
-		$directors = substr ( $directors , 0, strlen($directors)-2 );
+		$directors = substr($directors,0,strlen($directors)-2 );
 		$writers = substr ( $writers , 0, strlen($writers)-2 );
 		$actors = substr ( $actors , 0, strlen($actors)-2 );
-		echo $directors;
-		echo "<br />";
-		echo $writers;
-		echo "<br />";
-		echo $actors;
-		echo "<br />";
-		echo $movieBasicInfo[2]['overview'];
-		echo "<br />";
-		echo "https://image.tmdb.org/t/p/original".$movieBasicInfo[2]['poster_path'];
-		echo "<br />";
-		echo "https://image.tmdb.org/t/p/original".$movieBasicInfo[2]['backdrop_path'];
-		echo "<br />";
-		$movieOMDBInfo = $apilib->getMovieInfoOMDB($movieBasicInfo[2]['imdb_id']);
-		$rating = $movieOMDBInfo[2]['Ratings'][0]['Value'];
-		$rating = substr($rating, 0, strpos($rating,"/"));
-		echo $rating;
-		echo "<br />";
-		echo $movieBasicInfo[2]['imdb_id'];
-		echo "<br />";
+
+		$plot =  $movieBasicInfo[2]['overview'];
+		$poster = "https://image.tmdb.org/t/p/original".$movieBasicInfo[2]['poster_path'];
+	
+		$backgroundImg = "https://image.tmdb.org/t/p/original".$movieBasicInfo[2]['backdrop_path'];
+	
+		$imdbID = $movieBasicInfo[2]['imdb_id'];
+
+		$movieOMDBInfo = $apilib->getMovieInfoOMDB($imdbID);
+		$imdbRating = $movieOMDBInfo[2]['Ratings'][0]['Value'];
+		$imdbRating = substr($imdbRating, 0, strpos($imdbRating,"/"));
+
 		$reviews="";
 		$numOfReviews=0;
 		foreach($movieReviews[2]['results'] as $review)
@@ -102,14 +96,38 @@ class AddMovieToDatabaseController extends BaseController
 			else break;
 		}
 		$reviews = substr ( $reviews , 0, strlen($reviews)-2 );
-		echo $reviews;
-		echo "<br />";
+		
 		$trailer="";
 		foreach($movieVideos[2]['results'] as $video)
 			if (strcmp($video['type'], 'Trailer') == 0) {
 				$trailer="https://www.youtube.com/watch?v=".$video['key'];
 				break;
 		}
-		echo $trailer;
+		
+		$movie = new Movie([
+			'tmdbID' => $tmdbID,
+			'title' => $title,
+			'released' => $release,
+			'runtime' => $runtime,
+			'genre' => $genres,
+			'director' => $directors,
+			'writer' => $writers,
+			'actors' => $actors,
+			'plot' => $plot,
+			'poster' => $poster,
+			'backgroundImg' =>  $backgroundImg,
+			'imdbRating' => $imdbRating,
+			'imdbID' => $imdbID,
+			'reviews' => $reviews,
+			'trailer' => $trailer]);
+
+		$movieModel = new MovieModel();
+		if ($movieModel->insert($movie)) {
+			echo 'failed<br/>'.$movieModel->errors();
+		  } 
+		
+		echo $movie->toString();
+		echo "<br/><a href=\"/AddMovieToDatabaseController\">Dodaj jos jedan film!</a><br/>";
+		echo "<br/><a href=\"/HomeController\">Nazad na glavnu stranu!</a><br/>";
 	}
 }
