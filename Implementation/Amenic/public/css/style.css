@@ -214,7 +214,6 @@ label:before {
 	outline: var(--imgOutline) 10px solid;
 }
 
-
 /* ADMIN CONTROLLER */
 .adminWrapper {
 	width: 85%;
@@ -226,30 +225,36 @@ label:before {
 }
 
 .list {
-	display: flex;
-	flex-direction: column;
+	display: flex !important;
+	width: 100% !important;
+	height: 100% !important;
+	flex-direction: column !important;
 }
 
-.rowWrapper{
+.list:last-child {
+	margin-bottom: 0 !important;
+}
+
+.rowWrapper {
 	display: flex;
-	align-items: flex-start;
+	width: 100%;
+	height: 100%;
 	flex-direction: row;
+	align-items: center;
 	background-color: var(--lightGray);
 	border-radius: 10px 10px 10px 10px;
-	min-height: 120px;
-	max-height: 140px;
-	margin: 6px;
+	margin-bottom: 1em;
 }
 
-.userPicture{
+.userPicture {
 	display: flex;
-	width: 25%;
 	height: 100%;
 	justify-content: center;
 	align-items: center;
+	padding: 0.5em 1em;
 }
 
-.userPicture > img{
+.userPicture > img {
 	width: auto;
 	height: 90% !important;
 	max-height: 140px;
@@ -257,7 +262,7 @@ label:before {
 	border-radius: 50%;
 }
 
-.editWrapper{
+.editWrapper {
 	display: flex;
 	width: 15%;
 	height: 100%;
@@ -266,51 +271,46 @@ label:before {
 	background-color: var(--deepPurple);
 }
 
-.editWrapper > img{
+.editWrapper > img {
 	height: 35% !important;
 	width: auto;
 	min-height: 30px;
 }
 
-.binWrapper{
-	display: flex;
-	width: 15%;
-	height: 100%;
-	justify-content: center;
-	align-items: center;
+.binWrapper {
+	display: flex !important;
+	height: 100% !important;
+	width: 15% !important;
+	justify-content: center !important;
+	align-items: center !important;
 	background-color: var(--deepPurple);
-	border-radius: 0px 10px 10px 0px;
+	border-radius: 0px 10px 10px 0px !important;
 }
 
-.binWrapper input[type="image"]{
-	height: 35% !important;
-	max-height: 50px;
-	width: auto;
-	min-height: 30px;
+.binWrapper img {
+	width: 45px !important;
 }
 
-.description{
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	height: 100%;
+.description {
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: center !important;
+	height: 100% !important;
 	color: white;
 }
 
-.userDescription{
+.userDescription {
+	margin: 0 auto 0 0 !important;
+}
+
+.requestsDescription {
 	width: 60%;
 }
 
-.requestsDescription{
-	width: 60%;
-}
-
-.cinemaDescription{
+.cinemaDescription {
 	width: 45%;
 }
 
-.adminDescription{
+.adminDescription {
 	width: 75%;
 }
-
-

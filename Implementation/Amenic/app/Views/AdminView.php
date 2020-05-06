@@ -69,9 +69,9 @@
 						<span>Miloš</span>
 					</div>
 				</div>
-                <div class="list">
-                    <?php 
-
+				<div class="list">
+                <?php 
+						
                         $descriptionType="";
                         $method="";
 
@@ -107,24 +107,25 @@
                                     </div>";
                             if($actMenu == 1)
                             {
-                                echo "<div class=\"editWrapper\">
-                                        <img src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>                            
+								echo "<div class=\"editWrapper\">
+										<img src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>
                                       </div>";
                             }
                             if($actMenu != 3)
                             {
-                                echo "<div class=\"binWrapper\">
-                                        <input type=\"image\"
-                                            src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>                            
+								echo "<div class=\"binWrapper\">
+                                        <img 
+											src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>  
                                       </div>";
                             }
 
                             echo "
                                 <input type=\"hidden\" name=\"id\" value=\"".$oneRow->email."\"/>
                                 </form>";
-                        }
-                    ?>
-                </div>
+						}
+						
+					?>
+					</div>
             </div>
 		</div>
 	</body>

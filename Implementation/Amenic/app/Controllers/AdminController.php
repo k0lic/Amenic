@@ -14,7 +14,7 @@ class AdminController extends BaseController
 
     public function users()
     {
-        $users = (new UserModel())->findAll();
+        $users = (new UserModel())->findAll(); // TODO: Switch back to AdminModel
         return view('AdminView',['actMenu' => "0", 'data' => $users]);
     }
 
