@@ -21,7 +21,7 @@
 						<a href="/AdminController/requests" class="<?php if(strcmp($actMenu,"0")==2) echo "activeMenu";?>">Requests</a>
 					</li>
                     <li>
-						<a href="/HomeController/admins" class="<?php if(strcmp($actMenu,"0")==3) echo "activeMenu";?>">Admins</a>
+						<a href="/AdminController/admins" class="<?php if(strcmp($actMenu,"0")==3) echo "activeMenu";?>">Admins</a>
 					</li>
 				</ul>
 				<a href="#"
@@ -43,7 +43,7 @@
 					Settings</a
 				>
 			</div>
-			<div class="moviesWrapper">
+			<div class="adminWrapper">
 				<div class="topBar">
 					<form action="/AdminController/titleSearch" method="GET" class="searchForm">
 						<label>
@@ -69,79 +69,61 @@
 						<span>Miloš</span>
 					</div>
 				</div>
-                <div class="users">
-                    <div class="userWrapper">
-                        <div class="userPicture">
-                            <img src="/assets/Admins/profPic.png" alt="Img error!"/>
-                        </div>
-                        <div class="userDescription">
-                            <div><h1>Miloš Živković</h1></div>     
-                            <div><span>milos@zmilos.com • Belgrade • Serbia</span></div>
-                        </div>
-                        <div class="binWrapper">
-                            <img src="/assets/Admins/bin.svg" alt="Img error!"/>                            
-                        </div>
-                    </div>
-                    <div class="userWrapper">
-                        <div class="userPicture">
-                            <img src="/assets/Admins/profPic.png" alt="Img error!"/>
-                        </div>
-                        <div class="userDescription">
-                            <div><h1>Miloš Živković</h1></div>     
-                            <div><span>milos@zmilos.com • Belgrade • Serbia</span></div>
-                        </div>
-                        <div class="binWrapper">
-                            <img src="/assets/Admins/bin.svg" alt="Img error!"/>                            
-                        </div>
-                    </div>
-                    <div class="userWrapper">
-                        <div class="userPicture">
-                            <img src="/assets/Admins/profPic.png" alt="Img error!"/>
-                        </div>
-                        <div class="userDescription">
-                            <div><h1>Miloš Živković</h1></div>     
-                            <div><span>milos@zmilos.com • Belgrade • Serbia</span></div>
-                        </div>
-                        <div class="binWrapper">
-                            <img src="/assets/Admins/bin.svg" alt="Img error!"/>                            
-                        </div>
-                    </div>
-                    <div class="userWrapper">
-                        <div class="userPicture">
-                            <img src="/assets/Admins/profPic.png" alt="Img error!"/>
-                        </div>
-                        <div class="userDescription">
-                            <div><h1>Miloš Živković</h1></div>     
-                            <div><span>milos@zmilos.com • Belgrade • Serbia</span></div>
-                        </div>
-                        <div class="binWrapper">
-                            <img src="/assets/Admins/bin.svg" alt="Img error!"/>                            
-                        </div>
-                    </div>
-                    <div class="userWrapper">
-                        <div class="userPicture">
-                            <img src="/assets/Admins/profPic.png" alt="Img error!"/>
-                        </div>
-                        <div class="userDescription">
-                            <div><h1>Miloš Živković</h1></div>     
-                            <div><span>milos@zmilos.com • Belgrade • Serbia</span></div>
-                        </div>
-                        <div class="binWrapper">
-                            <img src="/assets/Admins/bin.svg" alt="Img error!"/>                            
-                        </div>
-                    </div>
-                    <div class="userWrapper">
-                        <div class="userPicture">
-                            <img src="/assets/Admins/profPic.png" alt="Img error!"/>
-                        </div>
-                        <div class="userDescription">
-                            <div><h1>Miloš Živković</h1></div>     
-                            <div><span>milos@zmilos.com • Belgrade • Serbia</span></div>
-                        </div>
-                        <div class="binWrapper">
-                            <img src="/assets/Admins/bin.svg" alt="Img error!"/>                            
-                        </div>
-                    </div>
+                <div class="list">
+                    <?php 
+
+                        $descriptionType="";
+                        $method="";
+
+                        switch ($actMenu)
+                        {
+                            case "0":   
+                                $descriptionType="userDescription";
+                                $method="/users";
+                                break;
+                            case "1":
+                                $descriptionType="cinemaDescription";
+                                $method="/cinemas";
+                                break;
+                            case "2":
+                                $descriptionType="requestDescription";
+                                $method="/requests";
+                                break;
+                            case "3":
+                                $descriptionType="adminDescription";
+                                $method="/admins";
+                                break;
+                        }
+
+                        foreach($data as $oneRow)
+                        {
+                            echo "<form action=\"/AdminController".$method."\" method=\"GET\" class=\"rowWrapper\">
+                                    <div class=\"userPicture\">
+                                            <img src=\"/assets/Admins/profPic.png\" alt=\"Img error!\"/>
+                                    </div>
+                                    <div class=\"description ".$descriptionType."\">
+                                        <div><h1>".$oneRow->email."</h1></div>     
+                                        <div><span>milos@zmilos.com • Belgrade • Serbia</span></div>
+                                    </div>";
+                            if($actMenu == 1)
+                            {
+                                echo "<div class=\"editWrapper\">
+                                        <img src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>                            
+                                      </div>";
+                            }
+                            if($actMenu != 3)
+                            {
+                                echo "<div class=\"binWrapper\">
+                                        <input type=\"image\"
+                                            src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>                            
+                                      </div>";
+                            }
+
+                            echo "
+                                <input type=\"hidden\" name=\"id\" value=\"".$oneRow->email."\"/>
+                                </form>";
+                        }
+                    ?>
                 </div>
             </div>
 		</div>
