@@ -3,19 +3,19 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 		<title>Amenic - Movies</title>
 	</head>
 	<body>
 		<div class="container">
 			<div class="menuBar">
-				<img src="assets/MoviesPage/imgs/logo.svg" class="logo" alt="Amenic" />
+				<a href="/HomeController"><img src="/assets/MoviesPage/imgs/logo.svg" class="logo" alt="Amenic" /></a>
 				<ul class="nav">
 					<li>
-						<a href="#" class="activeMenu">Movies</a>
+						<a href="/HomeController" class="<?php if(!isset($cinMenu)) echo "activeMenu";?>" >Movies</a>
 					</li>
 					<li>
-						<a href="#">Cinemas</a>
+						<a href="/HomeController/cinemas" class="<?php if(isset($cinMenu)) echo "activeMenu";?>">Cinemas</a>
 					</li>
 				</ul>
 				<a href="#"
@@ -39,18 +39,26 @@
 			</div>
 			<div class="moviesWrapper">
 				<div class="topBar">
-					<form action="#" method="POST" class="searchForm">
+					<form action="/HomeController/titleSearch" method="GET" class="searchForm">
 						<label>
 							<input
 								type="text"
 								placeholder="Search movies"
 								class="search"
+								name="title"
+								value="<?php if (isset($title))
+												echo $title;
+											 else 
+											 	echo '';
+									?>"
 							/>
 						</label>
+						<input type="hidden" id="actMenu" name="actMenu" value="<?php if(isset($actMenu)) echo $actMenu;?>"/>
+						<input type="hidden" id="cinMenu" name="cinMenu" value="<?php if(isset($cinMenu)) echo $cinMenu;?>"/>
 					</form>
 					<div class="user">
 						<img
-							src="assets/MoviesPage/imgs/profPic.png"
+							src="/assets/MoviesPage/imgs/profPic.png"
 							class="profPic"
 							alt="Profile picture"
 						/>
@@ -59,10 +67,10 @@
 				</div>
 				<ul class="movieBtns">
 					<li>
-						<a href="#" class="activeMenu">Now playing</a>
+						<a href="/HomeController" class="<?php if (isset($actMenu) && $actMenu == 1) echo "activeMenu" ?>">Now playing</a>
 					</li>
 					<li>
-						<a href="#">Coming soon</a>
+						<a href="/HomeController/comingSoon" class="<?php if (isset($actMenu) && $actMenu == 2) echo "activeMenu" ?>">Coming soon</a>
 					</li>
 				</ul>
 				<div class="movies">
@@ -70,9 +78,18 @@
 
 					for($i = 0; $i < count($movies); $i++)
 					{
-						echo (
-							"<img src=".$movies[$i]->poster." class=\"movieImg\" alt=\"\" />"
-						);
+						if (isset($cinMenu))
+						{
+							echo (
+								"<img src=\"data:image/jpeg;base64, ".$movies[$i]->banner."\" class=\"movieImg\" alt=\"\" />"
+							);
+						}
+						else
+						{
+							echo (
+								"<img src=\"".$movies[$i]->poster."\" class=\"movieImg\" alt=\"\" />"
+							);
+						}
 					}
 
 					?>

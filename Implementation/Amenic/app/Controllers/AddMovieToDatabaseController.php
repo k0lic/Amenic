@@ -17,7 +17,12 @@ class AddMovieToDatabaseController extends BaseController
 			echo "Results:<br/><br/>";
 			foreach($params[2]["results"] as $movie)
 			{
-				echo "TmdbID: ".$movie['id']." - Title:".$movie['title']." - Released: ".$movie['release_date']."<br/>";
+				$rDate = "x";
+				if (isset($movie['release_date']))
+				{
+					$rDate =  $movie['release_date'];
+				}
+				echo "TmdbID: ".$movie['id']." - Title:".$movie['title']." - Released: ".$rDate."<br/>";
 			}
 			echo "<br/>";
 			echo view('ChooseMovieToAdd.php',[ 'params' => $params]);
@@ -81,7 +86,13 @@ class AddMovieToDatabaseController extends BaseController
 		$imdbID = $movieBasicInfo[2]['imdb_id'];
 
 		$movieOMDBInfo = $apilib->getMovieInfoOMDB($imdbID);
-		$imdbRating = $movieOMDBInfo[2]['Ratings'][0]['Value'];
+		$imdbRating = $movieOMDBInfo[2];
+		if (isset($imdbRating['Ratings']) && count($imdbRating['Ratings']) > 0)
+		{
+			$imdbRating = $imdbRating['Ratings'][0]['Value'];
+		}
+		else
+			$imdbRating = "";
 		$imdbRating = substr($imdbRating, 0, strpos($imdbRating,"/"));
 
 		$reviews="";
@@ -131,3 +142,5 @@ class AddMovieToDatabaseController extends BaseController
 		echo "<br/><a href=\"/HomeController\">Nazad na glavnu stranu!</a><br/>";
 	}
 }
+
+// sta ako jos uvek nije uradjen rating, release date

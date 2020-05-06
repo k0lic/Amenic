@@ -8,5 +8,6 @@ class ComingSoonModel extends Model
     #find($id)–findAll()–findAll($limit, $offset)–first()–where($name, $value)–insert($data)–update($id, $data)–save($data)–delete($id)
     protected $table = 'ComingSoon';
     protected $primaryKey= 'email';
-    protected $returnType= 'object';    
+    protected $returnType= 'App\Entities\ComingSoon';   
+    protected $allowedFields= ['tmdbID','email'];
 }
