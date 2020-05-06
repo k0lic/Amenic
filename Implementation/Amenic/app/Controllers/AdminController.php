@@ -35,4 +35,31 @@ class AdminController extends BaseController
         $admins = (new AdminModel())->findAll();
         return view('AdminView',['actMenu' => "3", 'data' => $admins]);
     }
+
+    public function removeUser()
+    {
+        $actMenu= $_GET['actMenu'];
+        $key = $_GET['id'];
+        $model = "";
+        switch($actMenu)
+        {
+            case "0":
+                $model = new UserModel();
+                break;
+            case "1":
+                $model = new CinemaModel();
+                break;
+            case "2":
+                $model = new CinemaModel();
+                break;
+        }
+        if(isset($key))
+        {
+            $user = $model->find($key);
+            if(!is_null($user))
+                $user->delete();
+        }
+        return $this->users();
+    }
+
 }

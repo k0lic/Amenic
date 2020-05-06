@@ -71,26 +71,20 @@
 				</div>
 				<div class="list">
                 <?php 
-						
-                        $descriptionType="";
                         $method="";
 
                         switch ($actMenu)
                         {
                             case "0":   
-                                $descriptionType="userDescription";
                                 $method="/users";
                                 break;
                             case "1":
-                                $descriptionType="cinemaDescription";
                                 $method="/cinemas";
                                 break;
                             case "2":
-                                $descriptionType="requestDescription";
                                 $method="/requests";
                                 break;
                             case "3":
-                                $descriptionType="adminDescription";
                                 $method="/admins";
                                 break;
                         }
@@ -101,14 +95,14 @@
                                     <div class=\"userPicture\">
                                             <img src=\"/assets/Admins/profPic.png\" alt=\"Img error!\"/>
                                     </div>
-                                    <div class=\"description ".$descriptionType."\">
+                                    <div class=\"description\">
                                         <div><h1>".$oneRow->email."</h1></div>     
                                         <div><span>milos@zmilos.com • Belgrade • Serbia</span></div>
                                     </div>";
                             if($actMenu == 1)
                             {
 								echo "<div class=\"editWrapper\">
-										<img src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>
+										<img src=\"/assets/Admins/pencil.svg\" alt=\"Img error!\"/>
                                       </div>";
                             }
                             if($actMenu != 3)
@@ -120,7 +114,8 @@
                             }
 
                             echo "
-                                <input type=\"hidden\" name=\"id\" value=\"".$oneRow->email."\"/>
+								<input type=\"hidden\" name=\"id\" value=\"".$oneRow->email."\"/>
+								<input type=\"hidden\" name=\"actMenu\" value=\"".$actMenu."\"/>
                                 </form>";
 						}
 						

@@ -263,18 +263,16 @@ label:before {
 }
 
 .editWrapper {
-	display: flex;
-	width: 15%;
-	height: 100%;
-	justify-content: center;
-	align-items: center;
+	display: flex !important;
+	height: 100% !important;
+	width: 15% !important;
+	justify-content: center !important;
+	align-items: center !important;
 	background-color: var(--deepPurple);
 }
 
-.editWrapper > img {
-	height: 35% !important;
-	width: auto;
-	min-height: 30px;
+.editWrapper img {
+	width: 45px !important;
 }
 
 .binWrapper {
@@ -297,20 +295,5 @@ label:before {
 	justify-content: center !important;
 	height: 100% !important;
 	color: white;
-}
-
-.userDescription {
 	margin: 0 auto 0 0 !important;
-}
-
-.requestsDescription {
-	width: 60%;
-}
-
-.cinemaDescription {
-	width: 45%;
-}
-
-.adminDescription {
-	width: 75%;
 }
