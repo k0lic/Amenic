@@ -71,27 +71,9 @@
 				</div>
 				<div class="list">
                 <?php 
-                        $method="";
-
-                        switch ($actMenu)
-                        {
-                            case "0":   
-                                $method="/users";
-                                break;
-                            case "1":
-                                $method="/cinemas";
-                                break;
-                            case "2":
-                                $method="/requests";
-                                break;
-                            case "3":
-                                $method="/admins";
-                                break;
-                        }
-
                         foreach($data as $oneRow)
                         {
-                            echo "<form action=\"/AdminController".$method."\" method=\"GET\" class=\"rowWrapper\">
+                            echo "<form action=\"/AdminController/removeUser\" method=\"GET\" class=\"rowWrapper\">
                                     <div class=\"userPicture\">
                                             <img src=\"/assets/Admins/profPic.png\" alt=\"Img error!\"/>
                                     </div>
@@ -102,14 +84,17 @@
                             if($actMenu == 1)
                             {
 								echo "<div class=\"editWrapper\">
-										<img src=\"/assets/Admins/pencil.svg\" alt=\"Img error!\"/>
+										<button formaction=\"/AdminController/editUser\">
+											<img src=\"/assets/Admins/pencil.svg\" alt=\"Img error!\"/>
+										</button>
                                       </div>";
                             }
                             if($actMenu != 3)
                             {
 								echo "<div class=\"binWrapper\">
-                                        <img 
-											src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>  
+										<button>
+											<img src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>  
+										</button>								
                                       </div>";
                             }
 

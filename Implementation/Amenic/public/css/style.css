@@ -271,8 +271,12 @@ label:before {
 	background-color: var(--deepPurple);
 }
 
-.editWrapper img {
-	width: 45px !important;
+.editWrapper > button {
+	border: 0;
+	max-width: 45px !important;
+	width: 30%;
+	cursor: pointer;
+	background-color: transparent;
 }
 
 .binWrapper {
@@ -285,8 +289,12 @@ label:before {
 	border-radius: 0px 10px 10px 0px !important;
 }
 
-.binWrapper img {
-	width: 45px !important;
+.binWrapper > button {
+	border: 0;
+	max-width: 45px !important;
+	width: 30%;
+	cursor: pointer;
+	background-color: transparent;
 }
 
 .description {

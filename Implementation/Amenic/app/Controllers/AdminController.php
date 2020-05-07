@@ -41,25 +41,44 @@ class AdminController extends BaseController
         $actMenu= $_GET['actMenu'];
         $key = $_GET['id'];
         $model = "";
-        switch($actMenu)
+        if (strcmp($actMenu,"0") == 0)
         {
-            case "0":
-                $model = new UserModel();
-                break;
-            case "1":
-                $model = new CinemaModel();
-                break;
-            case "2":
-                $model = new CinemaModel();
-                break;
+            $model = new UserModel();
+        }
+        else if (strcmp($actMenu,"3") == 0)
+        {
+            return $this->admins();
+        }
+        else
+        {
+            $model = new CinemaModel();
         }
         if(isset($key))
         {
             $user = $model->find($key);
             if(!is_null($user))
-                $user->delete();
+                $model->delete(['eimail' => $user->email]);
         }
-        return $this->users();
+        switch($actMenu)
+        {
+            case "0":
+                    return $this->users();
+                    break;
+            case "1":
+                    return $this->cinemas();
+                    break;
+            case "2":
+                    return $this->requests();
+                    break;
+            case "3":
+                    return $this->admins();
+                    break;
+        }
+    }
+
+    public function editUser()
+    {
+        echo "Ovo je stranica za editovanje Korisnika!";
     }
 
 }
