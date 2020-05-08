@@ -2,7 +2,6 @@
 
 use CodeIgniter\Model;
 
-
 class MovieModel extends Model
 {
     protected $table = 'Movies';
@@ -12,4 +11,5 @@ class MovieModel extends Model
         'tmdbID', 'title', 'released', 'runtime', 'genre', 'director', 'writer', 'actors',
         'plot', 'poster', 'backgroundImg', 'imdbRating', 'imdbID', 'reviews', 'trailer'
     ];
+
 }

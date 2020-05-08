@@ -224,6 +224,17 @@ body {
 	outline: var(--imgOutline) 10px solid;
 }
 
+.movieImgExtended {
+	height: 330px;
+	width: 210px;
+	background-color: var(--imgOutline);
+}
+
+.movieImgText {
+	color: white;
+	font-weight: 300;
+}
+
 /* NEW  LOGIN */
 
 .modal {
