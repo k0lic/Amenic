@@ -95,7 +95,7 @@ class HomeController extends BaseController
 
 	public function cinemas()
 	{
-		$cinemaArray = (new CinemaModel())->findAll();	
+		$cinemaArray = (new CinemaModel())->where(['approved' => 1])->findAll();	
 		return view('index.php',[ 'movies' => $cinemaArray, 'cinMenu' => 1]);
 	}
 
