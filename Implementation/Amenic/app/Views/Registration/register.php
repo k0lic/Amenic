@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -9,7 +10,7 @@
 	<body>
 		<div class="container">
 			<div class="registerBar">
-				<img src="./imgs/logo.svg" class="logo" alt="Amenic" />
+				<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
 				<div class="registerSteps">
 					<div class="registerBarTitle">Thank you for signing up.</div>
 					<div class="registerBarSubtitle mt-3">
@@ -18,8 +19,9 @@
 				</div>
 			</div>
 			<div class="registerWrapper centerRow">
-				<div class="registerRow centerRow">
-					<img src="./assets/user.svg" class="icon" />
+				<form method="POST" action="/register/user/1" id="typeUser">
+				<div class="registerRow centerRow" onclick="document.forms['typeUser'].submit();">
+					<img src="/assets/Registration/user.svg" class="icon" />
 
 					<div class="registerType">
 						<span class="registerTypeTitle">Individual</span>
@@ -28,11 +30,14 @@
 						>
 					</div>
 
-					<img src="./assets/next.svg" class="icon" />
+					<img src="/assets/Registration/next.svg" class="icon" />
 				</div>
+				<input type="hidden" name="type" value="cinema">
+				</form>
 
-				<div class="registerRow centerRow mt-5">
-					<img src="./assets/clapper.svg" class="icon" />
+				<form method="POST" action="/register/cinema/1" id="typeCinema">
+				<div class="registerRow centerRow mt-5" onclick="document.forms['typeCinema'].submit();">
+					<img src="/assets/Registration/clapper.svg" class="icon" />
 
 					<div class="registerType">
 						<span class="registerTypeTitle">Cinema</span>
@@ -41,8 +46,10 @@
 						</span>
 					</div>
 
-					<img src="./assets/next.svg" class="icon" />
+					<img src="/assets/Registration/next.svg" class="icon" />
 				</div>
+				<input type="hidden" name="type" value="cinema">
+				</form> 
 			</div>
 		</div>
 	</body>
