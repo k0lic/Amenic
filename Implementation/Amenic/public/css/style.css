@@ -7,23 +7,33 @@
 	--orange: #e27b2e;
 	--red: #cd3e30;
 	--lightGray: #9b97b6;
+	--registerButton: #7a6682;
+	--formInput: #5b4962;
 	--lightPurple: #342739;
 	--imgOutline: #2b1e30;
+
+	--stepCircle: #3d2b44;
 }
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: "Nunito", sans-serif;
 }
 
 body {
 	font-family: "Nunito", sans-serif;
 	background-color: var(--lightPurple);
+
+	/*
+    background-color: var(--lightPurple);
+    */
 }
 
 .container {
 	width: 100%;
+	height: 100%;
 	display: flex;
 }
 
@@ -142,11 +152,11 @@ body {
 	margin-right: 12px;
 }
 
-label {
+.searchForm label {
 	position: relative;
 }
 
-label:before {
+.searchForm label:before {
 	content: "";
 	position: absolute;
 	left: 10px;
@@ -212,6 +222,679 @@ label:before {
 	height: 285px;
 	width: 190px;
 	outline: var(--imgOutline) 10px solid;
+}
+
+/* NEW  LOGIN */
+
+.modal {
+	display: flex;
+	flex-direction: column;
+	margin: 3em auto;
+	width: 25%;
+	height: auto;
+	padding: 2em;
+	background-color: var(--imgOutline);
+	color: white;
+	border-radius: 20px;
+
+	font-family: "Nunito";
+
+	-webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+/* Utility */
+
+.centerX {
+	align-items: center;
+}
+
+.centerY {
+	justify-content: center;
+}
+
+.centerRow {
+	justify-content: center;
+	align-items: center;
+}
+
+.spaceBetween {
+	justify-content: space-between;
+}
+
+.mt-0 {
+	margin-top: 0;
+}
+
+.mt-1 {
+	margin-top: 0.5em;
+}
+.mt-2 {
+	margin-top: 1em;
+}
+.mt-3 {
+	margin-top: 1.5em;
+}
+.mt-4 {
+	margin-top: 2em;
+}
+.mt-5 {
+	margin-top: 2.5em;
+}
+
+.mb-0 {
+	margin-bottom: 0;
+}
+
+.mb-1 {
+	margin-bottom: 0.5em;
+}
+.mb-2 {
+	margin-bottom: 1em;
+}
+.mb-3 {
+	margin-bottom: 1.5em;
+}
+.mb-4 {
+	margin-bottom: 2em;
+}
+.mb-5 {
+	margin-bottom: 2.5em;
+}
+
+.ml-0 {
+	margin-left: 0;
+}
+
+.ml-1 {
+	margin-left: 0.5em;
+}
+.ml-2 {
+	margin-left: 1em;
+}
+.ml-3 {
+	margin-left: 1.5em;
+}
+.ml-4 {
+	margin-left: 2em;
+}
+.ml-5 {
+	margin-left: 2.5em;
+}
+
+.mr-0 {
+	margin-right: 0;
+}
+
+.mr-1 {
+	margin-right: 0.5em;
+}
+.mr-2 {
+	margin-right: 1em;
+}
+.mr-3 {
+	margin-right: 1.5em;
+}
+.mr-4 {
+	margin-right: 2em;
+}
+.mr-5 {
+	margin-right: 2.5em;
+}
+
+.w5 {
+	width: 5% !important;
+}
+.w10 {
+	width: 10% !important;
+}
+
+.w15 {
+	width: 15% !important;
+}
+.w20 {
+	width: 20% !important;
+}
+
+.w25 {
+	width: 25% !important;
+}
+
+.w30 {
+	width: 30% !important;
+}
+.w35 {
+	width: 35% !important;
+}
+.w40 {
+	width: 40% !important;
+}
+.w45 {
+	width: 45% !important;
+}
+
+.w50 {
+	width: 50% !important;
+}
+.w55 {
+	width: 55% !important;
+}
+.w60 {
+	width: 60% !important;
+}
+.w65 {
+	width: 65% !important;
+}
+.w70 {
+	width: 70% !important;
+}
+.w75 {
+	width: 75% !important;
+}
+.w80 {
+	width: 80% !important;
+}
+.w85 {
+	width: 85% !important;
+}
+.w90 {
+	width: 90% !important;
+}
+.w95 {
+	width: 95% !important;
+}
+.w100 {
+	width: 100% !important;
+}
+
+.modalHead {
+	font-size: 2em;
+	font-weight: 700;
+	align-self: flex-start;
+	margin-bottom: 0.5em;
+}
+
+.modalColumn {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	align-self: flex-start;
+}
+
+.modalColumn label {
+	font-weight: 300;
+}
+
+.modalRow {
+	display: flex;
+	width: 100%;
+}
+
+.row {
+	display: flex;
+	width: 100%;
+}
+
+.modal input {
+	width: 100%;
+	font-weight: 500;
+	background-color: var(--lightPurple);
+	border: 1px solid rgba(30, 16, 35, 0.5);
+	border-radius: 10px;
+	color: white;
+
+	padding: 0.5em;
+	height: 3em;
+
+	transition: 0.2s border ease-in-out;
+}
+
+.modal input:focus {
+	border: 1px solid var(--orange);
+	transition: 0.2s border ease-in-out;
+}
+
+.modalBottom {
+	justify-content: space-between;
+}
+
+.loginLinks {
+	width: 60%;
+	display: flex;
+	flex-direction: column;
+}
+
+.loginLinks a {
+	text-decoration: none;
+	color: var(--orange);
+	margin-top: 0.3em;
+	min-height: 22px;
+}
+
+.loginLinks:first-child {
+	margin-top: 0;
+	font-size: 0.9em;
+}
+
+.loginLinks a span:hover {
+	border-bottom: 1px solid var(--orange);
+}
+
+.modalButton {
+	background-color: var(--orange);
+	color: white;
+	font-family: "Nunito";
+	font-weight: 700;
+	font-size: 1em;
+	padding: 0.3em 1em;
+	border: none;
+	border-radius: 15px;
+	text-align: center;
+	cursor: pointer;
+
+	align-self: center;
+}
+
+/* NEW REGISTRATION */
+
+.registerWrapper {
+	display: flex;
+	flex-direction: column;
+
+	width: 85%;
+	height: 100vh;
+	margin-left: 15%;
+	padding: 0 22%;
+	background-color: var(--lightPurple);
+	color: white;
+	font-family: "Nunito";
+}
+
+.registerBar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 20%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+
+	background-color: var(--deepPurple);
+	font-weight: 600;
+	font-size: 22px;
+	text-align: center;
+	color: white;
+}
+
+.registerSteps {
+	margin: auto 0;
+	padding: 0 0.5em;
+	width: 80%;
+}
+
+.registerStepsCircle {
+}
+
+.registerSteps span {
+	margin-left: 1em;
+}
+
+.registerBarTitle {
+	font-weight: 700;
+	font-size: 1.5em;
+}
+
+.registerBarSubtitle {
+	font-weight: 300;
+
+	font-size: 0.8em;
+}
+
+.registerRow {
+	display: inline-flex;
+	background-color: var(--registerButton);
+	width: 100%;
+	border: 3px solid var(--deepPurple);
+	border-radius: 15px;
+
+	padding: 1em;
+
+	cursor: pointer;
+
+	transition: 0.2s border ease-in-out;
+}
+
+.registerRow:hover {
+	border: 3px solid var(--orange);
+	transition: 0.2s border ease-in-out;
+}
+
+.registerType {
+	display: flex;
+	flex-direction: column;
+	margin: 0 4em 0 2em;
+}
+
+.registerTypeTitle {
+	font-weight: 600;
+	font-size: 2.5em;
+}
+
+.registerTypeDesc {
+	font-weight: 300;
+}
+
+.registerWrapper .icon {
+	width: 5em;
+}
+
+.stepCircle {
+	background-color: var(--formInput);
+	padding: 0.5em 1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	-webkit-clip-path: circle(35% at 50% 50%);
+	clip-path: circle(35% at 50% 50%);
+	font-weight: 300;
+
+	transition: 0.2s all ease-in-out;
+}
+
+.registerSteps span {
+	font-weight: 300;
+}
+
+.stepCircleFaded {
+	background-color: var(--stepCircle);
+}
+
+.registerSteps .row:hover .stepCircle {
+	background-color: var(--formInput);
+	transition: 0.2s all ease-in-out;
+}
+
+.registerSteps .row {
+	cursor: pointer;
+}
+
+.column {
+	display: inline-flex;
+	flex-direction: column;
+}
+
+.formWrapper {
+	padding: 3em 10% 0 10% !important;
+	width: 100%;
+	font-family: "Nunito";
+	font-weight: 300;
+	justify-content: center;
+}
+
+.formWrapper form {
+	/*
+	height: 100%;
+	*/
+}
+
+.formWrapper form label {
+	font-weight: 300;
+	font-size: 1.2em;
+	padding-left: 0.5em;
+	margin-bottom: 0.1em;
+}
+
+.formWrapper input,
+.formWrapper textarea {
+	width: 100%;
+	font-family: "Nunito";
+	font-weight: 500;
+	background-color: var(--lightPurple);
+	border-radius: 10px;
+	color: white;
+
+	background-color: var(--formInput);
+	border: 2px solid var(--deepPurple);
+
+	padding: 0.5em;
+	height: 3em;
+
+	font-size: 1em;
+
+	transition: 0.2s border ease-in-out;
+}
+
+.textAreaRow {
+	height: 30%;
+}
+
+.formWrapper textarea {
+	resize: none;
+	font-size: 1em;
+	height: 100%;
+}
+
+.formWrapper input:focus,
+.formWrapper textarea:focus {
+	border: 2px solid var(--orange);
+	transition: 0.2s border ease-in-out;
+}
+
+.formSelect {
+	font-family: "Nunito";
+	display: block;
+	font-size: 1em;
+	font-weight: 500;
+	color: white;
+	line-height: 1.3;
+	padding: 0.6em 1.4em 0.5em 0.8em;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	border: 2px solid var(--deepPurple);
+	box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+	border-radius: 20px;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: var(--formInput);
+	transition: 0.2s border ease-in-out;
+	outline: none !important;
+
+	background-image: url("./assets/arrowDown.svg");
+	background-repeat: no-repeat, repeat;
+	background-position: right 0.7em top 50%, 0 0;
+	background-size: 0.65em auto, 100%;
+}
+.formSelect::-ms-expand {
+	display: none;
+}
+
+::selection {
+	background-color: var(--orange);
+}
+
+.formSelect:focus {
+	border: 2px solid var(--orange);
+	transition: 0.2s border ease-in-out;
+	outline: none !important;
+}
+
+.formSelect option {
+	font-weight: 500;
+	outline: none !important;
+	text-align: center;
+	border-radius: 15px !important;
+}
+
+.formWrapper button {
+	font-family: "Nunito";
+	align-self: flex-end;
+	color: white;
+	font-weight: 700;
+	background-color: var(--orange);
+	border: none;
+	padding: 0.5em 1.3em;
+	border-radius: 10px;
+	outline: none !important;
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
+#strengthBarTitle {
+	font-size: 1.2em;
+}
+
+.strengthBar {
+	width: 2.5em;
+	height: 0.5em;
+	background-color: var(--imgOutline);
+	border-radius: 15px;
+}
+
+.testClass {
+	justify-self: center;
+}
+
+.unstyledAnchor {
+	text-decoration: none;
+	color: white;
+}
+
+/* NEW CINEMA PAGE */
+
+.horizontalNav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 1em 2em;
+	color: white;
+	font-family: "Nunito";
+	font-size: 1.2em;
+
+	position: absolute;
+	right: 0;
+	left: 0;
+
+	z-index: 20;
+}
+
+.horizontalNav ul {
+	list-style: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.horizontalNav ul li {
+	margin-left: 2em;
+}
+
+.userIcon {
+	width: 50px;
+	clip-path: circle(50% at 50% 50%);
+}
+
+.cinemaBackground {
+	height: 50vh;
+	width: 100%;
+
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+
+	background-image: url("./imgs/cinemaBG.jpg");
+
+	display: flex;
+	z-index: 10;
+}
+
+.cinemaInfoWrapper {
+	margin-left: 10%;
+	margin-right: 5%;
+}
+
+.cinemaProfileIcon {
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+	z-index: 15;
+
+	clip-path: circle(50% at 50% 50%);
+}
+
+.cinemaInfo {
+	display: flex;
+	align-items: center;
+	margin-top: -4em;
+}
+
+.cinemaDesc {
+	text-align: justify;
+	border-radius: 15px;
+	z-index: 5;
+	background-color: var(--deepPurple);
+	color: white;
+	padding: 1em;
+}
+
+.cinemaName {
+	color: white;
+	font-weight: 700;
+	font-size: 2.5em;
+	background-color: transparent;
+	z-index: 20;
+}
+
+.cinemaNameDesc {
+	z-index: 20;
+	margin-left: 1em;
+}
+
+.pageIcon {
+	width: 20px;
+}
+
+.cinemaContactInfo {
+	color: white;
+	font-weight: 300;
+	background-color: var(--deepPurple);
+	justify-self: flex-end;
+	padding: 1em;
+	border-radius: 15px;
+	justify-content: center;
+	align-items: center;
+}
+
+.spaceBetween {
+	justify-content: space-between;
+}
+
+.gallery {
+	align-self: flex-end;
+	color: white;
+	font-weight: 300;
+}
+
+.galleryItems {
+	display: flex;
+}
+
+.galleryItem {
+	height: 76px;
+	width: 100px;
+
+	object-fit: cover;
+	border-radius: 15px;
+}
+
+.flexEnd {
+	justify-content: flex-end;
 }
 
 /* ADMIN CONTROLLER */
