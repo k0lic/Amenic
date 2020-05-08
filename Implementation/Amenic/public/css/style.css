@@ -547,9 +547,6 @@ body {
 	width: 80%;
 }
 
-.registerStepsCircle {
-}
-
 .registerSteps span {
 	margin-left: 0.5em;
 }
@@ -644,12 +641,6 @@ body {
 	font-family: "Nunito";
 	font-weight: 300;
 	justify-content: center;
-}
-
-.formWrapper form {
-	/*
-	height: 100%;
-	*/
 }
 
 .formWrapper form label {

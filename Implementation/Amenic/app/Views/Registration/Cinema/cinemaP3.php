@@ -1,3 +1,8 @@
+<!--
+    Author: Miloš Živkovic
+    Github: zivkovicmilos
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -53,7 +58,7 @@
 					</div>
 					<div class="row mb-2">
 						<div class="column w35 mr-5">
-							<label for="email">Email</label>
+							<label for="mngEmail">Email</label>
 							<input type="text" name="mngEmail" />
 						</div>
 						<div class="column w35">
