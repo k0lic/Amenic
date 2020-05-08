@@ -9,10 +9,10 @@
 	<body>
 		<div class="container">
 			<div class="menuBar">
-				<a href="/HomeController"><img src="/assets/MoviesPage/imgs/logo.svg" class="logo" alt="Amenic" /></a>
+				<a href="/"><img src="/assets/MoviesPage/imgs/logo.svg" class="logo" alt="Amenic" /></a>
 				<ul class="nav">
 					<li>
-						<a href="/HomeController" class="<?php if(!isset($cinMenu)) echo "activeMenu";?>" >Movies</a>
+						<a href="/" class="<?php if(!isset($cinMenu)) echo "activeMenu";?>" >Movies</a>
 					</li>
 					<li>
 						<a href="/HomeController/cinemas" class="<?php if(isset($cinMenu)) echo "activeMenu";?>">Cinemas</a>

@@ -45,7 +45,7 @@
 			</div>
 			<div class="adminWrapper">
 				<div class="topBar">
-					<form action="/AdminController/titleSearch" method="GET" class="searchForm">
+					<form action="/AdminController/titleSearch" method="POST" class="searchForm">
 						<label>
 							<input
 								type="text"
@@ -73,33 +73,41 @@
                 <?php 
                         foreach($data as $oneRow)
                         {
-                            echo "<form action=\"/AdminController/removeUser\" method=\"GET\" class=\"rowWrapper\">
+                            echo "<form action=\"/AdminController/removeUser\" method=\"POST\" class=\"rowWrapper\">
                                     <div class=\"userPicture\">
                                             <img src=\"/assets/Admins/profPic.png\" alt=\"Img error!\"/>
                                     </div>
                                     <div class=\"description\">
                                         <div><h1>".$oneRow->email."</h1></div>     
-                                        <div><span>milos@zmilos.com • Belgrade • Serbia</span></div>
+                                        <div><span>".$oneRow->email." • Belgrade • Serbia</span></div>
                                     </div>";
                             if($actMenu == 1)
                             {
 								echo "<div class=\"editWrapper\">
-										<button formaction=\"/AdminController/editUser\">
+										<button formaction=\"/AdminController/editRequest\">
 											<img src=\"/assets/Admins/pencil.svg\" alt=\"Img error!\"/>
 										</button>
                                       </div>";
-                            }
-                            if($actMenu != 3)
+							}
+                            if($actMenu == 0 || $actMenu == 1)
                             {
 								echo "<div class=\"binWrapper\">
 										<button>
 											<img src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>  
 										</button>								
                                       </div>";
+							}
+							if($actMenu == 2)
+                            {
+								echo "<div class=\"binWrapper\">
+										<button formaction=\"/AdminController/editRequest\">
+											<img src=\"/assets/Admins/pencil.svg\" alt=\"Img error!\"/>  
+										</button>								
+                                      </div>";
                             }
 
                             echo "
-								<input type=\"hidden\" name=\"id\" value=\"".$oneRow->email."\"/>
+								<input type=\"hidden\" name=\"key\" value=\"".$oneRow->email."\"/>
 								<input type=\"hidden\" name=\"actMenu\" value=\"".$actMenu."\"/>
                                 </form>";
 						}

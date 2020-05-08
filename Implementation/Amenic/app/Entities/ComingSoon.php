@@ -9,6 +9,6 @@ class ComingSoon extends Entity
         tmdbID
         email
     */
-
+    
 }
 

@@ -2,8 +2,12 @@
 
 use \App\Models\UserModel;
 use \App\Models\CinemaModel;
-use \App\Models\RequestModel;
+use \App\Models\ComingSoonModel;
 use \App\Models\AdminModel;
+use \App\Models\RUserModel;
+use \App\Models\CountryModel;
+use \App\Models\CityModel;
+
 
 class AdminController extends BaseController
 {
@@ -13,20 +17,20 @@ class AdminController extends BaseController
     }
 
     public function users()
-    {
-        $users = (new UserModel())->findAll(); // TODO: Switch back to AdminModel
+    {   
+        $users = (new RUserModel())->findAll(); 
         return view('AdminView',['actMenu' => "0", 'data' => $users]);
     }
 
     public function cinemas()
-    {
-        $cinemas = (new CinemaModel())->findAll();
+    {   
+        $cinemas = (new CinemaModel())->where(['approved' => 1, 'closed' => 0])->find();
         return view('AdminView',['actMenu' => "1", 'data' => $cinemas]);
     }
 
-    public function requests()//cinemas koji nisu odobreni
+    public function requests()
     {
-        $requests = (new RequestModel())->findAll();
+        $requests = (new CinemaModel())->where(['approved' => 0])->find();
         return view('AdminView',['actMenu' => "2", 'data' => $requests]);
     }
 
@@ -38,27 +42,50 @@ class AdminController extends BaseController
 
     public function removeUser()
     {
-        $actMenu= $_GET['actMenu'];
-        $key = $_GET['id'];
-        $model = "";
-        if (strcmp($actMenu,"0") == 0)
+        $actMenu= $_POST['actMenu'];
+        $key = $_POST['key'];
+        unset($_POST['actMenu']);
+        unset($_POST['key']);
+
+        $model = new UserModel();
+
+        if (strcmp($actMenu,"3") == 0)
         {
-            $model = new UserModel();
+            echo "POYYY";
+            return;
+            //return $this->admins();
         }
-        else if (strcmp($actMenu,"3") == 0)
-        {
-            return $this->admins();
-        }
-        else
-        {
-            $model = new CinemaModel();
-        }
+       
         if(isset($key))
         {
-            $user = $model->find($key);
-            if(!is_null($user))
-                $model->delete(['eimail' => $user->email]);
+            $user = $model->where(['email'=>$key])->findAll();
+            
+            if(count($user) > 0)
+            {
+                $user = $user[0];
+                if(strcmp($actMenu,"1") == 0)
+                {
+                    /*
+                    $cinema = new CinemaModel();
+                    $cinema->where(['email' => $key])->set(['closed' => 1])->update();*/
+
+                    //removing coming soon
+                    $cSoon = (new ComingSoonModel())->where(['email' => $key])->findAll();
+                    $deleteModel = new ComingSoonModel();
+                    foreach($cSoon as $curMovie)
+                    {
+                        $deleteModel->delete(['email' => $curMovie->email]);
+                    }
+                    
+                }  
+                $model->delete(['email' => $user->email]);   
+            }
         }
+        return $this->selectMenu($actMenu);
+    }
+
+    private function selectMenu($actMenu)
+    {
         switch($actMenu)
         {
             case "0":
@@ -76,9 +103,43 @@ class AdminController extends BaseController
         }
     }
 
-    public function editUser()
+    public function editRequest()
     {
-        echo "Ovo je stranica za editovanje Korisnika!";
+        if(!isset($_POST['key']))
+            return $this->requests();
+
+        $actMenu= $_POST['actMenu'];
+        $key = $_POST['key'];
+        unset($_POST['key']);
+        unset($_POST['actMenu']);
+
+        $data = (new CinemaModel())->find($key);
+        $county = (new CountryModel())->find($data->idCountry);
+        $city = (new CityModel())->find($data->idCity);
+
+        return view("AdminRequestView",["data" => $data, "actMenu" => $actMenu, "country" => $county->name, "city" => $city->name ]);
     }
 
+    public function approveCinema()
+    {
+        $actMenu= $_POST['actMenu'];
+        $key = $_POST['key'];
+        unset($_POST['actMenu']);
+        unset($_POST['key']);
+
+        $cinema = (new CinemaModel())->where(['email' => $key])->set(['approved' => 1])->update();
+
+        return $this->selectMenu($actMenu);
+    }
+
+    public function openCinema()
+    {
+        $actMenu= $_POST['actMenu'];
+        $key = $_POST['key'];
+        unset($_POST['actMenu']);
+        unset($_POST['key']);
+
+        $cinema = (new CinemaModel())->where(['email' => $key])->set(['closed' => 0])->update();
+        return $this->selectMenu($actMenu);
+    }
 }
