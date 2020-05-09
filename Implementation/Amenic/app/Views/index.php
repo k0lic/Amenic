@@ -76,7 +76,11 @@
 								class="profPic"
 								alt="Profile picture"
 								/>
-							<span><?php echo $_SESSION['user']['firstName']." ".$_SESSION['user']['lastName'] ?></span>
+							<span><?php 
+							echo $_SESSION['user']['firstName']." ".$_SESSION['user']['lastName'] 
+							?></span>
+						
+
 							</div>
 						<?php }
 							else {

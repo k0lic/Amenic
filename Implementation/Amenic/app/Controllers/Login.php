@@ -10,6 +10,7 @@ use \App\Models\RUserModel;
 use \App\Models\AdminModel;
 use \App\Models\CinemaModel;
 
+use \Firebase\JWT\JWT;
 
 use Exception;
 
@@ -68,6 +69,22 @@ class Login extends BaseController {
             $_SESSION['user']['lastName'] = $user->lastName;
             $_SESSION['user']['email'] = $user->email;
             $_SESSION['user']['type'] = $type;
+
+            // Generate the JWT
+            $tokenPayload = [
+                'firstName' => $user->firstName,
+                'lastName' => $user->lastName,
+                'email' => $user->type,
+                'type' => $user->firstName
+            ];
+
+            $key = '__drazenRocks__';
+
+            $jwt = JWT::encode($tokenPayload, base64_decode(strtr($key, '-_', '+/')), 'HS256');
+
+            $_SESSION['user']['token'] = $jwt;
+
+            //$decoded = JWT::decode($jwt, base64_decode(strtr($key, '-_', '+/')), ['HS256']);
 
         } catch(Exception $e) {
             $_SESSION['loginErr'] = $e->getMessage();
