@@ -310,6 +310,10 @@ body {
 /* NEW  LOGIN */
 
 .modal {
+	position: fixed;
+	top: 20%;
+	left: 40%;
+	z-index: 100;
 	display: flex;
 	flex-direction: column;
 	margin: 3em auto;
@@ -1143,9 +1147,12 @@ body {
 .userPicture>img {
 	width: auto;
 	height: 90% !important;
+	min-height: 120px;
 	max-height: 140px;
+	min-width: 120px;
 	border: 4px solid var(--imgOutline);
 	border-radius: 50%;
+
 }
 
 .editWrapper {
@@ -1218,7 +1225,7 @@ body {
 	align-self: flex-start;
 }
 
-.settingsForm input[type="text"] {
+.settingsForm input[type="text"], input[type="password"] {
 	border-radius: 4px 4px 4px 4px;
 	margin: 2px;
 	padding: 10px;
@@ -1283,7 +1290,11 @@ body {
 	width: 70%;
 }
 
-.passwordRow {
+#passwordNA, #passwordConfirmNA{
+	background-color: var(--lightPurple) !important;
+}
+
+.passwordRow{
 	grid-column: span 3;
 	display: flex;
 	justify-content: space-between;
@@ -1377,4 +1388,64 @@ input[type="file"] {
 	font-weight: 700;
 	font-size: 2em;
 	text-align: center;
+}
+    display: none;
+}
+
+.oneLine > label{
+	width: 40%;
+}
+
+
+.addAdminButton{
+	background-color: var(--orange);
+	height: 100%;
+	color: white;
+	font-family: "Nunito";
+	font-weight: 700;
+	font-size: 1.2em;
+	padding: 0.3em 1em;
+	border: none;
+	border-radius: 8px;
+	text-align: center;
+	cursor: pointer;
+
+	align-self: center;
+}
+
+.confirmModuleButtons{
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.confirmModuleButtons > button{
+	width: 30%;
+	margin: 15px;
+	border: 2px solid var(--orange);
+	border-radius: 15px;
+	color: white;
+	font-weight: bolder;
+	background-color: var(--orange);
+	font-size: 1.5em;
+	cursor: pointer;
+}
+
+.transparentBg{
+	background-color: transparent !important;
+}
+
+.addAdminModalColumn{
+	display: flex;
+	flex-direction: row !important;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.addAdminModalColumn .modalColumn{
+	width: 45%;
+}
+
+#addAdminModal, #loginModal{
+	display: none;
 }

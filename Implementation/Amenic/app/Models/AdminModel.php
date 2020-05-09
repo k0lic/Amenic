@@ -7,6 +7,7 @@ class AdminModel extends Model
     protected $table = 'Admins';
     protected $primaryKey= 'email';
     protected $returnType= 'App\Entities\Admin';    
+    protected $allowedFields= ['email','firstName', 'lastName']; 
 
     #dodaj ostala pravila
     protected $validationRules = ['email' => 'required', 'firstName' => 'required', 'lastName' => 'required'];

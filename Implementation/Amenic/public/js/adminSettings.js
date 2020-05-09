@@ -1,5 +1,6 @@
 function showPicture() {
 
+
     let file = document.getElementById("profilePicture");
     console.log(file['files'][0]);
 

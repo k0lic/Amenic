@@ -4,10 +4,4 @@ use CodeIgniter\Entity;
 
 class User extends Entity
 {
-    /*
-        email
-        password
-        image
-    */
 }
-

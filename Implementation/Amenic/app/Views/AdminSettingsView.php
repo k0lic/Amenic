@@ -69,11 +69,11 @@
                             </div>
                             <div>
                                 <label for="fName">First name</label><br>
-                                <input type="text" id="fName" name="fName" value="<?php echo $data->firstName; ?>" readonly><br>
+                                <input type="text" id="fName" name="fName" value="<?php echo $data->firstName; ?>"><br>
                             </div>
                             <div>
                                 <label for="lName">Last name</label><br>
-                                <input type="text" id="lName" name="lName" value="<?php echo $data->lastName; ?>" readonly><br>
+                                <input type="text" id="lName" name="lName" value="<?php echo $data->lastName; ?>"><br>
                             </div>
                             <div class="adminEmail">
                                 <label for="email">Email</label><br>
@@ -83,11 +83,11 @@
                             <div class="passwordRow">
                                 <div>
                                     <label for="pswd">Old password</label><br>
-                                    <input type="text" id="pswd" name="pswd"><br>
+                                    <input type="password" id="pswd" name="pswd"><br>
                                 </div>
                                 <div>
                                     <label for="pswdR">New password</label><br>
-                                    <input type="text" id="pswdR" name="pswdR"><br>
+                                    <input type="password" id="pswdR" name="pswdR"><br>
                                 </div>
                             </div>
                             <div class="passwordRow">
@@ -95,9 +95,9 @@
                                     <span>Strength: - - - -</span>
                                 </div>
                                 <div class="requestSettingsButtons">
-                                <input type="submit" class="requestApproveButton saveButton" value="Save changes" />
-                                <input type="hidden" id="actMenu" name="actMenu" value="<?php echo $actMenu; ?>">
-                            </div>
+                                	<input type="submit" class="requestApproveButton saveButton" value="Save changes" />
+                                	<input type="hidden" id="actMenu" name="actMenu" value="<?php echo $actMenu; ?>">
+                            	</div>
                             </div>
                     </div>
                 </form> 

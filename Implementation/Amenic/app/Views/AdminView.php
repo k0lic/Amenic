@@ -4,6 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+		<script src="/js/adminConfirm.js"></script>
 		<title>Amenic - Admins</title>
 	</head>
 	<body>
@@ -24,7 +25,7 @@
 						<a href="/AdminController/admins" class="<?php if(strcmp($actMenu,"0")==3) echo "activeMenu";?>">Admins</a>
 					</li>
 				</ul>
-				<a href="#"
+				<a href="/AdminController/settings"
 					><div class="icon baseline">
 						<svg
 							width="48"
@@ -43,6 +44,53 @@
 					Settings</a
 				>
 			</div>
+			<form action="/AdminController/removeUser" method="POST">
+				<div class="container popup confirm">
+					<div class="modal centerX" id="loginModal">
+						<div class="modalHead">Are you sure?</div>
+						<span>You're about to delete this user. </span>
+						<div class="confirmModuleButtons">
+								<button>Yes</button>
+								<button class="transparentBg" onclick="hideModal('loginModal')" formaction="javascript:void(0);">No</button>
+						</div>
+					</div>
+				</div>
+			</form>	
+			<form action="/AdminController/addAdmin" method="POST">
+				<div class="container popup addAdmin">
+					<div class="modal centerX" id="addAdminModal">
+						<div class="modalHead">Add admin</div>	
+						<div class="addAdminModalColumn">
+							<div class="modalColumn">
+								<!--first name new admin-->
+								<label for="fNameNA">First name</label>
+								<input type="text" id="fNameNA" name="fNameNA" />
+							</div>
+							<div class="modalColumn">
+								<label for="lNameNA">Last name</label>
+								<input type="text" id="lNameNA" name="lNameNA" />
+							</div>
+						</div>
+						<div class="modalColumn mt-2">
+							<label for="emailNA">Email</label>
+							<input type="text" id="emailNA" name="emailNA" />
+						</div>
+						<div class="modalColumn mt-2">
+							<label for="passwordNA">Password</label>
+							<input type="password" id="passwordNA" name="passwordNA" />
+						</div>
+						<div class="modalColumn mt-2">
+							<label for="passwordConfirm">Confirm password</label>
+							<input type="password" id="passwordConfirmNA" name="passwordConfirmNA" />
+						</div>
+						<span>Strength: ----</span>
+						<div class="confirmModuleButtons">
+								<button>Yes</button>
+								<button class="transparentBg" onclick="hideModal('addAdminModal')" formaction="javascript:void(0);">No</button>
+						</div>
+					</div>
+				</div>
+			</form>	
 			<div class="adminWrapper">
 				<div class="topBar">
 					<form action="/AdminController/titleSearch" method="POST" class="searchForm">
@@ -60,6 +108,11 @@
 							/>
 						</label>
 					</form>
+					<div>
+						<button class="addAdminButton" onclick=showAddAdmin()>
+							Add admin
+						</button>
+					</div>
 					<div class="user">
 						<img
 							src="/assets/MoviesPage/imgs/profPic.png"
@@ -68,18 +121,24 @@
 						/>
 						<span>Miloš</span>
 					</div>
-				</div>
+				</div>	
 				<div class="list">
-                <?php 
-                        foreach($data as $oneRow)
-                        {
-                            echo "<form action=\"/AdminController/removeUser\" method=\"POST\" class=\"rowWrapper\">
-                                    <div class=\"userPicture\">
-                                            <img src=\"/assets/Admins/profPic.png\" alt=\"Img error!\"/>
+				<?php 
+					foreach ($data->getResult() as $row)
+					{
+						$city = !isset($row->cityName) || is_null($row->cityName) ? "" : " • ".$row->cityName;
+						$country = !isset($row->countryName) || is_null($row->countryName) ? "" : " • ".$row->countryName;
+						$image = is_null($row->image) ? "/assets/Admins/profile.jpeg" : "data:image/jpg;base64, ".$row->image;
+						$name = strcmp($actMenu,0)==0 || strcmp($actMenu,3) == 0 ? $row->firstName." ".$row->lastName : $row->name;
+						$address = strcmp($actMenu,0)==1 || strcmp($actMenu,0)==2 ? " • ".$row->address : "";
+						$phone = strcmp($actMenu,0)==1 || strcmp($actMenu,0)==2 ? " • ".$row->phoneNumber : "";///AdminController/removeUser;
+                            echo "<form action=\"javascript:void(0);\" method=\"POST\" class=\"rowWrapper\">							
+									<div class=\"userPicture\">
+                                            <img src=\"".$image."\" alt=\"\"/>
                                     </div>
                                     <div class=\"description\">
-                                        <div><h1>".$oneRow->email."</h1></div>     
-                                        <div><span>".$oneRow->email." • Belgrade • Serbia</span></div>
+                                        <div><h1>".$name."</h1></div>     
+										<div><span>".$row->email.$address.$city.$country.$phone."</span></div>
                                     </div>";
                             if($actMenu == 1)
                             {
@@ -87,12 +146,14 @@
 										<button formaction=\"/AdminController/editRequest\">
 											<img src=\"/assets/Admins/pencil.svg\" alt=\"Img error!\"/>
 										</button>
+										<input type=\"hidden\" name=\"key\" value=\"".$row->email."\" />
+									  	<input type=\"hidden\" name=\"actMenu\" value=\"".$actMenu."\" />	 
                                       </div>";
 							}
                             if($actMenu == 0 || $actMenu == 1)
                             {
 								echo "<div class=\"binWrapper\">
-										<button>
+										<button onclick=\"showModal('".$row->email."', '".$actMenu."')\" >
 											<img src=\"/assets/Admins/bin.svg\" alt=\"Img error!\"/>  
 										</button>								
                                       </div>";
@@ -102,19 +163,19 @@
 								echo "<div class=\"binWrapper\">
 										<button formaction=\"/AdminController/editRequest\">
 											<img src=\"/assets/Admins/pencil.svg\" alt=\"Img error!\"/>  
-										</button>								
-                                      </div>";
+										</button>							
+										<input type=\"hidden\" name=\"key\" value=\"".$row->email."\" />
+									  	<input type=\"hidden\" name=\"actMenu\" value=\"".$actMenu."\" />	 
+									  </div>
+									  ";
                             }
 
-                            echo "
-								<input type=\"hidden\" name=\"key\" value=\"".$oneRow->email."\"/>
-								<input type=\"hidden\" name=\"actMenu\" value=\"".$actMenu."\"/>
-                                </form>";
-						}
-						
+                            echo "</form>";
+					}
+						echo "</div>";	
 					?>
 					</div>
-            </div>
+           		</div>
 		</div>
 	</body>
 </html>

@@ -8,6 +8,8 @@ use \App\Models\RUserModel;
 use \App\Models\CountryModel;
 use \App\Models\CityModel;
 use App\Libraries\Upload;
+use App\Entities\User;
+use App\Entities\Admin;
 
 class AdminController extends BaseController
 {
@@ -17,28 +19,53 @@ class AdminController extends BaseController
     }
 
     public function users()
-    {   //moras da saljes slike iz baze
-        $users = (new RUserModel())->findAll(); 
-        //$images = (new UserModel())->where(['email' => ])
-        return view('AdminView',['actMenu' => "0", 'data' => $users]);
+    {   
+        $users = new UserModel();
+        $builder = $users->builder();
+        $builder->select('Users.email, Users.image, RUsers.firstName, RUsers.lastName, Cities.name as cityName, Countries.name as countryName')
+            ->join('RUsers', 'Users.email = RUsers.email')    
+            ->join('Cities', 'RUsers.idCity = Cities.idCity', 'left outer')
+            ->join('Countries', 'RUsers.idCountry = Countries.idCountry','left outer');
+        $data = $builder->get();
+        
+        return view('AdminView',['actMenu' => "0", 'data' => $data]);
     }
 
     public function cinemas()
     {   
-        $cinemas = (new CinemaModel())->where(['approved' => 1, 'closed' => 0])->find();
-        return view('AdminView',['actMenu' => "1", 'data' => $cinemas]);
+        $users = new UserModel();
+        $builder = $users->builder();
+        $builder->select('Users.email, Users.image, Cinemas.name, Cinemas.address, Cinemas.phoneNumber, Cities.name as cityName, Countries.name as countryName')
+            ->join('Cinemas', 'Users.email = Cinemas.email AND Cinemas.approved = 1 AND Cinemas.closed = 0')    
+            ->join('Cities', 'Cinemas.idCity = Cities.idCity', 'left outer')
+            ->join('Countries', 'Cinemas.idCountry = Countries.idCountry','left outer');
+        $data = $builder->get();
+        
+        return view('AdminView',['actMenu' => "1", 'data' => $data]);
     }
 
     public function requests()
     {
-        $requests = (new CinemaModel())->where(['approved' => 0])->find();
-        return view('AdminView',['actMenu' => "2", 'data' => $requests]);
+        $users = new UserModel();
+        $builder = $users->builder();
+        $builder->select('Users.email, Users.image, Cinemas.name, Cinemas.address, Cinemas.phoneNumber, Cities.name as cityName, Countries.name as countryName')
+            ->join('Cinemas', 'Users.email = Cinemas.email AND Cinemas.approved = 0')    
+            ->join('Cities', 'Cinemas.idCity = Cities.idCity', 'left outer')
+            ->join('Countries', 'Cinemas.idCountry = Countries.idCountry','left outer');
+        $data = $builder->get();
+        
+        return view('AdminView',['actMenu' => "2", 'data' => $data]);
     }
 
     public function admins()
     {
-        $admins = (new AdminModel())->findAll();
-        return view('AdminView',['actMenu' => "3", 'data' => $admins]);
+        $users = new UserModel();
+        $builder = $users->builder();
+        $builder->select('Users.email, Users.image, Admins.firstName, Admins.lastName')
+            ->join('Admins', 'Users.email = Admins.email');
+        $data = $builder->get();
+
+        return view('AdminView',['actMenu' => "3", 'data' => $data]);
     }
 
     public function removeUser()
@@ -153,25 +180,58 @@ class AdminController extends BaseController
 
     public function saveSettings()
     {
-        /*
         $name = $_POST['fName'];
         $lName = $_POST['lName'];
         $mail = $_POST['email'];
         $pswd = $_POST['pswd'];
         $pswdR = $_POST['pswdR'];
-    
-        echo($name);
-        echo($lName);
-        echo($mail);
-        echo($pswd);
-        echo($pswdR);*/
 
         $mail = $_POST['email'];
-        /*$cinema = (new UserModel())->where(['email' => $mail])->set(['image' => $_POST['picURL']])->update();
-        return $this->selectMenu(1);*/
+        $file = $this->request->getFile('profilePicture');
+        if (strcmp($file->getName(),"") !=0)
+        {
+            $img = base64_encode(file_get_contents($file));
+            (new UserModel())->where(['email' => $mail])->set([
+                'image' => $img,             
+                ])->update();            
+        }
+        (new UserModel())->where(['email' => $mail])->set([
+            'password' => $pswd               
+            ])->update();
+        (new AdminModel())->where(['email' => $mail])->set(['firstName' => $name, 'lastName' => $lName])->update();
+        return $this->selectMenu(3);
+    }
 
-        $img = base64_encode(file_get_contents($this->request->getFile('profilePicture')));
-        (new UserModel())->where(['email' => $mail])->set(['image' => $img])->update();
+    public function addAdmin()
+    {
+        $fName = $_POST['fNameNA'];
+        $lName = $_POST['lNameNA'];
+        $email = $_POST['emailNA'];
+        $passwordNA = $_POST['passwordNA'];
+        $passwordNA = password_hash($passwordNA,PASSWORD_BCRYPT, ['cost' => 8]);
+
+        if (is_null($fName) || is_null($lName) || is_null($email) || is_null($passwordNA))
+            return $this->selectMenu(3);
+
+        $user = new User([
+            'email' => $email,
+            'password' => $passwordNA,
+            'image' => null
+        ]);
+        $userModel = new UserModel();
+        if ($userModel->insert($user)) {
+			echo 'failed<br/>'.$userModel->errors();
+        } 
+   
+        $adminModel = new AdminModel();
+        $admin = new Admin([
+            'email' => $email,
+            'firstName' => $fName,
+            'lastName' => $lName
+        ]);
+        if ($adminModel->insert($admin)) {
+			echo 'failed<br/>'.$userModel->errors();
+        } 
 
         return $this->selectMenu(3);
     }
