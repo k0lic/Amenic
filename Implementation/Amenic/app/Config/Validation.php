@@ -53,12 +53,37 @@ class Validation
 	];
 
 	public $p2User = [
-		'firstName' => 'required',
-		'lastName' => 'required',
-		'email' => 'required|valid_email',
-		'phoneNumber' => 'min_length[5]',
-		'country' => 'required',
-		'city' => 'required'
+		'firstName' => [ 
+			'rules' => 'required',
+			'errors' => [
+				'required' => 'First name is required'
+			]
+		],
+		'lastName' => [
+			'rules' => 'required',
+			'errors' => [
+				'required' => 'Last name is required'
+			]
+		],
+		'email' => [
+			'rules' => 'required|valid_email',
+			'errors' => [
+				'required' => 'Email is required',
+				'valid_email' => 'Email must be valid'
+			],
+		],
+		'country' => [
+			'rules' => 'required',
+			'errors' => [
+				'required' => 'Country is required'
+			]
+		],
+		'city' => [
+			'rules' => 'required',
+			'errors' => [
+				'required' => 'City is required'
+			]
+		]
 	];
 
 	public $passwordCheck = [

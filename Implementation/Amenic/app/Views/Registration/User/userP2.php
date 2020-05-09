@@ -62,24 +62,24 @@
 					<div class="row mb-2">
 						<div class="column w20 mr-5">
 							<label for="country">Country</label>
-							<select class="formSelect">
-								<option>Select</option>
-								<option>Andrija</option>
-								<option>Martin</option>
-								<option>Miloš</option>
-								<option>Dražen</option>
-								<option>Tamara</option>
+							<select class="formSelect" name="country">
+								<option value="dummy">Select</option>
+								<option value="dummy">Andrija</option>
+								<option value="dummy">Martin</option>
+								<option value="dummy">Miloš</option>
+								<option value="dummy">Dražen</option>
+								<option value="dummy">Tamara</option>
 							</select>
 						</div>
 						<div class="column w20">
 							<label for="country">City</label>
-							<select class="formSelect">
-								<option>Select</option>
-								<option>Andrija</option>
-								<option>Martin</option>
-								<option>Miloš</option>
-								<option>Dražen</option>
-								<option>Tamara</option>
+							<select class="formSelect" name="city">
+								<option value="dummy">Select</option>
+								<option value="dummy">Andrija</option>
+								<option value="dummy">Martin</option>
+								<option value="dummy">Miloš</option>
+								<option value="dummy">Dražen</option>
+								<option value="dummy">Tamara</option>
 							</select>
 						</div>
 					</div>

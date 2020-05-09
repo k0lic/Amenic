@@ -30,8 +30,11 @@ class Register extends BaseController {
         if($step == 1) return true;
 
         $type = ucfirst($_SESSION["step"][1]["type"]);
-
+       
+        // TODO: return errors 
         return $validation->run($data, "p$step$type"); 
+
+        //var_dump($validation->getErrors());
     }
 
 	public function index() {	

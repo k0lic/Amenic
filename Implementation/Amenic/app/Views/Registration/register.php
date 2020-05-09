@@ -36,7 +36,7 @@
 
 					<img src="/assets/Registration/next.svg" class="icon" />
 				</div>
-				<input type="hidden" name="type" value="cinema">
+				<input type="hidden" name="type" value="user">
 				</form>
 
 				<form method="POST" action="/register/cinema/1" id="typeCinema">
