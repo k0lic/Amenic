@@ -6,6 +6,6 @@ class TechnologyModel extends Model
 {
     protected $table = 'Technologies';
     protected $primaryKey= 'idTech';
-    protected $returnType= 'object';
+    protected $returnType= 'App\Entities\Technology';
     protected $allowedFields = ['name'];    
 }

@@ -8,7 +8,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-		<title>Amenic - Movies</title>
+		<title>Amenic - My cinema</title>
 	</head>
 	<body>
         <div class="container">
@@ -18,7 +18,7 @@
                     <li>
                         <?php 
                             if (!isset($optionPrimary) || $optionPrimary==0)
-                                echo "<div class=\"activeMenu\">Movies</div>";
+                                echo "<div class=\"activeMenuText\">Movies</div>";
                             else
                                 echo "<a href=\"/Cinema\">Movies</a>";
                         ?>
@@ -26,7 +26,7 @@
                     <li>
                         <?php 
                             if (isset($optionPrimary) && $optionPrimary==1)
-                                echo "<div class=\"activeMenu\">Rooms</div>";
+                                echo "<div class=\"activeMenuText\">Rooms</div>";
                             else
                                 echo "<a href=\"/Cinema/Rooms\">Rooms</a>";
                         ?>
@@ -34,7 +34,7 @@
                     <li>
                         <?php 
                             if (isset($optionPrimary) && $optionPrimary==2)
-                                echo "<div class=\"activeMenu\">Employees</div>";
+                                echo "<div class=\"activeMenuText\">Employees</div>";
                             else
                                 echo "<a href=\"/Cinema/Employees\">Employees</a>";
                         ?>
@@ -68,8 +68,8 @@
                     <div class="row ml-2">
                         <div class="column">
                             <?php
-                                $action = "/Cinema";
-                                $name = $optionPrimary == 0 ? "Add movie" : ($optionPrimary == 1 ? "Add room" : "Add employee");
+                                $action = !isset($optionPrimary) || $optionPrimary == 0 ? "/Cinema/AddMovie" : ($optionPrimary == 1 ? "/Cinema/Rooms" : "/Cinema/Employees");
+                                $name = !isset($optionPrimary) || $optionPrimary == 0 ? "Add movie" : ($optionPrimary == 1 ? "Add room" : "Add employee");
                                 $button = "<form action=\"".$action."\"><button type=\"submit\" class=\"standardButton goodButton\">".$name."</button></form>";
                                 echo $button;
                             ?>
@@ -85,12 +85,12 @@
                     {
                         $print = "<ul class=\"movieBtns\"><li>";
                         if (!isset($optionSecondary) || $optionSecondary==0)
-                            $print .= "<div class=\"activeMenu\">Now playing</div>";
+                            $print .= "<div class=\"activeMenuText\">Now playing</div>";
                         else
                             $print .= "<a href=\"/Cinema\">Now playing</a>";
                         $print .= " </li><li>";
                         if (isset($optionSecondary) && $optionSecondary==1)
-                            $print .= "<div class=\"activeMenu\">Coming soon</div>";
+                            $print .= "<div class=\"activeMenuText\">Coming soon</div>";
                         else
                             $print .= "<a href=\"/Cinema/ComingSoon\">Coming soon</a>";
                         $print .= "</li></ul>";
@@ -101,6 +101,8 @@
 
                     $wrapper = isset($optionPrimary) && $optionPrimary == 2 ? "list" : "movies";
                     echo "<div class=\"".$wrapper."\">";
+                    if (!isset($items))
+                        $items = [];
 
                     foreach ($items as $item)
                     {
@@ -110,7 +112,7 @@
                             {
                                 echo
                                 ("
-                                    <div class=\"movieImgExtended centerX column\">
+                                    <div class=\"movieImgExtended centerY column\">
                                         <img src=\"".$item["poster"]."\" class=\"movieImg\" />
                                         <div class=\"movieImgText row w80 mt-1 spaceBetween\">
                                             <div>".$item["projection"]->roomName."</div>
@@ -131,7 +133,7 @@
                         {
                             echo
                             ("
-                                <div class=\"movieImgExtended centerX column\">
+                                <div class=\"movieImgExtended centerY column\">
                                     <img src=\"/assets/Cinema/room.jpg\" class=\"movieImg\" />
                                     <div class=\"movieImgText row w80 mt-1 centerRow\">
                                         <div>".$item->name."</div>

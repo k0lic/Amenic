@@ -115,7 +115,18 @@ CREATE TABLE `Cities` (
 INSERT INTO `Cities` (`idCity`, `name`, `idCountry`) VALUES
 (1, 'Beograd', 1),
 (2, 'Novi Sad', 1),
-(3, 'Niš', 1);
+(3, 'Niš', 1),
+(4, 'Split', 2),
+(5, 'Zagreb', 2),
+(6, 'Podgorica', 3),
+(7, 'Sarajevo', 4),
+(8, 'Banja Luka', 4),
+(9, 'Berlin', 5),
+(10, 'Minhen', 5),
+(11, 'London', 6),
+(12, 'Mančester', 6),
+(13, 'Liverpul', 6),
+(14, 'Glazgov', 6);
 
 -- --------------------------------------------------------
 
@@ -154,7 +165,12 @@ CREATE TABLE `Countries` (
 --
 
 INSERT INTO `Countries` (`idCountry`, `name`) VALUES
-(1, 'Srbija');
+(1, 'Srbija'),
+(2, 'Hrvatska'),
+(3, 'Crna Gora'),
+(4, 'Bosna i Hercegovina'),
+(5, 'Nemačka'),
+(6, 'Ujedinjeno Kraljevstvo');
 
 -- --------------------------------------------------------
 
@@ -530,31 +546,31 @@ ALTER TABLE `Workers`
 -- AUTO_INCREMENT for table `Cities`
 --
 ALTER TABLE `Cities`
-  MODIFY `idCity` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idCity` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `Countries`
 --
 ALTER TABLE `Countries`
-  MODIFY `idCountry` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idCountry` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `Projections`
 --
 ALTER TABLE `Projections`
-  MODIFY `idPro` bigint NOT NULL AUTO_INCREMENT;
+  MODIFY `idPro` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Reservations`
 --
 ALTER TABLE `Reservations`
-  MODIFY `idRes` bigint NOT NULL AUTO_INCREMENT;
+  MODIFY `idRes` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- AUTO_INCREMENT for table `Technologies`
 --
 ALTER TABLE `Technologies`
-  MODIFY `idTech` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idTech` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

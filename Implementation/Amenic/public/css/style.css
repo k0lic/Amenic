@@ -1,7 +1,6 @@
 /* BASE CSS */
 
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800&display=swap");
-
 :root {
 	--deepPurple: #2d2032;
 	--orange: #e27b2e;
@@ -11,7 +10,6 @@
 	--formInput: #5b4962;
 	--lightPurple: #342739;
 	--imgOutline: #2b1e30;
-
 	--stepCircle: #3d2b44;
 }
 
@@ -25,7 +23,6 @@
 body {
 	font-family: "Nunito", sans-serif;
 	background-color: var(--lightPurple);
-
 	/*
     background-color: var(--lightPurple);
     */
@@ -45,12 +42,10 @@ body {
 	left: 0;
 	width: 15%;
 	height: 100%;
-
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-
 	background-color: var(--deepPurple);
 	font-weight: 600;
 	font-size: 22px;
@@ -72,6 +67,10 @@ body {
 }
 
 .activeMenu {
+	color: var(--orange) !important;
+}
+
+.activeMenuText {
 	color: var(--orange) !important;
 	cursor: default;
 }
@@ -97,15 +96,13 @@ body {
 	align-self: center;
 }
 
-.icon svg,
-.icon img {
+.icon svg, .icon img {
 	height: 1em;
 	width: 1em;
 	fill: currentColor;
 }
 
-.icon.baseline svg,
-.icon img {
+.icon.baseline svg, .icon img {
 	top: 0.125em;
 	position: relative;
 }
@@ -164,8 +161,7 @@ body {
 	top: 0;
 	bottom: 0;
 	width: 20px;
-	background: url(../assets/MoviesPage/imgs/search.svg) center / contain
-		no-repeat;
+	background: url(../assets/MoviesPage/imgs/search.svg) center / contain no-repeat;
 }
 
 .search {
@@ -181,8 +177,7 @@ body {
 	transition: border 0.2s ease-in-out;
 }
 
-.search:focus,
-.search:hover {
+.search:focus, .search:hover {
 	border: rgba(255, 255, 255, 0.8) 1px solid;
 	transition: border 0.2s ease-in-out;
 }
@@ -204,7 +199,7 @@ body {
 	transition: color 0.2s ease-in-out;
 }
 
-.movieBtns .activeMenu {
+.movieBtns .activeMenuText {
 	margin-right: 60px;
 }
 
@@ -262,6 +257,28 @@ body {
 	background-color: var(--red);
 }
 
+
+/* WRAPPERS */
+
+.emptyWrapper {
+	width: 85%;
+	margin-left: 15%;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--lightPurple);
+	color: white;
+}
+
+.accountWrapper {
+	width: 100%;
+	margin: 0;
+	padding: 30px 80px 0px 80px;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--lightPurple);
+}
+
 /* CATEGORY SELECT */
 
 .movies {
@@ -302,9 +319,7 @@ body {
 	background-color: var(--imgOutline);
 	color: white;
 	border-radius: 20px;
-
 	font-family: "Nunito";
-
 	-webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
 	-moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
@@ -329,6 +344,10 @@ body {
 	justify-content: space-between;
 }
 
+.p-0 {
+	padding: 0;
+}
+
 .mt-0 {
 	margin-top: 0;
 }
@@ -336,15 +355,19 @@ body {
 .mt-1 {
 	margin-top: 0.5em;
 }
+
 .mt-2 {
 	margin-top: 1em;
 }
+
 .mt-3 {
 	margin-top: 1.5em;
 }
+
 .mt-4 {
 	margin-top: 2em;
 }
+
 .mt-5 {
 	margin-top: 2.5em;
 }
@@ -356,15 +379,19 @@ body {
 .mb-1 {
 	margin-bottom: 0.5em;
 }
+
 .mb-2 {
 	margin-bottom: 1em;
 }
+
 .mb-3 {
 	margin-bottom: 1.5em;
 }
+
 .mb-4 {
 	margin-bottom: 2em;
 }
+
 .mb-5 {
 	margin-bottom: 2.5em;
 }
@@ -376,15 +403,19 @@ body {
 .ml-1 {
 	margin-left: 0.5em;
 }
+
 .ml-2 {
 	margin-left: 1em;
 }
+
 .ml-3 {
 	margin-left: 1.5em;
 }
+
 .ml-4 {
 	margin-left: 2em;
 }
+
 .ml-5 {
 	margin-left: 2.5em;
 }
@@ -396,15 +427,19 @@ body {
 .mr-1 {
 	margin-right: 0.5em;
 }
+
 .mr-2 {
 	margin-right: 1em;
 }
+
 .mr-3 {
 	margin-right: 1.5em;
 }
+
 .mr-4 {
 	margin-right: 2em;
 }
+
 .mr-5 {
 	margin-right: 2.5em;
 }
@@ -412,6 +447,7 @@ body {
 .w5 {
 	width: 5% !important;
 }
+
 .w10 {
 	width: 10% !important;
 }
@@ -419,6 +455,7 @@ body {
 .w15 {
 	width: 15% !important;
 }
+
 .w20 {
 	width: 20% !important;
 }
@@ -430,12 +467,15 @@ body {
 .w30 {
 	width: 30% !important;
 }
+
 .w35 {
 	width: 35% !important;
 }
+
 .w40 {
 	width: 40% !important;
 }
+
 .w45 {
 	width: 45% !important;
 }
@@ -443,33 +483,43 @@ body {
 .w50 {
 	width: 50% !important;
 }
+
 .w55 {
 	width: 55% !important;
 }
+
 .w60 {
 	width: 60% !important;
 }
+
 .w65 {
 	width: 65% !important;
 }
+
 .w70 {
 	width: 70% !important;
 }
+
 .w75 {
 	width: 75% !important;
 }
+
 .w80 {
 	width: 80% !important;
 }
+
 .w85 {
 	width: 85% !important;
 }
+
 .w90 {
 	width: 90% !important;
 }
+
 .w95 {
 	width: 95% !important;
 }
+
 .w100 {
 	width: 100% !important;
 }
@@ -509,10 +559,8 @@ body {
 	border: 1px solid rgba(30, 16, 35, 0.5);
 	border-radius: 10px;
 	color: white;
-
 	padding: 0.5em;
 	height: 3em;
-
 	transition: 0.2s border ease-in-out;
 }
 
@@ -558,7 +606,6 @@ body {
 	border-radius: 15px;
 	text-align: center;
 	cursor: pointer;
-
 	align-self: center;
 }
 
@@ -598,7 +645,6 @@ body {
 .registerWrapper {
 	display: flex;
 	flex-direction: column;
-
 	width: 85%;
 	height: 100vh;
 	margin-left: 15%;
@@ -614,12 +660,10 @@ body {
 	left: 0;
 	width: 22%;
 	height: 100%;
-
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-
 	background-color: var(--deepPurple);
 	font-weight: 600;
 	font-size: 22px;
@@ -644,7 +688,6 @@ body {
 
 .registerBarSubtitle {
 	font-weight: 300;
-
 	font-size: 0.8em;
 }
 
@@ -654,11 +697,8 @@ body {
 	width: 100%;
 	border: 3px solid var(--deepPurple);
 	border-radius: 15px;
-
 	padding: 1em;
-
 	cursor: pointer;
-
 	transition: 0.2s border ease-in-out;
 }
 
@@ -736,24 +776,78 @@ body {
 	margin-bottom: 0.1em;
 }
 
-.formWrapper input,
-.formWrapper textarea {
+.formWrapper input, .formWrapper textarea {
 	width: 100%;
 	font-family: "Nunito";
 	font-weight: 500;
 	background-color: var(--lightPurple);
 	border-radius: 10px;
 	color: white;
-
 	background-color: var(--formInput);
 	border: 2px solid var(--deepPurple);
-
 	padding: 0.5em;
 	height: 3em;
-
 	font-size: 1em;
-
 	transition: 0.2s border ease-in-out;
+}
+
+.formWrapper .dayButton {
+	margin: 4px;
+	font-size: 0.8em;
+	font-weight: 300;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	color: white;
+	background-color: var(--lightPurple);
+	outline: none;
+}
+
+.formWrapper .dayButton:hover {
+	transition: 0.2s box-shadow easy-in-out;
+	box-shadow: 0px 2px 5px var(--orange);
+}
+
+.formWrapper .todayButton {
+	margin: 4px;
+	font-size: 0.8em;
+	font-weight: 300;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--orange);
+	color: white;
+	background-color: var(--lightPurple);
+	outline: none;
+}
+
+.formWrapper .todayButton:hover {
+	transition: 0.2s box-shadow easy-in-out;
+	box-shadow: 0px 2px 5px var(--orange);
+}
+
+.formWrapper .yesterdayButton {
+	margin: 4px;
+	font-size: 0.8em;
+	font-weight: 300;
+	text-align: center;
+	line-height: 32px;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	color: var(--lightGray);
+	background-color: var(--formInput);
+	outline: none;
+}
+
+.formWrapper .selectedDay {
+	color: var(--orange);
+	box-shadow: 0px 2px 5px 3px var(--orange);
 }
 
 .textAreaRow {
@@ -766,10 +860,14 @@ body {
 	height: 100%;
 }
 
-.formWrapper input:focus,
-.formWrapper textarea:focus {
+.formWrapper input:focus, .formWrapper textarea:focus {
 	border: 2px solid var(--orange);
 	transition: 0.2s border ease-in-out;
+}
+
+.formCheckbox {
+	width: 1.5em !important;
+	height: 1.5em !important;
 }
 
 .formSelect {
@@ -792,12 +890,12 @@ body {
 	background-color: var(--formInput);
 	transition: 0.2s border ease-in-out;
 	outline: none !important;
-
 	background-image: url("./assets/arrowDown.svg");
 	background-repeat: no-repeat, repeat;
 	background-position: right 0.7em top 50%, 0 0;
 	background-size: 0.65em auto, 100%;
 }
+
 .formSelect::-ms-expand {
 	display: none;
 }
@@ -833,6 +931,29 @@ body {
 	cursor: pointer;
 }
 
+.calendar {
+	border-radius: 10px;
+	background-color: var(--formInput);
+}
+
+#selectedDate {
+	font-weight: 600;
+	margin-left: 0.5em;
+}
+
+.dayHeader {
+	margin: 4px;
+	margin-bottom: -4px;
+	font-size: 0.8em;
+	font-weight: 400;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	color: white;
+	text-align: center;
+}
+
 #strengthBarTitle {
 	font-size: 1.2em;
 }
@@ -864,11 +985,9 @@ body {
 	color: white;
 	font-family: "Nunito";
 	font-size: 1.2em;
-
 	position: absolute;
 	right: 0;
 	left: 0;
-
 	z-index: 20;
 }
 
@@ -891,13 +1010,10 @@ body {
 .cinemaBackground {
 	height: 50vh;
 	width: 100%;
-
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
-
 	background-image: url("./imgs/cinemaBG.jpg");
-
 	display: flex;
 	z-index: 10;
 }
@@ -912,7 +1028,6 @@ body {
 	height: 200px;
 	object-fit: cover;
 	z-index: 15;
-
 	clip-path: circle(50% at 50% 50%);
 }
 
@@ -976,7 +1091,6 @@ body {
 .galleryItem {
 	height: 76px;
 	width: 100px;
-
 	object-fit: cover;
 	border-radius: 15px;
 }
@@ -986,6 +1100,7 @@ body {
 }
 
 /* ADMIN CONTROLLER */
+
 .adminWrapper {
 	width: 85%;
 	margin-left: 15%;
@@ -1025,7 +1140,7 @@ body {
 	padding: 0.5em 1em;
 }
 
-.userPicture > img {
+.userPicture>img {
 	width: auto;
 	height: 90% !important;
 	max-height: 140px;
@@ -1042,7 +1157,7 @@ body {
 	background-color: var(--deepPurple);
 }
 
-.editWrapper > button {
+.editWrapper>button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -1060,7 +1175,7 @@ body {
 	border-radius: 0px 10px 10px 0px !important;
 }
 
-.binWrapper > button {
+.binWrapper>button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
