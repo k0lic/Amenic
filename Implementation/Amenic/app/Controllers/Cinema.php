@@ -20,10 +20,8 @@ class Cinema extends BaseController
 
     public function comingSoon()
     {
-        //$soonsWithPosters = (new CompCinemaModel())->findAllComingSoonsOfMyCinemaAndAttachPosters($this->userMail);
-        //return view("CinemaAccountView.php",["items" => $soonsWithPosters,"optionSecondary" => 1]);
-        return view("CinemaAccountView.php",["items" => [],"optionSecondary" => 1]);
-        //$this->index();
+        $soonsWithPosters = (new CompCinemaModel())->findAllComingSoonsOfMyCinemaAndAttachPosters($this->userMail);
+        return view("CinemaAccountView.php",["items" => $soonsWithPosters,"optionSecondary" => 1]);
     }
 }
 
