@@ -14,7 +14,9 @@
 	<body>
 		<div class="container">
 			<div class="registerBar">
-				<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
+				<a href="/register">
+					<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
+				</a>
 				<div class="registerSteps">
 					<div class="registerBarTitle">Thank you for signing up.</div>
 					<div class="registerBarSubtitle mt-3">

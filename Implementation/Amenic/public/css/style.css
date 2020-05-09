@@ -312,11 +312,11 @@ body {
 
 /* Utility */
 
-.centerX {
+.centerY {
 	align-items: center;
 }
 
-.centerY {
+.centerX {
 	justify-content: center;
 }
 
@@ -526,25 +526,25 @@ body {
 }
 
 .loginLinks {
-	width: 60%;
-	display: flex;
-	flex-direction: column;
+	width: 60% !important;
+	display: flex !important;
+	flex-direction: column !important;
 }
 
 .loginLinks a {
-	text-decoration: none;
-	color: var(--orange);
-	margin-top: 0.3em;
-	min-height: 22px;
+	text-decoration: none !important;
+	color: var(--orange) !important;
+	margin-top: 0.3em !important;
+	min-height: 22px !important;
 }
 
 .loginLinks:first-child {
-	margin-top: 0;
-	font-size: 0.9em;
+	margin-top: 0 !important;
+	font-size: 0.9em !important;
 }
 
 .loginLinks a span:hover {
-	border-bottom: 1px solid var(--orange);
+	border-bottom: 1px solid var(--orange) !important;
 }
 
 .modalButton {
@@ -560,6 +560,37 @@ body {
 	cursor: pointer;
 
 	align-self: center;
+}
+
+.modalWrapper {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	display: none;
+	z-index: 300;
+	left: 0;
+	top: 0;
+	overflow: auto;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modalTrigger {
+	font-family: "Nunito";
+	align-self: flex-end;
+	color: white;
+	font-weight: 700;
+	background-color: var(--orange);
+	border: none;
+	padding: 0.5em 1.3em;
+	border-radius: 10px;
+	outline: none !important;
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
+.showModal {
+	display: block;
 }
 
 /* NEW REGISTRATION */
@@ -665,7 +696,7 @@ body {
 	clip-path: circle(35% at 50% 50%);
 	font-weight: 300;
 
-	transition: 0.2s all ease-in-out;
+	transition: 0.2s background-color ease-in-out;
 }
 
 .registerSteps span {
@@ -678,7 +709,7 @@ body {
 
 .registerSteps .row:hover .stepCircle {
 	background-color: var(--formInput);
-	transition: 0.2s all ease-in-out;
+	transition: 0.2s background-color ease-in-out;
 }
 
 .registerSteps .row {
@@ -1129,37 +1160,37 @@ body {
 	cursor: pointer;
 }
 
-.adminEmail{
+.adminEmail {
 	grid-column: span 2;
 }
 
-.adminEmail input[type="text"]{
+.adminEmail input[type="text"] {
 	width: 70%;
 }
 
-.passwordRow{
+.passwordRow {
 	grid-column: span 3;
 	display: flex;
 	justify-content: space-between;
 	min-height: 60px;
 }
 
-.passwordRow > div{
+.passwordRow > div {
 	width: 45%;
 	margin: 0px;
 }
 
-.passwordRow > div input[type="text"]{
+.passwordRow > div input[type="text"] {
 	width: 100%;
 }
 
-.saveButton{
+.saveButton {
 	width: 50% !important;
 	font-size: large;
 	font-weight: bolder;
 }
 
-.adminPicture{
+.adminPicture {
 	grid-row: span 2;
 	display: flex;
 	flex-direction: column;
@@ -1168,13 +1199,13 @@ body {
 	max-width: 250px;
 }
 
-.adminPicture > img{
+.adminPicture > img {
 	border-radius: 50%;
 	width: 50% !important;
 	margin-bottom: 10px;
 }
 
-.browseButton{
+.browseButton {
 	border-radius: 10px 10px 10px 10px;
 	border: 2px solid var(--orange);
 	background-color: var(--deepPurple) !important;
@@ -1187,10 +1218,27 @@ body {
 	align-items: center;
 }
 
-.adminSettingsTitle{
+.adminSettingsTitle {
 	grid-column: span 2;
 }
 
 input[type="file"] {
-    display: none;
+	display: none;
+}
+
+.formError {
+	color: var(--red);
+}
+
+.registerSuccess {
+	font-size: 1.4em;
+}
+
+.registerSuccess strong {
+	font-weight: 700;
+	font-size: 1.5em;
+}
+
+.registerSuccess a {
+	color: var(--orange);
 }

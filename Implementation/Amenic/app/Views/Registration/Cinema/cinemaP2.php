@@ -14,9 +14,11 @@
 	<body>
 		<div class="container">
 			<div class="registerBar">
-				<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
+				<a href="/register">
+					<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
+				</a>
 				<div class="registerSteps">
-					<div class="row centerX">
+					<div class="row centerY">
 						<div class="stepCircle">
 							1
 						</div>
@@ -24,7 +26,7 @@
 							Cinema info
 						</span>
 					</div>
-					<div class="row centerX">
+					<div class="row centerY">
 						<div class="stepCircle stepCircleFaded">
 							2
 						</div>
@@ -32,7 +34,7 @@
 							Your info
 						</span>
 					</div>
-					<div class="row centerX">
+					<div class="row centerY">
 						<div class="stepCircle stepCircleFaded">
 							3
 						</div>
@@ -48,49 +50,47 @@
 
 					<div class="row mb-2">
 						<div class="column w45">
-							<label for="name">Cinema name</label>
-							<input type="text" name="name"/>
+							<label for="cinemaName">Cinema name</label>
+							<input type="text" name="cinemaName"/>
+							<div class="formError ml-1"><?php if(isset($errors['cinemaName'])) echo $errors['cinemaName'] ?></div>
 						</div>
 					</div>
 					<div class="row mb-2">
 						<div class="column w35 mr-5">
 							<label for="address">Address</label>
 							<input type="text" name="address"/>
+							<div class="formError ml-1"><?php if(isset($errors['address'])) echo $errors['address'] ?></div>
 						</div>
 						<div class="column w35">
 							<label for="phoneNumber">Phone number</label>
 							<input type="text" name="phoneNumber"/>
+							<div class="formError ml-1"><?php if(isset($errors['phoneNumber'])) echo $errors['phoneNumber'] ?></div>
 						</div>
 					</div>
 					<div class="row mb-2">
 						<div class="column w20 mr-5">
 							<label for="country">Country</label>
-							<select class="formSelect">
-								<option value="val1">Select</option>
-								<option value="val2">Andrija</option>
-								<option value="val3">Martin</option>
-								<option value="val4">Miloš</option>
-								<option value="val5">Dražen</option>
-								<option value="val6">Tamara</option>
+							<select class="formSelect" name="country" required>
+								<option value="1">Serbia</option>
 							</select>
+							<div class="formError ml-1"><?php if(isset($errors['country'])) echo $errors['country'] ?></div>
 						</div>
 						<div class="column w20">
 							<label for="country">City</label>
-							<select class="formSelect">
-								<option value="val1">Select</option>
-								<option value="val2">Andrija</option>
-								<option value="val3">Martin</option>
-								<option value="val4">Miloš</option>
-								<option value="val5">Dražen</option>
-								<option value="val6">Tamara</option>
+							<select class="formSelect" name="city" required>
+								<option value="1">Beograd</option>
+								<option value="2">Novi Sad</option>
+								<option value="3">Niš</option>
 							</select>
+							<div class="formError ml-1"><?php if(isset($errors['city'])) echo $errors['city'] ?></div>
 						</div>
 					</div>
 
 					<div class="row textAreaRow mb-2">
 						<div class="column w75">
-							<label for="description">Description (optional)</label>
+							<label for="description">Description <span class="optionalText">(optional)</span></label>
 							<textarea name="description" value="<?php $description ?>"></textarea>
+							<div class="formError ml-1"><?php if(isset($errors['description'])) echo $errors['description'] ?></div>
 						</div>
 					</div>
 

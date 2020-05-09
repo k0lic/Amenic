@@ -14,9 +14,11 @@
 	<body>
 		<div class="container">
 			<div class="registerBar">
-				<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
+				<a href="/register">
+					<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
+				</a>
 				<div class="registerSteps">
-					<div class="row centerX">
+					<div class="row centerY">
 						<div class="stepCircle stepCircleFaded">
 							1
 						</div>
@@ -24,7 +26,7 @@
 							Cinema info
 						</span>
 					</div>
-					<div class="row centerX">
+					<div class="row centerY">
 						<div class="stepCircle stepCircleFaded">
 							2
 						</div>
@@ -32,7 +34,7 @@
 							Your info
 						</span>
 					</div>
-					<div class="row centerX">
+					<div class="row centerY">
 						<div class="stepCircle">
 							3
 						</div>
@@ -50,14 +52,16 @@
 						<div class="column w25 mr-5">
 							<label for="firstPassword">Your password</label>
 							<input type="password" name="firstPassword" />
+							<div class="formError ml-1"><?php if(isset($errors['firstPassword'])) echo $errors['firstPassword'] ?></div>
 						</div>
 						<div class="column w25">
 							<label for="secondPassword">Confirm password</label>
 							<input type="password" name="secondPassword" />
+							<div class="formError ml-1"><?php if(isset($errors['secondPassword'])) echo $errors['secondPassword'] ?></div>
 						</div>
 					</div>
 
-					<div class="row centerX mb-2">
+					<div class="row centerY mb-2">
 						<span id="strengthBarTitle">Strength: </span>
 						<span id="strengthBar1" class="strengthBar mr-1 ml-2"></span>
 						<span id="strengthBar2" class="strengthBar mr-1"></span>

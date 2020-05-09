@@ -1,3 +1,14 @@
+<?php
+
+	if(session_status() == PHP_SESSION_NONE) {
+		session_start();
+	}
+
+	if(!isset($_SESSION['loginErr'])) {
+		$_SESSION['loginErr'] = '';
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -56,14 +67,22 @@
 						<input type="hidden" id="actMenu" name="actMenu" value="<?php if(isset($actMenu)) echo $actMenu;?>"/>
 						<input type="hidden" id="cinMenu" name="cinMenu" value="<?php if(isset($cinMenu)) echo $cinMenu;?>"/>
 					</form>
-					<div class="user">
-						<img
-							src="/assets/MoviesPage/imgs/profPic.png"
-							class="profPic"
-							alt="Profile picture"
-						/>
-						<span>Miloš</span>
-					</div>
+					<?php 
+							if(isset($_SESSION['user'])) {
+							?>
+							<div class="user">
+								<img
+								src="/assets/MoviesPage/imgs/profPic.png"
+								class="profPic"
+								alt="Profile picture"
+								/>
+							<span><?php echo $_SESSION['user']['firstName']." ".$_SESSION['user']['lastName'] ?></span>
+							</div>
+						<?php }
+							else {
+								include 'loginModal.php';
+							}
+						?>
 				</div>
 				<ul class="movieBtns">
 					<li>

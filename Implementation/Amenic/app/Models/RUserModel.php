@@ -6,5 +6,7 @@ class RUserModel extends Model
 {
     protected $table = 'RUsers';
     protected $primaryKey= 'email';
-    protected $returnType= 'object';    
+    protected $returnType= 'App\Entities\RUser';
+    protected $allowedFields= ['email', 'firstName', 'lastName', 'phoneNumber', 'idCountry', 'idCity'];  
+
 }

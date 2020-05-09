@@ -6,6 +6,6 @@ class UserModel extends Model
 {
     protected $table = 'Users';
     protected $primaryKey= 'email';
-    protected $returnType= 'object';    
+    protected $returnType= 'App\Entities\User';    
     protected $allowedFields = ['email','password','image']; 
 }
