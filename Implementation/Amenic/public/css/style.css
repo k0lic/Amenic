@@ -1242,3 +1242,24 @@ input[type="file"] {
 .registerSuccess a {
 	color: var(--orange);
 }
+
+.notFoundWrapper {
+	width: 100%;
+	height: 100vh;
+
+	background-size: cover;
+	background-image: url("../assets/404/404BG.jpg");
+
+	color: white;
+}
+
+.notFoundTitle {
+	font-weight: 800;
+	font-size: 10em;
+}
+
+.notFoundText {
+	font-weight: 700;
+	font-size: 2em;
+	text-align: center;
+}

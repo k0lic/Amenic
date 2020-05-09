@@ -6,7 +6,6 @@
 */
 
 use \App\Models\UserModel;
-
 use \App\Models\RUserModel;
 use \App\Models\AdminModel;
 use \App\Models\CinemaModel;
