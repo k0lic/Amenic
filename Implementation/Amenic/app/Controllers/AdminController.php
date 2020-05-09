@@ -7,7 +7,7 @@ use \App\Models\AdminModel;
 use \App\Models\RUserModel;
 use \App\Models\CountryModel;
 use \App\Models\CityModel;
-
+use App\Libraries\Upload;
 
 class AdminController extends BaseController
 {
@@ -17,8 +17,9 @@ class AdminController extends BaseController
     }
 
     public function users()
-    {   
+    {   //moras da saljes slike iz baze
         $users = (new RUserModel())->findAll(); 
+        //$images = (new UserModel())->where(['email' => ])
         return view('AdminView',['actMenu' => "0", 'data' => $users]);
     }
 
@@ -141,5 +142,37 @@ class AdminController extends BaseController
 
         $cinema = (new CinemaModel())->where(['email' => $key])->set(['closed' => 0])->update();
         return $this->selectMenu($actMenu);
+    }
+
+    public function settings()
+    {
+        $data = (new AdminModel())->find('andrija@gmail.com');
+        $image = (new UserModel())->find('andrija@gmail.com')->image;
+        return view('AdminSettingsView',['data' => $data, 'actMenu' => 5, 'image' => $image]);    
+    }
+
+    public function saveSettings()
+    {
+        /*
+        $name = $_POST['fName'];
+        $lName = $_POST['lName'];
+        $mail = $_POST['email'];
+        $pswd = $_POST['pswd'];
+        $pswdR = $_POST['pswdR'];
+    
+        echo($name);
+        echo($lName);
+        echo($mail);
+        echo($pswd);
+        echo($pswdR);*/
+
+        $mail = $_POST['email'];
+        /*$cinema = (new UserModel())->where(['email' => $mail])->set(['image' => $_POST['picURL']])->update();
+        return $this->selectMenu(1);*/
+
+        $img = base64_encode(file_get_contents($this->request->getFile('profilePicture')));
+        (new UserModel())->where(['email' => $mail])->set(['image' => $img])->update();
+
+        return $this->selectMenu(3);
     }
 }

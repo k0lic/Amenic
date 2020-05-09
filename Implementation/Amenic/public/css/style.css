@@ -1073,3 +1073,69 @@ body {
 	border: 0px solid transparent;
 	cursor: pointer;
 }
+
+.adminEmail{
+	grid-column: span 2;
+}
+
+.adminEmail input[type="text"]{
+	width: 70%;
+}
+
+.passwordRow{
+	grid-column: span 3;
+	display: flex;
+	justify-content: space-between;
+	min-height: 60px;
+}
+
+.passwordRow > div{
+	width: 45%;
+	margin: 0px;
+}
+
+.passwordRow > div input[type="text"]{
+	width: 100%;
+}
+
+.saveButton{
+	width: 50% !important;
+	font-size: large;
+	font-weight: bolder;
+}
+
+.adminPicture{
+	grid-row: span 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	max-width: 250px;
+}
+
+.adminPicture > img{
+	border-radius: 50%;
+	width: 50% !important;
+	margin-bottom: 10px;
+}
+
+.browseButton{
+	border-radius: 10px 10px 10px 10px;
+	border: 2px solid var(--orange);
+	background-color: var(--deepPurple) !important;
+	color: var(--orange) !important;
+	width: 30%;
+	min-width: 40px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.adminSettingsTitle{
+	grid-column: span 2;
+}
+
+input[type="file"] {
+    display: none;
+}

@@ -3,8 +3,9 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-		<title>Amenic - AdminsRequest</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <script src="/js/adminSettings.js"></script>
+		<title>Amenic - AdminsSettings</title>
 	</head>
 	<body>
 		<div class="container">
@@ -54,72 +55,49 @@
 						<span>Miloš</span>
 					</div>
 				</div>
-                <form action="/" class="searchForm" method="POST">
+                <form enctype="multipart/form-data" action="/AdminController/saveSettings" class="searchForm" method="POST">
                     <div class="settingsForm">
-                            <div class="requestSettingsTitle">
+                            <div class="adminSettingsTitle">
                                 <h2>Basic info</h2>
                             </div>
-                            <div>
-                                <label for="name">Name</label><br>
-                                <input type="text" id="name" name="fname" value="<?php echo $data->name; ?>" readonly><br>
-                            </div>
-                            <div>
-                                <label for="phone">Phone</label><br>
-                                <input type="text" id="phone" name="lname" value="<?php echo $data->phoneNumber; ?>" readonly><br>
-                            </div>
-                            <div></div>
-                            <div>
-                                <label for="country">Country</label><br>
-                                <input type="text" id="county" name="fname" value="<?php echo $country; ?>" readonly><br>
-                            </div>
-                            <div>
-                                <label for="city">City</label><br>
-                                <input type="text" id="city" name="lname" value="<?php echo $city; ?>" readonly><br>
-                            </div>
-                            <div>
-                                <label for="address">Address</label><br>
-                                <input type="text" id="address" name="lname" value="<?php echo $data->address;?>" readonly><br>
-                            </div>
-                            <div class="requestSettingsDescription">
-                                <label for="desc">Description</label><br>
-                                <textarea name="desc" id="desc" cols="40" readonly rows="5"><?php echo $data->description; ?></textarea>
-                            </div>
-                            <div class="requestSettingsTitle">
-                                <h2>Account creator</h2>
+                            <div class="adminPicture">
+                                <img src="data:image/jpg;base64, <?php echo $image; ?>" id="adminPic" alt="Picture not found!" />
+                                <label class="browseButton">
+                                    <input type="file" onchange="showPicture()" id="profilePicture" name="profilePicture"/>    
+                                    Browse
+                                </label>
                             </div>
                             <div>
                                 <label for="fName">First name</label><br>
-                                <input type="text" id="fName" name="fname" value="<?php echo $data->mngFirstName; ?>" readonly><br>
+                                <input type="text" id="fName" name="fName" value="<?php echo $data->firstName; ?>" readonly><br>
                             </div>
                             <div>
                                 <label for="lName">Last name</label><br>
-                                <input type="text" id="lName" name="lname" value="<?php echo $data->mngLastName; ?>" readonly><br>
+                                <input type="text" id="lName" name="lName" value="<?php echo $data->lastName; ?>" readonly><br>
                             </div>
-                            <div>
-                                <label for="mPhone">Phone</label><br>
-                                <input type="text" id="mPhone" name="lname" value="<?php echo $data->mngPhoneNumber; ?>" readonly><br>
-                            </div>
-                            <div>
+                            <div class="adminEmail">
                                 <label for="email">Email</label><br>
-                                <input type="text" id="email" name="mEmail" value="<?php echo $data->mngEmail; ?>" readonly><br>
+                                <input type="text" id="email" name="email" value="<?php echo $data->email; ?>" readonly><br>
                             </div>
-                            <div class="requestSettingsButtons">
-                                <input type="submit" formaction="/AdminController/removeUser" class="requestDeleteButton" value="Delete" />
-                                <input type="submit" formaction="/AdminController/<?php 
-                                                        if (!$data->approved)
-                                                            echo "approveCinema";
-                                                        else    
-                                                            echo "openCinema";
-                                                             ?>"
-                                                    class="requestApproveButton" 
-                                                    value="<?php 
-                                                        if (!$data->approved)
-                                                            echo "Approve";
-                                                        else 
-                                                            echo "Open";
-                                                        ?>" />
-                                <input type="hidden" id="key" name="key" value="<?php echo $data->email; ?>">
+                            <div></div>
+                            <div class="passwordRow">
+                                <div>
+                                    <label for="pswd">Old password</label><br>
+                                    <input type="text" id="pswd" name="pswd"><br>
+                                </div>
+                                <div>
+                                    <label for="pswdR">New password</label><br>
+                                    <input type="text" id="pswdR" name="pswdR"><br>
+                                </div>
+                            </div>
+                            <div class="passwordRow">
+                                <div>
+                                    <span>Strength: - - - -</span>
+                                </div>
+                                <div class="requestSettingsButtons">
+                                <input type="submit" class="requestApproveButton saveButton" value="Save changes" />
                                 <input type="hidden" id="actMenu" name="actMenu" value="<?php echo $actMenu; ?>">
+                            </div>
                             </div>
                     </div>
                 </form> 

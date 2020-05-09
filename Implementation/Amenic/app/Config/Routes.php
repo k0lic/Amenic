@@ -31,7 +31,7 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'HomeController::index');
-$routes->get('git /admin', 'AdminController::index');
+$routes->get('/admin', 'AdminController::index');
 
 /**
  * --------------------------------------------------------------------
