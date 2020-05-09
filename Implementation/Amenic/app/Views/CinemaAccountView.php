@@ -104,12 +104,38 @@
 
                     foreach ($items as $item)
                     {
-                        echo ("
-                            <div class=\"movieImgExtended centerY column\">
-                                <img src=\"".$items[$i]["poster"]."\" class=\"movieImg\" />
-                                <div class=\"movieImgText row w80 mt-1 spaceBetween\">
-                                    <div>".$items[$i]["projection"]->roomName."</div>
-                                    <div>".date("D H:i", strtotime($items[$i]["projection"]->dateTime))."</div>
+                        if (!isset($optionPrimary) || $optionPrimary==0)
+                        {
+                            if (!isset($optionSecondary) || $optionSecondary == 0)
+                            {
+                                echo
+                                ("
+                                    <div class=\"movieImgExtended centerX column\">
+                                        <img src=\"".$item["poster"]."\" class=\"movieImg\" />
+                                        <div class=\"movieImgText row w80 mt-1 spaceBetween\">
+                                            <div>".$item["projection"]->roomName."</div>
+                                            <div>".date("D H:i", strtotime($item["projection"]->dateTime))."</div>
+                                        </div>
+                                    </div>
+                                ");
+                            }
+                            else
+                            {
+                                echo
+                                ("
+                                    <img src=\"".$item["poster"]."\" class=\"movieImg\" />
+                                ");
+                            }
+                        }
+                        else if ($optionPrimary == 1)
+                        {
+                            echo
+                            ("
+                                <div class=\"movieImgExtended centerX column\">
+                                    <img src=\"/assets/Cinema/room.jpg\" class=\"movieImg\" />
+                                    <div class=\"movieImgText row w80 mt-1 centerRow\">
+                                        <div>".$item->name."</div>
+                                    </div>
                                 </div>
                             ");
                         }
