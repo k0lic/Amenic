@@ -14,7 +14,7 @@
 	<body>
 		<div class="container">
 			<div class="registerBar">
-				<a href="/register">
+				<a href="/">
 					<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
 				</a>
 				<div class="registerSteps">
