@@ -10,7 +10,7 @@ use App\Models\MovieModel;
 use App\Models\ProjectionModel;
 use App\Models\ComingSoonModel;
 
-class CompCinemaModel extends Model
+class AACinemaModel extends Model
 {
     protected $returnType= 'object';
 

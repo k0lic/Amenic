@@ -73,6 +73,7 @@ body {
 
 .activeMenu {
 	color: var(--orange) !important;
+	cursor: default;
 }
 
 .menuBar a:hover {
@@ -203,9 +204,62 @@ body {
 	transition: color 0.2s ease-in-out;
 }
 
+.movieBtns .activeMenu {
+	margin-right: 60px;
+}
+
 .movieBtns a:hover {
 	color: var(--orange) !important;
 	transition: color 0.2s ease-in-out;
+}
+
+.highlightSvgOnHover {
+	outline: none;
+}
+
+.highlightSvgOnHover svg path {
+	fill: white;
+}
+
+.highlightSvgOnHover svg:hover path {
+	fill: var(--orange) !important;
+	transition: color 0.2s ease-in-out;
+}
+
+/* BUTTONS */
+
+.standardButton {
+	margin-left: 15px;
+	margin-right: 15px;
+	padding: 0.5em 1.3em;
+	border-radius: 10px;
+	color: white;
+	font-size: 1em;
+	outline: none;
+}
+
+.goodButton {
+	background-color: var(--orange);
+	border: 4px solid var(--orange);
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.badButton {
+	background-color: transparent;
+	border: 4px solid var(--red);
+	font-weight: 400;
+	cursor: pointer;
+}
+
+.standardButton:hover {
+	transition: 0.2s box-shadow easy-in-out;
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.badButton:hover {
+	transition: 0.2s background-color easy-in-out;
+	background-color: var(--red);
 }
 
 /* CATEGORY SELECT */
@@ -221,6 +275,7 @@ body {
 .movieImg {
 	height: 285px;
 	width: 190px;
+	object-fit: cover;
 	outline: var(--imgOutline) 10px solid;
 }
 

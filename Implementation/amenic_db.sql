@@ -276,7 +276,7 @@ CREATE TABLE `Rooms` (
 --
 
 INSERT INTO `rooms`(`name`, `email`, `numberOfRows`, `seatsInRow`) VALUES
-('Sala 1','cinemaMail',8,10);
+('Sala 1', 'cinemaMail', 8, 10);
 
 -- --------------------------------------------------------
 
@@ -295,7 +295,7 @@ CREATE TABLE `RoomTechnologies` (
 --
 
 INSERT INTO `roomtechnologies`(`name`, `email`, `idTech`) VALUES
-('Sala 1','cinemaMail',1);
+('Sala 1', 'cinemaMail', 1);
 
 -- --------------------------------------------------------
 
@@ -364,7 +364,9 @@ INSERT INTO `Users` (`email`, `password`, `image`) VALUES
 ('andrija@gmail.com', 'root', NULL),
 ('cinemaMail', 'cinemaPSWD', ''),
 ('martin@gmail.com', 'root', NULL),
-('milos@gmail.com', 'root', NULL);
+('milos@gmail.com', 'root', NULL),
+('radnik@gmail.com', 'root', NULL),
+('dileja@gmail.com', 'root', NULL);
 
 -- --------------------------------------------------------
 
@@ -390,6 +392,14 @@ CREATE TABLE `Workers` (
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Workers`
+--
+
+INSERT INTO `Workers`(`email`, `idCinema`, `firstName`, `lastName`) VALUES
+('radnik@gmail.com','cinemaMail','Radoslav','Radni'),
+('dileja@gmail.com','cinemaMail','Nenad','Neradni');
 
 --
 -- Indexes for dumped tables

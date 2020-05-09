@@ -6,5 +6,5 @@ class WorkerModel extends Model
 {
     protected $table = 'Workers';
     protected $primaryKey= 'email';
-    protected $returnType= 'object';    
+    protected $returnType= 'App\Entities\Worker';
 }
