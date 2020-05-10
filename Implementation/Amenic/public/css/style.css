@@ -96,13 +96,15 @@ body {
 	align-self: center;
 }
 
-.icon svg, .icon img {
+.icon svg,
+.icon img {
 	height: 1em;
 	width: 1em;
 	fill: currentColor;
 }
 
-.icon.baseline svg, .icon img {
+.icon.baseline svg,
+.icon img {
 	top: 0.125em;
 	position: relative;
 }
@@ -161,7 +163,8 @@ body {
 	top: 0;
 	bottom: 0;
 	width: 20px;
-	background: url(../assets/MoviesPage/imgs/search.svg) center / contain no-repeat;
+	background: url(../assets/MoviesPage/imgs/search.svg) center / contain
+		no-repeat;
 }
 
 .search {
@@ -177,7 +180,8 @@ body {
 	transition: border 0.2s ease-in-out;
 }
 
-.search:focus, .search:hover {
+.search:focus,
+.search:hover {
 	border: rgba(255, 255, 255, 0.8) 1px solid;
 	transition: border 0.2s ease-in-out;
 }
@@ -256,7 +260,6 @@ body {
 	transition: 0.2s background-color easy-in-out;
 	background-color: var(--red);
 }
-
 
 /* WRAPPERS */
 
@@ -529,7 +532,7 @@ body {
 	font-weight: 700;
 	align-self: flex-start;
 	margin-bottom: 0.5em;
-	width:100%;
+	width: 100%;
 	display: flex;
 }
 
@@ -783,7 +786,8 @@ body {
 	margin-bottom: 0.1em;
 }
 
-.formWrapper input, .formWrapper textarea {
+.formWrapper input,
+.formWrapper textarea {
 	width: 100%;
 	font-family: "Nunito";
 	font-weight: 500;
@@ -867,7 +871,8 @@ body {
 	height: 100%;
 }
 
-.formWrapper input:focus, .formWrapper textarea:focus {
+.formWrapper input:focus,
+.formWrapper textarea:focus {
 	border: 2px solid var(--orange);
 	transition: 0.2s border ease-in-out;
 }
@@ -1147,7 +1152,7 @@ body {
 	padding: 0.5em 1em;
 }
 
-.userPicture>img {
+.userPicture > img {
 	width: auto;
 	height: 90% !important;
 	min-height: 120px;
@@ -1155,7 +1160,6 @@ body {
 	min-width: 120px;
 	border: 4px solid var(--imgOutline);
 	border-radius: 50%;
-
 }
 
 .editWrapper {
@@ -1167,7 +1171,7 @@ body {
 	background-color: var(--deepPurple);
 }
 
-.editWrapper>button {
+.editWrapper > button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -1185,7 +1189,7 @@ body {
 	border-radius: 0px 10px 10px 0px !important;
 }
 
-.binWrapper>button {
+.binWrapper > button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -1228,7 +1232,8 @@ body {
 	align-self: flex-start;
 }
 
-.settingsForm input[type="text"], .settingsForm input[type="password"] {
+.settingsForm input[type="text"],
+.settingsForm input[type="password"] {
 	border-radius: 4px 4px 4px 4px;
 	margin: 2px;
 	padding: 10px;
@@ -1293,11 +1298,12 @@ body {
 	width: 70%;
 }
 
-#passwordNA, #passwordConfirmNA{
+#passwordNA,
+#passwordConfirmNA {
 	background-color: var(--lightPurple) !important;
 }
 
-.passwordRow{
+.passwordRow {
 	grid-column: span 3;
 	display: flex;
 	justify-content: space-between;
@@ -1392,15 +1398,12 @@ input[type="file"] {
 	font-size: 2em;
 	text-align: center;
 }
-    display: none;
-}
 
-.oneLine > label{
+.oneLine > label {
 	width: 40%;
 }
 
-
-.addAdminButton{
+.addAdminButton {
 	background-color: var(--orange);
 	height: 100%;
 	color: white;
@@ -1416,13 +1419,13 @@ input[type="file"] {
 	align-self: center;
 }
 
-.confirmModuleButtons{
+.confirmModuleButtons {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
 }
 
-.confirmModuleButtons > button{
+.confirmModuleButtons > button {
 	width: 30%;
 	margin: 15px;
 	border: 2px solid var(--orange);
@@ -1434,21 +1437,22 @@ input[type="file"] {
 	cursor: pointer;
 }
 
-.transparentBg{
+.transparentBg {
 	background-color: transparent !important;
 }
 
-.addAdminModalColumn{
+.addAdminModalColumn {
 	display: flex;
 	flex-direction: row !important;
 	justify-content: space-between;
 	width: 100%;
 }
 
-.addAdminModalColumn .modalColumn{
+.addAdminModalColumn .modalColumn {
 	width: 45%;
 }
 
-#addAdminModal, #loginModal{
+#addAdminModal,
+#loginModal {
 	display: none;
 }

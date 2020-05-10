@@ -1,8 +1,9 @@
 <button class="modalTrigger" onclick="document.getElementById('loginModal').classList.add('showModal');">
     Log in
 </button>
-<div class="modalWrapper <?php echo $loginError!=''?'showModal':''?>" id="loginModal" >
-    <div class="modal centerX">
+<div class="modalWrapper <?php echo $loginError!=''?'showModal':''?>" id="loginModal" 
+        onclick="document.getElementById('loginModal').classList.remove('showModal');">
+    <div class="modal centerX" id="loginModalInner">
         <form method="POST" action="/login">
             <div class="modalHead centerX spaceBetween">
                 <span>Log in</span>
@@ -40,3 +41,11 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById('loginModalInner').addEventListener(('click'), (e) => {
+        e.stopPropagation();
+        return false;
+    });
+
+</script>
