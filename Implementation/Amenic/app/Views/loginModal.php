@@ -4,7 +4,11 @@
 <div class="modalWrapper <?php echo $loginError!=''?'showModal':''?>" id="loginModal" >
     <div class="modal centerX">
         <form method="POST" action="/login">
-            <div class="modalHead">Log in</div>
+            <div class="modalHead centerX spaceBetween">
+                <span>Log in</span>
+                <img src="assets/close.svg" class="modalClose" alt="Close form" 
+                    onclick="document.getElementById('loginModal').classList.remove('showModal');"/>
+            </div>
             <div class="modalColumn">
                 <label for="email">E-mail</label>
                 <input type="text" id="email" name="email" />

@@ -529,6 +529,13 @@ body {
 	font-weight: 700;
 	align-self: flex-start;
 	margin-bottom: 0.5em;
+	width:100%;
+	display: flex;
+}
+
+.modalClose {
+	width: 0.5em;
+	cursor: pointer;
 }
 
 .modalColumn {

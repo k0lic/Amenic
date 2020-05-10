@@ -99,6 +99,8 @@ class Register extends BaseController {
                     return view("Registration/registerError", ['msg' => $e->getMessage()]);
                 }
                 
+                session_destroy();
+
                 return view("Registration/$type/".strtolower($type)."Success");
             }
 
