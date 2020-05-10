@@ -11,25 +11,37 @@ use \App\Models\AdminModel;
 use \App\Models\CinemaModel;
 
 use \Firebase\JWT\JWT;
+use PHPMailer\PHPMailer\PHPMailer;
 
 use Exception;
 
 use function App\Helpers\deleteCookie;
 use function App\Helpers\generateToken;
 use function App\Helpers\isValid;
+use function App\Helpers\sendMail;
 use function App\Helpers\setToken;
 
 class Login extends BaseController {
 
-    
+    public function clearErrors() {
+
+        helper('auth');
+        // Delete the error cookies
+        deleteCookie('resetError');
+        deleteCookie('loginError');
+
+        header('Location: /');
+        exit();
+    }
+
     public function reset($token) {
 
         helper('auth');
         
         $ret = isValid($token);
 
-        if(!$ret) {
-           return view('index.php');
+        if(!is_null($ret) || $ret) {
+           return view('PasswordReset/passwordReset.php', ['token' => $token, 'errors' => []]);
         }
 
         // Invalid reset link
@@ -37,9 +49,55 @@ class Login extends BaseController {
         exit();
     }
 
+    public function handleReset() {
+        if($_SERVER["REQUEST_METHOD"] != "POST") {
+            // Unauthorized GET request
+            header('Location: /register');
+            exit();
+        }
+
+        // Extract form data
+        $formData = [
+            'firstPassword' => $_POST['firstPassword'],
+            'secondPassword' => $_POST['secondPassword']
+        ];
+
+        // Load helpers
+        helper(['form', 'url', 'auth']);
+        $validation =  \Config\Services::validation();
+
+        $ret = $validation->run($formData, "passwordCheck");
+
+        if($ret == 1) {
+            // Everything is ok, update the DB
+            $ret = isValid($_POST['token']);
+            try {
+
+                $userModel = new UserModel();
+                $user = $userModel->find($ret->email);
+
+                // Hash the password with Bcrypt
+                $password = password_hash($formData['firstPassword'], PASSWORD_BCRYPT, ['cost' => 8]); 
+
+                // Save to the DB
+                $user->password = $password;
+                $userModel->save($user);
+                
+            } catch(Exception $e) {
+                return view('PasswordReset/passwordResetFatal.php');
+            }
+        } else {
+            return view('PasswordReset/passwordReset.php', ['token' => $_POST['token'], 'errors' => $validation->getErrors()]);
+        }
+        // Delete the login error cookie
+        $this->clearErrors();
+
+        return view ('PasswordReset/passwordResetSuccess.php');
+    }
+
     public function forgot() {
 
-        helper('auth');
+        helper(['auth', 'mailer']);
 
         $formData = $_POST;
         $email = $formData['email'];
@@ -61,20 +119,18 @@ class Login extends BaseController {
             $token = generateToken($tokenPayload);
             
             // Email the link to the user
-            $to = $email;
             $subject = 'Amenic - Password reset';
-            $message = "Dear user, <br /> Someone has requested a password reset for your account. If this wasn't you, please ignore this message. <br /> To reset the password, please follow the link below: <br/>
-            localhost:8080/login/reset/$token
+            $message = "Dear user, <br /> Someone has requested a password reset for your account. If this wasn't you, please ignore this message. <br /> <br />To reset the password, follow the link below: <br/>
+            <a href=\"http://localhost:8080/login/reset/$token\">Password reset</a>
             ";
-            $from = 'noreply@amenic.com';
 
-            if(!mail($to, $subject, $message)) {
-                throw new Exception('Unable to send email, please try again');
-            }
+            if(!sendMail($email, $subject, $message)) {
+                throw new Exception("Mail count not be sent");
+            } 
 
         } catch(Exception $e) {
             // Cookie expires in 5min.
-            setcookie('resetError', $e->getMessage(), time()+300);
+            setcookie('resetError', $e->getMessage(), time()+300, '/');
             $_COOKIE['resetError'] = $e->getMessage();
 
             header('Location: /');
@@ -146,7 +202,7 @@ class Login extends BaseController {
         } catch(Exception $e) {
 
             // Cookie expires in 5min.
-            setcookie('loginError', $e->getMessage(), time()+300);
+            setcookie('loginError', $e->getMessage(), time()+300, '/');
             $_COOKIE['loginError'] = $e->getMessage();
 
             header('Location: /');
@@ -154,7 +210,7 @@ class Login extends BaseController {
         }
 
         // Delete the login error cookie
-        deleteCookie('loginError');
+        $this->clearErrors();
 
         header('Location: /');
         exit();

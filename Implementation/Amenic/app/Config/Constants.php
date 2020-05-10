@@ -79,3 +79,5 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125); // highest auto
 // AUTH CONSTANTS //
 
 defined('jwtSecret') || define('jwtSecret', '__drazenRocks__');
+defined('amenicEmail') || define('amenicEmail', 'amenicetf@gmail.com');
+defined('amenicPassword') || define('amenicPassword', '@m3n!c3tf');

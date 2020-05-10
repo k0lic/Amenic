@@ -11,7 +11,7 @@ use function App\Helpers\isValid;
 
 	$resetError = '';
 	if(isset($_COOKIE['resetError'])) {
-		$resetError = $_COOKIE['reserError'];
+		$resetError = $_COOKIE['resetError'];
 	}
 
 	$user = null;

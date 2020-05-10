@@ -590,7 +590,8 @@ body {
 	flex-direction: column !important;
 }
 
-.loginLinks a {
+.loginLinks a,
+.loginLinks span {
 	text-decoration: none !important;
 	color: var(--orange) !important;
 	margin-top: 0.3em !important;
@@ -602,8 +603,13 @@ body {
 	font-size: 0.9em !important;
 }
 
-.loginLinks a span:hover {
+.loginLinks a span:hover,
+.loginLinks span:hover {
 	border-bottom: 1px solid var(--orange) !important;
+}
+
+.loginLinks span {
+	cursor: pointer;
 }
 
 .modalButton {
@@ -651,8 +657,16 @@ body {
 	cursor: pointer;
 }
 
+#passResetInner {
+	display: none;
+}
+
 .showModal {
 	display: block !important;
+}
+
+.hideModal {
+	display: none !important;
 }
 
 /* NEW REGISTRATION */
@@ -1402,6 +1416,16 @@ input[type="file"] {
 	font-weight: 700;
 	font-size: 2em;
 	text-align: center;
+}
+
+.resetTitle {
+	font-weight: 800;
+	font-size: 4em;
+}
+
+.resetSubtitle {
+	font-weight: 500;
+	font-size: 2em;
 }
 
 .oneLine > label {

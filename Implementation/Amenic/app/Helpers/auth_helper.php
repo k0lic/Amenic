@@ -28,7 +28,11 @@ if(!function_exists('isAuthenticated')) {
 
     function isAuthenticated($type) {
         if(isset($_COOKIE['token'])) {
-            return isValid($_COOKIE['token'])->type == $type;
+
+            $ret = isValid($_COOKIE['token']);
+            if($ret == false) return false;
+
+            return $ret->type == $type;
         }
     
         return false;
@@ -51,6 +55,7 @@ if(!function_exists('setToken')) {
     }
 
 }
+
 if(!function_exists('wipeToken')) {
 
     // Destroy the cookie
