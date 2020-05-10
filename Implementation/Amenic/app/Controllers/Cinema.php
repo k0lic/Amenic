@@ -11,6 +11,7 @@ use App\Models\WorkerModel;
 use App\Models\TechnologyModel;
 use App\Models\ProjectionModel;
 use App\Models\MovieModel;
+use App\Models\RoomTechnologyModel;
 use App\Entities\Room;
 use Exception;
 
@@ -59,10 +60,34 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddMovie.php",["rooms" => $rooms,"technologies" => $technologies,"target" => $projection,"targetName" => $movie->title,"optionPrimary" => 0]);
     }
 
+    public function editComingSoon()
+    {
+        throw new Exception("Not yet implemented!");
+    }
+
     public function addRoom()
     {
         $technologies = (new TechnologyModel())->findAll();
         return view("Cinema/CinemaAddRoom.php",["technologies" => $technologies,"optionPrimary" => 1]);
+    }
+
+    public function editRoom($name)
+    {
+        $name = str_replace("%20"," ",$name);
+        $technologies = (new TechnologyModel())->findAll();
+        $targetTechnologies = (new RoomTechnologyModel())->where("email",$this->userMail)->where("name",$name)->findColumn("idTech");
+        $room = (new RoomModel())->where("email",$this->userMail)->where("name",$name)->findAll();
+        return view("Cinema/CinemaAddRoom.php",["technologies" => $technologies,"target" => $room[0],"targetTechnologies" => $targetTechnologies,"optionPrimary" => 1]);
+    }
+
+    public function actionAddMovie()
+    {
+        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+    }
+
+    public function actionCancelMovie()
+    {
+        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
     }
 
     public function actionAddRoom()
@@ -106,7 +131,7 @@ class Cinema extends BaseController
 
     public function actionRemoveRoom()
     {
-
+        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
     }
 }
 

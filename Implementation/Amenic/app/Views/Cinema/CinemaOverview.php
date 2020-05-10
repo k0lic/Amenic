@@ -125,11 +125,11 @@
                                 // MOVIES THAT ARE PLAYING NOW
                                 echo
                                 ("
-                                    <a href=\"/Cinema/EditMovie/".$item["projection"]->idPro."\">
-                                        <div class=\"movieImgExtended coolLink centerY column\">
+                                    <a class=\"coolLink\" href=\"/Cinema/EditMovie/".$item["projection"]->idPro."\">
+                                        <div class=\"movieImgExtended centerY column\">
                                             <img src=\"".$item["poster"]."\" class=\"movieImg\" />
                                             <div class=\"movieImgText row w80 mt-1 spaceBetween\">
-                                                <div class=\"removeDefaultLinkStyle\">".$item["projection"]->roomName."</div>
+                                                <div>".$item["projection"]->roomName."</div>
                                                 <div>".date("D H:i", strtotime($item["projection"]->dateTime))."</div>
                                             </div>
                                         </div>
@@ -150,12 +150,14 @@
                             // ROOMS OF THE CINEMA
                             echo
                             ("
-                                <div class=\"movieImgExtended centerY column\">
-                                    <img src=\"/assets/Cinema/room.jpg\" class=\"movieImg\" />
-                                    <div class=\"movieImgText row w80 mt-1 centerRow\">
-                                        <div>".$item->name."</div>
+                                <a class=\"coolLink\" href=\"/Cinema/EditRoom/".$item->name."\"</a>
+                                    <div class=\"movieImgExtended centerY column\">
+                                        <img src=\"/assets/Cinema/room.jpg\" class=\"movieImg\" />
+                                        <div class=\"movieImgText row w80 mt-1 centerRow\">
+                                            <div>".$item->name."</div>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             ");
                         }
                         else

@@ -292,20 +292,33 @@ body {
 }
 
 .coolLink {
-	text-decoration: none;
+	color: white !important;
+	text-decoration: none !important;
 }
 
 .coolLink:hover {
-	text-decoration: none;
 	transition: 0.2s box-shadow easy-in-out;
 	box-shadow: 0px 2px 5px var(--orange);
 }
+/*
+.movies a {
+	color: white !important;
+	text-decoration: none !important;
+}
 
-.removeDefaultLinkStyle {
-	color: green;
-	text-decoration-style: wavy;
-	text-decoration-color: red;
-	text-decoration-line: overline;
+.movies a:active {
+	color: white !important;
+	text-decoration: none !important;
+}
+
+.list a {
+	color: white !important;
+	text-decoration: none !important;
+}
+
+.list a:active {
+	color: white !important;
+	text-decoration: none !important;
 }
 
 /* WRAPPERS */
