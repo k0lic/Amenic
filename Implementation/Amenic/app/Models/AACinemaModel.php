@@ -9,6 +9,10 @@ use CodeIgniter\Model;
 use App\Models\MovieModel;
 use App\Models\ProjectionModel;
 use App\Models\ComingSoonModel;
+use App\Models\RoomModel;
+use App\Models\RoomTechnologyModel;
+use App\Entities\RoomTechnology;
+use Exception;
 
 class AACinemaModel extends Model
 {
@@ -78,6 +82,46 @@ class AACinemaModel extends Model
             array_push($results,$res);
         }
         return $results;
+    }
+
+    public function addRoom($room,$technologies)
+    {
+        try
+        {
+            $this->db->transBegin();
+            (new RoomModel())->insert($room);
+            $rtm = new RoomTechnologyModel();
+            foreach ($technologies as $tech)
+            {
+                $roomTech = new RoomTechnology([
+                    "name" => $room->name,
+                    "email" => $room->email,
+                    "idTech" => $tech
+                ]);
+                $rtm->insert($roomTech);
+            }
+            $this->db->transCommit();
+        }
+        catch (Exception $e)
+        {
+            $this->db->transRollback();
+            throw new Exception("AACinemaModel.addRoom() failed!<br/>".$e->getMessage());
+        }
+    }
+
+    public function changeRoom($email,$oldName,$room,$technologies)
+    {
+        try
+        {
+            $this->db->transBegin();
+            throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+            $this->db->transCommit();
+        }
+        catch (Exception $e)
+        {
+            $this->db->transRollback();
+            throw new Exception("AACinemaModel.changeRoom() failed!<br/>".$e->getMessage());
+        }
     }
 
 }

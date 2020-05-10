@@ -9,4 +9,5 @@ class RoomModel extends Model
     protected $table = 'Rooms';
     protected $primaryKey= 'email';
     protected $returnType= 'App\Entities\Room';
+    protected $allowedFields = ['name','email','numberOfRows','seatsInRow'];
 }

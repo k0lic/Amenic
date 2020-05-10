@@ -12,7 +12,7 @@ class ProjectionModel extends Model
     protected $table = 'Projections';
     protected $primaryKey= 'idPro';
     protected $returnType= 'App\Entities\Projection';   
-    protected $allowedFields = ['roomName','email','dateTime','price','canceled','tmdbID','idTech'];     
+    protected $allowedFields = ['idPro','roomName','email','dateTime','price','canceled','tmdbID','idTech'];     
 
     public function findAllProjectionsOfMyCinema($cinemaEmail)
     {

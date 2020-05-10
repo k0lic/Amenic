@@ -8,5 +8,7 @@ class RoomTechnologyModel extends Model
     #find($id)–findAll()–findAll($limit, $offset)–first()–where($name, $value)–insert($data)–update($id, $data)–save($data)–delete($id)
     protected $table = 'RoomTechnologies';
     protected $primaryKey= 'email';
-    protected $returnType= 'object';    
+    protected $returnType= 'App\Entities\RoomTechnology';
+    protected $allowedFields = ['name','email','idTech'];
+     
 }
