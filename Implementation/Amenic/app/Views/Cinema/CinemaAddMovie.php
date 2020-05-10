@@ -111,11 +111,6 @@
                                     <?php
 
                                         $days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-                                        /*$today = date("d-m-Y");
-                                        $arr = explode("-",$today);
-                                        $currentDay = $arr[0];
-                                        $currentMonth = $arr[1];
-                                        $currentYear = $arr[2];*/
                                         $now = strtotime("today");
                                         $start = $now;
                                         $day = date("w",$start);
