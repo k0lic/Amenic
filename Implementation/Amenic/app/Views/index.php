@@ -9,6 +9,11 @@ use function App\Helpers\isValid;
 		$loginError = $_COOKIE['loginError'];
 	}
 
+	$resetError = '';
+	if(isset($_COOKIE['resetError'])) {
+		$resetError = $_COOKIE['reserError'];
+	}
+
 	$user = null;
 
 	if(isset($_COOKIE['token'])) {

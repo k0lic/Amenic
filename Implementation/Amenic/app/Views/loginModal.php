@@ -39,6 +39,31 @@
                 </button>
             </div>
         </form>
+        <!--
+        <form method="POST" action="/login/forgot">
+            <div class="modalHead centerX spaceBetween">
+                <span class="mr-2">Account recovery</span>
+                <img src="assets/close.svg" class="modalClose" alt="Close form" 
+                    onclick="document.getElementById('loginModal').classList.remove('showModal');"/>
+            </div>
+            <div class="modalColumn">
+                <label for="email">E-mail</label>
+                <input type="text" id="email" name="email" />
+            </div>
+
+            <div class="modalRow mt-1 formError">
+                <?php //echo $resetError ?>
+            </div>
+
+            <div class="modalRow centerY modalBottom mt-2">
+
+                <button type="submit" name="signin" class="modalButton forgotPasswordButton">
+                    Reset password
+                </button>
+            </div>
+        </form>
+        -->
+
     </div>
 </div>
 

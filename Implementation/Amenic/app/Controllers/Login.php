@@ -14,13 +14,79 @@ use \Firebase\JWT\JWT;
 
 use Exception;
 
+use function App\Helpers\deleteCookie;
 use function App\Helpers\generateToken;
+use function App\Helpers\isValid;
 use function App\Helpers\setToken;
 
 class Login extends BaseController {
 
+    
+    public function reset($token) {
+
+        helper('auth');
+        
+        $ret = isValid($token);
+
+        if(!$ret) {
+           return view('index.php');
+        }
+
+        // Invalid reset link
+        header('Location: /');
+        exit();
+    }
+
     public function forgot() {
-        echo "I forgot the password!";
+
+        helper('auth');
+
+        $formData = $_POST;
+        $email = $formData['email'];
+
+        try {
+
+            $userModel = new UserModel();
+            $user = $userModel->find($email);
+
+            if(is_null($user)) {
+                throw new Exception("No user with this email exists");
+            }
+
+            // Generate the token for the email
+            $tokenPayload = [
+                'email' => $user->email
+            ];
+
+            $token = generateToken($tokenPayload);
+            
+            // Email the link to the user
+            $to = $email;
+            $subject = 'Amenic - Password reset';
+            $message = "Dear user, <br /> Someone has requested a password reset for your account. If this wasn't you, please ignore this message. <br /> To reset the password, please follow the link below: <br/>
+            localhost:8080/login/reset/$token
+            ";
+            $from = 'noreply@amenic.com';
+
+            if(!mail($to, $subject, $message)) {
+                throw new Exception('Unable to send email, please try again');
+            }
+
+        } catch(Exception $e) {
+            // Cookie expires in 5min.
+            setcookie('resetError', $e->getMessage(), time()+300);
+            $_COOKIE['resetError'] = $e->getMessage();
+
+            header('Location: /');
+            exit();
+        }
+
+        // Delete the reset error cookie
+        deleteCookie('resetError');
+
+        header('Location: /');
+        exit();
+
     }
 
     public function index() {
@@ -88,10 +154,7 @@ class Login extends BaseController {
         }
 
         // Delete the login error cookie
-        setcookie('loginError', null, time() - 3600, '/');
-        if(isset($_COOKIE['loginError'])) {
-            unset($_COOKIE['loginError']);
-        }
+        deleteCookie('loginError');
 
         header('Location: /');
         exit();

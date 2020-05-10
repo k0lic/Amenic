@@ -70,3 +70,14 @@ if(!function_exists('generateToken')) {
     }
 
 }
+
+if(!function_exists('deleteCookie')) {
+
+    function deleteCookie($name) {
+        setcookie($name, null, time() - 3600, '/');
+        if(isset($_COOKIE[$name])) {
+            unset($_COOKIE[$name]);
+        }
+    }
+    
+}

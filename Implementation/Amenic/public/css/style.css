@@ -316,7 +316,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	margin: 3em auto;
-	width: 25%;
+	min-width: 25%;
+	max-width: 30%;
 	height: auto;
 	padding: 2em;
 	background-color: var(--imgOutline);
@@ -617,6 +618,10 @@ body {
 	text-align: center;
 	cursor: pointer;
 	align-self: center;
+}
+
+.forgotPasswordButton {
+	margin: 0 0 0 auto;
 }
 
 .modalWrapper {
