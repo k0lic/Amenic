@@ -12,10 +12,13 @@
 	</head>
 	<body>
         <div class="container">
+            <!-- SIDE NAVBAR -->
             <div class="menuBar">
                 <a href="/"><img src="/assets/logo.svg" class="logo" alt="Amenic" /></a>
+                <!-- NAV ITEMS -->
                 <ul class="nav">
                     <li>
+                        <!-- MOVIES -->
                         <?php 
                             if (!isset($optionPrimary) || $optionPrimary==0)
                                 echo "<div class=\"activeMenuText\">Movies</div>";
@@ -24,6 +27,7 @@
                         ?>
                     </li>
                     <li>
+                        <!-- ROOMS -->
                         <?php 
                             if (isset($optionPrimary) && $optionPrimary==1)
                                 echo "<div class=\"activeMenuText\">Rooms</div>";
@@ -32,6 +36,7 @@
                         ?>
                     </li>
                     <li>
+                        <!-- EMPLOYEES -->
                         <?php 
                             if (isset($optionPrimary) && $optionPrimary==2)
                                 echo "<div class=\"activeMenuText\">Employees</div>";
@@ -40,6 +45,7 @@
                         ?>
                     </li>
                 </ul>
+                <!-- SETTINGS -->
                 <a href="#">
                     <div class="icon baseline">
                         <svg width="48" height="48" viewBox="0 0 512 512">
@@ -54,8 +60,10 @@
                     Settings
                 </a>
             </div>
+            <!-- CONTENT -->
             <div class="moviesWrapper">
                 <div class="topBar">
+                    <!-- SEARCH BAR -->
                     <form class="searchForm">
                         <label>
                             <input type="text" placeholder="Search something" class="search" name="title" />
@@ -65,21 +73,24 @@
                         <input type="hidden" id="optionSecondary" name="optionSecondary" value="<?php if(isset($optionSecondary)) echo $optionSecondary;?>" />
 						
                     </form>
+                    <!-- ADD SOMETHING BUTTON -->
                     <div class="row ml-2">
                         <div class="column">
                             <?php
-                                $action = !isset($optionPrimary) || $optionPrimary == 0 ? "/Cinema/AddMovie" : ($optionPrimary == 1 ? "/Cinema/Rooms" : "/Cinema/Employees");
+                                $action = !isset($optionPrimary) || $optionPrimary == 0 ? "/Cinema/AddMovie" : ($optionPrimary == 1 ? "/Cinema/AddRoom" : "/Cinema/Employees");
                                 $name = !isset($optionPrimary) || $optionPrimary == 0 ? "Add movie" : ($optionPrimary == 1 ? "Add room" : "Add employee");
                                 $button = "<form action=\"".$action."\"><button type=\"submit\" class=\"standardButton goodButton\">".$name."</button></form>";
                                 echo $button;
                             ?>
 						</div>
                     </div>
+                    <!-- PROFILE PICTURE AND NAME -->
                     <div class="user">
                         <img src="/assets/profPic.png" class="profPic" alt="Profile picture" />
                         <span>Lošmi</span>
                     </div>
                 </div>
+                <!-- SECONDARY NAV BAR (FOR MOVIES) -->
                 <?php
                     if (!isset($optionPrimary) || $optionPrimary==0)
                     {
@@ -97,6 +108,7 @@
                         echo $print;
                     }  
                 ?>
+                <!-- ACTUAL CONTENT OF THE PAGE -->
                 <?php
 
                     $wrapper = isset($optionPrimary) && $optionPrimary == 2 ? "list" : "movies";
@@ -110,19 +122,23 @@
                         {
                             if (!isset($optionSecondary) || $optionSecondary == 0)
                             {
+                                // MOVIES THAT ARE PLAYING NOW
                                 echo
                                 ("
-                                    <div class=\"movieImgExtended centerY column\">
-                                        <img src=\"".$item["poster"]."\" class=\"movieImg\" />
-                                        <div class=\"movieImgText row w80 mt-1 spaceBetween\">
-                                            <div>".$item["projection"]->roomName."</div>
-                                            <div>".date("D H:i", strtotime($item["projection"]->dateTime))."</div>
+                                    <a href=\"/Cinema/EditMovie/".$item["projection"]->idPro."\">
+                                        <div class=\"movieImgExtended coolLink centerY column\">
+                                            <img src=\"".$item["poster"]."\" class=\"movieImg\" />
+                                            <div class=\"movieImgText row w80 mt-1 spaceBetween\">
+                                                <div class=\"removeDefaultLinkStyle\">".$item["projection"]->roomName."</div>
+                                                <div>".date("D H:i", strtotime($item["projection"]->dateTime))."</div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 ");
                             }
                             else
                             {
+                                // MOVIES THAT ARE COMING SOON
                                 echo
                                 ("
                                     <img src=\"".$item["poster"]."\" class=\"movieImg\" />
@@ -131,6 +147,7 @@
                         }
                         else if ($optionPrimary == 1)
                         {
+                            // ROOMS OF THE CINEMA
                             echo
                             ("
                                 <div class=\"movieImgExtended centerY column\">
@@ -143,6 +160,7 @@
                         }
                         else
                         {
+                            // WORKERS OF THE CINEMA
                             $workerDiv =
                             "
                                 <form method=\"POST\" class=\"rowWrapper\">

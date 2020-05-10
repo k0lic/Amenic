@@ -96,15 +96,13 @@ body {
 	align-self: center;
 }
 
-.icon svg,
-.icon img {
+.icon svg, .icon img {
 	height: 1em;
 	width: 1em;
 	fill: currentColor;
 }
 
-.icon.baseline svg,
-.icon img {
+.icon.baseline svg, .icon img {
 	top: 0.125em;
 	position: relative;
 }
@@ -163,8 +161,7 @@ body {
 	top: 0;
 	bottom: 0;
 	width: 20px;
-	background: url(../assets/MoviesPage/imgs/search.svg) center / contain
-		no-repeat;
+	background: url(../assets/MoviesPage/imgs/search.svg) center / contain no-repeat;
 }
 
 .search {
@@ -180,8 +177,7 @@ body {
 	transition: border 0.2s ease-in-out;
 }
 
-.search:focus,
-.search:hover {
+.search:focus, .search:hover {
 	border: rgba(255, 255, 255, 0.8) 1px solid;
 	transition: border 0.2s ease-in-out;
 }
@@ -259,6 +255,57 @@ body {
 .badButton:hover {
 	transition: 0.2s background-color easy-in-out;
 	background-color: var(--red);
+}
+
+.formWrapper .standardButton {
+	margin-left: 15px;
+	margin-right: 15px;
+	padding: 0.5em 1.3em;
+	border-radius: 10px;
+	color: white;
+	font-size: 1em;
+	outline: none;
+}
+
+.formWrapper .goodButton {
+	background-color: var(--orange);
+	border: 4px solid var(--orange);
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.formWrapper .badButton {
+	background-color: transparent;
+	border: 4px solid var(--red);
+	font-weight: 400;
+	cursor: pointer;
+}
+
+.formWrapper .standardButton:hover {
+	transition: 0.2s box-shadow easy-in-out;
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.formWrapper .badButton:hover {
+	transition: 0.2s background-color easy-in-out;
+	background-color: var(--red);
+}
+
+.coolLink {
+	text-decoration: none;
+}
+
+.coolLink:hover {
+	text-decoration: none;
+	transition: 0.2s box-shadow easy-in-out;
+	box-shadow: 0px 2px 5px var(--orange);
+}
+
+.removeDefaultLinkStyle {
+	color: green;
+	text-decoration-style: wavy;
+	text-decoration-color: red;
+	text-decoration-line: overline;
 }
 
 /* WRAPPERS */
@@ -764,7 +811,6 @@ body {
 	-webkit-clip-path: circle(35% at 50% 50%);
 	clip-path: circle(35% at 50% 50%);
 	font-weight: 300;
-
 	transition: 0.2s background-color ease-in-out;
 }
 
@@ -805,8 +851,7 @@ body {
 	margin-bottom: 0.1em;
 }
 
-.formWrapper input,
-.formWrapper textarea {
+.formWrapper input, .formWrapper textarea {
 	width: 100%;
 	font-family: "Nunito";
 	font-weight: 500;
@@ -875,6 +920,17 @@ body {
 	outline: none;
 }
 
+.centerItalic {
+	text-align: center;
+	font-style: italic;
+	font-weight: 100;
+}
+
+.centerSeatLabels {
+	text-align: center;
+	line-height: 30px;
+}
+
 .formWrapper .selectedDay {
 	color: var(--orange);
 	box-shadow: 0px 2px 5px 3px var(--orange);
@@ -890,8 +946,7 @@ body {
 	height: 100%;
 }
 
-.formWrapper input:focus,
-.formWrapper textarea:focus {
+.formWrapper input:focus, .formWrapper textarea:focus {
 	border: 2px solid var(--orange);
 	transition: 0.2s border ease-in-out;
 }
@@ -983,6 +1038,31 @@ body {
 	border-radius: 10px;
 	color: white;
 	text-align: center;
+}
+
+.seat {
+	/*width: 20px;
+	height: 20px;*/
+	width: 80%;
+	height: 80%;
+	align-self: center;
+	border-radius: 4px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--formInput);
+}
+
+.screen {
+	width: 100%;
+	height: 12px;
+	background-color: white;
+}
+
+.screenText {
+	text-align: center;
+	font-size: 0.8em;
+	font-weight: 300;
+	margin-bottom: 0.3em;
 }
 
 #strengthBarTitle {
@@ -1171,7 +1251,7 @@ body {
 	padding: 0.5em 1em;
 }
 
-.userPicture > img {
+.userPicture>img {
 	width: auto;
 	height: 90% !important;
 	min-height: 120px;
@@ -1190,7 +1270,7 @@ body {
 	background-color: var(--deepPurple);
 }
 
-.editWrapper > button {
+.editWrapper>button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -1208,7 +1288,7 @@ body {
 	border-radius: 0px 10px 10px 0px !important;
 }
 
-.binWrapper > button {
+.binWrapper>button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -1251,8 +1331,7 @@ body {
 	align-self: flex-start;
 }
 
-.settingsForm input[type="text"],
-.settingsForm input[type="password"] {
+.settingsForm input[type="text"], .settingsForm input[type="password"] {
 	border-radius: 4px 4px 4px 4px;
 	margin: 2px;
 	padding: 10px;
@@ -1317,8 +1396,7 @@ body {
 	width: 70%;
 }
 
-#passwordNA,
-#passwordConfirmNA {
+#passwordNA, #passwordConfirmNA {
 	background-color: var(--lightPurple) !important;
 }
 
@@ -1329,12 +1407,12 @@ body {
 	min-height: 60px;
 }
 
-.passwordRow > div {
+.passwordRow>div {
 	width: 45%;
 	margin: 0px;
 }
 
-.passwordRow > div input[type="text"] {
+.passwordRow>div input[type="text"] {
 	width: 100%;
 }
 
@@ -1353,7 +1431,7 @@ body {
 	max-width: 250px;
 }
 
-.adminPicture > img {
+.adminPicture>img {
 	border-radius: 50%;
 	width: 50% !important;
 	margin-bottom: 10px;
@@ -1400,10 +1478,8 @@ input[type="file"] {
 .notFoundWrapper {
 	width: 100%;
 	height: 100vh;
-
 	background-size: cover;
 	background-image: url("../assets/404/404BG.jpg");
-
 	color: white;
 }
 
@@ -1444,7 +1520,6 @@ input[type="file"] {
 	border-radius: 8px;
 	text-align: center;
 	cursor: pointer;
-
 	align-self: center;
 }
 
@@ -1454,7 +1529,7 @@ input[type="file"] {
 	width: 100%;
 }
 
-.confirmModuleButtons > button {
+.confirmModuleButtons>button {
 	width: 30%;
 	margin: 15px;
 	border: 2px solid var(--orange);
@@ -1481,7 +1556,6 @@ input[type="file"] {
 	width: 45%;
 }
 
-#addAdminModal,
-#loginModal {
+#addAdminModal, #loginModal {
 	display: none;
 }

@@ -7,16 +7,27 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-		<title>Amenic - My cinema</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <!-- TITLE -->
+		<title>
+            <?php
+                if (isset($target) || isset($halfTarget)) {
+                    echo "Amenic - Edit projection";
+                } else {
+                    echo "Amenic - New projection";
+                }
+            ?>
+        </title>
 	</head>
 	<body>
         <div class="container">
+            <!-- SIDE NAVBAR -->
             <div class="menuBar">
                 <a href="/"><img src="/assets/logo.svg" class="logo" alt="Amenic" /></a>
-                
+                <!-- NAV ITEMS -->
                 <ul class="nav">
                     <li>
+                        <!-- MOVIES -->
                         <?php 
                             if (!isset($optionPrimary) || $optionPrimary==0)
                                 echo "<a href=\"/Cinema\" class=\"activeMenu\">Movies</a>";
@@ -25,6 +36,7 @@
                         ?>
                     </li>
                     <li>
+                        <!-- ROOMS -->
                         <?php 
                             if (isset($optionPrimary) && $optionPrimary==1)
                                 echo "<a href=\"/Cinema/Rooms\" class=\"activeMenu\">Rooms</a>";
@@ -33,6 +45,7 @@
                         ?>
                     </li>
                     <li>
+                        <!-- EMPLOYEES -->
                         <?php 
                             if (isset($optionPrimary) && $optionPrimary==2)
                                 echo "<a href=\"/Cinema/Employees\" class=\"activeMenu\">Employees</a>";
@@ -41,7 +54,7 @@
                         ?>
                     </li>
                 </ul>
-
+                <!-- SETTINGS -->
                 <a href="#">
                     <div class="icon baseline">
                         <svg width="48" height="48" viewBox="0 0 512 512">
@@ -56,9 +69,10 @@
                     Settings
                 </a>
             </div>
+            <!-- CONTENT -->
             <div class="emptyWrapper">
+                <!-- PROFILE PICTURE AND NAME -->
                 <div class="accountWrapper">
-
                     <div class="topBar">
                         <div></div>
                         <div class="user">
@@ -66,19 +80,48 @@
                             <span>Lošmi</span>
                         </div>
                     </div>
-
                 </div>
+                <!-- FORM -->
                 <div class="formWrapper">
-                    <form>
-                        <h1 class="formTitle mb-3">Add movie</h1>
-
+                    <form method="POST">
+                        <!-- TITLE -->
+                        <h1 class="formTitle mb-3">
+                            <?php
+                                if (isset($target) || isset($halfTarget)) {
+                                    echo "Edit movie";
+                                } else {
+                                    echo "Add movie";
+                                }
+                            ?>
+                        </h1>
+                        <!-- TEXT INPUT -->
                         <div class="row mb-2">
                             <div class="column w35">
                                 <label for="movieName">Movie name</label>
-                                <input type="text" name="movieName" />
+                                <input type="text" name="movieName" value="<?php
+                                    if (isset($targetName))
+                                        echo $targetName;
+                                    else if (isset($halfTargetName))
+                                        echo $halfTargetName;
+                                ?>" />
+                                <input type="hidden" name="tmdbId" value="<?php
+                                    if (isset($target))
+                                        echo $target->tmdbId;
+                                    else if (isset($halfTarget))
+                                        echo $halfTarget->tmdbId;
+                                ?>" />
+                                <?php
+                                    if (isset($target))
+                                        echo "<input type=\"hidden\" name=\"oldIdPro\" value=\"$target->idPro\" />";
+                                ?>
+                                <?php
+                                    if (isset($halfTarget))
+                                        echo "<input type=\"hidden\" name=\"oldTmdbId\" value=\"$halfTarget->tmdbId\" />";
+                                ?>
+                                <input type="hidden" name="oldIdPro" />
                             </div>
                         </div>
-
+                        <!-- TWO DYNAMIC SELECTS -->
                         <div class="row mb-2">
                             <div class="column w30 mr-5">
                                 <label for="room">Room</label>
@@ -86,7 +129,8 @@
                                     <?php
                                         foreach ($rooms as $room)
                                         {
-                                            echo "<option value=\"$room->name\">$room->name</option>";
+                                            $isSelected = isset($target) && $target->roomName == $room->name;
+                                            echo "<option value=\"$room->name\"".($isSelected?" selected":"").">$room->name</option>";
                                         }
                                     ?>
                                 </select>
@@ -97,13 +141,14 @@
                                     <?php
                                         foreach ($technologies as $tech)
                                         {
-                                            echo "<option value=\"$tech->name\">$tech->name</option>";
+                                            $isSelected = isset($target) && $target->idTech == $tech->idTech;
+                                            echo "<option value=\"$tech->idTech\"".($isSelected?" selected":"").">$tech->name</option>";
                                         }
                                     ?>
                                 </select>
                             </div>
                         </div>
-
+                        <!-- CALENDAR -->
                         <div class="row mb-2">
                             <div class="column w40 mr-5">
                                 <label for="placeholder">Date of projection</label>
@@ -139,11 +184,13 @@
                                                 }
                                                 else if ($curr == $now)
                                                 {
-                                                    echo "<button type=\"button\" id=\"buttonDate_".date("Ymd",$curr)."\" class=\"todayButton\" onClick=\"selectDate(".date("Ymd",$curr).")\">".date("j",$curr)."</button>";
+                                                    $isSelected = isset($target) && $curr == (strtotime($target->dateTime)-strtotime($target->dateTime)%(24*60*60));
+                                                    echo "<button type=\"button\" id=\"buttonDate_".date("Ymd",$curr)."\" class=\"todayButton".($isSelected?" selectedDay":"")."\" onClick=\"selectDate(".date("Ymd",$curr).")\">".date("j",$curr)."</button>";
                                                 }
                                                 else
                                                 {
-                                                    echo "<button type=\"button\" id=\"buttonDate_".date("Ymd",$curr)."\" class=\"dayButton\"  onClick=\"selectDate(".date("Ymd",$curr).")\">".date("j",$curr)."</button>";
+                                                    $isSelected = isset($target) && $curr == (strtotime($target->dateTime)-strtotime($target->dateTime)%(24*60*60));
+                                                    echo "<button type=\"button\" id=\"buttonDate_".date("Ymd",$curr)."\" class=\"dayButton".($isSelected?" selectedDay":"")."\"  onClick=\"selectDate(".date("Ymd",$curr).")\">".date("j",$curr)."</button>";
                                                 }
                                                 $curr += (24*60*60);
                                             }
@@ -151,31 +198,59 @@
                                         }
                                     ?>
                                     <div class="row mt-1 ml-2 mb-2">
-                                        <span>Selected:&nbsp;</span><span id="selectedDate" value=""></span>
-                                        <input type="hidden" id="selectedDateHidden" name="startDate" />
+                                        <span>Selected:&nbsp;</span><span id="selectedDate" value="<?php
+                                            if (isset($target))
+                                                echo date("d/m/Y", strtotime($target->dateTime));
+                                        ?>"></span>
+                                        <input type="hidden" id="selectedDateHidden" name="startDate" value="<?php
+                                            if (isset($target))
+                                                echo date("d/m/Y", strtotime($target->dateTime));
+                                        ?>" />
                                     </div>
                                 </div>
                             </div>
+                            <!-- TWO NUMBER INPUTS -->
                             <div class="column w30">
                                 <label for="startTime">Start time</label>
-                                <input type="time" name="startTime" class="mb-2" />
+                                <input type="time" name="startTime" class="mb-2" value="<?php
+                                    if (isset($target))
+                                        echo date("H:i", strtotime($target->dateTime));
+                                ?>" />
                                 <label for="price">Ticket price (&euro;)</label>
-                                <input type="number" name="price" min="0" step="0.01" />
+                                <input type="number" name="price" min="0" step="0.01" value="<?php
+                                    if (isset($target))
+                                        echo $target->price;
+                                ?>" />
                             </div>
                         </div>
-
+                        <!-- CHECKBOX AND SUBMIT -->
                         <div class="row mb-2 centerY">
                             <div class="column w25 mr-5">
                                 <div class="row">
-                                    <input type="checkbox" name="soon" class="formCheckbox" />
+                                    <input type="checkbox" name="soon" class="formCheckbox" value="<?php
+                                        if (isset($halfTarget))
+                                            echo "true";
+                                    ?>" />
                                     <label for="soon">Add to Soon</label>
                                 </div>
                             </div>
+                            <?php
+                                if (isset($target) || isset($halfTarget))
+                                    echo "
+                                        <div class=\"column w30\">
+                                            <button type=\"submit\" formaction=\"/Cinema/ActionCancelMovie\" class=\"standardButton badButton\">Cancel movie</button>
+                                        </div>
+                                    ";
+                            ?>
                             <div class="column w30">
-                                <button type="submit">Add movie</button>
+                                <button type="submit" formaction="/Cinema/ActionAddMovie" class="standardButton goodButton"><?php
+                                    if (isset($target) || isset($halfTarget))
+                                        echo "Save changes";
+                                    else
+                                        echo "Add movie";
+                                ?></button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
