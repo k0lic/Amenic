@@ -1,7 +1,7 @@
 <button class="modalTrigger" onclick="document.getElementById('loginModal').classList.add('showModal');">
     Log in
 </button>
-<div class="modalWrapper <?php echo $_SESSION['loginErr']!=''?'showModal':''?>" id="loginModal" >
+<div class="modalWrapper <?php echo $loginError!=''?'showModal':''?>" id="loginModal" >
     <div class="modal centerX">
         <form method="POST" action="/login">
             <div class="modalHead">Log in</div>
@@ -16,7 +16,7 @@
             </div>
 
             <div class="modalRow mt-2 formError">
-                <?php echo $_SESSION['loginErr'] ?>
+                <?php echo $loginError ?>
             </div>
 
             <div class="modalRow centerY modalBottom mt-2">

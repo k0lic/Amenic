@@ -1,11 +1,18 @@
 <?php
 
-	if(session_status() == PHP_SESSION_NONE) {
-		session_start();
+use function App\Helpers\isValid;
+
+	helper('auth');
+	
+	$loginError = '';
+	if(isset($_COOKIE['loginError'])) {
+		$loginError = $_COOKIE['loginError'];
 	}
 
-	if(!isset($_SESSION['loginErr'])) {
-		$_SESSION['loginErr'] = '';
+	$user = null;
+
+	if(isset($_COOKIE['token'])) {
+		$user = isValid($_COOKIE['token']);
 	}
 ?>
 
@@ -67,8 +74,8 @@
 						<input type="hidden" id="actMenu" name="actMenu" value="<?php if(isset($actMenu)) echo $actMenu;?>"/>
 						<input type="hidden" id="cinMenu" name="cinMenu" value="<?php if(isset($cinMenu)) echo $cinMenu;?>"/>
 					</form>
-					<?php 
-							if(isset($_SESSION['user'])) {
+					<?php  
+							if(!is_null($user)) {
 							?>
 							<div class="user">
 								<img
@@ -77,7 +84,8 @@
 								alt="Profile picture"
 								/>
 							<span><?php 
-							echo $_SESSION['user']['firstName']." ".$_SESSION['user']['lastName'] 
+							echo $user->firstName." ".$user->lastName;
+							
 							?></span>
 						
 

@@ -14,6 +14,9 @@ use \Firebase\JWT\JWT;
 
 use Exception;
 
+use function App\Helpers\generateToken;
+use function App\Helpers\setToken;
+
 class Login extends BaseController {
 
     public function forgot() {
@@ -21,10 +24,8 @@ class Login extends BaseController {
     }
 
     public function index() {
-        if(session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        helper(['form', 'url']);
+
+        helper('auth');
 
         $formData = $_POST;
 
@@ -65,34 +66,32 @@ class Login extends BaseController {
                 throw new Exception('Internal server error');
             }
 
-            $_SESSION['user']['firstName'] = $user->firstName;
-            $_SESSION['user']['lastName'] = $user->lastName;
-            $_SESSION['user']['email'] = $user->email;
-            $_SESSION['user']['type'] = $type;
-
             // Generate the JWT
             $tokenPayload = [
                 'firstName' => $user->firstName,
                 'lastName' => $user->lastName,
-                'email' => $user->type,
-                'type' => $user->firstName
+                'email' => $user->email,
+                'type' => $type
             ];
 
-            $key = '__drazenRocks__';
-
-            $jwt = JWT::encode($tokenPayload, base64_decode(strtr($key, '-_', '+/')), 'HS256');
-
-            $_SESSION['user']['token'] = $jwt;
-
-            //$decoded = JWT::decode($jwt, base64_decode(strtr($key, '-_', '+/')), ['HS256']);
+            $token = generateToken($tokenPayload);
+            setToken($token);
 
         } catch(Exception $e) {
-            $_SESSION['loginErr'] = $e->getMessage();
+
+            // Cookie expires in 5min.
+            setcookie('loginError', $e->getMessage(), time()+300);
+            $_COOKIE['loginError'] = $e->getMessage();
+
             header('Location: /');
             exit();
         }
 
-        $_SESSION['loginErr'] = '';
+        // Delete the login error cookie
+        setcookie('loginError', null, time() - 3600, '/');
+        if(isset($_COOKIE['loginError'])) {
+            unset($_COOKIE['loginError']);
+        }
 
         header('Location: /');
         exit();
