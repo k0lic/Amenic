@@ -151,7 +151,6 @@ class Validation
 		]
 	];
 
-<<<<<<< Updated upstream
 	public $adminAccountCheck = [
 		'fNameNA' => 'required|alpha',
 		'lNameNA' => 'required|alpha',
@@ -182,14 +181,14 @@ class Validation
 			'required' => 'Password is required',
 			'matches' => 'Passwords must match'
 		]
-		];
-=======
+	];
+
 	// Cinema controller validation.
 
 	public $actionAddRoom = [
 		'roomName' => [
 			'label' => 'Name',
-			'rules' => 'required|min_length[3]|max_length[64]|checkRoomName'
+			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[64]|checkRoomName'
 		],
 		'tech' => [
 			'label' => 'Technologies',
@@ -205,7 +204,6 @@ class Validation
 		]
 	];
 
->>>>>>> Stashed changes
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------

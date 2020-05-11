@@ -1,8 +1,9 @@
 <?php namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\SmartDeleteModel;
+use App\Models\UserModel;
 
-class AdminModel extends Model
+class AdminModel extends SmartDeleteModel
 {
     protected $table = 'Admins';
     protected $primaryKey= 'email';
@@ -18,4 +19,13 @@ class AdminModel extends Model
 
     $protected $beforeInsert | $beforeUpdate = [] - skup fja koje se pozivaju
     */
+
+    // Deletes the user base object with the admin.
+    public function smartDelete($email)
+    {
+        $usermdl = new UserModel();
+        $this->delete($email);
+        $usermdl->smartDelete($email);
+    }
+
 }

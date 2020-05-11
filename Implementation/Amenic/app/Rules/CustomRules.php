@@ -15,7 +15,7 @@ class CustomRules
 
     public function checkRoomTech($arr,&$error = null)
     {
-        if (count($arr)<0)
+        if (count($arr)<1)
         {
             $error = "You must select at least one technology";
             return false;

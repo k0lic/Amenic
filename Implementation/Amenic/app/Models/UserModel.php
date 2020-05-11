@@ -1,11 +1,20 @@
 <?php namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\SmartDeleteModel;
+use App\Models\VerificationModel;
 
-class UserModel extends Model
+class UserModel extends SmartDeleteModel
 {
     protected $table = 'Users';
     protected $primaryKey= 'email';
     protected $returnType= 'App\Entities\User';    
-    protected $allowedFields = ['email','password','image']; 
+    protected $allowedFields = ['email','password','image'];
+
+    // Deletes the verifaction entry with the user.
+    public function smartDelete($email)
+    {
+        $vers = new VerificationModel();
+        $vers->delete($email);
+        $this->delete($email);
+    }
 }
