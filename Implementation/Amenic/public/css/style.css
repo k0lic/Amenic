@@ -11,6 +11,8 @@
 	--lightPurple: #342739;
 	--imgOutline: #2b1e30;
 	--stepCircle: #3d2b44;
+
+	--movieDate: #43324a;
 }
 
 * {
@@ -86,7 +88,6 @@ body {
 
 .logo {
 	height: 40px;
-	margin-top: 20px;
 }
 
 /* ICON CSS */
@@ -96,13 +97,15 @@ body {
 	align-self: center;
 }
 
-.icon svg, .icon img {
+.icon svg,
+.icon img {
 	height: 1em;
 	width: 1em;
 	fill: currentColor;
 }
 
-.icon.baseline svg, .icon img {
+.icon.baseline svg,
+.icon img {
 	top: 0.125em;
 	position: relative;
 }
@@ -162,7 +165,8 @@ body {
 	top: 0;
 	bottom: 0;
 	width: 20px;
-	background: url(../assets/MoviesPage/imgs/search.svg) center / contain no-repeat;
+	background: url(../assets/MoviesPage/imgs/search.svg) center / contain
+		no-repeat;
 }
 
 .search {
@@ -178,7 +182,8 @@ body {
 	transition: border 0.2s ease-in-out;
 }
 
-.search:focus, .search:hover {
+.search:focus,
+.search:hover {
 	border: rgba(255, 255, 255, 0.8) 1px solid;
 	transition: border 0.2s ease-in-out;
 }
@@ -293,15 +298,14 @@ body {
 }
 
 .coolLink {
-	color: white;
-	text-decoration: none;
-	transition: 0.2s box-shadow easy-in-out;
-	box-shadow: none;
+	color: white !important;
+	text-decoration: none !important;
+	transition: 0.2s all easy-in-out;
 }
 
 .coolLink:hover {
-	transition: 0.2s box-shadow easy-in-out;
-	box-shadow: 0px 0px 5px 2px var(--orange);
+	transition: 0.2s all easy-in-out;
+	box-shadow: 0px 0px 10px var(--orange);
 }
 /*
 .movies a {
@@ -592,6 +596,10 @@ body {
 	width: 100% !important;
 }
 
+.wauto {
+	width: auto !important;
+}
+
 .modalHead {
 	font-size: 2em;
 	font-weight: 700;
@@ -868,7 +876,8 @@ body {
 	margin-bottom: 0.1em;
 }
 
-.formWrapper input, .formWrapper textarea {
+.formWrapper input,
+.formWrapper textarea {
 	width: 100%;
 	font-family: "Nunito";
 	font-weight: 500;
@@ -963,7 +972,8 @@ body {
 	height: 100%;
 }
 
-.formWrapper input:focus, .formWrapper textarea:focus {
+.formWrapper input:focus,
+.formWrapper textarea:focus {
 	border: 2px solid var(--orange);
 	transition: 0.2s border ease-in-out;
 }
@@ -1102,7 +1112,7 @@ body {
 	color: white;
 }
 
-/* NEW CINEMA PAGE */
+/* NEW CINEMA PAGE - MILOS*/
 
 .horizontalNav {
 	display: flex;
@@ -1227,6 +1237,266 @@ body {
 	justify-content: flex-end;
 }
 
+/* MOVIE SEARCH PAGE */
+
+.movieBackground {
+	height: 70vh;
+	width: 100%;
+	display: flex;
+
+	position: relative;
+
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/cheese-curds.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	z-index: 10;
+
+	color: white;
+}
+
+.moviePoster {
+	height: 285px;
+	width: 190px;
+	object-fit: cover;
+	border-radius: 15px;
+
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.movieTitle {
+	font-weight: 800;
+	font-size: 2em;
+	text-shadow: 0 0 5px black;
+}
+
+.movieInfoIconClock {
+	width: 1.5em;
+}
+
+.movieInfoIconImdb {
+	width: 2.5em;
+}
+
+.movieDesc {
+	text-align: justify;
+}
+
+.trailerButton {
+	padding: 0.5em 1em;
+	border-radius: 20px;
+	border: 2px solid var(--orange);
+	background-color: transparent;
+	color: var(--orange);
+	font-weight: 700;
+	transition: 0.2s all ease-in-out;
+	cursor: pointer;
+}
+
+.trailerButton:hover {
+	transition: 0.2s all ease-in-out;
+	color: white;
+	background-color: var(--orange);
+}
+
+.movieInfoCrewTitle {
+	font-weight: 800;
+}
+
+.movieSelectorRow {
+	display: inline-flex;
+	color: white;
+	background-color: var(--imgOutline);
+}
+
+.movieSelectorTitle {
+	font-weight: 800;
+	font-size: 1.2em;
+}
+
+.movieArrow {
+	width: 0.8em;
+}
+
+.movieDateSelector {
+	display: flex;
+}
+
+.dateColumn {
+	background-color: var(--movieDate);
+	padding: 0.2em 1em;
+}
+
+.movieMonth,
+.movieDay {
+	font-size: 1em;
+	font-weight: 500;
+}
+
+.movieDate {
+	font-weight: 800;
+	font-size: 1.2em;
+}
+
+.movieDay {
+}
+
+.o30 {
+	opacity: 0.3;
+}
+.o40 {
+	opacity: 0.4;
+}
+.o50 {
+	opacity: 0.5;
+}
+.o60 {
+	opacity: 0.6;
+}
+.o70 {
+	opacity: 0.7;
+}
+.o80 {
+	opacity: 0.8;
+}
+.o90 {
+	opacity: 0.9;
+}
+.o100 {
+	opacity: 1;
+}
+
+.dropdownContent {
+	display: none;
+	position: absolute;
+	background-color: var(--deepPurple);
+	border: 1px solid var(--movieDate);
+	border-top: none;
+	border-radius: 0 0 15px 15px;
+	color: white;
+	min-width: 100px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+	margin-top: 50px;
+}
+
+.dropdownContent a {
+	color: white;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	border-radius: 15px;
+}
+
+.dropdownContent a:hover {
+	background-color: var(--orange);
+}
+
+.dropdownColumn:hover .dropdownContent {
+	display: block;
+}
+
+.dropdownTitle {
+	font-weight: 800;
+	font-size: 1.2em;
+}
+
+.dropdownColumn {
+	cursor: pointer;
+}
+
+.criticsPart {
+	color: white;
+	margin-left: 5em;
+}
+
+.criticsTitle {
+	font-weight: 800;
+	font-size: 1.2em;
+}
+
+.review {
+	background-color: var(--formInput);
+	padding: 1.5em;
+	border-radius: 15px;
+
+	-webkit-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.6);
+	-moz-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.6);
+	box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.6);
+}
+
+.reviewBody {
+	font-weight: 300;
+	text-align: justify;
+}
+
+.reviewAuthor {
+	font-weight: 700;
+	align-self: flex-end;
+}
+
+.showingTitle {
+	font-weight: 800;
+	font-size: 1.2em;
+	color: white;
+	align-self: flex-start;
+}
+
+.showingTable {
+	border-collapse: collapse;
+	color: white;
+	border-radius: 1em;
+	overflow: hidden;
+
+	float: left;
+	display: table;
+	width: 100%;
+}
+
+.showingTable tbody tr {
+	border-radius: 1em !important;
+}
+
+.showingTable tbody tr:nth-child(odd) {
+	background-color: var(--formInput);
+}
+
+.showingTable thead {
+	background-color: transparent !important;
+	color: var(--orange);
+	font-weight: 800;
+	font-size: 1.2em;
+}
+
+.showingTable td,
+.showingTable th {
+	text-align: center;
+	border-radius: 1em;
+	display: table-cell;
+}
+
+.tableCinemaCol {
+	padding: 0.5em 5em !important;
+}
+
+.tableTimeCol,
+.tableRoomCol,
+.tableTypeCol,
+.tableImg {
+	padding: 0.5em 1em !important;
+}
+
+.tableCol {
+	padding: 1em;
+}
+
+.movieShowingContent {
+	margin-top: 5em;
+}
+
 /* ADMIN CONTROLLER */
 
 .adminWrapper {
@@ -1268,7 +1538,7 @@ body {
 	padding: 0.5em 1em;
 }
 
-.userPicture>img {
+.userPicture > img {
 	width: auto;
 	height: 90% !important;
 	min-height: 120px;
@@ -1287,7 +1557,7 @@ body {
 	background-color: var(--deepPurple);
 }
 
-.editWrapper>button {
+.editWrapper > button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -1305,7 +1575,7 @@ body {
 	border-radius: 0px 10px 10px 0px !important;
 }
 
-.binWrapper>button {
+.binWrapper > button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -1348,7 +1618,8 @@ body {
 	align-self: flex-start;
 }
 
-.settingsForm input[type="text"], .settingsForm input[type="password"] {
+.settingsForm input[type="text"],
+.settingsForm input[type="password"] {
 	border-radius: 4px 4px 4px 4px;
 	margin: 2px;
 	padding: 10px;
@@ -1405,7 +1676,7 @@ body {
 	cursor: pointer;
 }
 
-.span2Make2{
+.span2Make2 {
 	grid-column: span 2;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -1416,7 +1687,8 @@ body {
 	width: 100%;
 }
 
-#passwordNA, #passwordConfirmNA {
+#passwordNA,
+#passwordConfirmNA {
 	background-color: var(--lightPurple) !important;
 }
 
@@ -1427,12 +1699,12 @@ body {
 	min-height: 60px;
 }
 
-.passwordRow>div {
+.passwordRow > div {
 	width: 45%;
 	margin: 0px;
 }
 
-.passwordRow>div input[type="text"] {
+.passwordRow > div input[type="text"] {
 	width: 100%;
 }
 
@@ -1451,7 +1723,7 @@ body {
 	max-width: 250px;
 }
 
-.adminPicture>img {
+.adminPicture > img {
 	border-radius: 50%;
 	width: 50% !important;
 	margin-bottom: 10px;
@@ -1545,7 +1817,7 @@ input[type="file"] {
 	width: 100%;
 }
 
-.confirmModuleButtons>button {
+.confirmModuleButtons > button {
 	width: 30%;
 	margin: 15px;
 	border: 2px solid var(--orange);
@@ -1572,33 +1844,34 @@ input[type="file"] {
 	width: 45%;
 }
 
-#addAdminModal, #loginModal {
+#addAdminModal,
+#loginModal {
 	display: none;
 }
-.breachWrapper{
+.breachWrapper {
 	background-image: url("../assets/Admins/noPass.jpg") !important;
 }
 
-.light{
+.light {
 	background-color: var(--lightPurple) !important;
 }
 
-.span2Make3{
+.span2Make3 {
 	grid-column: span 2;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 5%;
 }
 
-.span2{
+.span2 {
 	grid-column: span 2;
 }
 
-.whole{
+.whole {
 	width: 100%;
 }
 
-.span3Make4{
+.span3Make4 {
 	grid-column: span 3;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -1609,10 +1882,10 @@ input[type="file"] {
 	width: 100%;
 }
 
-.settingsSelect{
+.settingsSelect {
 	width: 100%;
 }
 
-.settingsInputText{
+.settingsInputText {
 	width: 100%;
 }

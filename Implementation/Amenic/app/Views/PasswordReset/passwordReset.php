@@ -16,7 +16,7 @@
 			<div class="registerBar">
             <a href="/">
 					<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
-				</a>
+			</a>
 				<div class="registerSteps">
                 <div class="registerBarTitle">Oh no!</div>
                 <div class="registerBarSubtitle mt-3">
