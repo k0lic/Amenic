@@ -104,11 +104,11 @@
                                     else if (isset($halfTargetName))
                                         echo $halfTargetName;
                                 ?>" />
-                                <input type="hidden" name="tmdbId" value="<?php
+                                <input type="hidden" name="tmdbID" value="<?php
                                     if (isset($target))
-                                        echo $target->tmdbId;
+                                        echo $target->tmdbID;
                                     else if (isset($halfTarget))
-                                        echo $halfTarget->tmdbId;
+                                        echo $halfTarget->tmdbID;
                                 ?>" />
                                 <?php
                                     if (isset($target))
@@ -116,7 +116,7 @@
                                 ?>
                                 <?php
                                     if (isset($halfTarget))
-                                        echo "<input type=\"hidden\" name=\"oldTmdbId\" value=\"$halfTarget->tmdbId\" />";
+                                        echo "<input type=\"hidden\" name=\"oldtmdbID\" value=\"$halfTarget->tmdbID\" />";
                                 ?>
                                 <input type="hidden" name="oldIdPro" />
                             </div>

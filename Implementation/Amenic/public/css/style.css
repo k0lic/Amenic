@@ -293,13 +293,15 @@ body {
 }
 
 .coolLink {
-	color: white !important;
-	text-decoration: none !important;
+	color: white;
+	text-decoration: none;
+	transition: 0.2s box-shadow easy-in-out;
+	box-shadow: none;
 }
 
 .coolLink:hover {
 	transition: 0.2s box-shadow easy-in-out;
-	box-shadow: 0px 2px 5px var(--orange);
+	box-shadow: 0px 0px 5px 2px var(--orange);
 }
 /*
 .movies a {
@@ -361,7 +363,8 @@ body {
 }
 
 .movieImgExtended {
-	height: 330px;
+	padding: 10px;
+	height: 340px;
 	width: 210px;
 	background-color: var(--imgOutline);
 }
