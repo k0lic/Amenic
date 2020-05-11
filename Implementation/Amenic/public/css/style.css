@@ -128,6 +128,7 @@ body {
 
 .profPic {
 	height: 56px;
+	border-radius: 50%;
 }
 
 .searchForm {
@@ -1380,7 +1381,7 @@ body {
 	border: 2px solid transparent;
 }
 
-.requestSettingsButtons input[type="submit"] {
+.requestSettingsButtons > button {
 	margin-left: 15px;
 	margin-right: 15px;
 	width: 35%;
@@ -1401,12 +1402,15 @@ body {
 	cursor: pointer;
 }
 
-.adminEmail {
+.span2Make2{
 	grid-column: span 2;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 5%;
 }
 
 .adminEmail input[type="text"] {
-	width: 70%;
+	width: 100%;
 }
 
 #passwordNA, #passwordConfirmNA {
@@ -1456,15 +1460,11 @@ body {
 	background-color: var(--deepPurple) !important;
 	color: var(--orange) !important;
 	width: 30%;
-	min-width: 40px;
+	min-width: 70px;
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-}
-
-.adminSettingsTitle {
-	grid-column: span 2;
 }
 
 input[type="file"] {
@@ -1571,4 +1571,45 @@ input[type="file"] {
 
 #addAdminModal, #loginModal {
 	display: none;
+}
+.breachWrapper{
+	background-image: url("../assets/Admins/noPass.jpg") !important;
+}
+
+.light{
+	background-color: var(--lightPurple) !important;
+}
+
+.span2Make3{
+	grid-column: span 2;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 5%;
+}
+
+.span2{
+	grid-column: span 2;
+}
+
+.whole{
+	width: 100%;
+}
+
+.span3Make4{
+	grid-column: span 3;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-gap: 5%;
+}
+
+.phoneSettings input[type="text"] {
+	width: 100%;
+}
+
+.settingsSelect{
+	width: 100%;
+}
+
+.settingsInputText{
+	width: 100%;
 }

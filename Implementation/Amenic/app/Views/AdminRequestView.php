@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <script src="/js/adminConfirm.js"></script>
 		<title>Amenic - AdminsRequest</title>
 	</head>
 	<body>
@@ -42,6 +43,45 @@
 					</div>
 					Settings</a
 				>
+            </div>
+            <div class="modalWrapper" id="deleteModalWrapper">
+				<form action="/AdminController/removeUser" method="POST" id="deleteModalForm">	
+					<div class="modal centerX" id="deleteModal">
+						<div class="modalHead">Are you sure?</div>
+						<span>You're about to delete this request. </span>
+						<div class="confirmModuleButtons">
+								<button>Yes</button>
+								<button class="transparentBg" onclick="hideModal('deleteModalWrapper')" formaction="javascript:void(0);">No</button>
+						</div>
+                    </div>
+                    <input type="hidden" id="key" name="key" value="<?php echo $data->email; ?>">
+                    <input type="hidden" id="actMenu" name="actMenu" value="<?php echo $actMenu; ?>">
+				</form>	
+            </div>
+            <div class="modalWrapper" id="confirmModalWrapper">
+                <form action="<?php 
+                     if (!$data->approved)
+                        echo "/AdminController/approveCinema";
+                    else    
+                        echo "/AdminController/openCinema";
+                ?>" method="POST" id="confirmModalForm">	
+					<div class="modal centerX" id="confirmModal">
+						<div class="modalHead">Are you sure?</div>
+                        <span><?php
+                            if ($data->approved)
+                                echo "You're about to open this cinema.";
+                            else
+                                echo "You are about to approve this request."; 
+                            ?>
+                        </span>
+						<div class="confirmModuleButtons">
+								<button>Yes</button>
+								<button class="transparentBg" onclick="hideModal('confirmModalWrapper')" formaction="javascript:void(0);">No</button>
+						</div>
+                    </div>
+                    <input type="hidden" id="key" name="key" value="<?php echo $data->email; ?>">
+                    <input type="hidden" id="actMenu" name="actMenu" value="<?php echo $actMenu; ?>">
+				</form>	
 			</div>
 			<div class="adminWrapper">
 				<div class="topBar rightAlignRow">
@@ -54,7 +94,7 @@
 						<span>Miloš</span>
 					</div>
 				</div>
-                <form action="/" class="searchForm" method="POST">
+                <form action="javascript:void(0);" class="searchForm" method="POST">
                     <div class="settingsForm">
                             <div class="requestSettingsTitle">
                                 <h2>Basic info</h2>
@@ -104,22 +144,17 @@
                                 <input type="text" id="email" name="mEmail" value="<?php echo $data->mngEmail; ?>" readonly><br>
                             </div>
                             <div class="requestSettingsButtons">
-                                <input type="submit" formaction="/AdminController/removeUser" class="requestDeleteButton" value="Delete" />
-                                <input type="submit" formaction="/AdminController/<?php 
-                                                        if (!$data->approved)
-                                                            echo "approveCinema";
-                                                        else    
-                                                            echo "openCinema";
-                                                             ?>"
-                                                    class="requestApproveButton" 
-                                                    value="<?php 
-                                                        if (!$data->approved)
-                                                            echo "Approve";
-                                                        else 
-                                                            echo "Open";
-                                                        ?>" />
-                                <input type="hidden" id="key" name="key" value="<?php echo $data->email; ?>">
-                                <input type="hidden" id="actMenu" name="actMenu" value="<?php echo $actMenu; ?>">
+                                <button class="requestDeleteButton" onclick="showSpecModal('deleteModalWrapper')" >
+                                    Delete
+                                </button>	
+                                <button class="requestApproveButton" onclick="showSpecModal('confirmModalWrapper')" >
+                                        <?php 
+                                            if (!$data->approved)
+                                                echo "Approve";
+                                            else 
+                                                echo "Open";
+                                        ?>
+                                </button>	
                             </div>
                     </div>
                 </form> 

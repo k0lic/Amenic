@@ -1,6 +1,9 @@
 function showModal(mail, actMenu) {
 
-    let element = document.getElementById('loginModal');
+    console.log(mail);
+    console.log(actMenu);
+
+    let element = document.getElementById('deleteModalWrapper');
     element.style.display = "block";
 
     console.log(mail);
@@ -18,14 +21,12 @@ function showModal(mail, actMenu) {
         inputMenu.setAttribute('name', 'actMenu');
         inputMenu.setAttribute('value', actMenu);
         inputMenu.setAttribute('id', "actMenu");
-        document.getElementById('loginModal').appendChild(inputKey);
-        document.getElementById('loginModal').appendChild(inputMenu);
+        document.getElementById('deleteModal').appendChild(inputKey);
+        document.getElementById('deleteModal').appendChild(inputMenu);
     }
     else {
-        console.log(el);
         el.setAttribute('value', mail);
         el = document.getElementById("actMenu");
-        console.log(el);
         el.setAttribute('value', actMenu);
     }
 }
@@ -35,8 +36,7 @@ function hideModal(el) {
     element.style.display = "none";
 }
 
-function showAddAdmin() {
-
-    let element = document.getElementById('addAdminModal');
+function showSpecModal(el) {
+    let element = document.getElementById(el);
     element.style.display = "block";
 }
