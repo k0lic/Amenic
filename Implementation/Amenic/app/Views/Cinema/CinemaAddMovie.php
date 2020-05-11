@@ -4,6 +4,20 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+    <?php
+        $errors = [];
+        if (isset($_COOKIE["addMovieErrors"]))
+        {
+            parse_str($_COOKIE["addMovieErrors"], $errors);
+            setcookie("addMovieErrors","",time() - 3600);
+        }
+        $values = [];
+        if (isset($_COOKIE["addMovieValues"]))
+        {
+            parse_str($_COOKIE["addMovieValues"], $values);
+            setcookie("addMovieValues", "", time() - 3600);
+        }
+    ?>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -230,6 +244,8 @@
                                     <input type="checkbox" name="soon" class="formCheckbox" value="<?php
                                         if (isset($halfTarget))
                                             echo "true";
+                                        else
+                                            echo "false";
                                     ?>" />
                                     <label for="soon">Add to Soon</label>
                                 </div>

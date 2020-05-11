@@ -4,6 +4,20 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+    <?php
+        $errors = [];
+        if (isset($_COOKIE["addRoomErrors"]))
+        {
+            parse_str($_COOKIE["addRoomErrors"], $errors);
+            setcookie("addRoomErrors", "", time() - 3600);
+        }
+        $values = [];
+        if (isset($_COOKIE["addRoomErrors"]))
+        {
+            parse_str($_COOKIE["addRoomValues"], $values);
+            setcookie("addRoomValues", "", time() - 3600);
+        }
+    ?>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -99,14 +113,20 @@
                             <div class="column w35">
                                 <label for="roomName">Name</label>
                                 <input type="text" name="roomName" value="<?php
-                                    if (isset($target)) {
+                                    if (isset($values["roomName"]))
+                                        echo $values["roomName"];
+                                    else if (isset($target))
                                         echo $target->name;
-                                    }
-                                ?>" />
+                                ?>"  required minlength="3" maxlength="64" />
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["roomName"]))
+                                            echo $errors["roomName"];
+                                    ?>
+                                </div>
                                 <?php
-                                    if (isset($target)) {
+                                    if (isset($target))
                                         echo "<input type=\"hidden\" name=\"oldRoomName\" value=\"$target->name\" />";
-                                    }
                                 ?>
                             </div>
                             
@@ -115,36 +135,57 @@
                         <div class="row mb-2">
                             <div class="column w20 mr-5">
                                 <label for="tech">Technologies</label>
-                                <select class="formSelect" name="tech[]" multiple size="2">
+                                <select class="formSelect" name="tech[]" multiple size="2" required>
                                     <?php
                                         foreach ($technologies as $tech)
                                         {
                                             $isSelected = false;
-                                            if (isset($targetTechnologies)) {
+                                            if (isset($values["tech"]))
+                                                $isSelected = array_search($tech->idTech, $values["tech"]) !== false;
+                                            else if (isset($targetTechnologies))
                                                 $isSelected = array_search($tech->idTech, $targetTechnologies) !== false;
-                                            }
                                             
                                             $print = "<option value=\"$tech->idTech\"".($isSelected?" selected":"").">$tech->name</option>";
                                             echo $print;
                                         }
                                     ?>
                                 </select>
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["tech"]))
+                                            echo $errors["tech"];
+                                    ?>
+                                </div>
                             </div>
                             <div class="column w30 mr-5">
                                 <label for="rows">Number of rows</label>
-                                <input type="number" name="rows" id="seatingRows" min="0" max="26" step="1" onInput="updateSeatingPreview()" value="<?php
-                                    if (isset($target)) {
+                                <input type="number" name="rows" id="seatingRows" required min="1" max="26" step="1" onInput="updateSeatingPreview()" value="<?php
+                                    if (isset($values["rows"]))
+                                        echo $values["rows"];
+                                    else if (isset($target))
                                         echo $target->numberOfRows;
-                                    }
                                 ?>" />
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["rows"]))
+                                            echo $errors["rows"];
+                                    ?>
+                                </div>
                             </div>
                             <div class="column w30">
                                 <label for="columns">Number of seats in each row</label>
-                                <input type="number" name="columns" id="seatingColumns" min="0" max="26" step="1" onInput="updateSeatingPreview()" value="<?php
-                                    if (isset($target)) {
+                                <input type="number" name="columns" id="seatingColumns" required min="1" max="26" step="1" onInput="updateSeatingPreview()" value="<?php
+                                    if (isset($values["columns"]))
+                                        echo $values["columns"];
+                                    else if (isset($target))
                                         echo $target->seatsInRow;
-                                    }
                                 ?>" />
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["columns"]))
+                                            echo $errors["columns"];
+                                    ?>
+                                </div>
                             </div>
                         </div>
                         <!-- SUBTITLE -->
@@ -175,7 +216,13 @@
                                 ?></button>
                             </div>
                             <div class="column w30">
-                                <button type="submit" formaction="/Cinema/ActionAddRoom" class="standardButton goodButton"><?php
+                                <button type="submit" formaction="/Cinema/<?php
+                                    if (isset($target)) {
+                                        echo "ActionEditRoom";
+                                    } else {
+                                        echo "ActionAddRoom";
+                                    }
+                                ?>" class="standardButton goodButton"><?php
                                     if (isset($target)) {
                                         echo "Save changes";
                                     } else {

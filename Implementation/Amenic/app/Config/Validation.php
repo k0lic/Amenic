@@ -22,6 +22,7 @@ class Validation
 		\CodeIgniter\Validation\FormatRules::class,
 		\CodeIgniter\Validation\FileRules::class,
 		\CodeIgniter\Validation\CreditCardRules::class,
+		\App\Rules\CustomRules::class
 	];
 
 	/**
@@ -150,6 +151,7 @@ class Validation
 		]
 	];
 
+<<<<<<< Updated upstream
 	public $adminAccountCheck = [
 		'fNameNA' => 'required|alpha',
 		'lNameNA' => 'required|alpha',
@@ -181,6 +183,29 @@ class Validation
 			'matches' => 'Passwords must match'
 		]
 		];
+=======
+	// Cinema controller validation.
+
+	public $actionAddRoom = [
+		'roomName' => [
+			'label' => 'Name',
+			'rules' => 'required|min_length[3]|max_length[64]|checkRoomName'
+		],
+		'tech' => [
+			'label' => 'Technologies',
+			'rules' => 'required|checkRoomTech'
+		],
+		'rows' => [
+			'label' => 'Number of rows',
+			'rules' => 'integer|greater_than[0]|less_than[27]'
+		],
+		'columns' => [
+			'label' => 'Number of seats in each row',
+			'rules' => 'integer|greater_than[0]|less_than[27]'
+		]
+	];
+
+>>>>>>> Stashed changes
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------

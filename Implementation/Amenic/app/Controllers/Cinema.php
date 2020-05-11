@@ -15,35 +15,53 @@ use App\Models\RoomTechnologyModel;
 use App\Entities\Room;
 use Exception;
 
+/*
+    This controller handles most if not all tasks that a user of type 'Cinema' can use.
+    All data used is for the logged in Cinema account.
+*/
 class Cinema extends BaseController
 {
-    //hard coding the email for now
+
+    //--------------------------------------------------------------------
+    //  FIELDS  //
+    //--------------------------------------------------------------------
+
+    // Hard coding the email for now.
     private string $userMail = "cinemaMail";
 
+    //--------------------------------------------------------------------
+    //  PUBLIC METHODS  //
+    //--------------------------------------------------------------------
+
+    // Shows all the projections. 
     public function index()
     {
         $projectionsWithPosters = (new AACinemaModel())->findAllProjectionsOfMyCinemaAndAttachPosters($this->userMail);
         return view("Cinema/CinemaOverview.php",["items" => $projectionsWithPosters,"optionPrimary" => 0,"optionSecondary" => 0]);
     }
 
+    // Shows the movies that are coming soon.
     public function comingSoon()
     {
         $soonsWithPosters = (new AACinemaModel())->findAllComingSoonsOfMyCinemaAndAttachPosters($this->userMail);
         return view("Cinema/CinemaOverview.php",["items" => $soonsWithPosters,"optionPrimary" => 0,"optionSecondary" => 1]);
     }
 
+    // Shows all the rooms.
     public function rooms()
     {
         $rooms = (new RoomModel())->where("email",$this->userMail)->findAll();
         return view("Cinema/CinemaOverview.php",["items" => $rooms,"optionPrimary" => 1]);
     }
 
+    // Shows all the employees.
     public function employees()
     {
         $employees = (new WorkerModel())->where("idCinema",$this->userMail)->findAll();
         return view("Cinema/CinemaOverview.php",["items" => $employees,"optionPrimary" => 2]);
     }
 
+    // Presents the form for adding a new projection.
     public function addMovie()
     {
         $rooms = (new RoomModel())->where("email",$this->userMail)->findAll();
@@ -51,6 +69,7 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddMovie.php",["rooms" => $rooms,"technologies" => $technologies,"optionPrimary" => 0]);
     }
 
+    // Presents the form for editing an existing projection.
     public function editMovie($idPro)
     {
         $rooms = (new RoomModel())->where("email",$this->userMail)->findAll();
@@ -60,17 +79,20 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddMovie.php",["rooms" => $rooms,"technologies" => $technologies,"target" => $projection,"targetName" => $movie->title,"optionPrimary" => 0]);
     }
 
+    // Presents the form for editing a movie that is coming soon.
     public function editComingSoon()
     {
         throw new Exception("Not yet implemented!");
     }
 
+    // Presents the form for adding a new room.
     public function addRoom()
     {
         $technologies = (new TechnologyModel())->findAll();
         return view("Cinema/CinemaAddRoom.php",["technologies" => $technologies,"optionPrimary" => 1]);
     }
 
+    // Presents the form for editing an existing room.
     public function editRoom($name)
     {
         $name = str_replace("%20"," ",$name);
@@ -80,58 +102,98 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddRoom.php",["technologies" => $technologies,"target" => $room[0],"targetTechnologies" => $targetTechnologies,"optionPrimary" => 1]);
     }
 
+    // Adds a new projection or edits an existing one (or edits a coming soon movie), depending on the POST parameters.
     public function actionAddMovie()
     {
         throw new Exception("NOT YET IMPLEMENTED!<br/>>");
     }
 
+    // Cancels an existing projection.
     public function actionCancelMovie()
     {
         throw new Exception("NOT YET IMPLEMENTED!<br/>>");
     }
 
+    // Adds a new room.
     public function actionAddRoom()
+    {
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionAddRoom", $_POST);
+        if ($validationResult == 1)
+        {
+            $roomName = $_POST["roomName"];
+            $tech = $_POST["tech"];
+            $rows = $_POST["rows"];
+            $columns = $_POST["columns"];
+
+            $room = new Room([
+                "name" => $roomName,
+                "email" => $this->userMail,
+                "numberOfRows" => $rows,
+                "seatsInRow" => $columns
+            ]);
+            $model = new AACinemaModel();
+
+            try
+            {
+                $model->addRoom($room, $tech);
+            }
+            catch (Exception $e)
+            {
+                $msg = "Adding a new room failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/AddRoom"]);
+            }
+
+        }
+        else 
+        {
+            setcookie("addRoomErrors", http_build_query($validationResult));
+            setcookie("addRoomValues", http_build_query($_POST));
+            header("Location: /Cinema/AddRoom");
+            exit();
+        }
+
+        header("Location: /Cinema/Rooms");
+        exit();
+    }
+
+    // Edits an existing room.
+    public function actionEditRoom()
+    {
+        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+    }
+
+    // Removes an existing room.
+    public function actionRemoveRoom()
+    {
+        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+    }
+
+    //--------------------------------------------------------------------
+    //  PRIVATE METHODS  //
+    //--------------------------------------------------------------------
+    
+    // Calls the validation service test named $testName to check validity of $data.
+    private function isValid($testName, $data)
+    {
+        $validation =  \Config\Services::validation();
+
+        $ret = $validation->run($data, $testName);
+
+        if ($ret == 1)
+            return 1;
+        return $validation->getErrors();
+    }
+
+    // Checks if the request is of POST type and if it's not, reroutes home.
+    private function goHomeIfNotPost()
     {
         if($_SERVER["REQUEST_METHOD"] != "POST") {
             // Unauthorized GET request
             header("Location: /Cinema");
             exit();
         }
-
-        $roomName = $_POST["roomName"];
-        $oldRoomName = isset($_POST["oldRoomName"])?$_POST["oldRoomName"]:null;
-        $tech = $_POST["tech"];
-        $rows = $_POST["rows"];
-        $columns = $_POST["columns"];
-
-        $room = new Room([
-            "name" => $roomName,
-            "email" => $this->userMail,
-            "numberOfRows" => $rows,
-            "seatsInRow" => $columns
-        ]);
-
-        $mdl = new AACinemaModel();
-        try
-        {
-            if (isset($oldRoomName))
-                $mdl->changeRoom($this->userMail, $oldRoomName, $room, $tech);
-            else
-                $mdl->addRoom($room, $tech);
-        }
-        catch (Exception $e)
-        {
-            $msg = "Adding/Updating room failed!<br/>".$e->getMessage();
-            return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/AddRoom"]);
-        }
-        
-        header("Location: /Cinema/Rooms");
-        exit();
-    }
-
-    public function actionRemoveRoom()
-    {
-        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
     }
 }
 
