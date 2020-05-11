@@ -150,6 +150,37 @@ class Validation
 		]
 	];
 
+	public $adminAccountCheck = [
+		'fNameNA' => 'required|alpha',
+		'lNameNA' => 'required|alpha',
+		'emailNA' => 'required|valid_email',
+		'passwordNA' => 'required|min_length[6]',
+		'passwordConfirmNA' => 'required|matches[passwordNA]'
+	];
+
+	public $adminAccountCheck_errors =[
+		'fNameNA' => [
+			'required' => 'First name is required',
+			'alpha' => 'Field must contain only letters'
+		],
+
+		'lNameNA' => [
+			'required' => 'Last name is required',
+			'alpha' => 'Field must contain only letters'
+		],
+		'emailNA' => [
+			'required' => 'Email is required',
+			'valid_email' => 'Email must be valid',
+		],
+		'passwordNA' => [
+			'required' => 'Password is required',
+			'min_length' => 'Password must be at least 6 characters long'
+		],
+		'passwordConfirmNA' => [
+			'required' => 'Password is required',
+			'matches' => 'Passwords must match'
+		]
+		];
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------

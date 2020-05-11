@@ -1844,11 +1844,7 @@ input[type="file"] {
 	width: 45%;
 }
 
-#addAdminModal,
-#loginModal {
-	display: none;
-}
-.breachWrapper {
+.breachWrapper{
 	background-image: url("../assets/Admins/noPass.jpg") !important;
 }
 

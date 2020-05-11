@@ -12,7 +12,9 @@ use \App\Models\AdminModel;
 use \App\Models\RUserModel;
 use \App\Models\CountryModel;
 use \App\Models\CityModel;
+
 use App\Libraries\Upload;
+
 use App\Entities\User;
 use App\Entities\Admin;
 
@@ -21,6 +23,7 @@ use function App\Helpers\isValid;
 use function App\Helpers\generateToken;
 use function App\Helpers\setToken;
 
+use Exception;
 
 /** AdminController – klasa koja obradjuje zahteve vezane za "Admin" nalog
  *  -pregled i brisanje registrovanih korisnika
@@ -73,7 +76,7 @@ class AdminController extends BaseController
         $token = $this->getToken();
         if (is_null($token))
             return view('AdminBreachMessage',[]);
-        /*
+
         $users = new UserModel();
         $builder = $users->builder();
         //fetching requested fields from database
@@ -83,7 +86,7 @@ class AdminController extends BaseController
             ->join('Countries', 'RUsers.idCountry = Countries.idCountry','left outer');
         $data = $builder->get();
 
-        return view('AdminView',['actMenu' => "0", 'data' => $data->getResult(), 'token' => $token]);*/
+        return view('AdminView',['actMenu' => "0", 'data' => $data->getResult(), 'token' => $token]);
     }
 
     /** Funkcija koja dohvata sve registrovane bioskope iz baze i prikazuje ih adminu
@@ -439,33 +442,61 @@ class AdminController extends BaseController
         if (is_null($token))
             return view('AdminBreachMessage',[]);
 
-        $fName = $_POST['fNameNA'];
-        $lName = $_POST['lNameNA'];
-        $email = $_POST['emailNA'];
+        $validation =  \Config\Services::validation();
+
+        $fNameNA = $_POST['fNameNA'];
+        $lNameNA = $_POST['lNameNA'];
+        $emailNA = $_POST['emailNA'];
         $passwordNA = $_POST['passwordNA'];
+        $passwordConfirmNA = $_POST['passwordConfirmNA'];
+
+        $form = [
+            'fNameNA' => $fNameNA,
+            'lNameNA' => $lNameNA,
+            'emailNA' => $emailNA,
+            'passwordNA' => $passwordNA,
+            'passwordConfirmNA' => $passwordConfirmNA
+        ];
+
+        $valid = $validation->run($form, "adminAccountCheck");
+
+        if($valid != 1)
+        {
+            $data = (new UserModel())
+            ->join('Admins', 'Users.email = Admins.email')
+            ->find();
+            $errors = $validation->getErrors();
+            var_dump($form);
+            return view('AdminView',['actMenu' => "3", 'data' => $data, 'token' => $token, 'errors' => $errors, 'form' => $form]);
+        }
+
         $passwordNA = password_hash($passwordNA,PASSWORD_BCRYPT, ['cost' => 8]);
 
-        if (is_null($fName) || is_null($lName) || is_null($email) || is_null($passwordNA))
-            return $this->selectMenu(3);
-
         $user = new User([
-            'email' => $email,
+            'email' => $emailNA,
             'password' => $passwordNA,
             'image' => null
         ]);
         $userModel = new UserModel();
-        if ($userModel->insert($user)) {
-			echo 'failed<br/>'.$userModel->errors();
+
+        try {
+            $userModel->insert($user);
+        } catch(Exception $e) {
+            $msg = 'Failed to insert the user into the database<br/>' . $e->getMessage();
+            return view('Exception', ['msg' => $msg, 'destination' => '/AdminController/admins']);
         } 
    
         $adminModel = new AdminModel();
         $admin = new Admin([
-            'email' => $email,
-            'firstName' => $fName,
-            'lastName' => $lName
+            'email' => $emailNA,
+            'firstName' => $fNameNA,
+            'lastName' => $lNameNA
         ]);
-        if ($adminModel->insert($admin)) {
-			echo 'failed<br/>'.$userModel->errors();
+
+        try {
+            $adminModel->insert($admin);
+        } catch(Exception $e) {
+            throw new Exception('Failed to insert the user into the database ' . $e->getMessage());
         } 
 
         return $this->selectMenu(3);

@@ -56,7 +56,7 @@
 					</div>
 				</form>	
 			</div>
-			<div class="modalWrapper" id="addAdminWrapper">
+			<div class="modalWrapper" id="addAdminWrapper" style="<?php if (isset($errors)) echo "display: block;"; else echo "display: none;";?>">
 				<form action="/AdminController/addAdmin" method="POST" id="addAdminForm">
 					<div class="modal centerX" id="addAdminModal">
 							<div class="modalHead">Add admin</div>	
@@ -64,24 +64,29 @@
 								<div class="modalColumn">
 									<!--first name new admin-->
 									<label for="fNameNA">First name</label>
-									<input type="text" id="fNameNA" name="fNameNA" />
+									<input type="text" id="fNameNA" name="fNameNA" value="<?php if(isset($form['fNameNA'])) echo $form['fNameNA'] ?>"/>
+									<div class="formError ml-1"><?php if(isset($errors['fNameNA'])) echo $errors['fNameNA'] ?></div>
 								</div>
 								<div class="modalColumn">
 									<label for="lNameNA">Last name</label>
-									<input type="text" id="lNameNA" name="lNameNA" />
+									<input type="text" id="lNameNA" name="lNameNA" value="<?php if(isset($form['lNameNA'])) echo $form['lNameNA']; ?>"/>
+									<div class="formError ml-1"><?php if(isset($errors['lNameNA'])) echo $errors['lNameNA'] ?></div>
 								</div>
 							</div>
 							<div class="modalColumn mt-2">
 								<label for="emailNA">Email</label>
-								<input type="text" id="emailNA" name="emailNA" />
+								<input type="text" id="emailNA" name="emailNA" value="<?php if(isset($form['emailNA'])) echo $form['emailNA']; ?>"/>
+								<div class="formError ml-1"><?php if(isset($errors['emailNA'])) echo $errors['emailNA'] ?></div>
 							</div>
 							<div class="modalColumn mt-2">
 								<label for="passwordNA">Password</label>
 								<input type="password" id="passwordNA" name="passwordNA" />
+								<div class="formError ml-1"><?php if(isset($errors['passwordNA'])) echo $errors['passwordNA'] ?></div>
 							</div>
 							<div class="modalColumn mt-2">
-								<label for="passwordConfirm">Confirm password</label>
+								<label for="passwordConfirmNA">Confirm password</label>
 								<input type="password" id="passwordConfirmNA" name="passwordConfirmNA" />
+								<div class="formError ml-1"><?php if(isset($errors['passwordConfirmNA'])) echo $errors['passwordConfirmNA'] ?></div>
 							</div>
 							<div class="row centerY mb-2">
 								<span id="strengthBarTitle">Strength: </span>
