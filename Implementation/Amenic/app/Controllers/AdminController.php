@@ -55,7 +55,6 @@ class AdminController extends BaseController
                 return $token;
             }
         }
-        return view('AdminBreachMessage',[]);
     }
 
     /** Funkcija koja se poziva kada se pozove samo AdminController
@@ -72,7 +71,9 @@ class AdminController extends BaseController
     public function users()
     {
         $token = $this->getToken();
-
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
+        /*
         $users = new UserModel();
         $builder = $users->builder();
         //fetching requested fields from database
@@ -82,7 +83,7 @@ class AdminController extends BaseController
             ->join('Countries', 'RUsers.idCountry = Countries.idCountry','left outer');
         $data = $builder->get();
 
-        return view('AdminView',['actMenu' => "0", 'data' => $data->getResult(), 'token' => $token]);
+        return view('AdminView',['actMenu' => "0", 'data' => $data->getResult(), 'token' => $token]);*/
     }
 
     /** Funkcija koja dohvata sve registrovane bioskope iz baze i prikazuje ih adminu
@@ -91,6 +92,8 @@ class AdminController extends BaseController
     public function cinemas()
     {   
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         $users = new UserModel();
         $builder = $users->builder();
@@ -109,6 +112,8 @@ class AdminController extends BaseController
     public function requests()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         $users = new UserModel();
         $builder = $users->builder();
@@ -127,6 +132,8 @@ class AdminController extends BaseController
     public function admins()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         $users = new UserModel();
         $builder = $users->builder();
@@ -143,6 +150,8 @@ class AdminController extends BaseController
     public function settings()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         $data = [
             'firstName' => $token->firstName,
@@ -158,6 +167,8 @@ class AdminController extends BaseController
     public function search()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         if(!isset($_POST['actMenu']) || !isset($_POST['phrase']))
         {
@@ -265,6 +276,8 @@ class AdminController extends BaseController
     public function removeUser()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         $actMenu= $_POST['actMenu'];
         $key = $_POST['key'];
@@ -313,6 +326,8 @@ class AdminController extends BaseController
     public function editRequest()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         if(!isset($_POST['key']) || !isset($_POST['key']))
             return $this->requests();
@@ -335,6 +350,8 @@ class AdminController extends BaseController
     public function approveCinema()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         $actMenu= $_POST['actMenu'];
         $key = $_POST['key'];
@@ -352,6 +369,8 @@ class AdminController extends BaseController
     public function openCinema()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         $actMenu= $_POST['actMenu'];
         $key = $_POST['key'];
@@ -368,6 +387,8 @@ class AdminController extends BaseController
     public function saveSettings()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
         
         //add to database
         $name = $_POST['fName'];
@@ -415,6 +436,8 @@ class AdminController extends BaseController
     public function addAdmin()
     {
         $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         $fName = $_POST['fNameNA'];
         $lName = $_POST['lNameNA'];

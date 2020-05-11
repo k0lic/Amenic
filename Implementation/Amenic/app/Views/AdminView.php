@@ -137,10 +137,10 @@
 					{
 						$city = !isset($row->cityName) || is_null($row->cityName) ? "" : " • ".$row->cityName;
 						$country = !isset($row->countryName) || is_null($row->countryName) ? "" : " • ".$row->countryName;
-						$image = is_null($row->image) ? "/assets/Admins/profile.jpeg" : "data:image/jpg;base64, ".$row->image;
+						$image = !isset($row->image) || is_null($row->image) ? "/assets/Admins/profile.jpeg" : "data:image/jpg;base64, ".$row->image;
 						$name = strcmp($actMenu,0)==0 || strcmp($actMenu,3) == 0 ? $row->firstName." ".$row->lastName : $row->name;
-						$address = strcmp($actMenu,0)==1 || strcmp($actMenu,0)==2 ? " • ".$row->address : "";
-						$phone = strcmp($actMenu,0)==1 || strcmp($actMenu,0)==2 ? " • ".$row->phoneNumber : "";
+						$address = strcmp($actMenu,1)==0 || strcmp($actMenu,2)==0 ? " • ".$row->address : "";
+						$phone = strcmp($actMenu,1)==0 || strcmp($actMenu,2)==0 ? " • ".$row->phoneNumber : "";
                             echo "<form action=\"javascript:void(0);\" method=\"POST\" class=\"rowWrapper\">							
 									<div class=\"userPicture\">
                                             <img src=\"".$image."\" alt=\"\"/>
