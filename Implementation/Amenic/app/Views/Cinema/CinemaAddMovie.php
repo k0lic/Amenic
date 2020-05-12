@@ -9,13 +9,13 @@
         if (isset($_COOKIE["addMovieErrors"]))
         {
             parse_str($_COOKIE["addMovieErrors"], $errors);
-            setcookie("addMovieErrors","",time() - 3600);
+            setcookie("addMovieErrors","",time() - 3600, "/");
         }
         $values = [];
         if (isset($_COOKIE["addMovieValues"]))
         {
             parse_str($_COOKIE["addMovieValues"], $values);
-            setcookie("addMovieValues", "", time() - 3600);
+            setcookie("addMovieValues", "", time() - 3600, "/");
         }
     ?>
 	<head>
@@ -113,26 +113,49 @@
                             <div class="column w35">
                                 <label for="movieName">Movie name</label>
                                 <input type="text" name="movieName" value="<?php
-                                    if (isset($targetName))
+                                    if (isset($values["movieName"]))
+                                        echo $values["movieName"];
+                                    else if (isset($targetName))
                                         echo $targetName;
                                     else if (isset($halfTargetName))
                                         echo $halfTargetName;
                                 ?>" />
-                                <input type="hidden" name="tmdbID" value="<?php
-                                    if (isset($target))
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["movieName"]))
+                                            echo $errors["movieName"];
+                                    ?>
+                                </div>
+                                <input type="number" name="tmdbID" value="<?php
+                                    if (isset($values["tmdbID"]))
+                                        echo $values["tmdbID"];
+                                    else if (isset($target))
                                         echo $target->tmdbID;
                                     else if (isset($halfTarget))
                                         echo $halfTarget->tmdbID;
                                 ?>" />
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["tmdbID"]))
+                                            echo $errors["tmdbID"];
+                                        else
+                                            echo "You can copy from here: [419704,530915,330457]";
+                                    ?>
+                                </div>
                                 <?php
                                     if (isset($target))
+                                    {
                                         echo "<input type=\"hidden\" name=\"oldIdPro\" value=\"$target->idPro\" />";
+                                        echo "<div class=\"formError ml-1\">".(isset($errors["oldIdPro"])?$errors["oldIdPro"]:"")."</div>";
+                                    }
                                 ?>
                                 <?php
                                     if (isset($halfTarget))
+                                    {
                                         echo "<input type=\"hidden\" name=\"oldtmdbID\" value=\"$halfTarget->tmdbID\" />";
+                                        echo "<div class=\"formError ml-1\">".(isset($errors["oldtmdbID"])?$errors["oldtmdbID"]:"")."</div>";
+                                    }
                                 ?>
-                                <input type="hidden" name="oldIdPro" />
                             </div>
                         </div>
                         <!-- TWO DYNAMIC SELECTS -->
@@ -143,23 +166,43 @@
                                     <?php
                                         foreach ($rooms as $room)
                                         {
-                                            $isSelected = isset($target) && $target->roomName == $room->name;
+                                            $isSelected = false;
+                                            if (isset($values["room"]))
+                                                $isSelected = $values["room"] == $room->name;
+                                            else if (isset($target))
+                                                $isSelected = $target->roomName == $room->name;
                                             echo "<option value=\"$room->name\"".($isSelected?" selected":"").">$room->name</option>";
                                         }
                                     ?>
                                 </select>
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["room"]))
+                                            echo $errors["room"];
+                                    ?>
+                                </div>
                             </div>
                             <div class="column w25">
                                 <label for="tech">Technology</label>
                                 <select class="formSelect" name="tech">
                                     <?php
+                                        if (isset($values["tech"]))
+                                            $selectedTechId = $values["tech"];
+                                        else if (isset($target))
+                                            $selectedTechId = $target->idTech;
                                         foreach ($technologies as $tech)
                                         {
-                                            $isSelected = isset($target) && $target->idTech == $tech->idTech;
+                                            $isSelected = isset($selectedTechId) && $selectedTechId == $tech->idTech;
                                             echo "<option value=\"$tech->idTech\"".($isSelected?" selected":"").">$tech->name</option>";
                                         }
                                     ?>
                                 </select>
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["tech"]))
+                                            echo $errors["tech"];
+                                    ?>
+                                </div>
                             </div>
                         </div>
                         <!-- CALENDAR -->
@@ -168,6 +211,9 @@
                                 <label for="placeholder">Date of projection</label>
                                 <div class="calendar">
                                     <?php
+
+                                        $targetDateInput = isset($values["startDate"]) ? $values["startDate"] : (isset($target) ? $target->dateTime : "1972-01-01");
+                                        $targetDate = strtotime(date("Y-m-d", strtotime($targetDateInput)));
 
                                         $days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
                                         $now = strtotime("today");
@@ -198,12 +244,12 @@
                                                 }
                                                 else if ($curr == $now)
                                                 {
-                                                    $isSelected = isset($target) && $curr == (strtotime($target->dateTime)-strtotime($target->dateTime)%(24*60*60));
+                                                    $isSelected = $curr == $targetDate;
                                                     echo "<button type=\"button\" id=\"buttonDate_".date("Ymd",$curr)."\" class=\"todayButton".($isSelected?" selectedDay":"")."\" onClick=\"selectDate(".date("Ymd",$curr).")\">".date("j",$curr)."</button>";
                                                 }
                                                 else
                                                 {
-                                                    $isSelected = isset($target) && $curr == (strtotime($target->dateTime)-strtotime($target->dateTime)%(24*60*60));
+                                                    $isSelected = $curr == $targetDate;
                                                     echo "<button type=\"button\" id=\"buttonDate_".date("Ymd",$curr)."\" class=\"dayButton".($isSelected?" selectedDay":"")."\"  onClick=\"selectDate(".date("Ymd",$curr).")\">".date("j",$curr)."</button>";
                                                 }
                                                 $curr += (24*60*60);
@@ -212,14 +258,26 @@
                                         }
                                     ?>
                                     <div class="row mt-1 ml-2 mb-2">
-                                        <span>Selected:&nbsp;</span><span id="selectedDate" value="<?php
-                                            if (isset($target))
-                                                echo date("d/m/Y", strtotime($target->dateTime));
-                                        ?>"></span>
+                                        <span>Selected:&nbsp;</span><span id="selectedDate">
+                                            <?php
+                                                if (isset($values["startDate"]) || isset($target))
+                                                    echo date("d/m/Y", $targetDate);
+                                                else
+                                                    echo date("d/m/Y", time());
+                                            ?>
+                                        </span>
                                         <input type="hidden" id="selectedDateHidden" name="startDate" value="<?php
-                                            if (isset($target))
-                                                echo date("d/m/Y", strtotime($target->dateTime));
+                                            if (isset($values["startDate"]) || isset($target))
+                                                echo date("Y-m-d", $targetDate);
+                                            else
+                                                echo date("Y-m-d", time());
                                         ?>" />
+                                        <div class="formError ml-1">
+                                            <?php 
+                                                if(isset($errors["startDate"]))
+                                                    echo $errors["startDate"];
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -227,14 +285,32 @@
                             <div class="column w30">
                                 <label for="startTime">Start time</label>
                                 <input type="time" name="startTime" class="mb-2" value="<?php
-                                    if (isset($target))
+                                    if (isset($values["startTime"]))
+                                        echo date("H:i", strtotime($values["startTime"]));
+                                    else if (isset($target))
                                         echo date("H:i", strtotime($target->dateTime));
+                                    else
+                                        echo date("H:i", time());
                                 ?>" />
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["startTime"]))
+                                            echo $errors["startTime"];
+                                    ?>
+                                </div>
                                 <label for="price">Ticket price (&euro;)</label>
                                 <input type="number" name="price" min="0" step="0.01" value="<?php
-                                    if (isset($target))
+                                    if (isset($values["price"]))
+                                        echo $values["price"];
+                                    else if (isset($target))
                                         echo $target->price;
                                 ?>" />
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["price"]))
+                                            echo $errors["price"];
+                                    ?>
+                                </div>
                             </div>
                         </div>
                         <!-- CHECKBOX AND SUBMIT -->
@@ -242,24 +318,39 @@
                             <div class="column w25 mr-5">
                                 <div class="row">
                                     <input type="checkbox" name="soon" class="formCheckbox" value="<?php
-                                        if (isset($halfTarget))
+                                        if (isset($values["soon"]))
+                                            echo $values["soon"];
+                                        else if (isset($halfTarget))
                                             echo "true";
                                         else
                                             echo "false";
                                     ?>" />
                                     <label for="soon">Add to Soon</label>
                                 </div>
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["soon"]))
+                                            echo $errors["soon"];
+                                    ?>
+                                </div>
                             </div>
                             <?php
                                 if (isset($target) || isset($halfTarget))
                                     echo "
                                         <div class=\"column w30\">
-                                            <button type=\"submit\" formaction=\"/Cinema/ActionCancelMovie\" class=\"standardButton badButton\">Cancel movie</button>
+                                            <button type=\"submit\" formaction=\"/Cinema/".(isset($target)?"ActionCancelMovie":"actionCancelComingSoon")."\" class=\"standardButton badButton\">Cancel movie</button>
                                         </div>
                                     ";
                             ?>
                             <div class="column w30">
-                                <button type="submit" formaction="/Cinema/ActionAddMovie" class="standardButton goodButton"><?php
+                                <button type="submit" formaction="/Cinema/<?php
+                                    if (isset($target))
+                                        echo "ActionEditMovie";
+                                    else if (isset($halfTarget))
+                                        echo "ActionReleaseComingSoon";
+                                    else
+                                        echo "ActionAddMovie";
+                                ?>" class="standardButton goodButton"><?php
                                     if (isset($target) || isset($halfTarget))
                                         echo "Save changes";
                                     else

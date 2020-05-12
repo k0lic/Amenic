@@ -21,5 +21,5 @@ function selectDate(caller) {
     let visualUpdate = document.getElementById("selectedDate");
     visualUpdate.textContent = day + "/" + month + "/" + year;
     let inputUpdate = document.getElementById("selectedDateHidden");
-    inputUpdate.value = day + "/" + month + "/" + year;
+    inputUpdate.value = year + "-" + month + "-" + day;
 }

@@ -234,6 +234,39 @@ class Validation
 		]
 	];
 
+	public $actionAddMovie = [
+		'tmdbID' => [
+			'label' => 'Movie ID',
+			'rules' => 'required|integer|max_length[64]|is_not_unique[movies.tmdbID]'
+		],
+		'room' => [
+			'label' => 'Room',
+			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[64]|checkOldRoomName'
+		],
+		'tech' => [
+			'label' => 'Technology',
+			'rules' => 'required|integer|checkMovieTech'
+		],
+		'startDate' => [
+			'label' => 'Date of projection',
+			'rules' => 'required|valid_date[Y-m-d]'					// check if not in the past
+		],
+		'startTime' => [
+			'label' => 'Start time',
+			'rules' => 'required|exact_length[5]|validateTime'		// check if not in the past, check if no collisions
+		],
+		'price' => [
+			'label' => 'Price',
+			'rules' => 'required|decimal'
+		]
+	];
+
+	/*
+	movieName,tmdbID,room,tech,startDate,startTime,price,soon			- AddMovie
+	oldIdPro															- Edit movie
+	oldtmdbID															- Release soon
+	*/
+
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------

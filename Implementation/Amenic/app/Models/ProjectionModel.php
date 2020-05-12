@@ -8,13 +8,16 @@
 use App\Models\SmartDeleteModel;
 use App\Models\SeatModel;
 use App\Models\ReservationModel;
+use App\Models\RoomModel;
+use App\Entities\Seat;
+use Exception;
 
 class ProjectionModel extends SmartDeleteModel
 {
     protected $table = 'Projections';
     protected $primaryKey= 'idPro';
     protected $returnType= 'App\Entities\Projection';   
-    protected $allowedFields = ['idPro','roomName','email','dateTime','price','canceled','tmdbID','idTech'];
+    protected $allowedFields = ['roomName','email','dateTime','price','canceled','tmdbID','idTech'];
     
     // Deletes the projection along with all of the dependant seats and reservations.
     public function smartDelete($idPro)
@@ -51,6 +54,43 @@ class ProjectionModel extends SmartDeleteModel
         {
             $this->db->transRollback();
             throw new Exception("Transaction ".get_class($this).".transSmartCancel(".$idPro.") failed!<br/>".$e->getMessage());
+        }
+    }
+
+    // Creates a projection, along with all of its seats.
+    public function transSmartCreate($pro)
+    {
+        try
+        {
+            $this->db->transBegin();
+
+            $roommdl = new RoomModel();
+            $seatmdl = new SeatModel();
+            $this->insert($pro);
+            $inserted = $this->where("email", $pro->email)->where("roomName", $pro->roomName)->where("dateTime", $pro->dateTime)->findAll()[0];
+            $room = $roommdl->where("email", $pro->email)->where("name", $pro->roomName)->findAll()[0];
+            $seats = [];
+            for ($i=0;$i<$room->numberOfRows;$i++)
+            {
+                for ($j=0;$j<$room->seatsInRow;$j++)
+                {
+                    $seat = new Seat([
+                        "idPro" => $inserted->idPro,
+                        "rowNumber" => $i,
+                        "seatNumber" => $j,
+                        "status" => "free",
+                        "idRes" => null
+                    ]);
+                    $seatmdl->insert($seat);
+                }
+            }
+
+            $this->db->transCommit();
+        }
+        catch (Exception $e)
+        {
+            $this->db->transRollback();
+            throw new Exception("Transaction ".get_class($this).".transSmartCreate() failed!<br/>".$e->getMessage());
         }
     }
 

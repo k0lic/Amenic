@@ -13,6 +13,7 @@ use App\Models\ProjectionModel;
 use App\Models\MovieModel;
 use App\Models\RoomTechnologyModel;
 use App\Entities\Room;
+use App\Entities\Projection;
 use Exception;
 
 /*
@@ -107,11 +108,67 @@ class Cinema extends BaseController
     // Adds a new projection or edits an existing one (or edits a coming soon movie), depending on the POST parameters.
     public function actionAddMovie()
     {
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionAddMovie", $_POST);
+        if ($validationResult == 1)
+        {
+            $roomName = $_POST["room"];
+            $dateTime = $_POST["startDate"]." ".$_POST["startTime"];
+            $price = $_POST["price"];
+            $tmdbID = $_POST["tmdbID"];
+            $idTech = $_POST["tech"];
+
+            $pro = new Projection([
+                "roomName" => $roomName,
+                "email" => $this->userMail,
+                "dateTime" => $dateTime,
+                "price" => $price,
+                "canceled" => 0,
+                "tmdbID" => $tmdbID,
+                "idTech" => $idTech
+            ]);
+            $model = new ProjectionModel();
+
+            try
+            {
+                $model->transSmartCreate($pro);
+            }
+            catch (Exception $e)
+            {
+                $msg = "Adding a new movie failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/AddMovie"]);
+            }
+        }
+        else 
+        {
+            setcookie("addMovieErrors", http_build_query($validationResult), time() + 3600, "/");
+            setcookie("addMovieValues", http_build_query($_POST), time() + 3600, "/");
+            header("Location: /Cinema/AddMovie");
+            exit();
+        }
+
+        header("Location: /Cinema");
+        exit();
+    }
+
+    public function actionEditMovie()
+    {
+        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+    }
+
+    public function actionReleaseComingSoon()
+    {
         throw new Exception("NOT YET IMPLEMENTED!<br/>>");
     }
 
     // Cancels an existing projection.
     public function actionCancelMovie()
+    {
+        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+    }
+
+    public function actionCancelComingSoon()
     {
         throw new Exception("NOT YET IMPLEMENTED!<br/>>");
     }

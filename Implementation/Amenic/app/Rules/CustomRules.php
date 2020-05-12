@@ -7,12 +7,14 @@
 
 use App\Models\TechnologyModel;
 use App\Models\RoomModel;
+use App\Models\RoomTechnologyModel;
 
 class CustomRules
 {
 
     private string $userMail = "cinemaMail";
 
+    // Checks if an array containing only valid idTechs was passed.
     public function checkRoomTech($arr,&$error = null)
     {
         if (count($arr)<1)
@@ -39,6 +41,7 @@ class CustomRules
         return true;
     }
 
+    // Checks if a room name is available in this cinema.
     public function checkRoomName($str,&$error = null)
     {
         $model = new RoomModel();
@@ -50,6 +53,7 @@ class CustomRules
         return true;
     }
 
+    // Checks if the new room name is available, ignoring the old one.
     public function checkRoomNameExcept($str,&$error = null)
     {
         $oldRoomName = $_POST["oldRoomName"];
@@ -62,6 +66,7 @@ class CustomRules
         return true;
     }
 
+    // Checks if a room with the passed name exists.
     public function checkOldRoomName($str,&$error = null)
     {
         $model = new RoomModel();
@@ -72,5 +77,54 @@ class CustomRules
         $error = "Cannot find room with name: ".$str.", go back to <a href=\"/Cinema/Rooms\">Rooms</a> please";
         return false;
     }
+
+    // Checks if the passed technology is implemented in the passed room.
+    public function checkMovieTech($str,&$error = null)
+    {
+        $room = $_POST["room"];
+        $model = new RoomTechnologyModel();
+        if ($model->where("email", $this->userMail)->where("name", $room)->where("idTech", $str)->find() == null)
+        {
+            $error = "This technology is not implemented in selected room";
+            return false;
+        }
+        return true;
+    }
+
+    // Checks if valid time was passed.
+    public function validateTime($str,&$error = null)
+    {
+        $hh = substr($str, 0, 2);
+        $mm = substr($str, 3);
+
+        if (!is_numeric($hh) || !is_numeric($mm))
+        {
+            $error = "Not numeric";
+            return false;
+        }
+        else if ((int) $hh > 24 || (int) $mm > 59)
+        {
+            $error = "Invalid time";
+            return false;
+        }
+        else if (mktime((int) $hh, (int) $mm) === FALSE)
+        {
+            $error = "Invalid time";
+            return false;
+        }
+
+        return true;
+    }
+
+    /*
+    public function checkFalseOrTrue($str,&$error = null)
+    {
+        if ($strcasecmp($str, "true") != 0 && $strcasecmp($str, "false") != 0)
+        {
+            $error = "Invalid value, expected: 'true' or 'false'";
+            return false;
+        }
+        return true;
+    }*/
 
 }

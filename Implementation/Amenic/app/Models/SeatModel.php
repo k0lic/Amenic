@@ -8,5 +8,6 @@ class SeatModel extends Model
     #find($id)–findAll()–findAll($limit, $offset)–first()–where($name, $value)–insert($data)–update($id, $data)–save($data)–delete($id)
     protected $table = 'Seats';
     protected $primaryKey= 'email';
-    protected $returnType= 'object';    
+    protected $returnType= 'App\Entities\Seat';
+    protected $allowedFields= ['idPro', 'rowNumber', 'seatNumber', 'status', 'idRes'];
 }
