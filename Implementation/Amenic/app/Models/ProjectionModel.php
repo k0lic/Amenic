@@ -104,7 +104,7 @@ class ProjectionModel extends SmartDeleteModel
         foreach ($reservations as $res)
             $resmdl->mailOwner($res->idRes);
         */
-        $this->update($idPro, ["dateTime" => 1]);
+        $this->update($idPro, ["dateTime" => $newStartTime]);
     }
 
     // Returns all projections in a given cinema, ordered by start date and time.

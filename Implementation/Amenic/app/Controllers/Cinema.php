@@ -12,8 +12,10 @@ use App\Models\TechnologyModel;
 use App\Models\ProjectionModel;
 use App\Models\MovieModel;
 use App\Models\RoomTechnologyModel;
+use App\Models\ComingSoonModel;
 use App\Entities\Room;
 use App\Entities\Projection;
+use App\Entities\ComingSoon;
 use Exception;
 
 /*
@@ -110,33 +112,54 @@ class Cinema extends BaseController
     {
         $this->goHomeIfNotPost();
 
-        $validationResult = $this->isValid("actionAddMovie", $_POST);
+        //$addToSoon = isset($_POST["soon"]) && (strcasecmp($_POST["soon"], "true") == 0);
+        $addToSoon = isset($_POST["soon"]) && $_POST["soon"];
+        //return view("Exception.php",["msg" => "AddToSoon = ".$addToSoon,"destination" => "/Cinema/AddMovie"]);
+
+        $validationResult = $this->isValid($addToSoon?"actionAddSoon":"actionAddMovie", $_POST);
         if ($validationResult == 1)
         {
-            $roomName = $_POST["room"];
-            $dateTime = $_POST["startDate"]." ".$_POST["startTime"];
-            $price = $_POST["price"];
-            $tmdbID = $_POST["tmdbID"];
-            $idTech = $_POST["tech"];
+            if ($addToSoon)
+            {
+                $tmdbID = $_POST["tmdbID"];
 
-            $pro = new Projection([
-                "roomName" => $roomName,
-                "email" => $this->userMail,
-                "dateTime" => $dateTime,
-                "price" => $price,
-                "canceled" => 0,
-                "tmdbID" => $tmdbID,
-                "idTech" => $idTech
-            ]);
-            $model = new ProjectionModel();
+                $soon = new ComingSoon([
+                    "tmdbID" => $tmdbID,
+                    "email" => $this->userMail
+                ]);
+                $model = new ComingSoonModel();
+            }
+            else
+            {
+                $roomName = $_POST["room"];
+                $dateTime = $_POST["startDate"]." ".$_POST["startTime"];
+                $price = $_POST["price"];
+                $tmdbID = $_POST["tmdbID"];
+                $idTech = $_POST["tech"];
+    
+                $pro = new Projection([
+                    "roomName" => $roomName,
+                    "email" => $this->userMail,
+                    "dateTime" => $dateTime,
+                    "price" => $price,
+                    "canceled" => 0,
+                    "tmdbID" => $tmdbID,
+                    "idTech" => $idTech
+                ]);
+                $model = new ProjectionModel();
+            }
+
 
             try
             {
-                $model->transSmartCreate($pro);
+                if ($addToSoon)
+                    $model->insert($soon);
+                else
+                    $model->transSmartCreate($pro);
             }
             catch (Exception $e)
             {
-                $msg = "Adding a new movie failed!<br/>".$e->getMessage();
+                $msg = ($addToSoon?"Adding a movie to coming soon failed!<br/>":"Adding a new movie failed!<br/>").$e->getMessage();
                 return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/AddMovie"]);
             }
         }
@@ -148,7 +171,10 @@ class Cinema extends BaseController
             exit();
         }
 
-        header("Location: /Cinema");
+        if ($addToSoon)
+            header("Location: /Cinema/ComingSoon");
+        else
+            header("Location: /Cinema");
         exit();
     }
 

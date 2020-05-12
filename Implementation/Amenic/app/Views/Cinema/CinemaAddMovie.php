@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <?php
+        date_default_timezone_set("Europe/Belgrade");
         $errors = [];
         if (isset($_COOKIE["addMovieErrors"]))
         {
@@ -272,19 +273,19 @@
                                             else
                                                 echo date("Y-m-d", time());
                                         ?>" />
-                                        <div class="formError ml-1">
-                                            <?php 
-                                                if(isset($errors["startDate"]))
-                                                    echo $errors["startDate"];
-                                            ?>
-                                        </div>
+                                    </div>
+                                    <div class="formError ml-1">
+                                        <?php 
+                                            if(isset($errors["startDate"]))
+                                                echo $errors["startDate"];
+                                        ?>
                                     </div>
                                 </div>
                             </div>
                             <!-- TWO NUMBER INPUTS -->
                             <div class="column w30">
                                 <label for="startTime">Start time</label>
-                                <input type="time" name="startTime" class="mb-2" value="<?php
+                                <input type="time" name="startTime" value="<?php
                                     if (isset($values["startTime"]))
                                         echo date("H:i", strtotime($values["startTime"]));
                                     else if (isset($target))
@@ -292,7 +293,7 @@
                                     else
                                         echo date("H:i", time());
                                 ?>" />
-                                <div class="formError ml-1">
+                                <div class="formError ml-1 mb-2">
                                     <?php 
                                         if(isset($errors["startTime"]))
                                             echo $errors["startTime"];

@@ -8,6 +8,11 @@
 use App\Models\TechnologyModel;
 use App\Models\RoomModel;
 use App\Models\RoomTechnologyModel;
+use App\Models\ProjectionModel;
+use App\Models\ComingSoonModel;
+use App\Models\MovieModel;
+
+date_default_timezone_set("Europe/Belgrade");
 
 class CustomRules
 {
@@ -111,6 +116,90 @@ class CustomRules
         {
             $error = "Invalid time";
             return false;
+        }
+
+        return true;
+    }
+
+    // Checks if the movie isn't already announced as coming soon, or if projections are already scheduled.
+    public function checkIfReallysoon($str,&$error = null)
+    {
+        $tmdbID = $str;
+
+        $promdl = new ProjectionModel();
+        $soonmdl = new ComingSoonModel();
+        if ($soonmdl->where("email", $this->userMail)->where("tmdbID", $tmdbID)->find() != null)
+        {
+            $error = "This movie is already announced as coming soon";
+            return false;
+        }
+        if ($promdl->where("email", $this->userMail)->where("tmdbID", $tmdbID)->where("canceled", 0)->find() != null)
+        {
+            $error = "This movie is already showing";
+            return false;
+        }
+
+        return true;
+    }
+
+    public function checkIfDateInThePast($str,&$error = null)
+    {
+        $date = strtotime($str);
+        $now = strtotime("today");
+
+        if ($date < $now)
+        {
+            $error = "Selected date cannot be in the past";
+            return false;
+        }
+
+        return true;
+    }
+
+    public function checkIfTimeInThePast($str,&$error = null)
+    {
+        $time = strtotime($_POST["startDate"]." ".$str);
+        $now = time();
+
+        if ($time < $now + 3600)
+        {
+            $error = "Schedule the projection at least an hour in advance";
+            return false;
+        }
+
+        return true;
+    }
+
+    public function checkForCollisions($str,&$error = null)
+    {
+        $promdl = new ProjectionModel();
+        $moviemdl = new MovieModel();
+
+        $timeStart = strtotime($_POST["startDate"]." ".$str);
+        $roomName = $_POST["room"];
+        $tmdbID = $_POST["tmdbID"];
+        $movie = $moviemdl->find($tmdbID);
+        $runtime = $movie->runtime;
+        $timeEnd = $timeStart + $runtime * 60;
+
+        $tStart = date("Y-m-d H:i", $timeStart);
+        $tEnd = date("Y-m-d H:i", $timeEnd);
+
+        $potentialCollisions = $promdl->where("email", $this->userMail)->where("roomName", $roomName)->where("canceled", 0)->findAll();
+
+        foreach ($potentialCollisions as $coll)
+        {
+            $collMovie = $moviemdl->find($coll->tmdbID);
+            $collRuntime = $collMovie->runtime;
+
+            $collStart = strtotime($coll->dateTime);
+            $collEnd = $collStart + $collRuntime * 60;
+
+            if (($collStart >= $timeStart && $collStart <= $timeEnd) || ($timeStart >= $collStart && $timeStart <= $collEnd))
+            {
+                $error = "Suggested start time would lead to collision with ".$collMovie->title." showing at ".$coll->dateTime;
+                return false;
+            }
         }
 
         return true;

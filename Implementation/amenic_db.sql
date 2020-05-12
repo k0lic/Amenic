@@ -263,8 +263,8 @@ CREATE TABLE `Projections` (
 
 INSERT INTO `Projections`(`idPro`, `roomName`, `email`, `dateTime`, `price`, `canceled`, `tmdbID`, `idTech`) VALUES
 (1,'Sala 1','cinemaMail','2020-05-13 22:00:00',5,false,'419704',1),
-(2,'Sala 1','cinemaMail','2020-05-15 18:00:00',5,false,'530915',1),
-(3,'Sala 1','cinemaMail','2020-05-15 20:15:00',5,false,'419704',2);
+(2,'Sala 1','cinemaMail','2020-05-15 19:15:00',5,false,'530915',1),
+(3,'Shupa','cinemaMail','2020-05-15 20:15:00',2.5,false,'419704',2);
 
 -- --------------------------------------------------------
 
@@ -297,7 +297,8 @@ CREATE TABLE `Rooms` (
 --
 
 INSERT INTO `rooms`(`name`, `email`, `numberOfRows`, `seatsInRow`) VALUES
-('Sala 1', 'cinemaMail', 8, 10);
+('Sala 1', 'cinemaMail', 8, 10),
+('Shupa', 'cinemaMail', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -316,7 +317,9 @@ CREATE TABLE `RoomTechnologies` (
 --
 
 INSERT INTO `roomtechnologies`(`name`, `email`, `idTech`) VALUES
-('Sala 1', 'cinemaMail', 1);
+('Sala 1', 'cinemaMail', 1),
+('Shupa', 'cinemaMail', 2),
+('Shupa', 'cinemaMail', 3);
 
 -- --------------------------------------------------------
 

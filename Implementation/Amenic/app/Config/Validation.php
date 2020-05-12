@@ -249,15 +249,22 @@ class Validation
 		],
 		'startDate' => [
 			'label' => 'Date of projection',
-			'rules' => 'required|valid_date[Y-m-d]'					// check if not in the past
+			'rules' => 'required|valid_date[Y-m-d]|checkIfDateInThePast'
 		],
 		'startTime' => [
 			'label' => 'Start time',
-			'rules' => 'required|exact_length[5]|validateTime'		// check if not in the past, check if no collisions
+			'rules' => 'required|exact_length[5]|validateTime|checkIfTimeInThePast|checkForCollisions'
 		],
 		'price' => [
 			'label' => 'Price',
 			'rules' => 'required|decimal'
+		]
+	];
+
+	public $actionAddSoon = [
+		'tmdbID' => [
+			'label' => 'Movie ID',
+			'rules' => 'required|integer|max_length[64]|is_not_unique[movies.tmdbID]|checkIfReallysoon'
 		]
 	];
 
