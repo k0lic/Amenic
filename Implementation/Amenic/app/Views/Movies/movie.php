@@ -78,120 +78,211 @@
         <div class="row movieSelectorRow centerRow">
             <div class="movieDateSelector centerY">
                 <span class="movieSelectorTitle mr-2">Date:</span>
-                <img src="/assets/Movie/arrowLeft.svg" class="movieArrow" />
-                <div class="column centerRow dateColumn o30 ml-2">
+                <img src="/assets/Movie/arrowLeft.svg" class="movieArrow" id="movieArrowLeft"/>
+                <div class="column centerRow dateColumn o30 ml-2" id="movieDateO1">
                     <span class="movieMonth">May</span>
                     <span class="movieDate">09</span>
                     <span class="movieDay">Sat</span>
                 </div>
-                <div class="column centerRow dateColumn o50">
+                <div class="column centerRow dateColumn o50" id="movieDateI1">
                     <span class="movieMonth">May</span>
                     <span class="movieDate">10</span>
                     <span class="movieDay">Sun</span>
                 </div>
-                <div class="column centerRow dateColumn">
+                <div class="column centerRow dateColumn" id="movieDate">
                     <span class="movieMonth">May</span>
                     <span class="movieDate">11</span>
                     <span class="movieDay">Mon</span>
                 </div>
-                <div class="column centerRow dateColumn o50">
+                <div class="column centerRow dateColumn o50" id="movieDateI2">
                     <span class="movieMonth">May</span>
                     <span class="movieDate">12</span>
                     <span class="movieDay">Tue</span>
                 </div>
-                <div class="column centerRow dateColumn o30 mr-2">
+                <div class="column centerRow dateColumn o30 mr-2" id="movieDateO2">
                     <span class="movieMonth">May</span>
                     <span class="movieDate">13</span>
                     <span class="movieDay">Thu</span>
                 </div>
-                <img src="/assets/Movie/arrowRight.svg" class="movieArrow mr-5" />
+                <img src="/assets/Movie/arrowRight.svg" class="movieArrow mr-5" id="movieArrowRight"/>
             </div>
-            <div class="column w10 dropdownColumn ml-5">
-                <span class="dropdownTitle">Time</span>
-                <span class="dropdownSubtitle">Select</span>
-                <div class="dropdownContent">
-                    <a href="#">18:30</a>
-                    <a href="#">19:30</a>
-                    <a href="#">20:00</a>
-                </div>
-            </div> 
-            <div class="column w10 dropdownColumn">
-                <span class="dropdownTitle">Cinema</span>
-                <span class="dropdownSubtitle">Select</span>
-                <div class="dropdownContent">
-                    <a href="#">Cineplexx BIG</a>
-                    <a href="#">Cineplexx Ušće</a>
-                    <a href="#">Jagodinski kulturni centar</a>
-                </div>
-            </div> 
-            <div class="column w10 dropdownColumn">
-                <span class="dropdownTitle">Country</span>
-                <span class="dropdownSubtitle">Select</span>
-                <div class="dropdownContent">
-                    <a href="#">Serbia</a>
-                </div>
-            </div> 
-            <div class="column w10 dropdownColumn">
-                <span class="dropdownTitle">City</span>
-                <span class="dropdownSubtitle">Select</span>
-                <div class="dropdownContent">
-                    <a href="#">Beograd</a>
-                    <a href="#">Novi Sad</a>
-                    <a href="#">Niš</a>
-                    <a href="#">Jagodina</a>
-                </div>
+            
+            <div class="column w10 dropdownColumn ml-5" id="timeColumn">
+                <ul>
+                    <li><div class="column">
+                    <span class="dropdownTitle">Time</span>
+                    <span class="dropdownSubtitle" id="timeSelect">Select</span>
+                    </div>
+                        <ul class="dropdown">
+                            <li><a href="#">18:30</a></li>
+                            <li><a href="#">19:30</a></li>
+                            <li><a href="#">20:00</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="column w10 dropdownColumn" id="cinemaColumn">
+                <ul>
+                    <li><div class="column">
+                    <span class="dropdownTitle">Cinema</span>
+                    <span class="dropdownSubtitle" id="cinemaSelect">Select</span>
+                    </div>
+                        <ul class="dropdown">
+                            <li><a href="#">Cineplexx BIG</a></li>
+                            <li><a href="#">Cineplexx Ušće</a></li>
+                            <li><a href="#">Jagodinski kulturni centar</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="column w10 dropdownColumn" id="countryColumn">
+                <ul>
+                    <li><div class="column">
+                    <span class="dropdownTitle">Country</span>
+                    <span class="dropdownSubtitle" id="countrySelect">Select</span>
+                    </div>
+                        <ul class="dropdown">
+                            <li><a href="#">Serbia</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="column w10 dropdownColumn" id="cityColumn">
+                <ul>
+                    <li><div class="column">
+                    <span class="dropdownTitle">City</span>
+                    <span class="dropdownSubtitle" id="citySelect">Select</span>
+                    </div>
+                        <ul class="dropdown" id="cityDropdown">
+                            <li><a href="#" class="cityDropdownItem" id="cityBeograd">Beograd</a></li>
+                            <li><a href="#" class="cityDropdownItem" id="cityNovi Sad">Novi Sad</a></li>
+                            <li><a href="#" class="cityDropdownItem" id="cityNiš">Niš</a></li>
+                            <li><a href="#" class="cityDropdownItem" id="cityJagodina">Jagodina</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div> 
         </div>
         
         <div class="row centerX mb-5 movieShowingContent">
             <div class="column w55 centerY tableCol ml-5">
                 <span class="showingTitle">Showing in:</span>
-                <table class="showingTable">
-                    <thead>
-                        <th></th>
-                        <th class="tableCinemaCol">Cinema</th>
-                        <th class="tableTimeCol">Time</th>
-                        <th class="tableRoomCol">Room</th>
-                        <th class="tableTypeCol">Type</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="tableImg"><img src="https://via.placeholder.com/150" class="userIcon" /></td>
-                            <td class="tableCinemaCol">Cineplexx Ušće</td>
-                            <td class="tableTimeCol">18:30</td>
-                            <td class="tableRoomCol">Sala 3</td>
-                            <td class="tableTypeCol">2D</td>
-                        </tr>                        
-                        <tr>
-                            <td class="tableImg"><img src="https://via.placeholder.com/150" class="userIcon" /></td>
-                            <td class="tableCinemaCol">Cineplexx BIG</td>
-                            <td class="tableTimeCol">19:00</td>
-                            <td class="tableRoomCol">Sala 1</td>
-                            <td class="tableTypeCol">3D</td>
-                        </tr>                        
-                        <tr>
-                            <td class="tableImg"><img src="https://via.placeholder.com/150" class="userIcon" /></td>
-                            <td class="tableCinemaCol">Tuckwood</td>
-                            <td class="tableTimeCol">19:00</td>
-                            <td class="tableRoomCol">Merlyn Monroe</td>
-                            <td class="tableTypeCol">2D</td>
-                        </tr>                        
-                        <tr>
-                            <td class="tableImg"><img src="https://via.placeholder.com/150" class="userIcon" /></td>
-                            <td class="tableCinemaCol">Terzije Teatar</td>
-                            <td class="tableTimeCol">21:00</td>
-                            <td class="tableRoomCol">Velika sala</td>
-                            <td class="tableTypeCol">2D</td>
-                        </tr>                        
-                        <tr>
-                            <td class="tableImg"><img src="https://via.placeholder.com/150" class="userIcon" /></td>
-                            <td class="tableCinemaCol">Test Teatar</td>
-                            <td class="tableTimeCol">21:00</td>
-                            <td class="tableRoomCol">Test sala</td>
-                            <td class="tableTypeCol">3D</td>
-                        </tr>                        
-                    </tbody>
-                </table>
+
+                <div class="showingTable column">
+                    <div class="showingTableHeader row centerY">
+                        <div class="w10"></div>
+                        <div class="w30 textCenter">
+                            Cinema
+                        </div>
+                        <div class="w20 textCenter">
+                            Time
+                        </div>
+                        <div class="w20 textCenter">
+                            Room
+                        </div>
+                        <div class="w20 textCenter">
+                            Type
+                        </div>
+                    </div>
+                    <div class="showingTableRow row centerY mb-1">
+                        <div class="w10 column centerRow">
+                            <img src="https://via.placeholder.com/150" class="userIcon" />
+                        </div>
+                        <div class="w30 textCenter">
+                            Cineplexx Ušće
+                        </div>
+                        <div class="w20 textCenter">
+                            18:30
+                        </div>
+                        <div class="w20 textCenter">
+                            Sala 3
+                        </div>
+                        <div class="w20 textCenter">
+                            2D
+                        </div>
+                    </div>
+                    <div class="showingTableRow row centerY mb-1">
+                        <div class="w10 column centerRow">
+                            <img src="https://via.placeholder.com/150" class="userIcon" />
+                        </div>
+                        <div class="w30 textCenter">
+                            Cineplexx BIG
+                        </div>
+                        <div class="w20 textCenter">
+                            19:00
+                        </div>
+                        <div class="w20 textCenter">
+                            Sala 1
+                        </div>
+                        <div class="w20 textCenter">
+                            3D
+                        </div>
+                    </div>
+                    <div class="showingTableRow row centerY mb-1">
+                        <div class="w10 column centerRow">
+                            <img src="https://via.placeholder.com/150" class="userIcon" />
+                        </div>
+                        <div class="w30 textCenter">
+                            Tuckwood
+                        </div>
+                        <div class="w20 textCenter">
+                            19:00
+                        </div>
+                        <div class="w20 textCenter">
+                            Merlyn Monroe
+                        </div>
+                        <div class="w20 textCenter">
+                            2D
+                        </div>
+                    </div>
+                    <div class="showingTableRow row centerY mb-1">
+                        <div class="w10 column centerRow">
+                            <img src="https://via.placeholder.com/150" class="userIcon" />
+                        </div>
+                        <div class="w30 textCenter">
+                            Terazije Teatar
+                        </div>
+                        <div class="w20 textCenter">
+                            21:00
+                        </div>
+                        <div class="w20 textCenter">
+                            Velika sala
+                        </div>
+                        <div class="w20 textCenter">
+                            2D
+                        </div>
+                    </div>
+                    <div class="showingTableRow row centerY">
+                        <div class="w10 column centerRow">
+                            <img src="https://via.placeholder.com/150" class="userIcon" />
+                        </div>
+                        <div class="w30 textCenter">
+                            Test Teatar
+                        </div>
+                        <div class="w20 textCenter">
+                            21:00
+                        </div>
+                        <div class="w20 textCenter">
+                            Tst Sala
+                        </div>
+                        <div class="w20 textCenter">
+                            3D
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="showingTablePagination">
+                            <div class="column centerRow showingTableArrow mr-3">
+                                <img src="/assets/Movie/arrowLeft.svg" class="movieArrow" id="movieArrowLeft" />
+                            </div>
+                            <div class="column centerRow showingTableArrow">
+                                <img src="/assets/Movie/arrowRight.svg" class="movieArrow" id="movieArrowLeft" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="column w45 criticsPart mr-5">
@@ -214,5 +305,7 @@
                 </div>
             </div>
         </div>
-	</body>
+    </body>
+    <script src="/js/movieDateSelector.js"></script>
+    <script src="/js/movieSearchFilter.js"></script>
 </html>

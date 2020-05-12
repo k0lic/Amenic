@@ -1319,6 +1319,7 @@ body {
 
 .movieArrow {
 	width: 0.8em;
+	cursor: pointer;
 }
 
 .movieDateSelector {
@@ -1328,6 +1329,7 @@ body {
 .dateColumn {
 	background-color: var(--movieDate);
 	padding: 0.2em 1em;
+	min-width: 70px;
 }
 
 .movieMonth,
@@ -1380,7 +1382,7 @@ body {
 	min-width: 100px;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 	z-index: 1;
-	margin-top: 50px;
+	/*margin-top: 50px;*/
 }
 
 .dropdownContent a {
@@ -1395,18 +1397,83 @@ body {
 	background-color: var(--orange);
 }
 
-.dropdownColumn:hover .dropdownContent {
-	display: block;
-}
-
 .dropdownTitle {
 	font-weight: 800;
 	font-size: 1.2em;
 }
 
+/* NEW DROPDOWN */
+
 .dropdownColumn {
 	cursor: pointer;
 }
+
+.dropdownColumn a {
+	text-decoration: none;
+}
+
+.dropdownColumn ul {
+	list-style: none;
+}
+
+.dropdownColumn li {
+	color: #fff;
+	display: block;
+	position: relative;
+	text-decoration: none;
+	transition-duration: 0.2s;
+}
+
+.dropdownColumn ul li {
+	padding: 0.85em 0 1em 0;
+	justify-content: center;
+	align-items: center;
+}
+
+.dropdownColumn li a {
+	color: #fff;
+}
+
+.dropdownColumn li:hover {
+	cursor: pointer;
+}
+
+.dropdownColumn ul li ul {
+	background-color: var(--deepPurple);
+	border: 1px solid var(--movieDate);
+
+	visibility: hidden;
+	opacity: 0;
+	min-width: 5em;
+	position: absolute;
+	transition: 5s background-color ease-in-out;
+	margin-top: 1em;
+	left: 0;
+	display: none;
+
+	border-radius: 15px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dropdownColumn ul li:hover > ul,
+.dropdownColumn ul li ul:hover {
+	visibility: visible;
+	opacity: 1;
+	display: block;
+}
+
+.dropdownColumn ul li ul li {
+	clear: both;
+	width: 100%;
+	border-radius: 15px;
+	padding: 1em 1.3em !important;
+}
+
+.dropdownColumn ul li ul li:hover {
+	background-color: var(--orange);
+}
+
+/* CRITICS */
 
 .criticsPart {
 	color: white;
@@ -1445,58 +1512,62 @@ body {
 	align-self: flex-start;
 }
 
-.showingTable {
-	border-collapse: collapse;
-	color: white;
-	border-radius: 1em;
-	overflow: hidden;
-
-	float: left;
-	display: table;
-	width: 100%;
-}
-
-.showingTable tbody tr {
-	border-radius: 1em !important;
-}
-
-.showingTable tbody tr:nth-child(odd) {
-	background-color: var(--formInput);
-}
-
-.showingTable thead {
-	background-color: transparent !important;
-	color: var(--orange);
-	font-weight: 800;
-	font-size: 1.2em;
-}
-
-.showingTable td,
-.showingTable th {
-	text-align: center;
-	border-radius: 1em;
-	display: table-cell;
-}
-
-.tableCinemaCol {
-	padding: 0.5em 5em !important;
-}
-
-.tableTimeCol,
-.tableRoomCol,
-.tableTypeCol,
-.tableImg {
-	padding: 0.5em 1em !important;
-}
-
-.tableCol {
-	padding: 1em;
-}
-
 .movieShowingContent {
 	margin-top: 5em;
 }
 
+.showingTable {
+	width: 100%;
+	color: white;
+}
+
+.showingTableRow {
+	border-radius: 1em;
+	padding: 0.5em 1em !important;
+	cursor: pointer;
+	transition: 0.2s box-shadow ease-in-out;
+}
+
+.showingTableRow:hover {
+	transition: 0.2s box-shadow ease-in-out;
+	-webkit-box-shadow: 0px 0px 3px 2px rgba(226, 123, 46, 0.8);
+	-moz-box-shadow: 0px 0px 3px 2px rgba(226, 123, 46, 0.8);
+	box-shadow: 0px 0px 3px 2px rgba(226, 123, 46, 0.8);
+}
+
+.showingTableHeader {
+	padding: 0.5em 1em !important;
+	color: var(--orange) !important;
+	font-weight: 800;
+	font-size: 1.2em;
+}
+
+.showingTable .showingTableRow:nth-child(odd) {
+	background-color: var(--formInput);
+}
+
+.textCenter {
+	text-align: center;
+}
+
+.showingTableArrow {
+	background-color: var(--formInput);
+	width: 2.5em;
+	height: 2.5em;
+	-webkit-clip-path: circle(35% at 50% 50%);
+	clip-path: circle(50% at 50% 50%);
+	cursor: pointer;
+	transition: 0.2s background-color ease-in-out;
+}
+
+.showingTableArrow:hover {
+	background-color: var(--orange);
+	transition: 0.2s background-color ease-in-out;
+}
+
+.showingTablePagination {
+	margin: 0 0 0 auto;
+}
 /* ADMIN CONTROLLER */
 
 .adminWrapper {
@@ -1844,7 +1915,7 @@ input[type="file"] {
 	width: 45%;
 }
 
-.breachWrapper{
+.breachWrapper {
 	background-image: url("../assets/Admins/noPass.jpg") !important;
 }
 
