@@ -268,6 +268,28 @@ class Validation
 		]
 	];
 
+	public $actionEditMovie = [
+		"oldIdPro" => [
+			'label' => 'Projection ID',
+			'rules' => 'required|integer|max_length[64]|is_not_unique[projections.idPro]|checkIfProjectionOkToEdit'
+		],
+		'startDate' => [
+			'label' => 'Date of projection',
+			'rules' => 'required|valid_date[Y-m-d]|checkIfDateInThePast'
+		],
+		'startTime' => [
+			'label' => 'Start time',
+			'rules' => 'required|exact_length[5]|validateTime|checkIfTimeInThePast|checkForCollisions'
+		]
+	];
+
+	public $actionCancelMovie = [
+		"oldIdPro" => [
+			'label' => 'Projection ID',
+			'rules' => 'required|integer|max_length[64]|is_not_unique[projections.idPro]|checkIfProjectionOkToEdit'
+		]
+	];
+
 	/*
 	movieName,tmdbID,room,tech,startDate,startTime,price,soon			- AddMovie
 	oldIdPro															- Edit movie

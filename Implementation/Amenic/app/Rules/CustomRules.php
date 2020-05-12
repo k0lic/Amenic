@@ -142,6 +142,7 @@ class CustomRules
         return true;
     }
 
+    // Checks if date is in the past.
     public function checkIfDateInThePast($str,&$error = null)
     {
         $date = strtotime($str);
@@ -156,6 +157,7 @@ class CustomRules
         return true;
     }
 
+    // Checks if datetime is in the past, or less than an hour in the future.
     public function checkIfTimeInThePast($str,&$error = null)
     {
         $time = strtotime($_POST["startDate"]." ".$str);
@@ -170,14 +172,27 @@ class CustomRules
         return true;
     }
 
+    // Checks if for the chosen room, date and time, there are other projections that would conflict.
+    // Doesn't account for any grace time between projections.
     public function checkForCollisions($str,&$error = null)
     {
         $promdl = new ProjectionModel();
         $moviemdl = new MovieModel();
 
         $timeStart = strtotime($_POST["startDate"]." ".$str);
-        $roomName = $_POST["room"];
-        $tmdbID = $_POST["tmdbID"];
+        // gets data from different sources depending on if a movie is being added or edited
+        if (isset($_POST["oldIdPro"]))
+        {
+            $pro = $promdl->find($_POST["oldIdPro"]);
+            $roomName = $pro->roomName;
+            $tmdbID = $pro->tmdbID;
+        }
+        else
+        {
+            $roomName = $_POST["room"];
+            $tmdbID = $_POST["tmdbID"];
+        }
+
         $movie = $moviemdl->find($tmdbID);
         $runtime = $movie->runtime;
         $timeEnd = $timeStart + $runtime * 60;
@@ -187,19 +202,47 @@ class CustomRules
 
         $potentialCollisions = $promdl->where("email", $this->userMail)->where("roomName", $roomName)->where("canceled", 0)->findAll();
 
-        foreach ($potentialCollisions as $coll)
+        foreach ($potentialCollisions as $coll)                             // goes through all the other projections in the same room
         {
+            if (isset($_POST["oldIdPro"]) && $pro->idPro == $coll->idPro)
+                continue;
+            // calculates the other projections start and end times
             $collMovie = $moviemdl->find($coll->tmdbID);
             $collRuntime = $collMovie->runtime;
 
             $collStart = strtotime($coll->dateTime);
             $collEnd = $collStart + $collRuntime * 60;
-
+            // and checks if there is a conflict
             if (($collStart >= $timeStart && $collStart <= $timeEnd) || ($timeStart >= $collStart && $timeStart <= $collEnd))
             {
-                $error = "Suggested start time would lead to collision with ".$collMovie->title." showing at ".$coll->dateTime;
+                $error = "Suggested start time would lead to conflict with ".$collMovie->title." showing at ".$coll->dateTime;
                 return false;
             }
+        }
+
+        return true;
+    }
+
+    // Check if the projections is not canceled or showing in less than an hour.
+    public function checkIfProjectionOkToEdit($idPro,&$error = null)
+    {
+        $promdl = new ProjectionModel();
+
+        $pro = $promdl->find($idPro);
+
+        if ($pro->canceled)
+        {
+            $error = "Cannot edit a canceled projection";
+            return false;
+        }
+
+        $originalStart = strtotime($pro->dateTime);
+        $now = time();
+
+        if ($originalStart < $now + 3600)
+        {
+            $error = "Cannot edit a projection that is starting in less than an hour";
+            return false;
         }
 
         return true;

@@ -78,6 +78,8 @@ class Cinema extends BaseController
         $rooms = (new RoomModel())->where("email",$this->userMail)->findAll();
         $technologies = (new TechnologyModel())->findAll();
         $projection = (new ProjectionModel())->find($idPro);
+        if ($projection == null)
+            return view("404.php");
         $movie = (new MovieModel())->find($projection->tmdbID);
         return view("Cinema/CinemaAddMovie.php",["rooms" => $rooms,"technologies" => $technologies,"target" => $projection,"targetName" => $movie->title,"optionPrimary" => 0]);
     }
@@ -107,14 +109,12 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddRoom.php",["technologies" => $technologies,"target" => $room[0],"targetTechnologies" => $targetTechnologies,"optionPrimary" => 1]);
     }
 
-    // Adds a new projection or edits an existing one (or edits a coming soon movie), depending on the POST parameters.
+    // Adds a new projection or adds a movie to the coming soon list.
     public function actionAddMovie()
     {
         $this->goHomeIfNotPost();
 
-        //$addToSoon = isset($_POST["soon"]) && (strcasecmp($_POST["soon"], "true") == 0);
         $addToSoon = isset($_POST["soon"]) && $_POST["soon"];
-        //return view("Exception.php",["msg" => "AddToSoon = ".$addToSoon,"destination" => "/Cinema/AddMovie"]);
 
         $validationResult = $this->isValid($addToSoon?"actionAddSoon":"actionAddMovie", $_POST);
         if ($validationResult == 1)
@@ -178,9 +178,39 @@ class Cinema extends BaseController
         exit();
     }
 
+    // Edits an existing projection.
     public function actionEditMovie()
     {
-        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionEditMovie", $_POST);
+        if ($validationResult == 1)
+        {
+
+            $idPro = $_POST["oldIdPro"];
+            $dateTime = $_POST["startDate"]." ".$_POST["startTime"];
+            $model = new ProjectionModel();
+
+            try
+            {
+                $model->smartChangeTime($idPro, $dateTime);
+            }
+            catch (Exception $e)
+            {
+                $msg = "Editing a movie failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/EditMovie/".$idPro]);
+            }
+        }
+        else 
+        {
+            setcookie("addMovieErrors", http_build_query($validationResult), time() + 3600, "/");
+            setcookie("addMovieValues", http_build_query($_POST), time() + 3600, "/");
+            header("Location: /Cinema/EditMovie/".$_POST["oldIdPro"]);
+            exit();
+        }
+
+        header("Location: /Cinema");
+        exit();
     }
 
     public function actionReleaseComingSoon()
@@ -191,7 +221,35 @@ class Cinema extends BaseController
     // Cancels an existing projection.
     public function actionCancelMovie()
     {
-        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionCancelMovie", $_POST);
+        if ($validationResult == 1)
+        {
+
+            $idPro = $_POST["oldIdPro"];
+            $model = new ProjectionModel();
+
+            try
+            {
+                $model->transSmartCancel($idPro);
+            }
+            catch (Exception $e)
+            {
+                $msg = "Canceling a movie failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/EditMovie/".$idPro]);
+            }
+        }
+        else 
+        {
+            setcookie("addMovieErrors", http_build_query($validationResult), time() + 3600, "/");
+            setcookie("addMovieValues", http_build_query($_POST), time() + 3600, "/");
+            header("Location: /Cinema/EditMovie/".$_POST["oldIdPro"]);
+            exit();
+        }
+
+        header("Location: /Cinema");
+        exit();
     }
 
     public function actionCancelComingSoon()
