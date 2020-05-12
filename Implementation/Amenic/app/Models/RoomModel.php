@@ -4,6 +4,8 @@ use CodeIgniter\Model;
 use App\Models\ProjectionModel;
 use App\Models\RoomTechnologyModel;
 use App\Entities\RoomTechnology;
+use App\Entities\Projection;
+use Exception;
 
 class RoomModel extends Model
 {
@@ -19,11 +21,11 @@ class RoomModel extends Model
     {
         $promdl = new ProjectionModel();
         $rtmdl = new RoomTechnologyModel();
-        $projectionIds = $promdl->where("email", $email)->where("roomName", $name)->findColumn("idPro");
-        foreach ($projectionIds as $id)
-            $promdl->smartDelete($id);
+        $projections = $promdl->where("email", $email)->where("roomName", $name)->findAll();
+        foreach ($projections as $pro)
+            $promdl->smartDelete($pro->idPro);
         $rtmdl->where("email", $email)->where("name", $name)->delete();
-        $this->delete($email);
+        $this->where("email", $email)->where("name", $name)->delete();
     }
 
     // Wraps smartDelete() into a transaction.

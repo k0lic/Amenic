@@ -22,9 +22,9 @@ class ProjectionModel extends SmartDeleteModel
         $seatmdl = new SeatModel();
         $resmdl = new ReservationModel();
         $seatmdl->where("idPro", $idPro)->delete();
-        $reservationIds = $resmdl->where("idPro", $idPro)->findColumn("idRes");
-        foreach ($reservationIds as $id)
-            $resmdl->delete($id);   // mail if the projection hasn't started yet ======================================== TODO
+        $reservations = $resmdl->where("idPro", $idPro)->findAll();
+        foreach ($reservations as $res)
+            $resmdl->delete($res->idRes);   // mail if the projection hasn't started yet ======================================== TODO
         $this->delete($idPro);
     }
 
@@ -32,9 +32,9 @@ class ProjectionModel extends SmartDeleteModel
     public function smartCancel($idPro)
     {
         $resmdl = new ReservationModel();
-        $reservationIds = $resmdl->where("idPro", $idPro)->findColumn("idRes");
-        foreach ($reservationIds as $id)
-            $resmdl->delete($id);   // change to deleteAndMail at some point ============================================= TODO
+        $reservations = $resmdl->where("idPro", $idPro)->findAll();
+        foreach ($reservations as $res)
+            $resmdl->delete($res->idRes);   // change to deleteAndMail at some point ============================================= TODO
         $this->update($idPro, ["canceled" => 1]);
     }
 
@@ -60,9 +60,9 @@ class ProjectionModel extends SmartDeleteModel
         /*
         ================================================================================================================ TODO
         $resmdl = new ReservationModel();
-        $reservationIds = $resmdl->where("idPro", $idPro)->findColumn("idRes");
-        foreach ($reservationIds as $id)
-            $resmdl->mailOwner($id);
+        $reservations = $resmdl->where("idPro", $idPro)->findAll();
+        foreach ($reservations as $res)
+            $resmdl->mailOwner($res->idRes);
         */
         $this->update($idPro, ["dateTime" => 1]);
     }

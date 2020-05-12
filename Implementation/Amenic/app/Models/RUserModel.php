@@ -16,9 +16,9 @@ class RUserModel extends SmartDeleteModel
     {
         $usermdl = new UserModel();
         $resmdl = new ReservationModel();
-        $reservationIds = $resmdl->where("email", $email)->findColumn("idRes");
-        foreach ($reservationIds as $id)
-            $resmdl->delete($id);  //smartDeleteWithEmail($id); ======================================================== TODO
+        $reservations = $resmdl->where("email", $email)->findAll();
+        foreach ($reservations as $res)
+            $resmdl->delete($res->idRes);  //smartDeleteWithEmail($res->idRes); ======================================================== TODO
         $this->delete($email);
         $usermdl->smartDelete($email);
     }

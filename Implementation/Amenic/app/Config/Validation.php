@@ -227,6 +227,13 @@ class Validation
 		]
 	];
 
+	public $actionRemoveRoom = [
+		'oldRoomName' => [
+			'label' => 'Old name',
+			'rules' => 'required|alpha_numeric_space|min_length[3]|max_length[64]|checkOldRoomName'
+		]
+	];
+
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------

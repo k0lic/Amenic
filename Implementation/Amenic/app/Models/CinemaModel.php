@@ -26,12 +26,12 @@ class CinemaModel extends SmartDeleteModel
 
         $gallerymdl->where("email", $email)->delete();                                  // deletes all gallery photos
         $soonmdl->where("email", $email)->delete();                                     // deletes all movies that are coming soon
-        $workerEmails = $workermdl->where("idCinema", $email)->findColumn("email");     // gets all of the workers' emails
-        foreach ($workerEmails as $workerEmail)
-            $workermdl->smartDelete($workerEmail);                                      // deletes all of the workers
-        $roomNames = $roommdl->where("email", $email)->findColumn("name");              // gets all of the room names
-        foreach ($roomNames as $roomName)
-            $roommdl->smartDelete($email,$roomName);                                    // deletes all of the rooms
+        $workers = $workermdl->where("idCinema", $email)->findAll();                    // gets all of the workers
+        foreach ($workers as $worker)
+            $workermdl->smartDelete($worker->email);                                    // deletes all of the workers
+        $rooms = $roommdl->where("email", $email)->findAll();                           // gets all of the room names
+        foreach ($rooms as $room)
+            $roommdl->smartDelete($email,$room->name);                                  // deletes all of the rooms
         $this->delete($email);                                                          // deletes the Cinema entry
         $usermdl->smartDelete($email);                                                  // deletes the base object
     }
@@ -44,10 +44,10 @@ class CinemaModel extends SmartDeleteModel
             $this->db->transBegin();
 
             $promdl = new ProjectionModel();
-            $projectionIds = $promdl->where("email", $email)->findColumn("idPro");
-            foreach ($projectionIds as $id)
-                $promdl->smartCancel($id);
-            $this->update($idPro, ["closed" => 1]);
+            $projections = $promdl->where("email", $email)->findAll();
+            foreach ($projections as $pro)
+                $promdl->smartCancel($pro->idPro);
+            $this->update($email, ["closed" => 1]);
             // mailOwner($email); ============================================================================= TODO
             
             $this->db->transCommit();

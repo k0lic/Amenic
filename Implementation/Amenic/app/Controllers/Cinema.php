@@ -211,7 +211,32 @@ class Cinema extends BaseController
     // Removes an existing room.
     public function actionRemoveRoom()
     {
-        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionRemoveRoom", $_POST);
+        if ($validationResult == 1)
+        {
+            $oldRoomName = $_POST["oldRoomName"];
+            $model = new RoomModel();
+
+            try
+            {
+                $model->transSmartDelete($this->userMail, $oldRoomName);
+            }
+            catch (Exception $e)
+            {
+                $msg = "Deleting a room failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/EditRoom/".$oldRoomName]);
+            }
+        }
+        else 
+        {
+            header("Location: /Cinema/Rooms");
+            exit();
+        }
+
+        header("Location: /Cinema/Rooms");
+        exit();
     }
 
     //--------------------------------------------------------------------
