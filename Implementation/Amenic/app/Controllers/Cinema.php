@@ -99,6 +99,8 @@ class Cinema extends BaseController
         $technologies = (new TechnologyModel())->findAll();
         $targetTechnologies = (new RoomTechnologyModel())->where("email",$this->userMail)->where("name",$name)->findColumn("idTech");
         $room = (new RoomModel())->where("email",$this->userMail)->where("name",$name)->findAll();
+        if ($room == null)
+            return view("404.php");
         return view("Cinema/CinemaAddRoom.php",["technologies" => $technologies,"target" => $room[0],"targetTechnologies" => $targetTechnologies,"optionPrimary" => 1]);
     }
 
@@ -148,8 +150,8 @@ class Cinema extends BaseController
         }
         else 
         {
-            setcookie("addRoomErrors", http_build_query($validationResult));
-            setcookie("addRoomValues", http_build_query($_POST));
+            setcookie("addRoomErrors", http_build_query($validationResult), time() + 3600, "/");
+            setcookie("addRoomValues", http_build_query($_POST), time() + 3600, "/");
             header("Location: /Cinema/AddRoom");
             exit();
         }
@@ -161,7 +163,49 @@ class Cinema extends BaseController
     // Edits an existing room.
     public function actionEditRoom()
     {
-        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionEditRoom", $_POST);
+        if ($validationResult == 1)
+        {
+            $roomName = $_POST["roomName"];
+            $oldRoomName = $_POST["oldRoomName"];
+            $tech = $_POST["tech"];
+            $rows = $_POST["rows"];
+            $columns = $_POST["columns"];
+
+            $room = new Room([
+                "name" => $roomName,
+                "email" => $this->userMail,
+                "numberOfRows" => $rows,
+                "seatsInRow" => $columns
+            ]);
+            $model = new RoomModel();
+
+            try
+            {
+                $model->transSmartReplace($this->userMail, $oldRoomName, $room, $tech);
+            }
+            catch (Exception $e)
+            {
+                $msg = "Editing a room failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/EditRoom/".$roomName]);
+            }
+
+        }
+        else 
+        {
+            if (isset($_POST["oldRoomName"]))
+            {
+                setcookie("addRoomErrors", http_build_query($validationResult), time() + 3600, "/");
+                setcookie("addRoomValues", http_build_query($_POST), time() + 3600, "/");
+                header("Location: /Cinema/EditRoom/".$_POST["oldRoomName"]);
+                exit();
+            }
+        }
+
+        header("Location: /Cinema/Rooms");
+        exit();
     }
 
     // Removes an existing room.

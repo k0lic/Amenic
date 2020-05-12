@@ -9,13 +9,13 @@
         if (isset($_COOKIE["addRoomErrors"]))
         {
             parse_str($_COOKIE["addRoomErrors"], $errors);
-            setcookie("addRoomErrors", "", time() - 3600);
+            setcookie("addRoomErrors", "", time() - 3600, "/");
         }
         $values = [];
         if (isset($_COOKIE["addRoomErrors"]))
         {
             parse_str($_COOKIE["addRoomValues"], $values);
-            setcookie("addRoomValues", "", time() - 3600);
+            setcookie("addRoomValues", "", time() - 3600, "/");
         }
     ?>
 	<head>
@@ -128,6 +128,12 @@
                                     if (isset($target))
                                         echo "<input type=\"hidden\" name=\"oldRoomName\" value=\"$target->name\" />";
                                 ?>
+                                <div class="formError ml-1">
+                                    <?php 
+                                        if(isset($errors["oldRoomName"]))
+                                            echo $errors["oldRoomName"];
+                                    ?>
+                                </div>
                             </div>
                             
                         </div>

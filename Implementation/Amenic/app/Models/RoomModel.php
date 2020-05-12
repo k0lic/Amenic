@@ -42,7 +42,9 @@ class RoomModel extends Model
         }
     }
 
-    // Inserts a new room while deleting an old one. Transfers all of the projections to the new room.
+    // If the room name didn't change, performs update of room with new parameters in place.
+    // 
+    // Otherwise inserts a new room while deleting an old one. Transfers all of the projections to the new room.
     // Accomplishes editing the 'name' part of the rooms table primary key, and updates the other fields as well.
     public function smartReplace($email, $oldName, $newRoom, $newTech)
     {
@@ -50,16 +52,24 @@ class RoomModel extends Model
         $rtmdl = new RoomTechnologyModel();
 
         $newName = $newRoom->name;
-        $this->insert($newRoom);                                                                                // insert new room
-        $promdl->where("email", $email)->where("roomName", $oldName)->set(["roomName" => $newName])->update();  // move projections from old to new room
-        foreach ($newTech as $techId)                                                                           // inert technologies into new room
+        $rtmdl->where("name", $oldName)->where("email", $email)->delete();                                          // scrap old room technologies
+        if ($newName != $oldName)
+        {
+            $this->insert($newRoom);                                                                                // insert new room if needed
+            $promdl->where("email", $email)->where("roomName", $oldName)->set(["roomName" => $newName])->update();  // move projections from old to new room
+            $this->where("email", $email)->where("name", $oldName)->delete();                                       // scrap old room
+        } 
+        else
+        {                                                                                                           // updates rows and columns in place
+            $this->where("email", $email)->where("name", $newName)->set(["numberOfRows" => $newRoom->numberOfRows,"seatsInRow" => $newRoom->seatsInRow])->update();
+        }
+            
+        foreach ($newTech as $techId)                                                                               // insert technologies into new room
             $rtmdl->insert(new RoomTechnology([
                 "name" => $newName,
                 "email" => $email,
                 "idTech" => $techId
             ]));
-        $rtmdl->where("name", $oldName)->where("email", $email)->delete();                                      // scrap old room technologies
-        $this->where("email", $email)->where("name", $oldName)->delete();                                       // scrap old room
     }
 
     // Wraps smartReplace() into a transaction.

@@ -50,4 +50,27 @@ class CustomRules
         return true;
     }
 
+    public function checkRoomNameExcept($str,&$error = null)
+    {
+        $oldRoomName = $_POST["oldRoomName"];
+        $model = new RoomModel();
+        if ($model->where("email", $this->userMail)->where("name", $str)->where("name !=", $oldRoomName)->find() != null)
+        {
+            $error = "An existing room already has this name";
+            return false;
+        }
+        return true;
+    }
+
+    public function checkOldRoomName($str,&$error = null)
+    {
+        $model = new RoomModel();
+        if ($model->where("email", $this->userMail)->where("name", $str)->find() != null)
+        {
+            return true;
+        }
+        $error = "Cannot find room with name: ".$str.", go back to <a href=\"/Cinema/Rooms\">Rooms</a> please";
+        return false;
+    }
+
 }
