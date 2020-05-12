@@ -7,15 +7,21 @@
 
 use App\Models\MovieModel;
 
+use function App\Helpers\getReviews;
+
 class Movie extends BaseController {
 
     public function index() {
 
-        $movieModel = new MovieModel();
+        helper('imdb_helper');
 
-        $movie = $movieModel->find(437068);
+        $movieModel = new MovieModel();
         
-        return view('Movies/movie.php', ['movie' => $movie]);
+        $movie = $movieModel->find(437068);
+
+        $reviews = getReviews($movie->imdbID);
+        
+        return view('Movies/movie.php', ['movie' => $movie, 'reviews' => $reviews]);
     }
 
 }

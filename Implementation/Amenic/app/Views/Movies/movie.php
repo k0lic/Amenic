@@ -6,6 +6,11 @@
     $hour = intval($movie->runtime / 60);
     $minutes = intval($movie->runtime % 60);
     $year = substr($movie->released, 0, 4);
+
+    $actors = explode(',', $movie->actors, 4);
+    $cnt = count($actors);
+
+    $maxlen = 510;
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +45,7 @@
         background-size: cover;
 	    background-repeat: no-repeat;
 	    background-position: center bottom;">
-            <div class="row w100 centerX mt-3">
+            <div class="row w100 centerRow mt-3">
                 <img src="<?php echo $movie->poster ?>" class="moviePoster mr-5" />
                 <div class="movieInfoWrapper column w40">
                     <span class="movieTitle"><?php echo $movie->title ?></span>
@@ -61,13 +66,18 @@
                     </div>
 
                     <div class="row mt-2">
-                        <div class="column w70">
+                        <div class="column w60">
                             <span class="movieInfoCrewTitle">Stars:</span>
-                            <span class="movieInfoCrew">Joaquin Phoenix, Robert De Niro, Zazle Beetz</span>
+                            <span class="movieInfoCrew">
+                                <?php for($i = 0; $i < count($actors) && $i < 3; $i++) {
+                                        echo $actors[$i];
+                                        if($i != 2 && $i != $cnt-1) echo ", ";
+                                    }
+                                ?></span>
                         </div>
-                        <div class="column w30">
+                        <div class="column centerY w40">
                             <span class="movieInfoCrewTitle">Director:</span>
-                            <span class="movieInfoCrew">Joaquin Phoenix</span>
+                            <span class="movieInfoCrew"><?php echo $movie->director?></span>
                         </div>
                     </div>
 
@@ -107,44 +117,44 @@
                 <img src="/assets/Movie/arrowRight.svg" class="movieArrow mr-5" id="movieArrowRight"/>
             </div>
             
-            <div class="column w10 dropdownColumn ml-5" id="timeColumn">
+            <div class="column w10 dropdownColumn ml-5 mr-2" id="timeColumn">
                 <ul>
                     <li><div class="column">
                     <span class="dropdownTitle">Time</span>
                     <span class="dropdownSubtitle" id="timeSelect">Select</span>
                     </div>
                         <ul class="dropdown">
-                            <li><a href="#">18:30</a></li>
-                            <li><a href="#">19:30</a></li>
-                            <li><a href="#">20:00</a></li>
+                            <li class="timeDropdownItem">18:30</li>
+                            <li class="timeDropdownItem">19:30</li>
+                            <li class="timeDropdownItem">20:00</li>
                         </ul>
                     </li>
                 </ul>
             </div>
             
-            <div class="column w10 dropdownColumn" id="cinemaColumn">
+            <div class="column w10 dropdownColumn mr-2" id="cinemaColumn">
                 <ul>
                     <li><div class="column">
                     <span class="dropdownTitle">Cinema</span>
                     <span class="dropdownSubtitle" id="cinemaSelect">Select</span>
                     </div>
                         <ul class="dropdown">
-                            <li><a href="#">Cineplexx BIG</a></li>
-                            <li><a href="#">Cineplexx Ušće</a></li>
-                            <li><a href="#">Jagodinski kulturni centar</a></li>
+                            <li class="cinemaDropdownItem">Cineplexx BIG</li>
+                            <li class="cinemaDropdownItem">Cineplexx Ušće</li>
+                            <li class="cinemaDropdownItem">Jagodinski kulturni centar</li>
                         </ul>
                     </li>
                 </ul>
             </div>
 
-            <div class="column w10 dropdownColumn" id="countryColumn">
+            <div class="column w10 dropdownColumn mr-2" id="countryColumn">
                 <ul>
                     <li><div class="column">
                     <span class="dropdownTitle">Country</span>
                     <span class="dropdownSubtitle" id="countrySelect">Select</span>
                     </div>
                         <ul class="dropdown">
-                            <li><a href="#">Serbia</a></li>
+                            <li class="countryDropdownItem">Serbia</li>
                         </ul>
                     </li>
                 </ul>
@@ -157,10 +167,10 @@
                     <span class="dropdownSubtitle" id="citySelect">Select</span>
                     </div>
                         <ul class="dropdown" id="cityDropdown">
-                            <li><a href="#" class="cityDropdownItem" id="cityBeograd">Beograd</a></li>
-                            <li><a href="#" class="cityDropdownItem" id="cityNovi Sad">Novi Sad</a></li>
-                            <li><a href="#" class="cityDropdownItem" id="cityNiš">Niš</a></li>
-                            <li><a href="#" class="cityDropdownItem" id="cityJagodina">Jagodina</a></li>
+                            <li class="cityDropdownItem">Beograd</li>
+                            <li class="cityDropdownItem">Novi Sad</li>
+                            <li class="cityDropdownItem">Niš</li>
+                            <li class="cityDropdownItem">Jagodina</li>
                         </ul>
                     </li>
                 </ul>
@@ -286,21 +296,34 @@
             </div>
 
             <div class="column w45 criticsPart mr-5">
-                <span class="criticsTitle mb-3">Critic reviews:</span>
+                <span class="criticsTitle mb-3">User reviews:</span>
                 <div class="column review mb-5">
                     <span class="reviewBody">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ornare quis est tristique vestibulum. Proin eget eros sit amet velit feugiat porta vel malesuada arcu. Cras at nisi et felis cursus fringilla nec nec enim. Aenean porta rhoncus lectus, eu pharetra ex porta in. Fusce nulla neque, bibendum et elit at, commodo congue orci. Nullam vitae orci ante. Pellentesque pulvinar et lacus at pretium. Suspendisse eget sapien orci. Curabitur non commodo velit. Quisque pretium aliquam quam ut mattis. Vivamus dignissim lacus laoreet mattis semper. 
+                    <?php
+                    $review =  $reviews['firstAuthor']['text'];
+                    if ( strlen($review) > $maxlen ){
+                        $review = substr($review,0,strrpos($review,". ",$maxlen-strlen($review))+1);
+                    }
+                    echo $review;
+                    ?> 
                     </span>
-                    <span class="reviewAuthor">
-                        Miloš Živković
+                    <span class="reviewAuthor mt-2">
+                    <?php echo $reviews['firstAuthor']['name']; ?>
                     </span>
                 </div>
                 <div class="column review">
                     <span class="reviewBody">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ornare quis est tristique vestibulum. Proin eget eros sit amet velit feugiat porta vel malesuada arcu. Cras at nisi et felis cursus fringilla nec nec enim. Aenean porta rhoncus lectus, eu pharetra ex porta in. Fusce nulla neque, bibendum et elit at, commodo congue orci. Nullam vitae orci ante. Pellentesque pulvinar et lacus at pretium. Suspendisse eget sapien orci. Curabitur non commodo velit. Quisque pretium aliquam quam ut mattis. Vivamus dignissim lacus laoreet mattis semper. 
+                    <?php 
+                    $review =  $reviews['secondAuthor']['text'];
+                    if ( strlen($review) > $maxlen ){
+                        $review = substr($review,0,strrpos($review,".",$maxlen-strlen($review))+1);
+                    }
+                    echo $review;
+                    ?> 
+                    
                     </span>
-                    <span class="reviewAuthor">
-                        This is the review 2 author
+                    <span class="reviewAuthor mt-2">
+                    <?php echo $reviews['secondAuthor']['name']; ?>
                     </span>
                 </div>
             </div>
