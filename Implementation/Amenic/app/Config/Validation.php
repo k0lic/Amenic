@@ -36,6 +36,7 @@ class Validation
 		'single' => 'CodeIgniter\Validation\Views\single',
 	];
 
+	public $alwaysFalse = [];
 	
 	public $p2Cinema = [
 		'cinemaName' => 'required|min_length[5]',
@@ -328,10 +329,35 @@ class Validation
 		]
 	];
 
-	/*
-	movieName,tmdbID,room,tech,startDate,startTime,price,soon			- AddMovie
-	oldIdPro															- Edit movie
-	*/
+	public $actionRemoveEmployee = [
+		'email' => [
+			'label' => 'Worker E-mail',
+			'rules' => 'required|valid_email|is_not_unique[workers.email]|isYourWorker'
+		]
+	];
+
+	public $actionAddEmployee = [
+		'email' => [
+			'label' => 'Worker E-mail',
+			'rules' => 'required|valid_email|is_unique[users.email]'
+		],
+		'firstName' => [
+			'label' => 'First name',
+			'rules' => 'required|alpha|max_length[50]'
+		],
+		'lastName' => [
+			'label' => 'Last name',
+			'rules' => 'required|alpha|max_length[50]'
+		],
+		'password' => [
+			'label' => 'Password',
+			'rules' => 'required|min_length[6]'
+		],
+		'confirm' => [
+			'label' => 'Password confirmation',
+			'rules' => 'required|matches[password]'
+		]
+	];
 
 	//--------------------------------------------------------------------
 	// Rules

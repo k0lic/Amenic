@@ -16,6 +16,8 @@ use App\Models\ComingSoonModel;
 use App\Entities\Room;
 use App\Entities\Projection;
 use App\Entities\ComingSoon;
+use App\Entities\User;
+use App\Entities\Worker;
 use Exception;
 
 /*
@@ -410,7 +412,6 @@ class Cinema extends BaseController
                 $msg = "Editing a room failed!<br/>".$e->getMessage();
                 return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/EditRoom/".$roomName]);
             }
-
         }
         else 
         {
@@ -455,6 +456,90 @@ class Cinema extends BaseController
         }
 
         header("Location: /Cinema/Rooms");
+        exit();
+    }
+
+    // Ads a new employee.
+    public function actionAddEmployee()
+    {
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionAddEmployee", $_POST);
+        if ($validationResult == 1)
+        {
+            $firstName = $_POST["firstName"];
+            $lastName = $_POST["lastName"];
+            $workerEmail = $_POST["email"];
+            $pass = password_hash($_POST["password"], PASSWORD_BCRYPT, ['cost' => 8]);
+
+            $user = new User([
+                "email" => $workerEmail,
+                "password" => $pass,
+                "image" => null
+            ]);
+            $worker = new Worker([
+                "email" => $workerEmail,
+                "idCinema" => $this->userMail,
+                "firstName" => $firstName,
+                "lastName" => $lastName
+            ]);
+            $model = new WorkerModel();
+
+            try
+            {
+                $model->transSmartCreate($worker, $user);
+            }
+            catch (Exception $e)
+            {
+                $msg = "Adding an employee failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/Employees"]);
+            }
+        }
+        else 
+        {
+            $retData = [
+                "email" => isset($_POST["email"]) ? $_POST["email"] : "",
+                "firstName" => isset($_POST["firstName"]) ? $_POST["firstName"] : "",
+                "lastName" => isset($_POST["lastName"]) ? $_POST["lastName"] : ""
+            ];
+            setcookie("addEmployeeErrors", http_build_query($validationResult), time() + 3600, "/");
+            setcookie("addEmployeeValues", http_build_query($retData), time() + 3600, "/");
+            header("Location: /Cinema/Employees");
+            exit();
+        }
+
+        header("Location: /Cinema/Employees");
+        exit();
+    }
+
+    // Removes an existing employee.
+    public function actionRemoveEmployee()
+    {
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionRemoveEmployee", $_POST);
+        if ($validationResult == 1)
+        {
+            $workerEmail = $_POST["email"];
+            $model = new WorkerModel();
+
+            try
+            {
+                $model->transSmartDelete($workerEmail);
+            }
+            catch (Exception $e)
+            {
+                $msg = "Removing an employee failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/Employees"]);
+            }
+        }
+        else 
+        {
+            header("Location: /Cinema/Employees");
+            exit();
+        }
+
+        header("Location: /Cinema/Employees");
         exit();
     }
 
