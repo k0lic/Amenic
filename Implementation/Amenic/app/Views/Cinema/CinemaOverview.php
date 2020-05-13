@@ -123,18 +123,37 @@
                             if (!isset($optionSecondary) || $optionSecondary == 0)
                             {
                                 // MOVIES THAT ARE PLAYING NOW
-                                echo
-                                ("
-                                    <a class=\"coolLink\" href=\"/Cinema/EditMovie/".$item["projection"]->idPro."\">
-                                        <div class=\"movieImgExtended centerY column\">
-                                            <img src=\"".$item["poster"]."\" class=\"movieImg\" />
-                                            <div class=\"movieImgText row w80 mt-1 spaceBetween\">
-                                                <div>".$item["projection"]->roomName."</div>
-                                                <div>".date("D H:i", strtotime($item["projection"]->dateTime))."</div>
+                                if ($item["projection"]->canceled == 0)
+                                {
+                                    echo
+                                    ("
+                                        <a class=\"coolLink\" href=\"/Cinema/EditMovie/".$item["projection"]->idPro."\">
+                                            <div class=\"movieImgExtended centerY column\">
+                                                <img src=\"".$item["poster"]."\" class=\"movieImg\" />
+                                                <div class=\"movieImgText row w80 mt-1 spaceBetween\">
+                                                    <div>".$item["projection"]->roomName."</div>
+                                                    <div>".date("D H:i", strtotime($item["projection"]->dateTime))."</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                ");
+                                        </a>
+                                    ");
+                                }
+                                else
+                                {       // CANCELED PROJECTIONS
+                                    echo
+                                    ("
+                                            <div class=\"movieImgExtended centerY column\">
+                                                <div class=\"movieCanceled centerY column\">
+                                                    <img src=\"".$item["poster"]."\" class=\"movieImg\" />
+                                                    <div class=\"movieImgText row w80 mt-1 spaceBetween\">
+                                                        <div>".$item["projection"]->roomName."</div>
+                                                        <div>".date("D H:i", strtotime($item["projection"]->dateTime))."</div>
+                                                    </div>
+                                                </div>
+                                                <div class=\"movieCanceledText\">Canceled</div>
+                                            </div>
+                                    ");
+                                }
                             }
                             else
                             {

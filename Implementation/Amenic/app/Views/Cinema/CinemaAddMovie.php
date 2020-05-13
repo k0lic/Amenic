@@ -120,9 +120,9 @@
                                         echo $targetName;
                                     else if (isset($halfTargetName))
                                         echo $halfTargetName;
-                                ?>" />
+                                ?>" <?php if (isset($target) || isset($halfTarget)) echo "disabled"; ?> />
                                 <div class="formError ml-1">
-                                    <?php 
+                                    <?php
                                         if(isset($errors["movieName"]))
                                             echo $errors["movieName"];
                                     ?>
@@ -134,7 +134,7 @@
                                         echo $target->tmdbID;
                                     else if (isset($halfTarget))
                                         echo $halfTarget->tmdbID;
-                                ?>" />
+                                ?>" <?php if (isset($target) || isset($halfTarget)) echo "readonly"; ?> />
                                 <div class="formError ml-1">
                                     <?php 
                                         if(isset($errors["tmdbID"]))
@@ -163,7 +163,7 @@
                         <div class="row mb-2">
                             <div class="column w30 mr-5">
                                 <label for="room">Room</label>
-                                <select class="formSelect" name="room">
+                                <select class="formSelect" name="room" <?php if (isset($target)) echo "disabled"; ?>>
                                     <?php
                                         foreach ($rooms as $room)
                                         {
@@ -185,7 +185,7 @@
                             </div>
                             <div class="column w25">
                                 <label for="tech">Technology</label>
-                                <select class="formSelect" name="tech">
+                                <select class="formSelect" name="tech" <?php if (isset($target)) echo "disabled"; ?>>
                                     <?php
                                         if (isset($values["tech"]))
                                             $selectedTechId = $values["tech"];
@@ -305,7 +305,7 @@
                                         echo $values["price"];
                                     else if (isset($target))
                                         echo $target->price;
-                                ?>" />
+                                ?>" <?php if (isset($target)) echo "disabled"; ?> />
                                 <div class="formError ml-1">
                                     <?php 
                                         if(isset($errors["price"]))
@@ -325,7 +325,7 @@
                                             echo "true";
                                         else
                                             echo "false";
-                                    ?>" />
+                                    ?>" <?php if (isset($target)) echo "disabled"; ?> />
                                     <label for="soon">Add to Soon</label>
                                 </div>
                                 <div class="formError ml-1">
