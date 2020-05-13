@@ -19,6 +19,13 @@ class CustomRules
 
     private string $userMail = "cinemaMail";
 
+    // Always throws an error.
+    public function shouldNotExist($str,&$error = null)
+    {
+        $error = "This field should be left empty";
+        return false;
+    }
+
     // Checks if an array containing only valid idTechs was passed.
     public function checkRoomTech($arr,&$error = null)
     {
@@ -122,7 +129,7 @@ class CustomRules
     }
 
     // Checks if the movie isn't already announced as coming soon, or if projections are already scheduled.
-    public function checkIfReallysoon($str,&$error = null)
+    public function checkIfReallySoon($str,&$error = null)
     {
         $tmdbID = $str;
 
@@ -136,6 +143,20 @@ class CustomRules
         if ($promdl->where("email", $this->userMail)->where("tmdbID", $tmdbID)->where("canceled", 0)->find() != null)
         {
             $error = "This movie is already showing";
+            return false;
+        }
+
+        return true;
+    }
+
+    // Checks if the movies is already announced as coming soon.
+    public function checkIfNotSoon($tmdbID,&$error = null)
+    {
+        $soonmdl = new ComingSoonModel();
+
+        if ($soonmdl->where("email", $this->userMail)->where("tmdbID", $tmdbID)->find() == null)
+        {
+            $error = "This movie is not in your coming soon list";
             return false;
         }
 
@@ -247,16 +268,5 @@ class CustomRules
 
         return true;
     }
-
-    /*
-    public function checkFalseOrTrue($str,&$error = null)
-    {
-        if ($strcasecmp($str, "true") != 0 && $strcasecmp($str, "false") != 0)
-        {
-            $error = "Invalid value, expected: 'true' or 'false'";
-            return false;
-        }
-        return true;
-    }*/
 
 }

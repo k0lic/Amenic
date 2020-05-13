@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <!-- FORM -->
-                <div class="formWrapper">
+                <div class="formWrapper removeTopPadding">
                     <form method="POST">
                         <!-- TITLE -->
                         <h1 class="formTitle mb-3">

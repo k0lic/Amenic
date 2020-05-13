@@ -374,6 +374,12 @@ body {
 	background-color: var(--imgOutline);
 }
 
+.comingSoonExtended {
+	padding: 10px;
+	height: 305px;
+	width: 210px;
+}
+
 .movieImgText {
 	color: white;
 	font-weight: 300;
@@ -922,6 +928,10 @@ body {
 .formWrapper input:disabled,
 .formWrapper .formSelect:disabled {
 	background-color: var(--deepPurple);
+}
+
+.removeTopPadding {
+	padding-top: 0 !important;
 }
 
 .formWrapper .dayButton {

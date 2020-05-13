@@ -97,7 +97,7 @@
                     </div>
                 </div>
                 <!-- FORM -->
-                <div class="formWrapper">
+                <div class="formWrapper removeTopPadding">
                     <form method="POST">
                         <!-- TITLE -->
                         <h1 class="formTitle mb-3">
@@ -114,12 +114,12 @@
                             <div class="column w35">
                                 <label for="movieName">Movie name</label>
                                 <input type="text" name="movieName" value="<?php
-                                    if (isset($values["movieName"]))
-                                        echo $values["movieName"];
-                                    else if (isset($targetName))
+                                    if (isset($targetName))
                                         echo $targetName;
                                     else if (isset($halfTargetName))
                                         echo $halfTargetName;
+                                    else if (isset($values["movieName"]))
+                                        echo $values["movieName"];
                                 ?>" <?php if (isset($target) || isset($halfTarget)) echo "disabled"; ?> />
                                 <div class="formError ml-1">
                                     <?php
@@ -128,19 +128,20 @@
                                     ?>
                                 </div>
                                 <input type="number" name="tmdbID" value="<?php
-                                    if (isset($values["tmdbID"]))
-                                        echo $values["tmdbID"];
-                                    else if (isset($target))
+                                    if (isset($target))
                                         echo $target->tmdbID;
                                     else if (isset($halfTarget))
                                         echo $halfTarget->tmdbID;
-                                ?>" <?php if (isset($target) || isset($halfTarget)) echo "readonly"; ?> />
+                                    else if (isset($values["tmdbID"]))
+                                        echo $values["tmdbID"];
+                                ?>" <?php if (isset($target) || isset($halfTarget)) echo "readonly"; ?> required maxlength="64" />
+                                <div>
+                                    You can copy from here: [419704,530915,330457]
+                                </div>
                                 <div class="formError ml-1">
                                     <?php 
                                         if(isset($errors["tmdbID"]))
                                             echo $errors["tmdbID"];
-                                        else
-                                            echo "You can copy from here: [419704,530915,330457]";
                                     ?>
                                 </div>
                                 <?php
@@ -150,28 +151,29 @@
                                         echo "<div class=\"formError ml-1\">".(isset($errors["oldIdPro"])?$errors["oldIdPro"]:"")."</div>";
                                     }
                                 ?>
-                                <?php
+                                <!--    NOT NEEDED - ALREADY HAVE HIDDEN FIELD WITH tmdbID
+                                ?php
                                     if (isset($halfTarget))
                                     {
                                         echo "<input type=\"hidden\" name=\"oldtmdbID\" value=\"$halfTarget->tmdbID\" />";
                                         echo "<div class=\"formError ml-1\">".(isset($errors["oldtmdbID"])?$errors["oldtmdbID"]:"")."</div>";
                                     }
-                                ?>
+                                ?-->
                             </div>
                         </div>
                         <!-- TWO DYNAMIC SELECTS -->
                         <div class="row mb-2">
                             <div class="column w30 mr-5">
                                 <label for="room">Room</label>
-                                <select class="formSelect" name="room" <?php if (isset($target)) echo "disabled"; ?>>
+                                <select class="formSelect" name="room" <?php if (isset($target)) echo "disabled"; ?> required>
                                     <?php
                                         foreach ($rooms as $room)
                                         {
                                             $isSelected = false;
-                                            if (isset($values["room"]))
-                                                $isSelected = $values["room"] == $room->name;
-                                            else if (isset($target))
+                                            if (isset($target))
                                                 $isSelected = $target->roomName == $room->name;
+                                            else if (isset($values["room"]))
+                                                $isSelected = $values["room"] == $room->name;
                                             echo "<option value=\"$room->name\"".($isSelected?" selected":"").">$room->name</option>";
                                         }
                                     ?>
@@ -185,12 +187,12 @@
                             </div>
                             <div class="column w25">
                                 <label for="tech">Technology</label>
-                                <select class="formSelect" name="tech" <?php if (isset($target)) echo "disabled"; ?>>
+                                <select class="formSelect" name="tech" <?php if (isset($target)) echo "disabled"; ?> required>
                                     <?php
-                                        if (isset($values["tech"]))
-                                            $selectedTechId = $values["tech"];
-                                        else if (isset($target))
+                                        if (isset($target))
                                             $selectedTechId = $target->idTech;
+                                        else if (isset($values["tech"]))
+                                            $selectedTechId = $values["tech"];
                                         foreach ($technologies as $tech)
                                         {
                                             $isSelected = isset($selectedTechId) && $selectedTechId == $tech->idTech;
@@ -272,7 +274,7 @@
                                                 echo date("Y-m-d", $targetDate);
                                             else
                                                 echo date("Y-m-d", time());
-                                        ?>" />
+                                        ?>" required />
                                     </div>
                                     <div class="formError ml-1">
                                         <?php 
@@ -292,7 +294,7 @@
                                         echo date("H:i", strtotime($target->dateTime));
                                     else
                                         echo date("H:i", time());
-                                ?>" />
+                                ?>" required />
                                 <div class="formError ml-1 mb-2">
                                     <?php 
                                         if(isset($errors["startTime"]))
@@ -301,11 +303,11 @@
                                 </div>
                                 <label for="price">Ticket price (&euro;)</label>
                                 <input type="number" name="price" min="0" step="0.01" value="<?php
-                                    if (isset($values["price"]))
-                                        echo $values["price"];
-                                    else if (isset($target))
+                                    if (isset($target))
                                         echo $target->price;
-                                ?>" <?php if (isset($target)) echo "disabled"; ?> />
+                                    else if (isset($values["price"]))
+                                        echo $values["price"];
+                                ?>" <?php if (isset($target)) echo "disabled"; ?> required />
                                 <div class="formError ml-1">
                                     <?php 
                                         if(isset($errors["price"]))
@@ -318,14 +320,14 @@
                         <div class="row mb-2 centerY">
                             <div class="column w25 mr-5">
                                 <div class="row">
-                                    <input type="checkbox" name="soon" class="formCheckbox" value="<?php
-                                        if (isset($values["soon"]))
-                                            echo $values["soon"];
-                                        else if (isset($halfTarget))
-                                            echo "true";
-                                        else
-                                            echo "false";
-                                    ?>" <?php if (isset($target)) echo "disabled"; ?> />
+                                    <input type="checkbox" name="soon" class="formCheckbox" value="soonVal" <?php
+                                        if (isset($target))
+                                            echo "";
+                                        else if (isset($values["soon"]))
+                                            echo "checked";
+                                        else if (!isset($values["tmdbID"]) && isset($halfTarget))
+                                            echo "checked";
+                                    ?> <?php if (isset($target)) echo "disabled"; ?> />
                                     <label for="soon">Add to Soon</label>
                                 </div>
                                 <div class="formError ml-1">

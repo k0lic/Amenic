@@ -85,9 +85,15 @@ class Cinema extends BaseController
     }
 
     // Presents the form for editing a movie that is coming soon.
-    public function editComingSoon()
+    public function editComingSoon($tmdbID)
     {
-        throw new Exception("Not yet implemented!");
+        $rooms = (new RoomModel())->where("email",$this->userMail)->findAll();
+        $technologies = (new TechnologyModel())->findAll();
+        $soon = (new ComingSoonModel())->where("email", $this->userMail)->where("tmdbID", $tmdbID)->find();
+        if ($soon == null)
+            return view("404.php");
+        $movie = (new MovieModel())->find($tmdbID);
+        return view("Cinema/CinemaAddMovie.php",["rooms" => $rooms,"technologies" => $technologies,"halfTarget" => $soon[0],"targetName" => $movie->title,"optionPrimary" => 0]);
     }
 
     // Presents the form for adding a new room.
@@ -114,7 +120,7 @@ class Cinema extends BaseController
     {
         $this->goHomeIfNotPost();
 
-        $addToSoon = isset($_POST["soon"]) && $_POST["soon"];
+        $addToSoon = isset($_POST["soon"]);
 
         $validationResult = $this->isValid($addToSoon?"actionAddSoon":"actionAddMovie", $_POST);
         if ($validationResult == 1)
@@ -213,9 +219,52 @@ class Cinema extends BaseController
         exit();
     }
 
+    // Adds a movie created from the coming soon list.
     public function actionReleaseComingSoon()
     {
-        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionReleaseSoon", $_POST);
+        if ($validationResult == 1)
+        {
+
+            $roomName = $_POST["room"];
+            $dateTime = $_POST["startDate"]." ".$_POST["startTime"];
+            $price = $_POST["price"];
+            $tmdbID = $_POST["tmdbID"];
+            $idTech = $_POST["tech"];
+
+            $pro = new Projection([
+                "roomName" => $roomName,
+                "email" => $this->userMail,
+                "dateTime" => $dateTime,
+                "price" => $price,
+                "canceled" => 0,
+                "tmdbID" => $tmdbID,
+                "idTech" => $idTech
+            ]);
+            $model = new ProjectionModel();
+
+            try
+            {
+                $model->transSmartCreate($pro);
+            }
+            catch (Exception $e)
+            {
+                $msg = "Releasing a movie from the coming soon list failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/EditComingSoon/".$tmdbID]);
+            }
+        }
+        else 
+        {
+            setcookie("addMovieErrors", http_build_query($validationResult), time() + 3600, "/");
+            setcookie("addMovieValues", http_build_query($_POST), time() + 3600, "/");
+            header("Location: /Cinema/EditComingSoon/".$_POST["tmdbID"]);
+            exit();
+        }
+
+        header("Location: /Cinema");
+        exit();
     }
 
     // Cancels an existing projection.
@@ -252,9 +301,38 @@ class Cinema extends BaseController
         exit();
     }
 
+    // Cancels a movie that is announced as coming soon to the cinema.
     public function actionCancelComingSoon()
     {
-        throw new Exception("NOT YET IMPLEMENTED!<br/>>");
+        $this->goHomeIfNotPost();
+
+        $validationResult = $this->isValid("actionCancelSoon", $_POST);
+        if ($validationResult == 1)
+        {
+
+            $tmdbID = $_POST["tmdbID"];
+            $model = new ComingSoonModel();
+
+            try
+            {
+                $model->where("email", $this->userMail)->where("tmdbID", $tmdbID)->delete();
+            }
+            catch (Exception $e)
+            {
+                $msg = "Canceling a coming soon movie failed!<br/>".$e->getMessage();
+                return view("Exception.php",["msg" => $msg,"destination" => "/Cinema/EditComingSoon/".$tmdbID]);
+            }
+        }
+        else 
+        {
+            setcookie("addMovieErrors", http_build_query($validationResult), time() + 3600, "/");
+            setcookie("addMovieValues", http_build_query($_POST), time() + 3600, "/");
+            header("Location: /Cinema/EditComingSoon/".$_POST["tmdbID"]);
+            exit();
+        }
+
+        header("Location: /Cinema/ComingSoon");
+        exit();
     }
 
     // Adds a new room.

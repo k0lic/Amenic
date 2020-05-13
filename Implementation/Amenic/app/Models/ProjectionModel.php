@@ -9,6 +9,7 @@ use App\Models\SmartDeleteModel;
 use App\Models\SeatModel;
 use App\Models\ReservationModel;
 use App\Models\RoomModel;
+use App\Models\ComingSoonModel;
 use App\Entities\Seat;
 use Exception;
 
@@ -57,7 +58,7 @@ class ProjectionModel extends SmartDeleteModel
         }
     }
 
-    // Creates a projection, along with all of its seats.
+    // Creates a projection, along with all of its seats. Deletes the coming soon entry if it exists.
     public function transSmartCreate($pro)
     {
         try
@@ -66,6 +67,7 @@ class ProjectionModel extends SmartDeleteModel
 
             $roommdl = new RoomModel();
             $seatmdl = new SeatModel();
+            $soonmdl = new ComingSoonModel();
             $this->insert($pro);
             $inserted = $this->where("email", $pro->email)->where("roomName", $pro->roomName)->where("dateTime", $pro->dateTime)->findAll()[0];
             $room = $roommdl->where("email", $pro->email)->where("name", $pro->roomName)->findAll()[0];
@@ -84,6 +86,7 @@ class ProjectionModel extends SmartDeleteModel
                     $seatmdl->insert($seat);
                 }
             }
+            $soonmdl->where("email", $pro->email)->where("tmdbID", $pro->tmdbID)->delete();
 
             $this->db->transCommit();
         }

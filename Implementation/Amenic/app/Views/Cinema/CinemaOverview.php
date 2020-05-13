@@ -160,7 +160,11 @@
                                 // MOVIES THAT ARE COMING SOON
                                 echo
                                 ("
-                                    <img src=\"".$item["poster"]."\" class=\"movieImg\" />
+                                    <a class=\"coolLink\" href=\"/Cinema/EditComingSoon/".$item["soon"]->tmdbID."\">
+                                        <div class=\"comingSoonExtended\">
+                                            <img src=\"".$item["poster"]."\" class=\"movieImg\" />
+                                        </div>
+                                    </a>
                                 ");
                             }
                         }
