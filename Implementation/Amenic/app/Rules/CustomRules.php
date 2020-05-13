@@ -7,12 +7,24 @@
 
 use App\Models\TechnologyModel;
 use App\Models\RoomModel;
+<<<<<<< Updated upstream
 use App\Models\RoomTechnologyModel;
 use App\Models\ProjectionModel;
 use App\Models\ComingSoonModel;
 use App\Models\MovieModel;
 
 date_default_timezone_set("Europe/Belgrade");
+=======
+>>>>>>> Stashed changes
+use App\Models\UserModel;
+use App\Models\CityModel;
+use App\Models\CountryModel;
+use App\Entities\User;
+<<<<<<< Updated upstream
+
+use Exception;
+=======
+>>>>>>> Stashed changes
 
 class CustomRules
 {
@@ -65,6 +77,7 @@ class CustomRules
         return true;
     }
 
+<<<<<<< Updated upstream
     // Checks if the new room name is available, ignoring the old one.
     public function checkRoomNameExcept($str,&$error = null)
     {
@@ -265,7 +278,176 @@ class CustomRules
             $error = "Cannot edit a projection that is starting in less than an hour";
             return false;
         }
+    }
+    
+    //SETTINGS FORM VALIDATING RULES
 
+    //Preventing user to force custom place
+=======
+    
+    //SETTINGS FORM VALIDATING RULES
+>>>>>>> Stashed changes
+    public function checkPlace($place,&$error = null)
+    {
+        if (is_null($place))
+        {
+            $error = "No place provided";
+            return false;
+        }
+
+<<<<<<< Updated upstream
+        if(isset($place['country']))
+        {
+            $country = (new CountryModel())->where('name',$place['country'])->findAll();
+=======
+        if(isset($place->country))
+        {
+            $country = (new CountryModel())->where('name',$place->country)->findAll();
+>>>>>>> Stashed changes
+            if (count($country) == 0)
+            {
+                $error = "Unrecognised country";
+                return false;
+            }
+<<<<<<< Updated upstream
+            if(isset($place['city']))
+            {
+                $city = (new CityModel())->where('name',$place['city'])->findAll();
+=======
+            if(isset($place->city))
+            {
+                $city = (new CityModel())->where('name',$place->city)->findAll();
+>>>>>>> Stashed changes
+                if (count($city) == 0)
+                {
+                    $error = "Unrecognised city";
+                    return false;
+                }
+                else
+                {
+                    if ($city[0]->idCountry == $country[0]->idCountry)
+                        return true;
+                    else
+                    {
+                        $error = "This city doesn't belong to the selected country";
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+<<<<<<< Updated upstream
+        if(isset($place['city']))
+=======
+        if(isset($place->city))
+>>>>>>> Stashed changes
+        {
+            $error = "Every city requires country";
+            return false;
+        }
+
+        $error = "Invalid data format";
+        return false;
+    }
+
+<<<<<<< Updated upstream
+    //used for existing users
+=======
+>>>>>>> Stashed changes
+    public function checkPassword($pswd, &$error = null)
+    {
+        if (is_null($pswd))
+        {
+<<<<<<< Updated upstream
+            $error = "Parameter cannot be empty";
+=======
+            $error = "First parameter cannot be empty";
+>>>>>>> Stashed changes
+            return false;
+        }
+
+        if (!isset($pswd['oldPswd']) || !isset($pswd['newPswd']) || !isset($pswd['email']))
+        {
+<<<<<<< Updated upstream
+            $error = "Parameter doesn't have required fields [oldPswd, newPswd, email]";
+            return false;
+        }
+
+        try
+        {
+            $oldPswd = strval($pswd['oldPswd']);
+            $newPswd = strval($pswd['newPswd']);
+            $email = strval($pswd['email']);
+        }
+        catch (Exception $e)
+        {
+            $error = "All parametres must be strings";
+            return false;
+        }
+
+        //user doesn't want to change password
+        if (strcmp($newPswd,"") == 0)
+            return true;
+=======
+            $error = "First parameter doesn't have required fields [oldPswd, newPswd, email]";
+            return false;
+        }
+
+        $oldPswd = $pswd['oldPswd'];
+        $newPswd = $pswd['newPswd'];
+        $email = $pswd['email'];
+
+        if (!is_string($oldPswd) || !isset($newPswd) || !isset($email))
+        {
+            $error = "All parametres need to be strings";
+            return false;
+        }
+
+        if (strcmp($newPswd,"") == 0)
+            return true;
+
+        $basePswd = (new UserModel())->find($email);
+        $basePswd = $basePswd[0]->password;
+>>>>>>> Stashed changes
+        
+        if (strcmp($oldPswd,"") == 0)
+        {
+            $error = "You didn't enter old password";
+            return false;
+        }
+        if (strcmp($newPswd,$oldPswd) == 0)
+        {
+            $error = "New password cannot be same as the old one";
+            return false;
+        }
+<<<<<<< Updated upstream
+        if(strlen($newPswd) <6)
+        {
+            $error = "Password must have at least 6 characters";
+            return false;
+        }
+
+        $basePswd = (new UserModel())->find($email);
+        $basePswd = $basePswd->password;
+
+        if (!password_verify($oldPswd,$basePswd))
+        {
+            $error = "Old password is incorrect";
+=======
+
+        //hashed in db
+        $oldPswd = password_hash($oldPswd,PASSWORD_BCRYPT, ['cost' => 8]);
+        if (strcmp($basePswd,$oldPswd) != 0)
+        {
+            $error = "Old password is incorrect";
+            return false;
+        }
+        if(strlen($newPswd) <6)
+        {
+            $error = "Password must have at least 6 characters";
+>>>>>>> Stashed changes
+            return false;
+        }
         return true;
     }
 

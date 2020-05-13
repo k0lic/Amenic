@@ -1976,6 +1976,10 @@ input[type="file"] {
 	grid-column: span 2;
 }
 
+.span4 {
+	grid-column: span 4;
+}
+
 .whole {
 	width: 100%;
 }

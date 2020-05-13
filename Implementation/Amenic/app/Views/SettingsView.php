@@ -12,20 +12,23 @@
 		<div class="container">
 			<div class="menuBar">
 				<a href="/HomeController"><img src="/assets/MoviesPage/imgs/logo.svg" class="logo" alt="Amenic" /></a>
-				<ul class="nav">
-					<li>
-						<a href="/AdminController/users" class="<?php if(strcmp($actMenu,"0")==0) echo "activeMenu";?>" >Users</a>
-					</li>
-					<li>
-						<a href="/AdminController/cinemas" class="<?php if(strcmp($actMenu,"0")==1) echo "activeMenu";?>">Cinemas</a>
-					</li>
-                    <li>
-						<a href="/AdminController/requests" class="<?php if(strcmp($actMenu,"0")==2) echo "activeMenu";?>">Requests</a>
-					</li>
-                    <li>
-						<a href="/AdminController/admins" class="<?php if(strcmp($actMenu,"0")==3) echo "activeMenu";?>">Admins</a>
-					</li>
-				</ul>
+				<?php 
+					switch($userType)
+					{
+						case "Admin":
+							include 'SideMenus/AdminSideMenu.php';
+							break;	
+						case "Cinema":
+							include 'SideMenus/CinemaSideMenu.php';
+							break;	
+						case "RUser":
+							include 'SideMenus/RUserSideMenu.php';
+							break;	
+						case "Worker":
+							include 'SideMenus/WorkerSideMenu.php';
+							break;	
+					}
+				?>
 				<a href="#"
 					><div class="icon baseline">
 						<svg
@@ -45,47 +48,6 @@
 					Settings</a
 				>
 			</div>
-			<div class="modalWrapper" id="addAdminWrapper">
-				<form action="/AdminController/addAdmin" method="POST" id="addAdminForm">
-					<div class="modal centerX" id="addAdminModal">
-							<div class="modalHead">Add admin</div>	
-							<div class="addAdminModalColumn">
-								<div class="modalColumn">
-									<!--first name new admin-->
-									<label for="fNameNA">First name</label>
-									<input type="text" id="fNameNA" name="fNameNA" />
-								</div>
-								<div class="modalColumn">
-									<label for="lNameNA">Last name</label>
-									<input type="text" id="lNameNA" name="lNameNA" />
-								</div>
-							</div>
-							<div class="modalColumn mt-2">
-								<label for="emailNA">Email</label>
-								<input type="text" id="emailNA" name="emailNA" />
-							</div>
-							<div class="modalColumn mt-2">
-								<label for="passwordNA">Password</label>
-								<input type="password" id="passwordNA" name="passwordNA" />
-							</div>
-							<div class="modalColumn mt-2">
-								<label for="passwordConfirm">Confirm password</label>
-								<input type="password" id="passwordConfirmNA" name="passwordConfirmNA" />
-							</div>
-							<div class="row centerY mb-2">
-								<span id="strengthBarTitle">Strength: </span>
-								<span id="strengthBar1" class="strengthBar light mr-1 ml-2"></span>
-								<span id="strengthBar2" class="strengthBar light mr-1"></span>
-								<span id="strengthBar3" class="strengthBar light mr-1"></span>
-								<span id="strengthBar4" class="strengthBar light"></span>
-							</div>
-							<div class="confirmModuleButtons">
-									<button>Yes</button>
-									<button class="transparentBg" onclick="hideModal('addAdminWrapper')" formaction="javascript:void(0);">No</button>
-							</div>
-					</div>
-				</form>	
-			</div>
 			<div class="adminWrapper">
 			<div class="topBar">
 					<form action="/AdminController/titleSearch" method="POST" class="searchForm">
@@ -103,11 +65,6 @@
 							/>
 						</label>
 					</form>
-					<div>
-						<button class="addAdminButton" onclick=showSpecModal('addAdminWrapper')>
-							Add admin
-						</button>
-					</div>
 					<div class="user">
 						<img
 						src="<?php if(!$token->image) echo"/assets/Admins/profile.jpeg"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
@@ -119,6 +76,24 @@
 						</span>
 					</div>
 				</div>	
+				<?php
+					//fetching data
+					$nameError = isset($errors['name']) && !is_null($errors['name']) ? $errors['name'] : "";
+					$fNameError = isset($errors['fName']) && !is_null($errors['fName']) ? $errors['fName'] : ""; 
+					$lNameError = isset($errors['lName']) && !is_null($errors['lName']) ? $errors['lName'] : ""; 
+					$emailError = isset($errors['email']) && !is_null($errors['email']) ? $errors['email'] : ""; 
+					$countryError = isset($errors['country']) && !is_null($errors['country']) ? $errors['country'] : ""; 
+					$cityError = isset($errors['city']) && !is_null($errors['city']) ? $errors['city'] : "";
+					$phoneError = isset($errors['phone']) && !is_null($errors['phone']) ? $errors['phone'] : ""; 
+					$addressError = isset($errors['address']) && !is_null($errors['address']) ? $errors['address'] : ""; 
+<<<<<<< Updated upstream
+					$pswdError = isset($errors['pswd']) && !is_null($errors['pswd']) ? $errors['pswd'] : ""; 
+					$imgError = isset($errors['profilePicture']) && !is_null($errors['profilePicture']) ? $errors['profilePicture'] : ""; 
+=======
+					$oldPswdError = isset($errors['pswdOld']) && !is_null($errors['pswdOld']) ? $errors['pswdOld'] : ""; 
+					$newPswdError = isset($errors['pswdNew']) && !is_null($errors['pswdNew']) ? $errors['pswdNew'] : ""; 
+>>>>>>> Stashed changes
+				?>
                 <form enctype="multipart/form-data" action="saveSettings" class="searchForm" method="POST">
                     <div class="settingsForm">
                             <div class="span2">
@@ -150,6 +125,7 @@
                                     <input type="file" onchange="showPicture()" id="profilePicture" name="profilePicture"/>    
                                     Browse
                                 </label>
+								<div class="formError ml-1"><?php echo $imgError;?></div>
 							</div>
 								<?php
 									//firstName and lastName row
@@ -160,6 +136,10 @@
 												<div class=\"span2\">
 													<label for=\"name\" >Name</label><br>
 													<input type=\"text\" class=\"whole\"id=\"name\" name=\"name\" value=\"".$data['firstName']."\"><br>
+													<div class=\"formError ml-1\">".$nameError."</div>
+												</div>
+												<div></div>
+											</div>
 												</div>
 												<div></div>
 											</div>
@@ -172,10 +152,12 @@
 											<div>
 												<label for=\"fName\">First name</label><br>
 												<input type=\"text\" id=\"fName\" name=\"fName\" value=\"".$data['firstName']."\"><br>
+												<div class=\"formError ml-1\">".$fNameError."</div>
 											</div>
 											<div>
 												<label for=\"lName\">Last name</label><br>
 												<input type=\"text\" id=\"lName\" name=\"lName\" value=\"".$data['lastName']."\"><br>
+												<div class=\"formError ml-1\">".$lNameError."</div>
 											</div>
 										</div>
 										";
@@ -189,6 +171,7 @@
 												<div class=\"adminEmail span2\">
 													<label for=\"email\">Email</label><br>
 													<input type=\"text\" id=\"email\" name=\"email\" value=\"".$data['email']."\" readonly><br>
+													<div class=\"formError ml-1\">".$emailError."</div>
 												</div>
 												<div class=\"span2 phoneSettings\">";
 										if (strcmp($userType,"RUser") == 0)
@@ -214,6 +197,7 @@
 												echo "required";
 										echo "		><option value=\"1\">Serbia</option>
 													</select>
+													<div class=\"formError ml-1\">".$countryError."</div>
 												</div>
 												<div>	
 													<label for=\"country\">City</label>
@@ -224,6 +208,7 @@
 													<option value=\"2\">Novi Sad</option>
 													<option value=\"3\">Niš</option>
 													</select>
+													<div class=\"formError ml-1\">".$cityError."</div>
 												</div>
 												<div class=\"span2\"></div>
 											</div>
@@ -238,10 +223,12 @@
 												<div>	
 													<label for=\"phone\">Phone</label><br>
 													<input type=\"text\" id=\"phone\" name=\"phone\" value=\"".$data['phone']."\"><br>
+													<div class=\"formError ml-1\">".$phoneError."</div>
 												</div>
 												<div>	
 													<label for=\"address\">Address</label><br>
 													<input type=\"text\" id=\"address\" name=\"address\" value=\"".$data['address']."\"><br>
+													<div class=\"formError ml-1\">".$addressError."</div>
 												</div>
 												<div class=\"span2\"></div>
 											</div>
@@ -251,13 +238,23 @@
                             <div class="passwordRow">
                                 <div class="span2">
                                     <label for="pswdOld">Old password</label><br>
-                                    <input class="settingsInputText" type="password" id="pswdOld" name="pswdOld"><br>
+									<input class="settingsInputText" type="password" id="pswdOld" name="pswdOld"><br>
+<<<<<<< Updated upstream
+                                </div>
+                                <div class="span2">
+                                    <label for="password">New password</label><br>
+									<input class="settingsInputText" type="password" id="password" name="pswdNew"><br>
+=======
+									<div class="formError ml-1"><?php echo $oldPswdError; ?></div>
                                 </div>
                                 <div class="span2">
                                     <label for="pswdNew">New password</label><br>
-                                    <input class="settingsInputText" type="password" id="pswdNew" name="pswdNew"><br>
+									<input class="settingsInputText" type="password" id="pswdNew" name="pswdNew"><br>
+									<div class="formError ml-1"><?php echo $newPswdError;?></div>
+>>>>>>> Stashed changes
                                 </div>
                             </div>
+							<div class="span4 formError ml-1"><?php echo $pswdError;?></div>
                             <div class="passwordRow">
                                 <div class="row centerY mb-2">
 									<span id="strengthBarTitle">Strength: </span>

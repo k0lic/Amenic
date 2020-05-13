@@ -152,9 +152,9 @@ class Validation
 	];
 
 	public $adminAccountCheck = [
-		'fNameNA' => 'required|alpha',
-		'lNameNA' => 'required|alpha',
-		'emailNA' => 'required|valid_email',
+		'fNameNA' => 'required|alpha|max_length[64]',
+		'lNameNA' => 'required|alpha|max_length[64]',
+		'emailNA' => 'required|valid_email|max_length[255]',
 		'passwordNA' => 'required|min_length[6]',
 		'passwordConfirmNA' => 'required|matches[passwordNA]'
 	];
@@ -162,16 +162,19 @@ class Validation
 	public $adminAccountCheck_errors =[
 		'fNameNA' => [
 			'required' => 'First name is required',
-			'alpha' => 'Field must contain only letters'
+			'alpha' => 'Field must contain only letters',
+			'max_length' => 'First name should have less than 64 characters'
 		],
 
 		'lNameNA' => [
 			'required' => 'Last name is required',
-			'alpha' => 'Field must contain only letters'
+			'alpha' => 'Field must contain only letters',
+			'max_length' => 'Last name should have less than 64 characters'
 		],
 		'emailNA' => [
 			'required' => 'Email is required',
 			'valid_email' => 'Email must be valid',
+			'max_length' => 'Email should have less than 255 characters'
 		],
 		'passwordNA' => [
 			'required' => 'Password is required',
@@ -181,8 +184,138 @@ class Validation
 			'required' => 'Password is required',
 			'matches' => 'Passwords must match'
 		]
+<<<<<<< Updated upstream
 	];
 
+
+	public $placeCheck = [
+		'place' => [
+			'label' => 'Country and city',
+			'rules' => 'checkPlace'
+		]
+	];
+
+	public $cinemaInfoCheck = [
+		'phone' =>	'required|decimal|max_length[64]|numeric',
+		'address' => 'required|max_length[64]',
+	];
+	
+	public $cinemaInfoCheck_errors =[
+		'phone' =>	[
+			'required' => 'Phone is required',
+			'max_length' => 'Phone number should have less than 64 numbers',
+			'numeric' => 'Phone can only have numbers'
+		],
+		'address' => [
+			'required' => 'Address is required',
+			'max_length' => 'Address should have less than 64 characters'
+		],
+	];
+
+	public $adminSettingsCheck = [
+		'fName' => 'required_without[name]|alpha|max_length[64]',
+		'lName' => 'required_without[name]|alpha|max_length[64]',
+		'email' => 'required|valid_email|max_length[255]',
+		'pswd' => 'checkPassword',
+		'profilePicture' => 'ext_in[profilePicture,png,jpg,jpeg]|max_size[profilePicture,200]|is_image[profilePicture]|mime_in[profilePicture,image/jpeg,image/jpg,image/png]'
+	];
+
+	
+	public $adminSettingsCheck_errors =[
+		'fName' => [
+			'required' => 'First name is required',
+			'alpha' => 'Field must contain only letters',
+			'max_length' => 'First name should have less than 64 characters'
+		],
+		'lName' => [
+			'required' => 'Last name is required',
+			'alpha' => 'Field must contain only letters',
+			'max_length' => 'Last name should have less than 64 characters'
+		],
+		'email' => [
+			'required' => 'Email is required',
+			'valid_email' => 'Email must be valid',
+			'max_length' => 'Email should have less than 64 characters'
+		],
+		'profilePicture' => [
+			'max_size' => 'Image too big',
+			'mime in' => 'Ivalid format',
+			'is_image' => 'File is not an image'
+		]
+	];
+=======
+		];
+
+
+		public $placeCheck = [
+			'country' => [
+				'label' => 'Country',
+				'rules' => 'checkPlace'
+			],
+			'city' => [
+				'label' => 'City',
+				'rules' => 'checkPlace'
+			]
+		];
+
+		public $cinemaInfoCheck = [
+			'phone' =>	'required|decimal|max_length[64]',
+			'address' => 'required|max_length[64]',
+		];
+	
+		public $cinemaInfoCheck_errors =[
+			'phone' =>	[
+				'required' => 'Phone is required',
+				'max_length' => 'Phone number should have less than 64 numbers'
+			],
+			'address' => [
+				'required' => 'Phone is required',
+				'max_length' => 'Address should have less than 64 characters'
+			],
+		];
+
+		public $adminSettingsCheck = [
+			'name' => 'required_without[fName]|permit_empty|alpha|max_length[64]',
+			'fName' => 'required_without[name]|alpha|max_length[64]',
+			'lName' => 'required_without[name]|alpha|max_length[64]',
+			'email' => 'required|valid_email|max_length[255]',
+			'pswdOld' => 'required_with[pswdNew]',
+		];
+	
+		public $settingsCheck_errors =[
+			'name' => [
+				'required' => 'Name is required',
+				'alpha' => 'Field must contain only letters',
+				'max_length' => 'Name should have less than 64 characters'
+			],
+			'fName' => [
+				'required' => 'First name is required',
+				'alpha' => 'Field must contain only letters',
+				'max_length' => 'First name should have less than 64 characters'
+			],
+			'lName' => [
+				'required' => 'Last name is required',
+				'alpha' => 'Field must contain only letters',
+				'max_length' => 'Last name should have less than 64 characters'
+			],
+			'email' => [
+				'required' => 'Email is required',
+				'valid_email' => 'Email must be valid',
+				'max_length' => 'Email should have less than 64 characters'
+			],
+			'pswdOld' => [
+				'required_with' => 'Old password is required'
+			],
+			];
+
+		public $settingsPasswordCheck = [
+			'pswdNew' => [
+				'label' => 'pswdNew',
+				'rules' => 'max_length[255]|checkPassword'
+			],
+		];
+>>>>>>> Stashed changes
+			
 	// Cinema controller validation.
 
 	public $actionAddRoom = [
@@ -227,6 +360,7 @@ class Validation
 		]
 	];
 
+<<<<<<< Updated upstream
 	public $actionRemoveRoom = [
 		'oldRoomName' => [
 			'label' => 'Old name',
@@ -333,6 +467,8 @@ class Validation
 	oldIdPro															- Edit movie
 	*/
 
+=======
+>>>>>>> Stashed changes
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------

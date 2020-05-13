@@ -163,7 +163,7 @@ class AdminController extends BaseController
             ];
 
         //you have to save admin info twice beacause this page is being used by all users
-        return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Admin', 'token' => $token ]);    
+        return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Admin', 'token' => $token, 'errors' => '' ]);    
     }
 
 
@@ -391,26 +391,101 @@ class AdminController extends BaseController
     {
         $token = $this->getToken();
         if (is_null($token))
-            return view('AdminBreachMessage',[]);
-        
-        //add to database
-        $name = $_POST['fName'];
-        $lName = $_POST['lName'];
-        $mail = $_POST['email'];
-        $pswd = $_POST['pswdNew'];
-        if(strcmp($pswd,"") == 0)
-        {
-            $pswd = (new UserModel())->find($mail)->password;
-        }
-        $pswdOld = $_POST['pswdOld'];
-        $pswd = password_hash($pswd,PASSWORD_BCRYPT, ['cost' => 8]);
+            return view('AdminBreachMessage',[]);        
 
-        $mail = $_POST['email'];
-        $file = $this->request->getFile('profilePicture');
-        $img=null;
-        if (strcmp($file->getName(),"") !=0)
+        $validation =  \Config\Services::validation();
+
+<<<<<<< Updated upstream
+=======
+        $data = [];
+        $errors = $validation->run($data,"placeCheck");
+        var_dump($errors);
+        var_dump($validation->getErrors());
+
+        /*
+>>>>>>> Stashed changes
+        //fetching data
+        $fName = $_POST['fName'];
+        $lName = $_POST['lName'];
+        $email = $_POST['email'];
+        $pswdOld = $_POST['pswdOld'];
+        $pswdNew = $_POST['pswdNew'];
+<<<<<<< Updated upstream
+        $image = $this->request->getFile('profilePicture');
+        
+=======
+        //picture size
+
+>>>>>>> Stashed changes
+        $form = [
+            'fName' => $fName,
+            'lName' => $lName,
+            'email' => $email,
+<<<<<<< Updated upstream
+            'pswd' => [ 
+                'oldPswd' => $pswdOld,
+                'newPswd' => $pswdNew,
+                'email' => $email
+            ],
+            'profilePicture' => $image
+        ]; 
+            
+        $valid = $validation->run($form, "adminSettingsCheck");
+=======
+            'pswdOld' => $pswdOld,
+        ];
+            
+        $valid = $validation->run($form, "settingsCheck");
+>>>>>>> Stashed changes
+    
+        if($valid != 1)
         {
-            $img = base64_encode(file_get_contents($file));
+            
+            $data = [
+                'firstName' => $token->firstName,
+                'lastName' => $token->lastName,
+                'email' =>  $token->email,
+                ];
+            $errors = $validation->getErrors();
+            var_dump($errors);
+
+            return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Admin', 'token' => $token, 'errors' => $errors ]);    
+        }
+
+<<<<<<< Updated upstream
+        echo "POYY";
+=======
+        $valid = $validation->run($pswdNew, $pswdOld, $email, "settingsPasswordCheck");
+        var_dump($valid);
+        $data = [
+            'firstName' => $token->firstName,
+            'lastName' => $token->lastName,
+            'email' =>  $token->email,
+            ];
+        $errors = $validation->getErrors();
+        
+        return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Admin', 'token' => $token, 'errors' => $errors ]);    
+>>>>>>> Stashed changes
+        /*
+        //password remains the same
+        if(strcmp($pswdNew,"") == 0)
+        {
+            $pswdNew = (new UserModel())->find($email)->password;
+        }
+<<<<<<< Updated upstream
+        
+        //update database
+=======
+        $pswdNew = password_hash($pswdNew,PASSWORD_BCRYPT, ['cost' => 8]);
+    
+        //image size
+        $file = $this->request->getFile('profilePicture');
+>>>>>>> Stashed changes
+        $img=null;
+        if (strcmp($image->getName(),"") !=0)
+        {
+            $img = base64_encode(file_get_contents($image
+        ));
             (new UserModel())->where(['email' => $mail])->set([
                 'image' => $img,             
                 ])->update();            
@@ -430,7 +505,7 @@ class AdminController extends BaseController
         setToken(generateToken($payload));
         $token = $this->getToken();
 
-        return $this->selectMenu(3);
+        return $this->selectMenu(3);*/
     }
 
     /** Funkcija koja otvara nalog novom adminu
@@ -466,7 +541,7 @@ class AdminController extends BaseController
             ->join('Admins', 'Users.email = Admins.email')
             ->find();
             $errors = $validation->getErrors();
-            var_dump($form);
+            
             return view('AdminView',['actMenu' => "3", 'data' => $data, 'token' => $token, 'errors' => $errors, 'form' => $form]);
         }
 

@@ -79,8 +79,8 @@
 								<div class="formError ml-1"><?php if(isset($errors['emailNA'])) echo $errors['emailNA'] ?></div>
 							</div>
 							<div class="modalColumn mt-2">
-								<label for="passwordNA">Password</label>
-								<input type="password" id="passwordNA" name="passwordNA" />
+								<label for="password">Password</label>
+								<input type="password" id="password" name="passwordNA" />
 								<div class="formError ml-1"><?php if(isset($errors['passwordNA'])) echo $errors['passwordNA'] ?></div>
 							</div>
 							<div class="modalColumn mt-2">
