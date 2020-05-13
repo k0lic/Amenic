@@ -117,7 +117,7 @@
                                         echo $values["roomName"];
                                     else if (isset($target))
                                         echo $target->name;
-                                ?>"  required minlength="3" maxlength="64" />
+                                ?>" minlength="3" maxlength="64" />
                                 <div class="formError ml-1">
                                     <?php 
                                         if(isset($errors["roomName"]))
@@ -141,7 +141,7 @@
                         <div class="row mb-2">
                             <div class="column w20 mr-5">
                                 <label for="tech">Technologies</label>
-                                <select class="formSelect" name="tech[]" multiple size="2" required>
+                                <select class="formSelect" name="tech[]" multiple size="2">
                                     <?php
                                         foreach ($technologies as $tech)
                                         {
@@ -165,7 +165,7 @@
                             </div>
                             <div class="column w30 mr-5">
                                 <label for="rows">Number of rows</label>
-                                <input type="number" name="rows" id="seatingRows" required min="1" max="26" step="1" onInput="updateSeatingPreview()" value="<?php
+                                <input type="number" name="rows" id="seatingRows" min="1" max="26" step="1" onInput="updateSeatingPreview()" value="<?php
                                     if (isset($values["rows"]))
                                         echo $values["rows"];
                                     else if (isset($target))
@@ -180,7 +180,7 @@
                             </div>
                             <div class="column w30">
                                 <label for="columns">Number of seats in each row</label>
-                                <input type="number" name="columns" id="seatingColumns" required min="1" max="26" step="1" onInput="updateSeatingPreview()" value="<?php
+                                <input type="number" name="columns" id="seatingColumns" min="1" max="26" step="1" onInput="updateSeatingPreview()" value="<?php
                                     if (isset($values["columns"]))
                                         echo $values["columns"];
                                     else if (isset($target))

@@ -134,7 +134,7 @@
                                         echo $halfTarget->tmdbID;
                                     else if (isset($values["tmdbID"]))
                                         echo $values["tmdbID"];
-                                ?>" <?php if (isset($target) || isset($halfTarget)) echo "readonly"; ?> required maxlength="64" />
+                                ?>" <?php if (isset($target) || isset($halfTarget)) echo "readonly"; ?> maxlength="64" />
                                 <div>
                                     You can copy from here: [419704,530915,330457]
                                 </div>
@@ -165,7 +165,7 @@
                         <div class="row mb-2">
                             <div class="column w30 mr-5">
                                 <label for="room">Room</label>
-                                <select class="formSelect" name="room" <?php if (isset($target)) echo "disabled"; ?> required>
+                                <select class="formSelect" name="room" <?php if (isset($target)) echo "disabled"; ?>>
                                     <?php
                                         foreach ($rooms as $room)
                                         {
@@ -187,7 +187,7 @@
                             </div>
                             <div class="column w25">
                                 <label for="tech">Technology</label>
-                                <select class="formSelect" name="tech" <?php if (isset($target)) echo "disabled"; ?> required>
+                                <select class="formSelect" name="tech" <?php if (isset($target)) echo "disabled"; ?>>
                                     <?php
                                         if (isset($target))
                                             $selectedTechId = $target->idTech;
@@ -274,7 +274,7 @@
                                                 echo date("Y-m-d", $targetDate);
                                             else
                                                 echo date("Y-m-d", time());
-                                        ?>" required />
+                                        ?>" />
                                     </div>
                                     <div class="formError ml-1">
                                         <?php 
@@ -294,7 +294,7 @@
                                         echo date("H:i", strtotime($target->dateTime));
                                     else
                                         echo date("H:i", time());
-                                ?>" required />
+                                ?>" />
                                 <div class="formError ml-1 mb-2">
                                     <?php 
                                         if(isset($errors["startTime"]))
@@ -307,7 +307,7 @@
                                         echo $target->price;
                                     else if (isset($values["price"]))
                                         echo $values["price"];
-                                ?>" <?php if (isset($target)) echo "disabled"; ?> required />
+                                ?>" <?php if (isset($target)) echo "disabled"; ?> />
                                 <div class="formError ml-1">
                                     <?php 
                                         if(isset($errors["price"]))
