@@ -262,9 +262,13 @@ CREATE TABLE `Projections` (
 --
 
 INSERT INTO `Projections`(`idPro`, `roomName`, `email`, `dateTime`, `price`, `canceled`, `tmdbID`, `idTech`) VALUES
-(1,'Sala 1','cinemaMail','2020-05-13 22:00:00',5,false,'419704',1),
-(2,'Sala 1','cinemaMail','2020-05-15 19:15:00',5,false,'530915',1),
-(3,'Shupa','cinemaMail','2020-05-15 20:15:00',2.5,false,'419704',2);
+(1,'Sala 1','cinemaMail','2020-05-17 22:00:00',5,false,'419704',1),
+(2,'Sala 1','cinemaMail','2020-05-19 19:15:00',5,false,'530915',1),
+(3,'Shupa','cinemaMail','2020-05-19 20:15:00',2.5,false,'419704',2),
+(4,'Shupa','cinemaMail','2020-05-17 18:00:00',2.6,false,'437068',2),
+(5,'Shupa','cinemaMail','2020-05-17 20:15:00',2.6,false,'437068',2),
+(6,'Shupa','cinemaMail','2020-05-17 22:45:00',2.6,false,'437068',2),
+(7,'Shupa','cinemaMail','2020-05-18 20:15:00',2.7,false,'437068',2);
 
 -- --------------------------------------------------------
 
@@ -589,7 +593,7 @@ ALTER TABLE `Countries`
 -- AUTO_INCREMENT for table `Projections`
 --
 ALTER TABLE `Projections`
-  MODIFY `idPro` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idPro` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Reservations`

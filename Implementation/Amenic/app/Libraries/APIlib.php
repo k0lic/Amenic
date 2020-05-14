@@ -103,6 +103,27 @@ class APIlib {
             return $params;
         }
 
+    /** Fetches the specified page from the results of the TMDB search.
+     * @param string $movieTitle - the value which TMDB should use to search movie titles
+     * @param string $pageNumber - the number of the requested page
+     * @return array $page - the resulting page, containing: the query status code, the type of content, and the content itself
+     */
+    public function getMoviesPage($movieTitle, $pageNumber)
+    {
+        $movieTitle = str_replace(" ", "%20", $movieTitle);
+        $client = new Client();
+        
+        $res = $client->request('GET', 'https://api.themoviedb.org/3/search/movie?api_key=a447e93ca55c73e315f16a4930488fcf&language=en-US&page='.$pageNumber.'&include_adult=false&query='.$movieTitle, [
+            'auth' => ['', '']
+        ]);
+        
+        $page["status"] =  $res->getStatusCode(); //200 is ok
+        $page["type"] =  $res->getHeader('content-type')[0]; //is application/json?
+        $page["body"] =  \GuzzleHttp\json_decode($res->getBody(),true); //json
+        
+        return $page;
+    }
+
     /** Funkcija koja dohvata neke parametre o zadatom filmu sa OMDBja
      * @param string $movieID IMDB id za zeljeni film
      * @return array $params [$statusniKod, $tipFajla, $jsonObjekat]
