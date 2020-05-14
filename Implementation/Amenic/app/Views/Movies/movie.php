@@ -190,6 +190,14 @@
                 </div>
                 
                 <div class="row mt-3" id="paginationRow">
+                    <div class="showingTablePagination" id="showingTablePagination">
+                        <div class="column centerRow showingTableArrow mr-3">
+                            <img src="/assets/Movie/arrowLeft.svg" class="movieArrow" id="movieArrowLeft" />
+                        </div>
+                        <div class="column centerRow showingTableArrow">
+                            <img src="/assets/Movie/arrowRight.svg" class="movieArrow" id="movieArrowRight" />
+                        </div>
+                    </div>
                 </div>
                             
             </div>

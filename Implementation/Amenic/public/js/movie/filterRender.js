@@ -105,9 +105,12 @@ const updateCities = () => {
 
 const updateCinemas = () => {
 	cinemaColumn.textContent = "";
-
 	getCinemas().then((data) => {
+		let cinemaSet = new Set();
 		data.forEach(async (cinema) => {
+			if (cinemaSet.has(cinema.email)) return;
+			cinemaSet.add(cinema.email);
+
 			let el = createDropdownItem(cinema.email, cinema.name, "cinema");
 			cinemaColumn.appendChild(el);
 
@@ -118,6 +121,8 @@ const updateCinemas = () => {
 				setFilterParam("cinemaDropdownItem", e.target.id);
 			});
 		});
+		cinemaSet.clear();
+		delete cinemaSet;
 	});
 };
 
@@ -125,9 +130,16 @@ const updateTimes = () => {
 	timeColumn.textContent = "";
 
 	getTimes().then((data) => {
-		let re = /(.*) (.*):.*/g;
+		let re = /(.*) (.*):.*/;
+
+		let timesSet = new Set();
+
 		data.forEach(async (time) => {
 			let extrTime = re.exec(time.dateTime)[2];
+
+			if (timesSet.has(extrTime)) return;
+			timesSet.add(extrTime);
+
 			let el = createDropdownItem(0, extrTime, "time");
 
 			timeColumn.appendChild(el);
@@ -139,13 +151,19 @@ const updateTimes = () => {
 				setFilterParam("timeDropdownItem", e.target.innerHTML);
 			});
 		});
+		timesSet.clear();
+		delete timesSet;
 	});
 };
 
 updateCountries();
 updateCities();
 updateCinemas();
-//updateTimes();
+updateTimes();
+
+const resetFilter = (filterName) => {
+	document.getElementById(`${filterName}Select`).innerHTML = "Select";
+};
 
 document.getElementById("movieArrowLeft").addEventListener("click", (e) => {
 	date.setDate(date.getDate() - 1);
@@ -154,9 +172,14 @@ document.getElementById("movieArrowLeft").addEventListener("click", (e) => {
 	time = "";
 	cinema = "";
 	city = "";
+
+	resetFilter("time");
+	resetFilter("cinema");
+	resetFilter("city");
+
 	updateCities();
 	updateCinemas();
-	//updateTimes();
+	updateTimes();
 
 	renderTable();
 });
@@ -168,9 +191,14 @@ document.getElementById("movieArrowRight").addEventListener("click", (e) => {
 	time = "";
 	cinema = "";
 	city = "";
+
+	resetFilter("time");
+	resetFilter("cinema");
+	resetFilter("city");
+
 	updateCities();
 	updateCinemas();
-	//updateTimes();
+	updateTimes();
 
 	renderTable();
 });
@@ -183,30 +211,42 @@ const setFilterParam = (className, value) => {
 		case "cinemaDropdownItem":
 			cinema = value;
 			time = "";
-			//updateTimes();
+			resetFilter("time");
+			updateTimes();
 			break;
 		case "countryDropdownItem":
 			country = value;
 			time = "";
 			cinema = "";
 			city = "";
+
+			resetFilter("time");
+			resetFilter("cinema");
+			resetFilter("city");
+
 			updateCities();
 			updateCinemas();
-			//updateTimes();
+			updateTimes();
 			break;
 		case "cityDropdownItem":
 			city = value;
 			cinema = "";
 			time = "";
+
+			resetFilter("time");
+			resetFilter("cinema");
+
 			updateCinemas();
-			//updateTimes();
+			updateTimes();
 			break;
 		default:
 			return error;
 	}
+	/*
 	console.log("CINEMA " + cinema);
 	console.log("TIME " + time);
 	console.log("COUNTRY " + country);
 	console.log("CITY " + city);
+	*/
 	renderTable();
 };

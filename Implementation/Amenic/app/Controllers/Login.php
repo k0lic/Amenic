@@ -194,12 +194,37 @@ class Login extends BaseController {
             }
 
             // Generate the JWT
-            $tokenPayload = [
-                'firstName' => $user->firstName,
-                'lastName' => $user->lastName,
-                'email' => $user->email,
-                'type' => $type
-            ];
+
+            $tokenPayload = null;
+
+            if($type == 'Cinema') {
+                $tokenPayload = [
+                    'name' => $user->name,
+                    'address' => $user->address,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'city' => $user->idCity,
+                    'country' => $user->idCountry,
+                    'type' => $type
+                ];
+            } else if($type == 'RUser') {
+                $tokenPayload = [
+                    'firstName' => $user->firstName,
+                    'lastName' => $user->lastName,
+                    'email' => $user->email,
+                    'phone' => $user->phoneNumber,
+                    'city' => $user->idCity,
+                    'country' => $user->idCountry,
+                    'type' => $type
+                ];
+            }else {
+                $tokenPayload = [
+                    'firstName' => $user->firstName,
+                    'lastName' => $user->lastName,
+                    'email' => $user->email,
+                    'type' => $type
+                ];
+            }
 
             $token = generateToken($tokenPayload);
             setToken($token);

@@ -228,31 +228,28 @@ const createHeader = () => {
 	table.appendChild(wrapper);
 };
 
-const createPagination = () => {
-	const wrapperInner = document.createElement("div");
-	wrapperInner.classList.add("showingTablePagination");
+document.getElementById("movieArrowLeft").addEventListener("click", (e) => {
+	e.preventDefault();
+	indx -= 5;
+	if (indx < 0) indx = 0;
 
-	let el = document.createElement("div");
-	el.classList.add("column", "centerRow", "showingTableArrow", "mr-3");
-	let img = document.createElement("img");
-	img.src = "/assets/Movie/arrowLeft.svg";
-	img.classList.add("movieArrow");
-	img.id = "movieArrowLeft";
-	el.appendChild(img);
+	addToTable(indx);
+});
 
-	wrapperInner.appendChild(el);
+document.getElementById("movieArrowRight").addEventListener("click", (e) => {
+	e.preventDefault();
+	indx += 5;
 
-	el = document.createElement("div");
-	el.classList.add("column", "centerRow", "showingTableArrow");
-	img = document.createElement("img");
-	img.src = "/assets/Movie/arrowRight.svg";
-	img.classList.add("movieArrow");
-	img.id = "movieArrowRight";
-	el.appendChild(img);
+	addToTable(indx);
+});
 
-	wrapperInner.appendChild(el);
-
-	document.getElementById("paginationRow").appendChild(wrapperInner);
+const showPagination = (showing) => {
+	let el = document.getElementById("showingTablePagination");
+	if (showing) {
+		el.classList.add("showPagination");
+	} else {
+		el.classList.remove("showPagination");
+	}
 };
 
 const renderSad = () => {
@@ -268,19 +265,48 @@ const renderSad = () => {
 	table.appendChild(txt);
 };
 
+let needPagination = false;
+let projections = [];
+let projectionsAdded = 0; // used for the callback
+let indx = 0;
+
+const addToTable = (indx) => {
+	// Clear the table
+	table.textContent = "";
+	createHeader();
+
+	let cnt = 0;
+	for (let i = indx; i < projections.length && cnt < 5; i++) {
+		table.appendChild(projections[i]);
+		cnt++;
+	}
+
+	projectionsAdded = 0;
+};
+
 const renderTable = () => {
 	// Clear the table
 	table.textContent = "";
-	document.getElementById("paginationRow").textContent = "";
+
+	needPagination = false;
+	projectionsAdded = 0;
+	indx = 0;
+	projections.splice(0, projections.length);
+
+	//document.getElementById("paginationRow").textContent = "";
+	showPagination(false);
 	createHeader();
 
 	getProjections().then((data) => {
+		if (data.length > 5) needPagination = true;
+
 		if (data.length < 1) {
 			renderSad();
 		} else {
-			data.forEach(async (projection) => {
-				let re = /(.*) (.*):.*/g;
-				table.appendChild(
+			data.forEach(async (projection, index, data) => {
+				let re = /(.*) (.*):.*/;
+
+				projections.push(
 					createRow(
 						await getCinemaName(projection.email),
 						re.exec(projection.dateTime)[2],
@@ -288,8 +314,12 @@ const renderTable = () => {
 						await getTechName(projection.idTech)
 					)
 				);
+				projectionsAdded++;
+
+				if (projectionsAdded == data.length) addToTable(indx);
 			});
-			createPagination();
+
+			if (needPagination) showPagination(true);
 		}
 	});
 };
