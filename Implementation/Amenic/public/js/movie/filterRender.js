@@ -126,16 +126,24 @@ const updateCinemas = () => {
 	});
 };
 
+let results = [];
+
 const updateTimes = () => {
 	timeColumn.textContent = "";
+	results.splice(0, results.length);
 
 	getTimes().then((data) => {
-		let re = /(.*) (.*):.*/;
-
 		let timesSet = new Set();
 
-		data.forEach(async (time) => {
+		if (!Array.isArray(data)) {
+			results.push(data["1"]);
+		} else {
+			results = data;
+		}
+		results.forEach(async (time) => {
+			let re = /(.*) (.*):.*/;
 			let extrTime = re.exec(time.dateTime)[2];
+			re.lastIndex = 0;
 
 			if (timesSet.has(extrTime)) return;
 			timesSet.add(extrTime);
@@ -151,6 +159,7 @@ const updateTimes = () => {
 				setFilterParam("timeDropdownItem", e.target.innerHTML);
 			});
 		});
+
 		timesSet.clear();
 		delete timesSet;
 	});

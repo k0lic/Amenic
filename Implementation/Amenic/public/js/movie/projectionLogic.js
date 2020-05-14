@@ -283,6 +283,7 @@ const addToTable = (indx) => {
 
 	projectionsAdded = 0;
 };
+let resultsPL = [];
 
 const renderTable = () => {
 	// Clear the table
@@ -292,6 +293,7 @@ const renderTable = () => {
 	projectionsAdded = 0;
 	indx = 0;
 	projections.splice(0, projections.length);
+	resultsPL.splice(0, resultsPL.length);
 
 	//document.getElementById("paginationRow").textContent = "";
 	showPagination(false);
@@ -303,7 +305,12 @@ const renderTable = () => {
 		if (data.length < 1) {
 			renderSad();
 		} else {
-			data.forEach(async (projection, index, data) => {
+			if (!Array.isArray(data)) {
+				resultsPL.push(data["1"]);
+			} else {
+				resultsPL = data;
+			}
+			resultsPL.forEach(async (projection, index, data) => {
 				let re = /(.*) (.*):.*/;
 
 				projections.push(
