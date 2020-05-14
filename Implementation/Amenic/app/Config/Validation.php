@@ -185,7 +185,6 @@ class Validation
 			'required' => 'Password is required',
 			'matches' => 'Passwords must match'
 		]
-<<<<<<< Updated upstream
 	];
 
 
@@ -244,78 +243,6 @@ class Validation
 			'is_image' => 'File is not an image'
 		]
 	];
-=======
-		];
-
-
-		public $placeCheck = [
-			'country' => [
-				'label' => 'Country',
-				'rules' => 'checkPlace'
-			],
-			'city' => [
-				'label' => 'City',
-				'rules' => 'checkPlace'
-			]
-		];
-
-		public $cinemaInfoCheck = [
-			'phone' =>	'required|decimal|max_length[64]',
-			'address' => 'required|max_length[64]',
-		];
-	
-		public $cinemaInfoCheck_errors =[
-			'phone' =>	[
-				'required' => 'Phone is required',
-				'max_length' => 'Phone number should have less than 64 numbers'
-			],
-			'address' => [
-				'required' => 'Phone is required',
-				'max_length' => 'Address should have less than 64 characters'
-			],
-		];
-
-		public $adminSettingsCheck = [
-			'name' => 'required_without[fName]|permit_empty|alpha|max_length[64]',
-			'fName' => 'required_without[name]|alpha|max_length[64]',
-			'lName' => 'required_without[name]|alpha|max_length[64]',
-			'email' => 'required|valid_email|max_length[255]',
-			'pswdOld' => 'required_with[pswdNew]',
-		];
-	
-		public $settingsCheck_errors =[
-			'name' => [
-				'required' => 'Name is required',
-				'alpha' => 'Field must contain only letters',
-				'max_length' => 'Name should have less than 64 characters'
-			],
-			'fName' => [
-				'required' => 'First name is required',
-				'alpha' => 'Field must contain only letters',
-				'max_length' => 'First name should have less than 64 characters'
-			],
-			'lName' => [
-				'required' => 'Last name is required',
-				'alpha' => 'Field must contain only letters',
-				'max_length' => 'Last name should have less than 64 characters'
-			],
-			'email' => [
-				'required' => 'Email is required',
-				'valid_email' => 'Email must be valid',
-				'max_length' => 'Email should have less than 64 characters'
-			],
-			'pswdOld' => [
-				'required_with' => 'Old password is required'
-			],
-			];
-
-		public $settingsPasswordCheck = [
-			'pswdNew' => [
-				'label' => 'pswdNew',
-				'rules' => 'max_length[255]|checkPassword'
-			],
-		];
->>>>>>> Stashed changes
 			
 	// Cinema controller validation.
 
@@ -361,7 +288,6 @@ class Validation
 		]
 	];
 
-<<<<<<< Updated upstream
 	public $actionRemoveRoom = [
 		'oldRoomName' => [
 			'label' => 'Old name',
@@ -493,8 +419,6 @@ class Validation
 		]
 	];
 
-=======
->>>>>>> Stashed changes
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------

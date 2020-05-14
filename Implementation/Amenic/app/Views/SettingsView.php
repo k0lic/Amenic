@@ -86,13 +86,8 @@
 					$cityError = isset($errors['city']) && !is_null($errors['city']) ? $errors['city'] : "";
 					$phoneError = isset($errors['phone']) && !is_null($errors['phone']) ? $errors['phone'] : ""; 
 					$addressError = isset($errors['address']) && !is_null($errors['address']) ? $errors['address'] : ""; 
-<<<<<<< Updated upstream
 					$pswdError = isset($errors['pswd']) && !is_null($errors['pswd']) ? $errors['pswd'] : ""; 
 					$imgError = isset($errors['profilePicture']) && !is_null($errors['profilePicture']) ? $errors['profilePicture'] : ""; 
-=======
-					$oldPswdError = isset($errors['pswdOld']) && !is_null($errors['pswdOld']) ? $errors['pswdOld'] : ""; 
-					$newPswdError = isset($errors['pswdNew']) && !is_null($errors['pswdNew']) ? $errors['pswdNew'] : ""; 
->>>>>>> Stashed changes
 				?>
                 <form enctype="multipart/form-data" action="saveSettings" class="searchForm" method="POST">
                     <div class="settingsForm">
@@ -239,19 +234,10 @@
                                 <div class="span2">
                                     <label for="pswdOld">Old password</label><br>
 									<input class="settingsInputText" type="password" id="pswdOld" name="pswdOld"><br>
-<<<<<<< Updated upstream
                                 </div>
                                 <div class="span2">
                                     <label for="password">New password</label><br>
 									<input class="settingsInputText" type="password" id="password" name="pswdNew"><br>
-=======
-									<div class="formError ml-1"><?php echo $oldPswdError; ?></div>
-                                </div>
-                                <div class="span2">
-                                    <label for="pswdNew">New password</label><br>
-									<input class="settingsInputText" type="password" id="pswdNew" name="pswdNew"><br>
-									<div class="formError ml-1"><?php echo $newPswdError;?></div>
->>>>>>> Stashed changes
                                 </div>
                             </div>
 							<div class="span4 formError ml-1"><?php echo $pswdError;?></div>
