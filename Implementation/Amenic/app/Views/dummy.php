@@ -9,41 +9,28 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-		<title>Amenic - Register</title>
+		<title>Amenic - Password reset</title>
 	</head>
 	<body>
 		<div class="container">
 			<div class="registerBar">
-				<a href="/">
+            <a href="/">
 					<img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
-				</a>
+			</a>
 				<div class="registerSteps">
-					<div class="row centerY">
-						<div class="stepCircle stepCircleFaded">
-							1
-						</div>
-						<span>
-							Your info
-						</span>
-					</div>
-					<div class="row centerY">
-						<div class="stepCircle">
-							2
-						</div>
-						<span>
-							Password
-						</span>
+                <div class="registerBarTitle">Oh no!</div>
+                <div class="registerBarSubtitle mt-3">
+						Looks like you've forgotten your password.
 					</div>
 				</div>
 			</div>
 			<div class="registerWrapper formWrapper">
-				<form class="testClass" method="POST" action="/register/user/3">
-					<h1 class="formTitle mb-3">Create a password</h1>
+					<h1 class="formTitle mb-3">Password reset</h1>
 
 					<div class="row mb-5">
 						<div class="column w25 mr-5">
-							<label for="firstPassword">Your password</label>
-							<input type="password" name="firstPassword"  id="password" />
+							<label for="firstPassword">New password</label>
+							<input type="password" name="firstPassword" id="password"/>
 							<div class="formError ml-1"><?php if(isset($errors['firstPassword'])) echo $errors['firstPassword'] ?></div>
 						</div>
 						<div class="column w25">
@@ -59,17 +46,16 @@
 						<span id="strengthBar2" class="strengthBar mr-1"></span>
 						<span id="strengthBar3" class="strengthBar mr-1"></span>
 						<span id="strengthBar4" class="strengthBar"></span>
-					</div>
-
+                    </div>
+                    
 					<div class="row">
 						<div class="column w55">
-							<button type="submit">Finish</button>
+							<button type="submit">Submit</button>
 						</div>
-					</div>
-				</form>
+                    </div>
 			</div>
 		</div>
-	</body>
-	<script src="/js/passwordStrength/zxcvbn.js"></script>
+    </body>
+    <script src="/js/passwordStrength/zxcvbn.js"></script>
     <script src="/js/passwordStrength/passwordStrength.js"></script>
 </html>

@@ -9,6 +9,7 @@ use \App\Models\UserModel;
 use \App\Models\RUserModel;
 use \App\Models\AdminModel;
 use \App\Models\CinemaModel;
+use \App\Models\WorkerModel;
 
 use \Firebase\JWT\JWT;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -172,6 +173,7 @@ class Login extends BaseController {
             $ruserModel = new RUserModel();
             $cinemaModel = new CinemaModel();
             $adminModel = new AdminModel();
+            $workerModel = new WorkerModel();
 
             $type = '';
 
@@ -184,6 +186,9 @@ class Login extends BaseController {
             } else if(!is_null($adminModel->find($email))) {
                 $user = $adminModel->find($email);
                 $type = 'Admin';
+            } else if(!is_null($workerModel->find($email))) {
+                $user = $workerModel->find($email);
+                $type = 'Worker';
             } else {
                 throw new Exception('Internal server error');
             }

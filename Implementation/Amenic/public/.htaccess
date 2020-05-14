@@ -46,3 +46,5 @@ Options All -Indexes
 # Disable server signature start
     ServerSignature Off
 # Disable server signature end
+
+Header set Access-Control-Allow-Origin "*"

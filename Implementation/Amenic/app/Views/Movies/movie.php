@@ -11,6 +11,7 @@
     $cnt = count($actors);
 
     $maxlen = 510;
+
 ?>
 
 <!DOCTYPE html>
@@ -123,10 +124,7 @@
                     <span class="dropdownTitle">Time</span>
                     <span class="dropdownSubtitle" id="timeSelect">Select</span>
                     </div>
-                        <ul class="dropdown">
-                            <li class="timeDropdownItem">18:30</li>
-                            <li class="timeDropdownItem">19:30</li>
-                            <li class="timeDropdownItem">20:00</li>
+                        <ul class="dropdown" id="timeDropdown">
                         </ul>
                     </li>
                 </ul>
@@ -138,10 +136,7 @@
                     <span class="dropdownTitle">Cinema</span>
                     <span class="dropdownSubtitle" id="cinemaSelect">Select</span>
                     </div>
-                        <ul class="dropdown">
-                            <li class="cinemaDropdownItem">Cineplexx BIG</li>
-                            <li class="cinemaDropdownItem">Cineplexx Ušće</li>
-                            <li class="cinemaDropdownItem">Jagodinski kulturni centar</li>
+                        <ul class="dropdown" id="cinemaDropdown">
                         </ul>
                     </li>
                 </ul>
@@ -153,8 +148,7 @@
                     <span class="dropdownTitle">Country</span>
                     <span class="dropdownSubtitle" id="countrySelect">Select</span>
                     </div>
-                        <ul class="dropdown">
-                            <li class="countryDropdownItem">Serbia</li>
+                        <ul class="dropdown" id="countryDropdown">
                         </ul>
                     </li>
                 </ul>
@@ -167,21 +161,17 @@
                     <span class="dropdownSubtitle" id="citySelect">Select</span>
                     </div>
                         <ul class="dropdown" id="cityDropdown">
-                            <li class="cityDropdownItem">Beograd</li>
-                            <li class="cityDropdownItem">Novi Sad</li>
-                            <li class="cityDropdownItem">Niš</li>
-                            <li class="cityDropdownItem">Jagodina</li>
                         </ul>
                     </li>
                 </ul>
             </div> 
         </div>
         
-        <div class="row centerX mb-5 movieShowingContent">
+        <div class="row centerX mb-5 movieShowingContent" >
             <div class="column w55 centerY tableCol ml-5">
                 <span class="showingTitle">Showing in:</span>
 
-                <div class="showingTable column">
+                <div class="showingTable column centerRow" id="showingTable">
                     <div class="showingTableHeader row centerY">
                         <div class="w10"></div>
                         <div class="w30 textCenter">
@@ -197,102 +187,11 @@
                             Type
                         </div>
                     </div>
-                    <div class="showingTableRow row centerY mb-1">
-                        <div class="w10 column centerRow">
-                            <img src="https://via.placeholder.com/150" class="userIcon" />
-                        </div>
-                        <div class="w30 textCenter">
-                            Cineplexx Ušće
-                        </div>
-                        <div class="w20 textCenter">
-                            18:30
-                        </div>
-                        <div class="w20 textCenter">
-                            Sala 3
-                        </div>
-                        <div class="w20 textCenter">
-                            2D
-                        </div>
-                    </div>
-                    <div class="showingTableRow row centerY mb-1">
-                        <div class="w10 column centerRow">
-                            <img src="https://via.placeholder.com/150" class="userIcon" />
-                        </div>
-                        <div class="w30 textCenter">
-                            Cineplexx BIG
-                        </div>
-                        <div class="w20 textCenter">
-                            19:00
-                        </div>
-                        <div class="w20 textCenter">
-                            Sala 1
-                        </div>
-                        <div class="w20 textCenter">
-                            3D
-                        </div>
-                    </div>
-                    <div class="showingTableRow row centerY mb-1">
-                        <div class="w10 column centerRow">
-                            <img src="https://via.placeholder.com/150" class="userIcon" />
-                        </div>
-                        <div class="w30 textCenter">
-                            Tuckwood
-                        </div>
-                        <div class="w20 textCenter">
-                            19:00
-                        </div>
-                        <div class="w20 textCenter">
-                            Merlyn Monroe
-                        </div>
-                        <div class="w20 textCenter">
-                            2D
-                        </div>
-                    </div>
-                    <div class="showingTableRow row centerY mb-1">
-                        <div class="w10 column centerRow">
-                            <img src="https://via.placeholder.com/150" class="userIcon" />
-                        </div>
-                        <div class="w30 textCenter">
-                            Terazije Teatar
-                        </div>
-                        <div class="w20 textCenter">
-                            21:00
-                        </div>
-                        <div class="w20 textCenter">
-                            Velika sala
-                        </div>
-                        <div class="w20 textCenter">
-                            2D
-                        </div>
-                    </div>
-                    <div class="showingTableRow row centerY">
-                        <div class="w10 column centerRow">
-                            <img src="https://via.placeholder.com/150" class="userIcon" />
-                        </div>
-                        <div class="w30 textCenter">
-                            Test Teatar
-                        </div>
-                        <div class="w20 textCenter">
-                            21:00
-                        </div>
-                        <div class="w20 textCenter">
-                            Tst Sala
-                        </div>
-                        <div class="w20 textCenter">
-                            3D
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="showingTablePagination">
-                            <div class="column centerRow showingTableArrow mr-3">
-                                <img src="/assets/Movie/arrowLeft.svg" class="movieArrow" id="movieArrowLeft" />
-                            </div>
-                            <div class="column centerRow showingTableArrow">
-                                <img src="/assets/Movie/arrowRight.svg" class="movieArrow" id="movieArrowLeft" />
-                            </div>
-                        </div>
-                    </div>
                 </div>
+                
+                <div class="row mt-3" id="paginationRow">
+                </div>
+                            
             </div>
 
             <div class="column w45 criticsPart mr-5">
@@ -327,8 +226,9 @@
                     </span>
                 </div>
             </div>
+            <input type="hidden" id="movieID" value=<?php echo $movie->tmdbID ?> />
         </div>
     </body>
-    <script src="/js/movieDateSelector.js"></script>
-    <script src="/js/movieSearchFilter.js"></script>
+    <script src="/js/movie/projectionLogic.js"></script>
+    <script src="/js/movie/filterRender.js"></script>
 </html>

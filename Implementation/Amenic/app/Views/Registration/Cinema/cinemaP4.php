@@ -51,7 +51,7 @@
 					<div class="row mb-5">
 						<div class="column w25 mr-5">
 							<label for="firstPassword">Your password</label>
-							<input type="password" name="firstPassword" />
+							<input type="password" name="firstPassword" id ="password"/>
 							<div class="formError ml-1"><?php if(isset($errors['firstPassword'])) echo $errors['firstPassword'] ?></div>
 						</div>
 						<div class="column w25">
@@ -78,4 +78,6 @@
 			</div>
 		</div>
 	</body>
+	<script src="/js/passwordStrength/zxcvbn.js"></script>
+    <script src="/js/passwordStrength/passwordStrength.js"></script>
 </html>
