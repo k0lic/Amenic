@@ -1748,6 +1748,65 @@ body {
 	font-size: 2em;
 }
 
+/* RESERVATION */
+
+.reservationWrapper {
+	color: white;
+}
+
+.reservationHR {
+	border-top: 2px dashed var(--orange);
+	width: 100%;
+}
+
+.reservationTitle {
+	font-weight: 800;
+	font-size: 1.3em;
+}
+
+.reservationSubtitle {
+	text-align: left;
+	align-self: flex-start;
+}
+
+.reservationBottom {
+	font-weight: 600;
+	font-size: 1.2em;
+}
+
+.reservationButton {
+	align-self: flex-end;
+}
+
+.reservedSeats {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1em;
+}
+
+.reservedSeat {
+	padding: 0.2em 1em;
+	border: 2px solid var(--registerButton);
+	border-radius: 5px;
+}
+
+.legend {
+	width: 30px;
+	height: 30px;
+
+	background-color: transparent;
+	border: 2px solid var(--registerButton);
+	border-radius: 5px;
+}
+
+.legendReserved {
+	background-color: var(--registerButton);
+}
+
+.legendSelected {
+	background-color: white;
+	border: 2px solid white;
+}
 /* ADMIN CONTROLLER */
 
 .adminWrapper {

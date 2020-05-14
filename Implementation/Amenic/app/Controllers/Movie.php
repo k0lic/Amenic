@@ -18,17 +18,14 @@ use function App\Helpers\getReviews;
 
 class Movie extends BaseController {
 
-    public function index() {
+    public function index($tmdbID) {
 
         helper('imdb_helper');
 
         $movieModel = new MovieModel();
         
-        $movie = $movieModel->find(437068);
+        $movie = $movieModel->find($tmdbID);
 
-        // TEST 
-
-        // END TEST
         $reviews = getReviews($movie->imdbID);
         
         return view('Movies/movie.php', ['movie' => $movie, 'reviews' => $reviews]);

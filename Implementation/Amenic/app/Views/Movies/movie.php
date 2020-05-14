@@ -56,7 +56,7 @@
                         <img src="/assets/Movie/movieClock.svg" class="movieInfoIconClock mr-1" alt="Runtime" class="movieInfoIcon" />
                         <span class="movieInfo mr-2"><?php echo $hour."h"." ".$minutes."m" ?></span>
                         <span class="movieInfo mr-2"><?php echo $year?></span>
-                        <span class="movieInfo"><?php echo $movie->genre ?></span>
+                        <span class="movieInfo"><?php echo $movie->genre ?></span> 
                     </div>
                     <div class="row mt-2">
                         <span class="movieDesc w100"><?php echo $movie->plot ?></span>
