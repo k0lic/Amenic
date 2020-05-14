@@ -551,6 +551,41 @@ class Cinema extends BaseController
         exit();
     }
 
+    // Fetch request No1.
+    public function getSomeMovies()
+    {
+
+        //$idCountry = $_REQUEST['country'];
+
+        $moviemdl = new MovieModel();
+        $results = $moviemdl->limit(3)->find();
+
+        echo json_encode($results);
+    }
+
+    // Fetch request No2.
+    public function countHowManyMoviesLike()
+    {
+        $match = $_REQUEST["match"];
+
+        $moviemdl = new MovieModel();
+        $num = $moviemdl->like("title", $match)->countAllResults();
+
+        echo json_encode($num);
+    }
+
+    // Fetch request No3.
+    public function getMoviesLike()
+    {
+        $match = $_REQUEST["match"];
+        $page = $_REQUEST["page"];
+
+        $moviemdl = new MovieModel();
+        $results = $moviemdl->limit(20, 20*($page-1))->like("title", $match)->findAll();
+
+        echo json_encode($results);
+    }
+
     //--------------------------------------------------------------------
     //  PRIVATE METHODS  //
     //--------------------------------------------------------------------

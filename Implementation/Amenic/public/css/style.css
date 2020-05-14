@@ -1525,6 +1525,114 @@ body {
 	background-color: var(--orange);
 }
 
+/* MOVIE SEARCH DROPDOWN */
+
+.movieDropdownResultsContainer {
+	background-color: var(--deepPurple);
+	border: 1px solid var(--movieDate);
+
+	visibility: hidden;
+	opacity: 0;
+	min-width: 5em;
+	position: absolute;
+	transition: 5s background-color ease-in-out;
+	margin-bottom: 1em;
+	left: 0;
+	display: none;
+
+	border-radius: 8px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.movieDropdownFrame {
+	position: relative;
+}
+
+.movieDropdownVisible {
+	visibility: visible;
+	opacity: 1;
+	display: block;
+}
+
+.movieSearchResultListWrapper {
+	width: 100%;
+	padding: 0.5em 1.2em;
+}
+
+.movieSearchResultList {
+	list-style: none;
+	border-radius: 8px;
+	background-color: var(--lightPurple);
+}
+
+.movieSearchResultItem {
+	cursor: pointer;
+	border-radius: 8px;
+}
+
+.movieSearchResultItem:hover {
+	background-color: var(--orange);
+}
+
+.movieSearchResultItemInner {
+	padding: 1em;
+}
+
+.movieSearchImg {
+	height: 140px;
+	width: 95px;
+	object-fit: cover;
+	border-radius: 2px;
+}
+
+.movieSearchItemHeader {
+	font-size: 0.8em;
+	font-weight: 200;
+}
+
+.movieSearchItemText {
+	font-size: 1.2em;
+	font-weight: 500;
+}
+
+.movieSearchItemEmpty {
+	font-style: italic;
+}
+
+.movieSearchArrow {
+	background-color: var(--deepPurple);
+	width: 48px;
+	height: 40px;
+	-webkit-clip-path: circle(35% at 50% 50%);
+	clip-path: circle(50% at 50% 50%);
+}
+
+.movieSearchPageNumber {
+	background-color: var(--deepPurple);
+	font-size: 0.9em;
+	width: 2.5em;
+	height: 2.5em;
+	margin: 0 0.2em;
+	-webkit-clip-path: circle(35% at 50% 50%);
+	clip-path: circle(50% at 50% 50%);
+}
+
+.movieSearchDots {
+	font-size: 0.9em;
+	margin: 0 0.2em;
+}
+
+.movieSearchActiveControl {
+	background-color: var(--formInput);
+	cursor: pointer;
+	transition: 0.2s background-color ease-in-out;
+}
+
+.movieSearchActiveControl:hover {
+	background-color: var(--orange);
+	transition: 0.2s background-color ease-in-out;
+}
+
 /* CRITICS */
 
 .criticsPart {

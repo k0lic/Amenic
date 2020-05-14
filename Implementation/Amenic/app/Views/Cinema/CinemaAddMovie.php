@@ -34,7 +34,7 @@
             ?>
         </title>
 	</head>
-	<body onLoad="stopModalPropagation()">
+	<body onLoad="stopModalPropagation(); setupListeners();">
         <div class="container">
             <!-- SIDE NAVBAR -->
             <div class="menuBar">
@@ -109,23 +109,51 @@
                                 }
                             ?>
                         </h1>
-                        <!-- TEXT INPUT -->
+                        <!-- MOVIE SEARCH BY NAME -->
                         <div class="row mb-2">
-                            <div class="column w35">
-                                <label for="movieName">Movie name</label>
-                                <input type="text" name="movieName" value="<?php
-                                    if (isset($targetName))
-                                        echo $targetName;
-                                    else if (isset($halfTargetName))
-                                        echo $halfTargetName;
-                                    else if (isset($values["movieName"]))
-                                        echo $values["movieName"];
-                                ?>" <?php if (isset($target) || isset($halfTarget)) echo "disabled"; ?> />
-                                <div class="formError ml-1">
-                                    <?php
-                                        if(isset($errors["movieName"]))
-                                            echo $errors["movieName"];
-                                    ?>
+                            <div class="column w70">
+                                <div class="movieDropdownFrame">
+                                    <label for="movieName">Movie name</label>
+                                    <input type="text" name="movieName" id="movieNameInput" value="<?php
+                                        if (isset($targetName))
+                                            echo $targetName;
+                                        else if (isset($halfTargetName))
+                                            echo $halfTargetName;
+                                        else if (isset($values["movieName"]))
+                                            echo $values["movieName"];
+                                    ?>" <?php if (isset($target) || isset($halfTarget)) echo "disabled"; ?> />
+                                    <div class="formError ml-1">
+                                        <?php
+                                            if(isset($errors["movieName"]))
+                                                echo $errors["movieName"];
+                                        ?>
+                                    </div>
+                                    <div id="movieSearchResultsContainer" class="movieDropdownResultsContainer row">
+                                        <div class="column movieSearchResultListWrapper">
+                                            <ul class="movieSearchResultList" id="movieSearchResults">
+                                                <li class="movieSearchResultItem">Ananas</li>
+                                                <li class="movieSearchResultItem">Avokado</li>
+                                                <li class="movieSearchResultItem">Banana</li>
+                                            </ul>
+                                            <div class="row spaceBetween mt-2">
+                                                <div class="movieSearchArrow movieSearchActiveControl column centerRow" id="leftArrow">
+                                                    <img src="/assets/Movie/arrowLeft.svg" class="movieArrow" />
+                                                </div>
+                                                <div class="row centerRow ml-1 mr-1" id="movieSearchPageNumbers">
+                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="firstPage">1</div>
+                                                    <div class="movieSearchDots">...</div>
+                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="previousPage">3</div>
+                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="currentPage">4</div>
+                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="nextPage">5</div>
+                                                    <div class="movieSearchDots">...</div>
+                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="lastPage">8</div>
+                                                </div>
+                                                <div class="movieSearchArrow movieSearchActiveControl column centerRow" id="rightArrow">
+                                                    <img src="/assets/Movie/arrowRight.svg" class="movieArrow" />
+                                                </div>
+                                            </div>                                    
+                                        </div>
+                                    </div>
                                 </div>
                                 <input type="number" name="tmdbID" value="<?php
                                     if (isset($target))
@@ -136,7 +164,7 @@
                                         echo $values["tmdbID"];
                                 ?>" <?php if (isset($target) || isset($halfTarget)) echo "readonly"; ?> maxlength="64" />
                                 <div>
-                                    You can copy from here: [419704,530915,330457]
+                                    You can copy from here: [ 419704 , 530915 , 330457 ]
                                 </div>
                                 <div class="formError ml-1">
                                     <?php 
@@ -151,17 +179,9 @@
                                         echo "<div class=\"formError ml-1\">".(isset($errors["oldIdPro"])?$errors["oldIdPro"]:"")."</div>";
                                     }
                                 ?>
-                                <!--    NOT NEEDED - ALREADY HAVE HIDDEN FIELD WITH tmdbID
-                                ?php
-                                    if (isset($halfTarget))
-                                    {
-                                        echo "<input type=\"hidden\" name=\"oldtmdbID\" value=\"$halfTarget->tmdbID\" />";
-                                        echo "<div class=\"formError ml-1\">".(isset($errors["oldtmdbID"])?$errors["oldtmdbID"]:"")."</div>";
-                                    }
-                                ?-->
                             </div>
                         </div>
-                        <!-- TWO DYNAMIC SELECTS -->
+                        <!-- TWO DYNAMIC SELECTS - ROOM AND TECH -->
                         <div class="row mb-2">
                             <div class="column w30 mr-5">
                                 <label for="room">Room</label>
@@ -284,7 +304,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- TWO NUMBER INPUTS -->
+                            <!-- TWO NUMBER INPUTS - START TIME AND PRICE -->
                             <div class="column w30">
                                 <label for="startTime">Start time</label>
                                 <input type="time" name="startTime" value="<?php
@@ -316,7 +336,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- CHECKBOX AND SUBMIT -->
+                        <!-- CHECKBOX AND SUBMIT - ADD TO SOON -->
                         <div class="row mb-2 centerY">
                             <div class="column w25 mr-5">
                                 <div class="row">
@@ -363,6 +383,7 @@
                                 ?></button>
                             </div>
                         </div>
+                        <!-- ARE YOU SURE? MODAL -->
                         <?php
                             include 'AreYouSure.php';
                         ?>
@@ -373,4 +394,5 @@
     </body>
     <script src="/js/calendar.js"></script>
     <script src="/js/areYouSure.js"></script>
+    <script src="/js/addMovieSearch.js"></script>
 </html>
