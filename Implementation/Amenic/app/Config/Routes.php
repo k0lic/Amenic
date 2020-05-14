@@ -34,6 +34,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'HomeController::index');
 $routes->get('/admin', 'AdminController::index');
+$routes->get('/movie/(:num)', 'Movie::index/$1');
 
 /**
  * --------------------------------------------------------------------
