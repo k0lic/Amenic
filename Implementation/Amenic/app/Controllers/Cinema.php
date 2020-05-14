@@ -5,6 +5,10 @@
     Github: k0lic
 */
 
+use \App\Models\UserModel;
+use \App\Models\CountryModel;
+use \App\Models\CinemaModel;
+use \App\Models\CityModel;
 use App\Models\AACinemaModel;
 use App\Models\RoomModel;
 use App\Models\WorkerModel;
@@ -18,6 +22,10 @@ use App\Entities\Projection;
 use App\Entities\ComingSoon;
 use App\Entities\User;
 use App\Entities\Worker;
+use function App\Helpers\isAuthenticated;
+use function App\Helpers\isValid;
+use function App\Helpers\generateToken;
+use function App\Helpers\setToken;
 use Exception;
 
 /*
@@ -568,6 +576,156 @@ class Cinema extends BaseController
             exit();
         }
     }
+    
+    private function getToken()
+    {
+        helper('auth');
+
+        if (isset($_COOKIE['token']))
+        {
+            $tokenCookie = $_COOKIE['token'];   
+            $token = isValid($tokenCookie);
+            
+            if ($token && isAuthenticated("Cinema"))
+            {
+                $image = (new UserModel())->find($token->email);
+                $token->image = $image->image;
+
+                return $token;
+            }
+        }
+        return null;
+    }
+
+    //Settings function
+    public function settings()
+    {
+        $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
+        
+        $city = (new CityModel())->find($token->city);
+        $country = (new CountryModel())->find($token->country);
+        
+        $data = [
+            'name' => $token->name,
+            'email' =>  $token->email,
+            'phoneNumber' => $token->phone,
+            'address' => $token->address,
+            'city' => $city,
+            'country' => $country
+        ];
+        
+        return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Cinema', 'token' => $token, 'errors' => '']);    
+    }
+
+    public function saveSettings()
+    {
+        $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);        
+
+        $validation =  \Config\Services::validation();
+        $db = db_connect();
+
+        //fetching data
+        $name = $_POST['name'];
+        $email = $token->email;
+        $city = $token->city;
+        $country = $token->country;
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
+        $pswdOld = $_POST['pswdOld'];
+        $pswdNew = $_POST['pswdNew'];
+        $image = $this->request->getFile('profilePicture');
+        
+        $form = [
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'address' => $address,
+            'pswd' => [ 
+                'oldPswd' => $pswdOld,
+                'newPswd' => $pswdNew,
+                'email' => $email
+            ],
+            'profilePicture' => $image
+        ]; 
+        
+        $valid = $validation->run($form, "cinemaInfoCheck");
+    
+        if($valid != 1)
+        {
+            $city = (new CityModel())->find($token->city);
+            $country = (new CountryModel())->find($token->country);
+            
+            $data = [
+                'name' => $name,
+                'email' =>  $token->email,
+                'phoneNumber' => $phone,
+                'address' => $address,
+                'city' => $city,
+                'country' => $country
+            ];
+
+            $errors = $validation->getErrors();
+
+            return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Cinema', 'token' => $token, 'errors' => $errors ]);    
+        }
+        
+        
+        //password remains the same
+        if(strcmp($pswdNew,"") == 0)
+        {
+            $pswdNew = (new UserModel())->find($email)->password;
+        }
+        else
+        {
+            $pswdNew = password_hash($pswdNew,PASSWORD_BCRYPT, ['cost' => 8]);
+        }
+        
+        try
+        {
+            //update database
+            $db->transCommit();
+            $img=null;
+            if (strcmp($image->getName(),"") !=0)
+            {
+                $img = base64_encode(file_get_contents($image));
+                (new UserModel())->where(['email' => $email])->set([
+                    'image' => $img,             
+                    ])->update();            
+            }
+
+            (new UserModel())->where(['email' => $email])->set([
+                'password' => $pswdNew               
+                ])->update();
+            (new CinemaModel())->where(['email' => $email])->set(['name' => $name, 'phoneNumber' => $phone, 'address' => $address])->update();
+            $db->transCommit();
+        }
+        catch (Exception $e)
+        {
+            $db->transRollback();
+            throw new Exception("Transaction ".get_class($this).".saveChanges(".$email.") failed!<br/>".$e->getMessage());
+        }
+
+        //change token
+        $payload = [
+            "name" => $name,
+            'address' => $address,
+            'phone' => $phone,
+            'city' => $city,
+            'country' => $country,
+            "email" => $email,
+            "type" => "Cinema"
+        ]; 
+
+        setToken(generateToken($payload));
+        $token = $this->getToken();
+
+        return $this->index();
+    }
+
 }
 
 ?>

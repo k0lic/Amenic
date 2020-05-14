@@ -300,7 +300,7 @@ CREATE TABLE `Rooms` (
 -- Dumping data for table `Rooms`
 --
 
-INSERT INTO `rooms`(`name`, `email`, `numberOfRows`, `seatsInRow`) VALUES
+INSERT INTO `Rooms`(`name`, `email`, `numberOfRows`, `seatsInRow`) VALUES
 ('Sala 1', 'cinemaMail', 8, 10),
 ('Shupa', 'cinemaMail', 2, 1);
 
@@ -320,7 +320,7 @@ CREATE TABLE `RoomTechnologies` (
 -- Dumping data for table `RoomTechnologies`
 --
 
-INSERT INTO `roomtechnologies`(`name`, `email`, `idTech`) VALUES
+INSERT INTO `RoomTechnologies`(`name`, `email`, `idTech`) VALUES
 ('Sala 1', 'cinemaMail', 1),
 ('Shupa', 'cinemaMail', 2),
 ('Shupa', 'cinemaMail', 3);
@@ -379,7 +379,7 @@ CREATE TABLE `Technologies` (
 -- Dumping data for table `Technologies`
 --
 
-INSERT INTO `technologies`(`idTech`, `name`) VALUES 
+INSERT INTO `Technologies`(`idTech`, `name`) VALUES 
 (1,'2D'),
 (2,'3D'),
 (3,'4D');

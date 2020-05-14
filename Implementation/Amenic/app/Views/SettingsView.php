@@ -48,6 +48,24 @@
 					Settings</a
 				>
 			</div>
+			<?php 
+			if(strcmp($userType,"Cinema") == 0)
+				echo "
+					<div class=\"modalWrapper\" id=\"deleteModalWrapper\">
+						<form action=\"/AdminController/closeCinema\" method=\"POST\" id=\"deleteModalForm\">	
+							<div class=\"modal centerX\" id=\"deleteModal\">
+								<div class=\"modalHead\">Are you sure?</div>
+								<span>You're about to delete this request. </span>
+								<div class=\"confirmModuleButtons\">
+										<button>Yes</button>
+										<button class=\"transparentBg\" onclick=\"hideModal('deleteModalWrapper')\" formaction=\"javascript:void(0);\">No</button>
+								</div>
+							</div>
+							<input type=\"hidden\" id=\"key\" name=\"key\" value=\"".$data['email']."\">
+							<input type=\"hidden\" id=\"actMenu\" name=\"actMenu\" value=\"".$actMenu."\">
+						</form>	
+					</div>";
+			?>
 			<div class="adminWrapper">
 			<div class="topBar">
 					<div></div>
@@ -58,10 +76,17 @@
 						alt="Profile picture"
 						/>
 						<span>
-							<?php echo $token->firstName." ".$token->lastName?>
+							<?php 
+								use function App\Helpers\isAuthenticated;
+
+								if (isAuthenticated('Cinema'))
+									echo $token->name;
+								else
+									echo $token->firstName." ".$token->lastName;
+							?>
 						</span>
 					</div>
-				</div>	
+			</div>
 				<?php
 					//fetching data
 					$nameError = isset($errors['name']) && !is_null($errors['name']) ? $errors['name'] : "";
@@ -116,11 +141,8 @@
 											<div class=\"span2Make3\">
 												<div class=\"span2\">
 													<label for=\"name\" >Name</label><br>
-													<input type=\"text\" class=\"whole\"id=\"name\" name=\"name\" value=\"".$data['firstName']."\"><br>
+													<input type=\"text\" class=\"whole\"id=\"name\" name=\"name\" value=\"".$data['name']."\"><br>
 													<div class=\"formError ml-1\">".$nameError."</div>
-												</div>
-												<div></div>
-											</div>
 												</div>
 												<div></div>
 											</div>
@@ -160,6 +182,7 @@
 											echo"
 												<label for=\"phone\">Phone number (optional)</label><br>
 												<input type=\"text\" id=\"phone\" name=\"phone\" value=\"".$data['phone']."\"><br>
+												<div class=\"formError ml-1\">".$phoneError."</div>
 											";
 										}
 										echo "</div> </div>";
@@ -175,8 +198,9 @@
 													<select class=\"formSelect settingsSelect\" name=\"country\" ";
 													
 										if (strcmp($userType,"Cinema") == 0) 
-												echo "required";
-										echo "		><option value=\"1\">Serbia</option>
+												echo "disabled>";
+										
+										echo "<option value=\"".$data['country']->idCountry."\">".$data['country']->name."</option>									
 													</select>
 													<div class=\"formError ml-1\">".$countryError."</div>
 												</div>
@@ -184,11 +208,11 @@
 													<label for=\"country\">City</label>
 													<select class=\"formSelect settingsSelect\" name=\"city\" ";
 										if (strcmp($userType,"Cinema") == 0) 
-											echo "required";
-										echo " 		><option value=\"1\">Beograd</option>
-													<option value=\"2\">Novi Sad</option>
-													<option value=\"3\">Niš</option>
-													</select>
+											echo "disabled>";
+										
+										echo "<option value=\"".$data['city']->idCity."\">".$data['city']->name."</option>";
+										echo "<option value=\"2\">Cirih</option>";
+										echo "</select>
 													<div class=\"formError ml-1\">".$cityError."</div>
 												</div>
 												<div class=\"span2\"></div>
@@ -203,7 +227,7 @@
 											<div class=\"span3Make4\">
 												<div>	
 													<label for=\"phone\">Phone</label><br>
-													<input type=\"text\" id=\"phone\" name=\"phone\" value=\"".$data['phone']."\"><br>
+													<input type=\"text\" id=\"phone\" name=\"phone\" value=\"".$data['phoneNumber']."\"><br>
 													<div class=\"formError ml-1\">".$phoneError."</div>
 												</div>
 												<div>	
@@ -236,6 +260,7 @@
 									<span id="strengthBar4" class="strengthBar"></span>
                                 </div>
                                 <div class="requestSettingsButtons">
+									<?php if(strcmp($userType,"Cinema")==0) echo "<button class=\"requestDeleteButton saveButton\" onclick=\"showSpecModal('deleteModalWrapper')\" formaction=\"javascript:void(0);\">Delete account</button>"; ?>
                                 	<button class="requestApproveButton saveButton">Save changes</button>
                                 	<input type="hidden" id="actMenu" name="actMenu" value="<?php echo $actMenu; ?>">
                             	</div>

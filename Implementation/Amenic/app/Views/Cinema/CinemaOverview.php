@@ -70,7 +70,7 @@
                     </li>
                 </ul>
                 <!-- SETTINGS -->
-                <a href="#">
+                <a href="/Cinema/settings">
                     <div class="icon baseline">
                         <svg width="48" height="48" viewBox="0 0 512 512">
 							<path

@@ -1,5 +1,6 @@
 <?php
 
+use function App\Helpers\isAuthenticated;
 use function App\Helpers\isValid;
 
 	helper('auth');
@@ -89,7 +90,10 @@ use function App\Helpers\isValid;
 								alt="Profile picture"
 								/>
 							<span><?php 
-							echo $user->firstName." ".$user->lastName;
+							if (isAuthenticated('Cinema'))
+								echo $user->name;
+							else
+								echo $user->firstName." ".$user->lastName;
 							
 							?></span>
 						

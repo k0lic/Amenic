@@ -58,6 +58,7 @@ class AdminController extends BaseController
                 return $token;
             }
         }
+        return null;
     }
 
     /** Funkcija koja se poziva kada se pozove samo AdminController
@@ -305,21 +306,7 @@ class AdminController extends BaseController
             
             if(count($user) > 0)
             {
-                
-                $user = $user[0];
-                //deleting a cinema account
-                if(strcmp($actMenu,"1") == 0)
-                {
-                    //removing coming soon
-                    $cSoon = (new ComingSoonModel())->where(['email' => $key])->findAll();
-                    $deleteModel = new ComingSoonModel();
-                    foreach($cSoon as $curMovie)
-                    {
-                        $deleteModel->delete(['email' => $curMovie->email]);
-                    }
-                    
-                }  
-                $model->delete(['email' => $user->email]);   
+               $model->transSmartDelete($key);               
             }
         }
         
@@ -548,5 +535,10 @@ class AdminController extends BaseController
         } 
 
         return $this->selectMenu(3);
+    }
+
+    public function closeCinema()
+    {
+        echo "CINEMA DELETED";
     }
 }

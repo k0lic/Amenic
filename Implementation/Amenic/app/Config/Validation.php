@@ -196,11 +196,19 @@ class Validation
 	];
 
 	public $cinemaInfoCheck = [
+		'name' =>  'required|alpha_space|max_length[64]',
 		'phone' =>	'required|decimal|max_length[64]|numeric',
 		'address' => 'required|max_length[64]',
+		'pswd' => 'checkPassword',
+		'profilePicture' => 'ext_in[profilePicture,png,jpg,jpeg]|max_size[profilePicture,200]|is_image[profilePicture]|mime_in[profilePicture,image/jpeg,image/jpg,image/png]'
 	];
 	
 	public $cinemaInfoCheck_errors =[
+		'name' => [
+			'required' => 'First name is required',
+			'alpha' => 'Field must contain only letters',
+			'max_length' => 'First name should have less than 64 characters'
+		],
 		'phone' =>	[
 			'required' => 'Phone is required',
 			'max_length' => 'Phone number should have less than 64 numbers',
@@ -210,11 +218,16 @@ class Validation
 			'required' => 'Address is required',
 			'max_length' => 'Address should have less than 64 characters'
 		],
+		'profilePicture' => [
+			'max_size' => 'Image too big',
+			'mime in' => 'Ivalid format',
+			'is_image' => 'File is not an image'
+		]
 	];
 
 	public $adminSettingsCheck = [
-		'fName' => 'required_without[name]|alpha|max_length[64]',
-		'lName' => 'required_without[name]|alpha|max_length[64]',
+		'fName' => 'required|alpha_space|max_length[64]',
+		'lName' => 'required[name]|alpha_space|max_length[64]',
 		'email' => 'required|valid_email|max_length[255]',
 		'pswd' => 'checkPassword',
 		'profilePicture' => 'ext_in[profilePicture,png,jpg,jpeg]|max_size[profilePicture,200]|is_image[profilePicture]|mime_in[profilePicture,image/jpeg,image/jpg,image/png]'

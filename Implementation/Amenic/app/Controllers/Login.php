@@ -202,7 +202,7 @@ class Login extends BaseController {
                     'name' => $user->name,
                     'address' => $user->address,
                     'email' => $user->email,
-                    'phone' => $user->phone,
+                    'phone' => $user->phoneNumber,
                     'city' => $user->idCity,
                     'country' => $user->idCountry,
                     'type' => $type
