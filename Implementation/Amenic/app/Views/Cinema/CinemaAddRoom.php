@@ -33,7 +33,7 @@
             ?>
         </title>
 	</head>
-	<body onLoad="updateSeatingPreview()">
+	<body onLoad="updateSeatingPreview(); stopModalPropagation()">
         <div class="container">
             <!-- SIDE NAVBAR -->
             <div class="menuBar">
@@ -207,19 +207,24 @@
                         <!-- TWO SUBMIT BUTTONS - DISCARD AND ADD ROOM -->
                         <div class="row mb-2 centerY">
                             <div class="column w30">
-                                <button type="submit" formaction="/Cinema/<?php
-                                    if (isset($target)) {
-                                        echo "ActionRemoveRoom";
-                                    } else {
-                                        echo "Rooms";
+                                <?php
+                                    if (isset($target))
+                                    {
+                                        echo "
+                                            <button type=\"button\"
+                                            onClick=\"areYouSure('You are about to remove a room.','/Cinema/ActionRemoveRoom')\"
+                                            class=\"standardButton badButton\">Delete room</button>
+                                        ";
                                     }
-                                ?>" class="standardButton badButton"><?php
-                                    if (isset($target)) {
-                                        echo "Delete room";
-                                    } else {
-                                        echo "Discard";
+                                    else
+                                    {
+                                        echo "
+                                            <button type=\"submit\"
+                                            formaction=\"/Cinema/Rooms\"
+                                            class=\"standardButton badButton\">Discard</button>
+                                        ";
                                     }
-                                ?></button>
+                                ?>
                             </div>
                             <div class="column w30">
                                 <button type="submit" formaction="/Cinema/<?php
@@ -237,10 +242,14 @@
                                 ?></button>
                             </div>
                         </div>
+                        <?php
+                            include 'AreYouSure.php';
+                        ?>
                     </form>
                 </div>
             </div>
         </div>
     </body>
     <script src="/js/seatingPreview.js"></script>
+    <script src="/js/areYouSure.js"></script>
 </html>

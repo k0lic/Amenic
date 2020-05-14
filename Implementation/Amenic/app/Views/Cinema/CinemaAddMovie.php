@@ -34,7 +34,7 @@
             ?>
         </title>
 	</head>
-	<body>
+	<body onLoad="stopModalPropagation()">
         <div class="container">
             <!-- SIDE NAVBAR -->
             <div class="menuBar">
@@ -339,9 +339,11 @@
                             </div>
                             <?php
                                 if (isset($target) || isset($halfTarget))
-                                    echo "
-                                        <div class=\"column w30\">
-                                            <button type=\"submit\" formaction=\"/Cinema/".(isset($target)?"ActionCancelMovie":"actionCancelComingSoon")."\" class=\"standardButton badButton\">Cancel movie</button>
+                                    echo "<div class=\"column w30\">
+                                            <button type=\"button\"
+                                            formaction=\"/Cinema/".(isset($target)?"ActionCancelMovie":"actionCancelComingSoon")."\"
+                                            onClick=\"areYouSure('You are about to cancel a movie','/Cinema/".(isset($target)?"ActionCancelMovie":"ActionCancelComingSoon")."')\"
+                                            class=\"standardButton badButton\">Cancel movie</button>
                                         </div>
                                     ";
                             ?>
@@ -361,10 +363,14 @@
                                 ?></button>
                             </div>
                         </div>
+                        <?php
+                            include 'AreYouSure.php';
+                        ?>
                     </form>
                 </div>
             </div>
         </div>
     </body>
     <script src="/js/calendar.js"></script>
+    <script src="/js/areYouSure.js"></script>
 </html>

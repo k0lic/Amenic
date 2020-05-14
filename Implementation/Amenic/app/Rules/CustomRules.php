@@ -12,6 +12,7 @@ use App\Models\RoomTechnologyModel;
 use App\Models\ProjectionModel;
 use App\Models\ComingSoonModel;
 use App\Models\MovieModel;
+use App\Models\WorkerModel;
 
 date_default_timezone_set("Europe/Belgrade");
 =======
@@ -81,6 +82,11 @@ class CustomRules
     // Checks if the new room name is available, ignoring the old one.
     public function checkRoomNameExcept($str,&$error = null)
     {
+        if (!isset($_POST["oldRoomName"]))
+        {
+            $error = "";
+            return false;
+        }
         $oldRoomName = $_POST["oldRoomName"];
         $model = new RoomModel();
         if ($model->where("email", $this->userMail)->where("name", $str)->where("name !=", $oldRoomName)->find() != null)
@@ -106,6 +112,11 @@ class CustomRules
     // Checks if the passed technology is implemented in the passed room.
     public function checkMovieTech($str,&$error = null)
     {
+        if (!isset($_POST["room"]))
+        {
+            $error = "";
+            return false;
+        }
         $room = $_POST["room"];
         $model = new RoomTechnologyModel();
         if ($model->where("email", $this->userMail)->where("name", $room)->where("idTech", $str)->find() == null)
@@ -194,6 +205,11 @@ class CustomRules
     // Checks if datetime is in the past, or less than an hour in the future.
     public function checkIfTimeInThePast($str,&$error = null)
     {
+        if (!isset($_POST["startDate"]))
+        {
+            $error = "";
+            return false;
+        }
         $time = strtotime($_POST["startDate"]." ".$str);
         $now = time();
 
@@ -213,6 +229,11 @@ class CustomRules
         $promdl = new ProjectionModel();
         $moviemdl = new MovieModel();
 
+        if (!isset($_POST["startDate"]))
+        {
+            $error = "";
+            return false;
+        }
         $timeStart = strtotime($_POST["startDate"]." ".$str);
         // gets data from different sources depending on if a movie is being added or edited
         if (isset($_POST["oldIdPro"]))
@@ -223,11 +244,21 @@ class CustomRules
         }
         else
         {
+            if (!isset($_POST["room"]) || !isset($_POST["tmdbID"]))
+            {
+                $error = "";
+                return false;
+            }
             $roomName = $_POST["room"];
             $tmdbID = $_POST["tmdbID"];
         }
 
         $movie = $moviemdl->find($tmdbID);
+        if ($movie == null)
+        {
+            $error = "";
+            return false;
+        }
         $runtime = $movie->runtime;
         $timeEnd = $timeStart + $runtime * 60;
 
@@ -448,6 +479,20 @@ class CustomRules
 >>>>>>> Stashed changes
             return false;
         }
+        return true;
+    }
+
+    // Checks if the worker you are trying to delete actually works for you.
+    public function isYourWorker($workerEmail,&$error = null)
+    {
+        $workermdl = new WorkerModel();
+
+        if ($workermdl->where("email", $workerEmail)->where("idCinema", $this->userMail)->find() == null)
+        {
+            $error = "You cannot delete someone elses worker";
+            return false;
+        }
+
         return true;
     }
 

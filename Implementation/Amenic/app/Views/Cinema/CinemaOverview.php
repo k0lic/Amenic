@@ -4,13 +4,37 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+    <?php
+        $errors = [];
+        if (isset($_COOKIE["addEmployeeErrors"]))
+        {
+            $thereAreErrors = true;
+            parse_str($_COOKIE["addEmployeeErrors"], $errors);
+            setcookie("addEmployeeErrors", "", time() - 3600, "/");
+        }
+        $values = [];
+        if (isset($_COOKIE["addEmployeeValues"]))
+        {
+            parse_str($_COOKIE["addEmployeeValues"], $values);
+            setcookie("addEmployeeValues", "", time() - 3600, "/");
+        }
+    ?>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 		<title>Amenic - My cinema</title>
 	</head>
-	<body>
+    <body <?php
+            if (isset($optionPrimary) && $optionPrimary == 2)
+            {
+                $onLoad = "";
+                $onLoad .= "stopModalPropagation(); document.getElementById('employeeModal').addEventListener(('click'), (e) => { e.stopPropagation(); return false; });";
+                if (isset($thereAreErrors))
+                    $onLoad .= " document.getElementById('employeeModalWrapper').classList.add('showModal');";
+                echo "onLoad=\"".$onLoad."\"";
+            }
+            ?>>
         <div class="container">
             <!-- SIDE NAVBAR -->
             <div class="menuBar">
@@ -77,9 +101,18 @@
                     <div class="row ml-2">
                         <div class="column">
                             <?php
-                                $action = !isset($optionPrimary) || $optionPrimary == 0 ? "/Cinema/AddMovie" : ($optionPrimary == 1 ? "/Cinema/AddRoom" : "/Cinema/Employees");
+                                $action = !isset($optionPrimary) || $optionPrimary == 0 ? "/Cinema/AddMovie" : ($optionPrimary == 1 ? "/Cinema/AddRoom" : "document.getElementById('employeeModalWrapper').classList.add('showModal');");
                                 $name = !isset($optionPrimary) || $optionPrimary == 0 ? "Add movie" : ($optionPrimary == 1 ? "Add room" : "Add employee");
-                                $button = "<form action=\"".$action."\"><button type=\"submit\" class=\"standardButton goodButton\">".$name."</button></form>";
+                                if (!isset($optionPrimary) || $optionPrimary != 2)
+                                    $button = "
+                                        <form action=\"".$action."\">
+                                            <button type=\"submit\" class=\"standardButton goodButton\">".$name."</button>
+                                        </form>
+                                    ";
+                                else
+                                    $button = "
+                                        <button type=\"button\" onClick=\"".$action."\" class=\"standardButton goodButton\">".$name."</button>
+                                    ";
                                 echo $button;
                             ?>
 						</div>
@@ -188,7 +221,7 @@
                             // WORKERS OF THE CINEMA
                             $workerDiv =
                             "
-                                <form method=\"POST\" class=\"rowWrapper\">
+                                <div class=\"rowWrapper\">
                                     <div class=\"userPicture\">
                                             <img src=\"/assets/profPic.png\" alt=\"Worker pic\" />
                                     </div>
@@ -197,7 +230,9 @@
                                         <div><span>".$item->email."</span></div>
                                     </div>
                                     <div class=\"binWrapper\">
-                                        <button formaction=\"/Cinema/Employees\" class=\"highlightSvgOnHover\">
+                                        <button type=\"button\"
+                                                onClick=\"document.getElementById('workerForDelete').value='".$item->email."'; areYouSure('You are about to remove an employee.','/Cinema/ActionRemoveEmployee')\"
+                                                class=\"highlightSvgOnHover\">
                                             <svg viewBox=\"-286 137 346.8 427\">
                                                 <path d=\"M-53.6,291.7c-5.5,0-10,4.5-10,10v189c0,5.5,4.5,10,10,10s10-4.5,10-10v-189C-43.6,296.2-48.1,291.7-53.6,291.7 z\"/>
                                                 <path d=\"M-171.6,291.7c-5.5,0-10,4.5-10,10v189c0,5.5,4.5,10,10,10s10-4.5,10-10v-189 C-161.6,296.2-166.1,291.7-171.6,291.7z\"/>
@@ -206,7 +241,7 @@
                                             </svg>
                                         </button>								
                                     </div>
-                                </form>
+                                </div>
                             ";
                             echo $workerDiv;
                         }
@@ -216,6 +251,25 @@
 
                 ?>
             </div>
+            <?php
+                if (isset($optionPrimary) && $optionPrimary == 2)
+                {
+                    echo "<form method=\"POST\">";
+
+                    echo "<input type=\"hidden\" id=\"workerForDelete\" name=\"email\" />";
+
+                    include 'AreYouSure.php';
+
+                    echo "</form>";
+
+                    echo "<form method=\"POST\">";
+
+                    include 'EmployeeModal.php';
+
+                    echo "</form>";
+                }            
+            ?>
         </div>
-	</body>
+    </body>
+    <script src="/js/areYouSure.js"></script>
 </html>

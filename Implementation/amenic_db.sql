@@ -118,7 +118,7 @@ CREATE TABLE `Cities` (
 --
 
 INSERT INTO `Cities` (`idCity`, `name`, `idCountry`) VALUES
-(1, 'Beograd', 1),
+(1, 'Belgrade', 1),
 (2, 'Novi Sad', 1),
 (3, 'Niš', 1),
 (4, 'Split', 2),
@@ -127,11 +127,11 @@ INSERT INTO `Cities` (`idCity`, `name`, `idCountry`) VALUES
 (7, 'Sarajevo', 4),
 (8, 'Banja Luka', 4),
 (9, 'Berlin', 5),
-(10, 'Minhen', 5),
+(10, 'Munich', 5),
 (11, 'London', 6),
-(12, 'Mančester', 6),
-(13, 'Liverpul', 6),
-(14, 'Glazgov', 6);
+(12, 'Manchester', 6),
+(13, 'Liverpool', 6),
+(14, 'Glasgow', 6);
 
 -- --------------------------------------------------------
 
@@ -170,12 +170,12 @@ CREATE TABLE `Countries` (
 --
 
 INSERT INTO `Countries` (`idCountry`, `name`) VALUES
-(1, 'Srbija'),
-(2, 'Hrvatska'),
-(3, 'Crna Gora'),
-(4, 'Bosna i Hercegovina'),
-(5, 'Nemačka'),
-(6, 'Ujedinjeno Kraljevstvo');
+(1, 'Serbia'),
+(2, 'Croatia'),
+(3, 'Montenegro'),
+(4, 'Bosnia and Herzegovina'),
+(5, 'Germany'),
+(6, 'United Kingdom');
 
 -- --------------------------------------------------------
 
