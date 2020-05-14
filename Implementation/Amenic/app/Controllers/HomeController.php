@@ -1,34 +1,54 @@
 <?php namespace App\Controllers;
 
+/*
+    Author: Martin Mitrović
+    Github: Rpsaman13000
+*/
+
 use App\Models\MovieModel;
 use App\Models\ComingSoonModel;
 use App\Models\CinemaModel;
+use App\Models\ProjectionModel;
 
+
+/** HomeController – starting class which takes care of guests and registered users
+ *  -provides list of all awailable movies
+ *  -provides list of all awailable cinemas
+ *  -registered users can change account information 
+ *  @version 1.0
+ */
 class HomeController extends BaseController
 {
+	/** Function which returns movies currently playing
+     * @return array[Movie] list of available movies
+     */
 	private function getPlayingMovies()
 	{
 		$movieArray=[];
-		$movies = (new MovieModel())->findAll();
-		foreach($movies as $movie)
+		$projections = (new ProjectionModel())->select('tmdbID')->groupBy('tmdbID')->findAll();
+		
+		foreach($projections as $projection)
 		{
-			$curMovie = (new ComingSoonModel())->where(['tmdbID' => $movie->tmdbID])->find();
-			if (count($curMovie)==0)
-			{
-				array_push($movieArray,$movie);
-			}
+			$movie = (new MovieModel())->find($projection->tmdbID);
+			array_push($movieArray,$movie);
+			
 		}
 		return $movieArray;
 	}
 
+	/** Function which returns movies marked as coming soon
+     * @return array[Movie] list of available movies
+     */
 	private function getComingSoonMovies()
 	{
 		$movieArray=[];
 		$comingSoon = (new ComingSoonModel())->findAll();	
+
 		foreach($comingSoon as $movie)
 		{
 			$curMovie = (new MovieModel())->find($movie->tmdbID);
-			array_push($movieArray,$curMovie);
+			if (!isset($movieArray[$curMovie->tmdbID]))
+				$movieArray[$curMovie->tmdbID] = $curMovie;
 		}
 		return $movieArray;
 	}
