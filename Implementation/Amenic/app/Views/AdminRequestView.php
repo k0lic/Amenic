@@ -11,20 +11,7 @@
 		<div class="container">
 			<div class="menuBar">
 				<a href="/HomeController"><img src="/assets/MoviesPage/imgs/logo.svg" class="logo" alt="Amenic" /></a>
-				<ul class="nav">
-					<li>
-						<a href="/AdminController/users" class="<?php if(strcmp($actMenu,"0")==0) echo "activeMenu";?>" >Users</a>
-					</li>
-					<li>
-						<a href="/AdminController/cinemas" class="<?php if(strcmp($actMenu,"0")==1) echo "activeMenu";?>">Cinemas</a>
-					</li>
-                    <li>
-						<a href="/AdminController/requests" class="<?php if(strcmp($actMenu,"0")==2) echo "activeMenu";?>">Requests</a>
-					</li>
-                    <li>
-						<a href="/AdminController/admins" class="<?php if(strcmp($actMenu,"0")==3) echo "activeMenu";?>">Admins</a>
-					</li>
-				</ul>
+				<?php include 'SideMenus/AdminSideMenu.php'; ?>
 				<a href="#"
 					><div class="icon baseline">
 						<svg
@@ -84,16 +71,19 @@
 				</form>	
 			</div>
 			<div class="adminWrapper">
-				<div class="topBar rightAlignRow">
+            <div class="topBar">
+                    <div></div>
 					<div class="user">
 						<img
-							src="/assets/MoviesPage/imgs/profPic.png"
-							class="profPic"
-							alt="Profile picture"
+						src="<?php if(!$token->image) echo"/assets/Admins/profile.jpeg"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
+						class="profPic"
+						alt="Profile picture"
 						/>
-						<span>Miloš</span>
+						<span>
+							<?php echo $token->firstName." ".$token->lastName?>
+						</span>
 					</div>
-				</div>
+				</div>	
                 <form action="javascript:void(0);" class="searchForm" method="POST">
                     <div class="settingsForm">
                             <div class="requestSettingsTitle">
@@ -146,15 +136,15 @@
                             <div class="requestSettingsButtons">
                                 <button class="requestDeleteButton" onclick="showSpecModal('deleteModalWrapper')" >
                                     Delete
-                                </button>	
-                                <button class="requestApproveButton" onclick="showSpecModal('confirmModalWrapper')" >
-                                        <?php 
-                                            if (!$data->approved)
-                                                echo "Approve";
-                                            else 
-                                                echo "Open";
-                                        ?>
-                                </button>	
+                                </button>
+                            <?php 	
+                                if (!$data->approved)
+                                echo "
+                                    <button class=\"requestApproveButton\" onclick=\"showSpecModal('confirmModalWrapper')\" >
+                                        Approve
+                                    </button>	
+                                    ";
+                            ?>
                             </div>
                     </div>
                 </form> 

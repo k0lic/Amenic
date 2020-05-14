@@ -175,15 +175,15 @@ class AdminController extends BaseController
 
         if(!isset($_POST['actMenu']) || !isset($_POST['phrase']))
         {
-            var_dump($_POST['actMenu']);
-            var_dump($_POST['phrase']);
+            throw new Exception(get_class($this).".search failed!<br/>Adequate parametres not found");
         }   
-
+        
         $phrase = $_POST['phrase'];
         $actMenu = $_POST['actMenu'];
 
         $model=null;
         $data=null;
+
         switch($actMenu)
         {
             case 0:
@@ -197,8 +197,9 @@ class AdminController extends BaseController
                     ->join('Cities', 'RUsers.idCity = Cities.idCity', 'left outer')
                     ->join('Countries', 'RUsers.idCountry = Countries.idCountry', 'left outer')
                     ->find();
-                 
-                return view('AdminView',['actMenu' => "0", 'data' => $data, 'token' => $token, 'phrase' => $phrase]);
+                
+                return json_encode($data);
+                //return view('AdminView',['actMenu' => "0", 'data' => $data, 'token' => $token, 'phrase' => $phrase]);
                 break;
             case 1:
                 $model = new CinemaModel();
@@ -213,7 +214,8 @@ class AdminController extends BaseController
                     ->join('Countries', 'Cinemas.idCountry = Countries.idCountry', 'left outer')
                     ->find();
                  
-                return view('AdminView',['actMenu' => "1", 'data' => $data, 'token' => $token, 'phrase' => $phrase]);
+                return json_encode($data);
+                //return view('AdminView',['actMenu' => "1", 'data' => $data, 'token' => $token, 'phrase' => $phrase]);
                 break;
             case 2:
                 $model = new CinemaModel();
@@ -228,7 +230,8 @@ class AdminController extends BaseController
                     ->join('Countries', 'Cinemas.idCountry = Countries.idCountry', 'left outer')
                     ->find();
                  
-                return view('AdminView',['actMenu' => "2", 'data' => $data, 'token' => $token, 'phrase' => $phrase]);
+                return json_encode($data);
+                //return view('AdminView',['actMenu' => "2", 'data' => $data, 'token' => $token, 'phrase' => $phrase]);
                 break;
             case 3:
                 $model = new AdminModel();
@@ -239,8 +242,9 @@ class AdminController extends BaseController
                     ->orLike('lastName',$phrase, $insensitiveSearch = TRUE)
                     ->join('Users', 'Admins.email = Users.email')
                     ->find();
-                 
-                return view('AdminView',['actMenu' => "3", 'data' => $data, 'token' => $token, 'phrase' => $phrase]);
+                
+                return json_encode($data);
+                //return view('AdminView',['actMenu' => "3", 'data' => $data, 'token' => $token, 'phrase' => $phrase]);
                 break;
             default:
                 return $this->index();
@@ -344,7 +348,7 @@ class AdminController extends BaseController
         $county = (new CountryModel())->find($data->idCountry);
         $city = (new CityModel())->find($data->idCity);
 
-        return view("AdminRequestView",["data" => $data, "actMenu" => $actMenu, "country" => $county->name, "city" => $city->name ]);
+        return view("AdminRequestView",["data" => $data, "actMenu" => $actMenu, "country" => $county->name, "city" => $city->name, "token" => $token ]);
     }
 
     /** Funkcija koja potvrdjuje nalog bioskopa
@@ -394,11 +398,12 @@ class AdminController extends BaseController
             return view('AdminBreachMessage',[]);        
 
         $validation =  \Config\Services::validation();
+        $db = db_connect();
 
         //fetching data
         $fName = $_POST['fName'];
         $lName = $_POST['lName'];
-        $email = $_POST['email'];
+        $email = $token->email;
         $pswdOld = $_POST['pswdOld'];
         $pswdNew = $_POST['pswdNew'];
         $image = $this->request->getFile('profilePicture');
@@ -435,27 +440,41 @@ class AdminController extends BaseController
         {
             $pswdNew = (new UserModel())->find($email)->password;
         }
-        
-        //update database
-        $img=null;
-        if (strcmp($image->getName(),"") !=0)
+        else
         {
-            $img = base64_encode(file_get_contents($image
-        ));
-            (new UserModel())->where(['email' => $mail])->set([
-                'image' => $img,             
-                ])->update();            
+            $pswdNew = password_hash($pswdNew,PASSWORD_BCRYPT, ['cost' => 8]);
         }
-        (new UserModel())->where(['email' => $mail])->set([
-            'password' => $pswd               
-            ])->update();
-        (new AdminModel())->where(['email' => $mail])->set(['firstName' => $name, 'lastName' => $lName])->update();
         
+        try
+        {
+            //update database
+            $db->transCommit();
+            $img=null;
+            if (strcmp($image->getName(),"") !=0)
+            {
+                $img = base64_encode(file_get_contents($image));
+                (new UserModel())->where(['email' => $email])->set([
+                    'image' => $img,             
+                    ])->update();            
+            }
+
+            (new UserModel())->where(['email' => $email])->set([
+                'password' => $pswdNew               
+                ])->update();
+            (new AdminModel())->where(['email' => $email])->set(['firstName' => $fName, 'lastName' => $lName])->update();
+            $db->transCommit();
+        }
+        catch (Exception $e)
+        {
+            $db->transRollback();
+            throw new Exception("Transaction ".get_class($this).".saveChanges(".$email.") failed!<br/>".$e->getMessage());
+        }
+
         //change token
         $payload = [
-            "firstName" => $name,
+            "firstName" => $fName,
             "lastName" => $lName,
-            "email" => $mail,
+            "email" => $email,
             "type" => "Admin"
         ]; 
         setToken(generateToken($payload));
@@ -474,7 +493,8 @@ class AdminController extends BaseController
             return view('AdminBreachMessage',[]);
 
         $validation =  \Config\Services::validation();
-
+        $db = db_connect();
+        
         $fNameNA = $_POST['fNameNA'];
         $lNameNA = $_POST['lNameNA'];
         $emailNA = $_POST['emailNA'];
@@ -503,31 +523,28 @@ class AdminController extends BaseController
 
         $passwordNA = password_hash($passwordNA,PASSWORD_BCRYPT, ['cost' => 8]);
 
-        $user = new User([
-            'email' => $emailNA,
-            'password' => $passwordNA,
-            'image' => null
-        ]);
-        $userModel = new UserModel();
-
-        try {
+        try
+        {
+            $db->transCommit();
+            $user = new User([
+                'email' => $emailNA,
+                'password' => $passwordNA,
+                'image' => null
+            ]);
+            $userModel = new UserModel();
             $userModel->insert($user);
-        } catch(Exception $e) {
-            $msg = 'Failed to insert the user into the database<br/>' . $e->getMessage();
-            return view('Exception', ['msg' => $msg, 'destination' => '/AdminController/admins']);
-        } 
-   
-        $adminModel = new AdminModel();
-        $admin = new Admin([
-            'email' => $emailNA,
-            'firstName' => $fNameNA,
-            'lastName' => $lNameNA
-        ]);
-
-        try {
+            
+            $adminModel = new AdminModel();
+            $admin = new Admin([
+                'email' => $emailNA,
+                'firstName' => $fNameNA,
+                'lastName' => $lNameNA
+            ]);
             $adminModel->insert($admin);
+            $db->transCommit();
         } catch(Exception $e) {
-            throw new Exception('Failed to insert the user into the database ' . $e->getMessage());
+            $db->transRollback();
+            throw new Exception("Transaction ".get_class($this).".addAdmin(".$email.") failed!<br/>".$e->getMessage());
         } 
 
         return $this->selectMenu(3);

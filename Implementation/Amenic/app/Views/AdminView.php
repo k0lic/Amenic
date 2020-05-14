@@ -11,20 +11,7 @@
 		<div class="container">
 			<div class="menuBar">
 				<a href="/HomeController"><img src="/assets/MoviesPage/imgs/logo.svg" class="logo" alt="Amenic" /></a>
-				<ul class="nav">
-					<li>
-						<a href="/AdminController/users" class="<?php if(strcmp($actMenu,"0")==0) echo "activeMenu";?>" >Users</a>
-					</li>
-					<li>
-						<a href="/AdminController/cinemas" class="<?php if(strcmp($actMenu,"0")==1) echo "activeMenu";?>">Cinemas</a>
-					</li>
-                    <li>
-						<a href="/AdminController/requests" class="<?php if(strcmp($actMenu,"0")==2) echo "activeMenu";?>">Requests</a>
-					</li>
-                    <li>
-						<a href="/AdminController/admins" class="<?php if(strcmp($actMenu,"0")==3) echo "activeMenu";?>">Admins</a>
-					</li>
-				</ul>
+				<?php include 'SideMenus/AdminSideMenu.php'; ?>
 				<a href="/AdminController/settings"
 					><div class="icon baseline">
 						<svg
@@ -90,10 +77,10 @@
 							</div>
 							<div class="row centerY mb-2">
 								<span id="strengthBarTitle">Strength: </span>
-								<span id="strengthBar1" class="strengthBar light mr-1 ml-2"></span>
-								<span id="strengthBar2" class="strengthBar light mr-1"></span>
-								<span id="strengthBar3" class="strengthBar light mr-1"></span>
-								<span id="strengthBar4" class="strengthBar light"></span>
+								<span id="strengthBar1" class="strengthBar mr-1 ml-2"></span>
+								<span id="strengthBar2" class="strengthBar mr-1"></span>
+								<span id="strengthBar3" class="strengthBar mr-1"></span>
+								<span id="strengthBar4" class="strengthBar"></span>
 							</div>
 							<div class="confirmModuleButtons">
 									<button>Yes</button>
@@ -104,9 +91,10 @@
 			</div>
 			<div class="adminWrapper">
 				<div class="topBar">
-					<form action="/AdminController/search" method="POST" class="searchForm">
+					<form action="javascript:void(0);" method="POST" class="searchForm">
 						<label>
 							<input
+								id="searchBar"
 								type="text"
 								placeholder="Search"
 								class="search"
@@ -118,7 +106,7 @@
 									?>"
 							/>
 						</label>
-						<input type="hidden" name="actMenu" value="<?php echo $actMenu;?>" />	 
+						<input type="hidden" id="actMenu" name="actMenu" value="<?php echo $actMenu;?>" />	 
 					</form>
 					<div>
 						<button class="addAdminButton" onclick=showSpecModal('addAdminWrapper')>
@@ -136,7 +124,7 @@
 						</span>
 					</div>
 				</div>	
-				<div class="list">
+				<div class="list" id="list">
 				<?php 
 					foreach ($data as $row)
 					{
@@ -192,4 +180,7 @@
            		</div>
 		</div>
 	</body>
+	<script src="/js/passwordStrength/zxcvbn.js"></script>
+    <script src="/js/passwordStrength/passwordStrength.js"></script>
+	<script src="/js/admin/searchRender.js"></script>
 </html>

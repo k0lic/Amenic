@@ -50,21 +50,7 @@
 			</div>
 			<div class="adminWrapper">
 			<div class="topBar">
-					<form action="/AdminController/titleSearch" method="POST" class="searchForm">
-						<label>
-							<input
-								type="text"
-								placeholder="Search"
-								class="search"
-								name="title"
-								value="<?php if (isset($name))
-												echo $name;
-											 else 
-											 	echo '';
-									?>"
-							/>
-						</label>
-					</form>
+					<div></div>
 					<div class="user">
 						<img
 						src="<?php if(!$token->image) echo"/assets/Admins/profile.jpeg"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
@@ -259,4 +245,6 @@
 			</div>
 		</div>
 	</body>
+	<script src="/js/passwordStrength/zxcvbn.js"></script>
+    <script src="/js/passwordStrength/passwordStrength.js"></script>
 </html>
