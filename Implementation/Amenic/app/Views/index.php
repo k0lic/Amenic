@@ -69,22 +69,17 @@ use function App\Helpers\isValid;
 			</div>
 			<div class="moviesWrapper">
 				<div class="topBar">
-					<form action="/HomeController/titleSearch" method="GET" class="searchForm">
+					<form action="javascript:void(0);" method="GET" class="searchForm">
 						<label>
 							<input
 								type="text"
 								placeholder="Search movies"
 								class="search"
 								name="title"
-								value="<?php if (isset($title))
-												echo $title;
-											 else 
-											 	echo '';
-									?>"
+								id = "searchBar"
+								value=""
 							/>
 						</label>
-						<input type="hidden" id="actMenu" name="actMenu" value="<?php if(isset($actMenu)) echo $actMenu;?>"/>
-						<input type="hidden" id="cinMenu" name="cinMenu" value="<?php if(isset($cinMenu)) echo $cinMenu;?>"/>
 					</form>
 					<?php  
 							if(!is_null($user)) {
@@ -119,12 +114,12 @@ use function App\Helpers\isValid;
 						<a href="/HomeController/comingSoon" class="<?php if (isset($actMenu) && $actMenu == 2) echo "activeMenu" ?>">Coming soon</a>
 					</li>
 				</ul>
-				<div class="movies">
+				<div class="movies" id="list">
 					<?php 
 
 					foreach($movies as $movie)
 					{
-						echo "<a href=\"movie/".$movie->tmdbID."\" class=\"coolLink\">";
+						echo "<a href=\"/movie/".$movie->tmdbID."\" class=\"coolLink\">";
 						if (isset($cinMenu))
 						{
 							echo (
@@ -145,4 +140,5 @@ use function App\Helpers\isValid;
 			</div>
 		</div>
 	</body>
+	<script src="/js/movieSearch.js"></script>
 </html>

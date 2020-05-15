@@ -68,14 +68,14 @@ class HomeController extends BaseController
 	private function getWantedPlayingMovies($title)
 	{
 		$movieArray=[];
-		$movies = (new MovieModel())->like('title',$title, $insensitiveSearch = TRUE)->findAll();
+		$movies = (new MovieModel())
+			->like('title',$title, $insensitiveSearch = TRUE)
+			->findAll();
 		foreach($movies as $movie)
 		{
-			$curMovie = (new ComingSoonModel())->where(['tmdbID' => $movie->tmdbID])->find();
-			if (is_null($curMovie))
-			{
+			$curMovie = (new ProjectionModel())->where(['tmdbID' => $movie->tmdbID])->find();
+			if (count($curMovie) > 0)
 				array_push($movieArray,$movie);
-			}
 		}
 		return $movieArray;
 	}
@@ -83,12 +83,17 @@ class HomeController extends BaseController
 	private function getWantedComingSoonMovies($title)
 	{
 		$movieArray=[];
-		$comingSoon = (new ComingSoonModel())->findAll();	
+		$comingSoon = (new ComingSoonModel())->select('tmdbID')->groupBy('tmdbID')->findAll();	
+		
 		foreach($comingSoon as $movie)
 		{
-			$curMovie = (new MovieModel())->like('title',$title, $insensitiveSearch = TRUE)->find($movie->tmdbID);
-			if (!is_null($curMovie))
-				array_push($movieArray,$curMovie);
+			$projection = (new ProjectionModel())->where('tmdbID',$movie->tmdbID)->findAll();
+			if (count($projection) == 0)
+			{
+				$curMovie = (new MovieModel())->like('title',$title, $insensitiveSearch = TRUE)->find($movie->tmdbID);
+				if (!is_null($curMovie))
+					array_push($movieArray,$curMovie);
+			}
 		}
 	
 		return $movieArray;
@@ -110,7 +115,8 @@ class HomeController extends BaseController
 			$movieArray = $this->getWantedComingSoonMovies($title);
 		}
 		
-		return view('index.php',[ 'movies' => $movieArray, 'actMenu' => $menu]);
+		return json_encode($movieArray);
+		//return view('index.php',[ 'movies' => $movieArray, 'actMenu' => $menu]);
 	}
 
 	public function cinemas()

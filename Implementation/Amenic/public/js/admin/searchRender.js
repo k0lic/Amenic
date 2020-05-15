@@ -124,7 +124,6 @@ const getUsers = async () => {
     for (let i = 0; i < data.length; i++) {
         let element = createListElement(data[i], actMenu.value);
         list.appendChild(element);
-        console.log(element);
     }
 
     return;
