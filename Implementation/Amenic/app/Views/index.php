@@ -46,7 +46,7 @@ use function App\Helpers\isValid;
 			
 					if(isAuthenticated('RUser'))
 						echo "
-						<a href=\"/RUser/settings\">
+						<a href=\"/HomeController/settings\">
 							<div class=\"icon baseline\">
 								<svg
 									width=\"48\"

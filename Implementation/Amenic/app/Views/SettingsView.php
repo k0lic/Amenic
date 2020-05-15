@@ -113,7 +113,7 @@
 												echo "Cinema info";
 												break;	
 											case "RUser":
-												echo "RUser info";
+												echo "User info";
 												break;	
 											case "Worker":
 												echo "Worker info";
@@ -188,31 +188,57 @@
 										echo "</div> </div>";
 									}
 
-									//countryCity row
-									if (strcmp($userType,"Cinema") == 0 || strcmp($userType,"RUser") == 0)
+									//countryCity row Cinema
+									if (strcmp($userType,"Cinema") == 0)
 									{
 										echo "
 											<div class=\"span3Make4\">
 												<div>	
 													<label for=\"country\">Country</label>
-													<select class=\"formSelect settingsSelect\" name=\"country\" ";
-													
-										if (strcmp($userType,"Cinema") == 0) 
-												echo "disabled>";
-										
-										echo "<option value=\"".$data['country']->idCountry."\">".$data['country']->name."</option>									
+													<select class=\"formSelect settingsSelect\" name=\"country\" disabled>
+														<option value=\"".$data['country']->idCountry."\">".$data['country']->name."</option>									
 													</select>
 													<div class=\"formError ml-1\">".$countryError."</div>
 												</div>
 												<div>	
 													<label for=\"country\">City</label>
-													<select class=\"formSelect settingsSelect\" name=\"city\" ";
-										if (strcmp($userType,"Cinema") == 0) 
-											echo "disabled>";
-										
-										echo "<option value=\"".$data['city']->idCity."\">".$data['city']->name."</option>";
-										echo "<option value=\"2\">Cirih</option>";
-										echo "</select>
+													<select class=\"formSelect settingsSelect\" name=\"city\" disabled>
+														<option value=\"".$data['city']->idCity."\">".$data['city']->name."</option>
+													</select>
+													<div class=\"formError ml-1\">".$cityError."</div>
+												</div>
+												<div class=\"span2\"></div>
+											</div>
+											";
+									}
+									//countryCity row RUser
+									if (strcmp($userType,"RUser") == 0)
+									{
+										echo "
+											<div class=\"span3Make4\">
+												<div>	
+													<label for=\"country\">Country</label>
+													<select class=\"formSelect settingsSelect\" id=\"countryList\" name=\"country\">
+														<option value=\"0\"></option>";	
+										foreach($data['countries'] as $country)
+										{
+											echo "		<option value=\"".$country->idCountry."\">".$country->name."</option>";		
+										}			
+										echo "		</select>
+													<div class=\"formError ml-1\">".$countryError."</div>
+												</div>
+												<div>
+													<label for=\"country\">City</label>
+													<select class=\"formSelect settingsSelect\" id=\"cityList\" name=\"city\">
+														<option value=\"0\"></option>";	
+										if(!is_null($data['cities']))
+										{
+											foreach($data['cities'] as $city)
+											{
+												echo "	<option value=\"".$city->idCity."\">".$city->name."</option>";		
+											}
+										}	
+										echo"			</select>
 													<div class=\"formError ml-1\">".$cityError."</div>
 												</div>
 												<div class=\"span2\"></div>
@@ -270,6 +296,7 @@
 			</div>
 		</div>
 	</body>
+	<script src="/js/ruser/cityList.js"></script>
 	<script src="/js/passwordStrength/zxcvbn.js"></script>
     <script src="/js/passwordStrength/passwordStrength.js"></script>
 </html>
