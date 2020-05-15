@@ -30,11 +30,13 @@ The Admin team consists of technically skilled people who operate directly on th
 
 # Tech :computer:
 
-The entire platform is supposed to be built on PHP and Laravel, with the Blade templating engine for the front-end portion. This may change, and the team might decide to go with something more powerful, like React.JS / Vue.JS.
+The entire platform is supposed to be built on PHP and Codeigniter, with simple webpage serving for the front-end portion. This may change, and the team might decide to go with something more powerful, like React.JS / Vue.JS.
+Amenic fully utilizes the power of asynchronous function calls in communication between the front-end and the back-end.
 
-As for the data, it will be stored in a MySQL database and accessed from Laravel.
+As for the data, it will be stored in a MySQL database and accessed from Codeigniter.
 
 Apart from the mentioned technologies, the platform also uses a couple of APIs to manage movie data and images.
+User reviews are gathered through a scraper, and later parsed for display.
 
 # Quality of service :wrench:
 
