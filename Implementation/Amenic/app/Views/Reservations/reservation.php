@@ -117,11 +117,15 @@
                     <div class="column mt-3">
                         <div class="row spaceBetween">
                             <span class="reservationBottom">Total:</span>
-                            <span class="reservationBottom" id="totalPrice">€14.00</span>
+                            <span class="reservationBottom" id="totalPrice"></span>
                         </div>
-                        <button type="submit" class="trailerButton reservationButton mt-2" id="reservationButton">Make reservation</button>
+						<button type="submit" class="trailerButton reservationButton mt-2" id="reservationButton"
+						onclick="
+						updateReservationModal();
+						document.getElementById('reservationModal').classList.add('showModal');
+						">Make reservation</button>
                     </div>
-                    					
+					
                 </div>
                 <div class="column w70 screenColumn">
 					<div class="row mb-5">
@@ -151,15 +155,17 @@
 					</div>
 					
 					<div class="column mt-5">
-						<span class="reservationCinema">Cineplexx Milos</span>
-						<span class="reservationRoom">Merlyn Monroe</span>
+						<span class="reservationCinema"><?php echo $cinemaName ?></span>
+						<span class="reservationRoom"><?php echo $roomName ?></span>
 
 					</div>
                 </div>
-            </div>
+			</div>
+			<?php include 'reservationModal.php'; ?>
 		</div>
 		<input type="hidden" value="4" id="projectionRows">
 		<input type="hidden" value="12" id="projectionColumns">
+		<input type="hidden" value="7" id="idPro">
 	</body>
 	<script src="/js/reservations/reservation.js"></script>
 </html>

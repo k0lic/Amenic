@@ -9,8 +9,29 @@ let total = 0;
 const reservedSeats = document.getElementById("reservedSeats");
 const totalPrice = document.getElementById("totalPrice");
 const numSeats = document.getElementById("numSeats");
-
+const idPro = document.getElementById("idPro").value;
+const modalSeats = document.getElementById("reservationModalSeats");
+const modalTotal = document.getElementById("reservationModalTotal");
+const resConfirm = document.getElementById("resConfirm");
+const resSuccess = document.getElementById("resSuccess");
+const resError = document.getElementById("resError");
+const confirmButton = document.getElementById("confirmButton");
 const ticketPrice = 5;
+
+document.getElementById("resConfirm").addEventListener("click", (e) => {
+	e.stopPropagation();
+	return false;
+});
+
+document.getElementById("resSuccess").addEventListener("click", (e) => {
+	e.stopPropagation();
+	return false;
+});
+
+document.getElementById("resError").addEventListener("click", (e) => {
+	e.stopPropagation();
+	return false;
+});
 
 // Based on seatingPreview.js
 const renderSeats = () => {
@@ -157,3 +178,129 @@ const updatePrice = (offset) => {
 };
 
 updatePrice(0);
+
+const getReservations = async () => {
+	let response = await fetch(
+		`http://localhost:8080/reservation/getReservations?idPro=${idPro}`,
+		{
+			method: "GET",
+			mode: "cors"
+		}
+	);
+
+	let data = await response.json();
+	return data;
+};
+
+let reservations = [];
+
+const fillReserved = () => {
+	reservations.splice(0, reservations);
+	getReservations().then((data) => {
+		if (!Array.isArray(data)) {
+			reservations.push(data["1"]);
+		} else {
+			reservations = data;
+		}
+		reservations.forEach(async (reservation) => {
+			let row = String.fromCharCode(65 + Number(reservation.rowNumber) - 1);
+			let seat = reservation.seatNumber;
+			markUnavailable(`${row}${seat}`);
+		});
+	});
+};
+
+const markUnavailable = (seat) => {
+	document.getElementById(seat).classList.add("seatTaken");
+};
+
+fillReserved();
+
+const updateReservationModal = () => {
+	// Clear the seats
+	modalSeats.textContent = "";
+
+	let cnt = 0;
+	selectedSeats.forEach((seat, indx, set) => {
+		modalSeats.innerHTML += seat;
+		cnt++;
+		if (cnt < set.size) modalSeats.innerHTML += ", ";
+	});
+
+	modalTotal.innerHTML = `€${total.toFixed(2)}`;
+};
+
+const getRowNum = (rowNumber) => {
+	return rowNumber.charCodeAt(0) - 65 + 1;
+};
+
+const getSeatNum = (seatNumber) => {
+	return Number(seatNumber);
+};
+
+const prepareSeats = () => {
+	let seats = "";
+
+	let cnt = 0;
+	selectedSeats.forEach((seat, indx, set) => {
+		seats += `${getRowNum(seat.charAt(0))}:${getSeatNum(seat.substring(1))}`;
+		cnt++;
+		if (cnt < set.size) seats += " ";
+	});
+
+	return seats;
+};
+
+const confirmReservation = async () => {
+	let preparedSeats = prepareSeats();
+	console.log(preparedSeats);
+	let postData = {
+		idPro: idPro,
+		seats: preparedSeats
+	};
+
+	let fd = new FormData();
+	for (let i in postData) {
+		fd.append(i, postData[i]);
+	}
+
+	let response = await fetch(`http://localhost:8080/reservation/confirm`, {
+		method: "POST",
+		body: fd,
+		mode: "cors"
+	});
+
+	let data = await response.json();
+	return data;
+};
+
+const initiateConfirm = () => {
+	confirmButton.classList.add("reservationButtonDisabled");
+
+	confirmReservation().then((data) => {
+		console.log(data);
+		if (data == "OK") {
+			console.log("success");
+			resConfirm.classList.add("hideModal");
+			resSuccess.classList.remove("hideModal");
+		} else {
+			console.log("fail");
+			resConfirm.classList.add("hideModal");
+			resError.classList.remove("hideModal");
+		}
+
+		confirmButton.classList.remove("reservationButtonDisabled");
+	});
+};
+
+const closeResModal = () => {
+	document.getElementById("reservationModal").classList.remove("showModal");
+	resSuccess.classList.add("hideModal");
+	resError.classList.add("hideModal");
+	resConfirm.classList.remove("hideModal");
+};
+
+const msgCloseModal = () => {
+	closeResModal();
+	location.reload();
+};

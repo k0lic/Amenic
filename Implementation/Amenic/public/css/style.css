@@ -1778,13 +1778,17 @@ body {
 }
 
 .reservationBottom {
-	font-weight: 600;
+	font-weight: 600 !important;
 	font-size: 1.2em;
 }
 
 .reservationButton {
 	align-self: flex-end;
 	opacity: 1;
+}
+
+.reservationModalButton {
+	margin: 0 0 0 auto;
 }
 
 .reservedSeats {
@@ -1864,6 +1868,11 @@ body {
 
 .reservationRoom {
 	font-size: 1em;
+}
+
+.seatTaken {
+	pointer-events: none;
+	background-color: var(--formInput);
 }
 /* ADMIN CONTROLLER */
 
