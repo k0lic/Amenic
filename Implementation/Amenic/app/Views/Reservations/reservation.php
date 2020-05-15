@@ -103,32 +103,38 @@
 				</div>
             </div>
             
-            <div class="row w100 mt-2 reservationWrapper">
+            <div class="row w100 mt-5 reservationWrapper">
                 <div class="column w15 ml-5 priceColumn">
                     <span class="reservationTitle">Your selected seats</span>
-                    <div class='column mt-2'>
-                        <span class="reservationSubtitle">2 seats</span>
-                        <div class="reservedSeats mt-3 textCenter">
-                            <span class="reservedSeat">D9</span>
-                            <span class="reservedSeat">D10</span>
-                            <span class="reservedSeat">D9</span>
-                            <span class="reservedSeat">D10</span>
-                            <span class="reservedSeat">D9</span>
-
+                    <div class='column mt-2 mb-3'>
+                        <span class="reservationSubtitle" id="numSeats">2 seats</span>
+                        <div class="reservedSeats mt-3 textCenter" id ="reservedSeats">
                         </div>
-                    </div>
+					</div>
+					<div class="row">
+						<img src="/assets/Reservation/dots.svg" class="hrDots" />
+					</div>
                     <div class="column mt-3">
                         <div class="row spaceBetween">
                             <span class="reservationBottom">Total:</span>
-                            <span class="reservationBottom id="totalPrice">€14.00</span>
+                            <span class="reservationBottom" id="totalPrice">€14.00</span>
                         </div>
-                        <button type="submit" class="trailerButton reservationButton mt-2">Make reservation</button>
+                        <button type="submit" class="trailerButton reservationButton mt-2" id="reservationButton">Make reservation</button>
                     </div>
-                    
-                    <!--<hr class="reservationHR">-->
+                    					
                 </div>
                 <div class="column w70 screenColumn">
-                                 
+					<div class="row mb-5">
+						<img src="/assets/Reservation/screen.svg" class="reservationScreen" />
+					</div>
+					<div class="row centerRow">
+						<div id="projectionSeating">
+
+						</div>
+					</div>
+					<div class="row centerRow mt-2">
+						<span class="projectionError" id="projectionError">You can only select a maximum of 6 seats!</span>
+					</div>
                 </div>
                 <div class="column w15 legendColumn mr-5">
 					<div class="row">
@@ -142,9 +148,18 @@
                     </div>
                     <div class="legendStep row centerY">
                         <div class="legend legendSelected mr-2"></div> <span class="legendName">Selected</span>
-                    </div>
+					</div>
+					
+					<div class="column mt-5">
+						<span class="reservationCinema">Cineplexx Milos</span>
+						<span class="reservationRoom">Merlyn Monroe</span>
+
+					</div>
                 </div>
             </div>
 		</div>
+		<input type="hidden" value="4" id="projectionRows">
+		<input type="hidden" value="12" id="projectionColumns">
 	</body>
+	<script src="/js/reservations/reservation.js"></script>
 </html>

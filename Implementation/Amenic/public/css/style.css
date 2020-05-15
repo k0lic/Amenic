@@ -1776,16 +1776,17 @@ body {
 
 .reservationButton {
 	align-self: flex-end;
+	opacity: 1;
 }
 
 .reservedSeats {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 1em;
+	padding: 0.5em;
 }
 
 .reservedSeat {
-	padding: 0.2em 1em;
 	border: 2px solid var(--registerButton);
 	border-radius: 5px;
 }
@@ -1806,6 +1807,55 @@ body {
 .legendSelected {
 	background-color: white;
 	border: 2px solid white;
+}
+
+.screenColumn {
+	padding: 0 5em;
+}
+
+#projectionSeating .projectionSeat {
+	cursor: pointer;
+}
+
+.projectionError {
+	color: var(--red);
+	font-weight: 600;
+	display: none;
+}
+
+.projectionSeat {
+	width: 80%;
+	height: 80%;
+	align-self: center;
+	border-radius: 5px;
+	border: 2px solid var(--formInput);
+}
+
+.projectionSeatLabels {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80%;
+}
+
+.selectedProjectionSeat {
+	background-color: white !important;
+	border: 2px solid white !important;
+}
+
+.reservationButtonDisabled {
+	opacity: 0.6;
+	pointer-events: none;
+	transition: 0.2s all ease-in-out;
+}
+
+.reservationCinema {
+	font-weight: 800;
+	font-size: 1.2em;
+}
+
+.reservationRoom {
+	font-size: 1em;
 }
 /* ADMIN CONTROLLER */
 
