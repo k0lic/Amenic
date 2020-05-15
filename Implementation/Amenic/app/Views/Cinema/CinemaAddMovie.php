@@ -151,7 +151,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="number" name="tmdbID" id="tmdbIDInput" value="<?php
+                                <input type="hidden" name="tmdbID" id="tmdbIDInput" value="<?php
                                     if (isset($target))
                                         echo $target->tmdbID;
                                     else if (isset($halfTarget))
@@ -159,9 +159,6 @@
                                     else if (isset($values["tmdbID"]))
                                         echo $values["tmdbID"];
                                 ?>" <?php if (isset($target) || isset($halfTarget)) echo "readonly"; ?> maxlength="64" />
-                                <div>
-                                    You can copy from here: [ 419704 , 530915 , 330457 ]
-                                </div>
                                 <div class="formError ml-1">
                                     <?php 
                                         if(isset($errors["tmdbID"]))

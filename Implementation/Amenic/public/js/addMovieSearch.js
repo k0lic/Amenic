@@ -132,6 +132,7 @@ function goToLastPage() {
 function chooseMovie(num) {
     movieNameInput.value = movies[num].title;
     tmdbIDInput.value = movies[num].tmdbID;
+    addMovieIfNotExisting(movies[num].tmdbID);
     if (!isHidden) {
         movieSearchResultsContainer.classList.remove("movieDropdownVisible");
         isHidden = true;
@@ -187,7 +188,7 @@ function getTmdbMoviesThenUpdateVarThenUpdateDom() {
         }
         batchDuplicates = updateMoviesFromTmdbObject(data.results);
         duplicates += batchDuplicates;
-        if (batchDuplicates <= 15 || (nextTMDBpage() -1) * dbPageSize >= totalResultsTMDB) {
+        if (batchDuplicates <= 15 || (nextTMDBpage() - 1) * dbPageSize >= totalResultsTMDB) {
             if (pageNum == maxPageNumber()) {
                 exploredTheEnd = true;
             }
@@ -221,7 +222,7 @@ function updateMoviesFromTmdbObject(moreMovies) {
             movies.push({
                 title: movie.title,
                 released: movie.release_date,
-                poster: "https://image.tmdb.org/t/p/original/" + movie.poster_path,
+                poster: movie.poster_path == null ? null : "https://image.tmdb.org/t/p/original/" + movie.poster_path,
                 tmdbID: movie.id
             });
             tmdbIDset.add(Number(movie.id));
@@ -254,7 +255,7 @@ function generateContent() {
 function searchItemTemplate(index) {
     return "<li class=\"movieSearchResultItem\" onClick=\"chooseMovie(" + index + ")\">"
         + "<div class=\"row centerY spaceBetween movieSearchResultItemInner\">"
-        + "<img src=\"" + movies[index].poster + "\" class=\"movieSearchImg\" />"
+        + "<img src=\"" + (movies[index].poster == null ? "https://via.placeholder.com/95x140" : movies[index].poster) + "\" class=\"movieSearchImg\" />"
         + "<div class=\"column ml-3\">"
         + "<div class=\"movieSearchItemHeader mb-1\">Title:</div>"
         + "<div class=\"movieSearchItemText\">" + movies[index].title + "</div>"
@@ -390,3 +391,13 @@ const getMoviesLikeInTMDB = async function (match, page) {
     let data = await response.json();
     return data;
 };
+
+const addMovieIfNotExisting = async function (tmdbID) {
+    fetch(
+        "http://localhost:8080/Cinema/addMovieIfNotExisting?tmdbID=" + tmdbID,
+        {
+            method: "GET",
+            mode: "cors"
+        }
+    );
+}

@@ -53,7 +53,7 @@
 
         <div class="modalColumn mt-2">
             <label for="password">Password</label>
-            <input type="password" name="password" />
+            <input type="password" name="password" id="password" />
             <div class="formError ml-1">
                 <?php 
                     if(isset($errors["password"]))
@@ -85,4 +85,6 @@
             <button type="submit" formaction="/Cinema/ActionAddEmployee">Add</button>
         </div>
     </div>
+    <script src="/js/passwordStrength/zxcvbn.js"></script>
+    <script src="/js/passwordStrength/passwordStrength.js"></script>
 </div>

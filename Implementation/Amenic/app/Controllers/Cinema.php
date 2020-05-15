@@ -10,23 +10,24 @@ use \App\Models\UserModel;
 use \App\Models\CountryModel;
 use \App\Models\CinemaModel;
 use \App\Models\CityModel;
-use App\Models\AACinemaModel;
-use App\Models\RoomModel;
-use App\Models\WorkerModel;
-use App\Models\TechnologyModel;
-use App\Models\ProjectionModel;
-use App\Models\MovieModel;
-use App\Models\RoomTechnologyModel;
-use App\Models\ComingSoonModel;
-use App\Entities\Room;
-use App\Entities\Projection;
-use App\Entities\ComingSoon;
-use App\Entities\User;
-use App\Entities\Worker;
-use function App\Helpers\isAuthenticated;
-use function App\Helpers\isValid;
-use function App\Helpers\generateToken;
-use function App\Helpers\setToken;
+use \App\Models\AACinemaModel;
+use \App\Models\RoomModel;
+use \App\Models\WorkerModel;
+use \App\Models\TechnologyModel;
+use \App\Models\ProjectionModel;
+use \App\Models\MovieModel;
+use \App\Models\RoomTechnologyModel;
+use \App\Models\ComingSoonModel;
+use \App\Entities\Room;
+use \App\Entities\Projection;
+use \App\Entities\ComingSoon;
+use \App\Entities\User;
+use \App\Entities\Worker;
+use \App\Entities\Movie;
+use function \App\Helpers\isAuthenticated;
+use function \App\Helpers\isValid;
+use function \App\Helpers\generateToken;
+use function \App\Helpers\setToken;
 use Exception;
 
 /*
@@ -552,99 +553,6 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Fetch request No1.
-    public function getSomeMovies()
-    {
-
-        //$idCountry = $_REQUEST['country'];
-
-        $moviemdl = new MovieModel();
-        $results = $moviemdl->limit(3)->find();
-
-        echo json_encode($results);
-    }
-
-    // Fetch request No2.
-    public function countHowManyMoviesLike()
-    {
-        $match = $_REQUEST["match"];
-
-        $moviemdl = new MovieModel();
-        $num = $moviemdl->like("title", $match)->countAllResults();
-
-        echo json_encode($num);
-    }
-
-    // Fetch request No3.
-    public function getMoviesLike()
-    {
-        $match = $_REQUEST["match"];
-        $page = $_REQUEST["page"];
-
-        $moviemdl = new MovieModel();
-        $results = $moviemdl->limit(20, 20*($page-1))->like("title", $match)->findAll();
-
-        echo json_encode($results);
-    }
-
-    // Fetch request No4.
-    public function getMoviesLikeInTMDB()
-    {
-        $match = $_REQUEST["match"];
-        $page = $_REQUEST["page"];
-
-        $api = new APIlib();
-        $results = $api->getMoviesPage($match, $page);
-
-        echo json_encode($results["body"]);
-    }
-
-    //--------------------------------------------------------------------
-    //  PRIVATE METHODS  //
-    //--------------------------------------------------------------------
-    
-    // Calls the validation service test named $testName to check validity of $data.
-    private function isValid($testName, $data)
-    {
-        $validation =  \Config\Services::validation();
-
-        $ret = $validation->run($data, $testName);
-
-        if ($ret == 1)
-            return 1;
-        return $validation->getErrors();
-    }
-
-    // Checks if the request is of POST type and if it's not, reroutes home.
-    private function goHomeIfNotPost()
-    {
-        if($_SERVER["REQUEST_METHOD"] != "POST") {
-            // Unauthorized GET request
-            header("Location: /Cinema");
-            exit();
-        }
-    }
-    
-    private function getToken()
-    {
-        helper('auth');
-
-        if (isset($_COOKIE['token']))
-        {
-            $tokenCookie = $_COOKIE['token'];   
-            $token = isValid($tokenCookie);
-            
-            if ($token && isAuthenticated("Cinema"))
-            {
-                $image = (new UserModel())->find($token->email);
-                $token->image = $image->image;
-
-                return $token;
-            }
-        }
-        return null;
-    }
-
     //Settings function
     public function settings()
     {
@@ -772,6 +680,270 @@ class Cinema extends BaseController
         $token = $this->getToken();
 
         return $this->index();
+    }
+
+    // Fetch request No1.
+    public function getSomeMovies()
+    {
+
+        //$idCountry = $_REQUEST['country'];
+
+        $moviemdl = new MovieModel();
+        $results = $moviemdl->limit(3)->find();
+
+        echo json_encode($results);
+    }
+
+    // Fetch request No2.
+    public function countHowManyMoviesLike()
+    {
+        $match = $_REQUEST["match"];
+
+        $moviemdl = new MovieModel();
+        $num = $moviemdl->like("title", $match)->countAllResults();
+
+        echo json_encode($num);
+    }
+
+    // Fetch request No3.
+    public function getMoviesLike()
+    {
+        $match = $_REQUEST["match"];
+        $page = $_REQUEST["page"];
+
+        $moviemdl = new MovieModel();
+        $results = $moviemdl->limit(20, 20*($page-1))->like("title", $match)->findAll();
+
+        echo json_encode($results);
+    }
+
+    // Fetch request No4.
+    public function getMoviesLikeInTMDB()
+    {
+        $match = $_REQUEST["match"];
+        $page = $_REQUEST["page"];
+
+        $api = new APIlib();
+        $results = $api->getMoviesPage($match, $page);
+
+        echo json_encode($results["body"]);
+    }
+
+    // Fetch request No5.
+    public function getMyProjectionsLike()
+    {
+        $match = $_REQUEST["match"];
+
+        $aamdl = new AACinemaModel();
+        $results = $aamdl->findAllProjectionsOfMyCinemaLike($this->userMail, $match);
+
+        echo json_encode($results);
+    }
+
+    // Fetch request No6.
+    public function getMyComingSoonsLike()
+    {
+        $match = $_REQUEST["match"];
+
+        $aamdl = new AACinemaModel();
+        $results = $aamdl->findAllComingSoonsOfMyCinemaLike($this->userMail, $match);
+
+        echo json_encode($results);
+    }
+
+    // Fetch request No7.
+    public function getMyRoomsLike()
+    {
+        $match = $_REQUEST["match"];
+
+        $roommdl = new RoomModel();
+        $results = $roommdl->where("email", $this->userMail)->like("name", $match)->find();
+
+        echo json_encode($results);
+    }
+
+    // Fetch request No8.
+    public function getMyEmployeesLike()
+    {
+        $match = $_REQUEST["match"];
+
+        $workermdl = new WorkerModel();
+        $results = $workermdl->where("idCinema", $this->userMail)->groupStart()->like("firstName", $match)->orLike("lastName", $match)->orLike("email", $match)->groupEnd()->find();
+
+        echo json_encode($results);
+    }
+
+    // Fetch request No99.
+    public function addMovieIfNotExisting()
+    {
+        $tmdbID = $_REQUEST["tmdbID"];
+
+        $moviemdl = new MovieModel();
+        if ($moviemdl->find($tmdbID) == null) {
+            $apilib = new APIlib();
+
+            // get all the information on a film
+            $movieBasicInfo = $apilib->getMovieBasic($tmdbID);
+            $movieCredits = $apilib->getMovieCredits($tmdbID);
+            $movieVideos = $apilib->getMovieVideos($tmdbID);
+            //$movieReviews = $apilib->getMovieReviews($tmdbID);    // WE HAVE NEW REVIEWS
+
+            // parse the basic info
+            $title = $movieBasicInfo[2]['title'];
+            $release = $movieBasicInfo[2]['release_date'];
+            $runtime = $movieBasicInfo[2]['runtime'];
+            $genres="";
+            foreach($movieBasicInfo[2]['genres'] as $genre)
+                $genres = $genres.$genre['name'].", ";
+            $genres = substr ( $genres , 0, strlen($genres)-2 );
+            
+            // parse the crew
+            $directors="";
+            $writers="";
+            $actors="";
+            $numOfActors=0;
+            foreach($movieCredits[2]['crew'] as $crew)
+            {
+                if(strcmp($crew['job'],"Director") == 0)
+                    $directors=$directors.$crew['name'].", ";
+                if(strcmp($crew['job'],"Writer") == 0 ||
+                    strcmp($crew['job'],"Screenplay") == 0 ||
+                    strcmp($crew['job'],"Characters") == 0)
+                    $writers=$writers.$crew['name'].", ";
+            }
+            foreach($movieCredits[2]['cast'] as $cast)
+            {
+                if($numOfActors < 6)
+                {
+                    $actors=$actors.$cast['name'].", ";
+                    $numOfActors++;
+                }
+                else break;
+            }
+            $directors = substr($directors,0,strlen($directors)-2 );
+            $writers = substr ( $writers , 0, strlen($writers)-2 );
+            $actors = substr ( $actors , 0, strlen($actors)-2 );
+
+            // get the plot
+            $plot =  $movieBasicInfo[2]['overview'];
+            // get the images
+            $imageHostingPath = "https://image.tmdb.org/t/p/original/";
+            $poster = ($movieBasicInfo[2]["poster_path"] == null) ? null : $imageHostingPath.$movieBasicInfo[2]['poster_path'];
+            $backgroundImg = ($movieBasicInfo[2]["backdrop_path"] == null) ? null : $imageHostingPath.$movieBasicInfo[2]['backdrop_path'];
+
+            // get IMDB data
+            $imdbID = $movieBasicInfo[2]['imdb_id'];
+            $movieOMDBInfo = $apilib->getMovieInfoOMDB($imdbID);
+            $imdbRating = $movieOMDBInfo[2];
+            if (isset($imdbRating['Ratings']) && count($imdbRating['Ratings']) > 0)
+            {
+                $imdbRating = $imdbRating['Ratings'][0]['Value'];
+            }
+            else
+                $imdbRating = "";
+            $imdbRating = substr($imdbRating, 0, strpos($imdbRating,"/"));
+
+            /*$reviews="";
+            $numOfReviews=0;
+            foreach($movieReviews[2]['results'] as $review)
+            {
+                if($numOfReviews < 10)
+                {
+                    $reviews=$reviews.$review['author']." - ".$review['content'].", ";
+                    $numOfReviews++;
+                }
+                else break;
+            }
+            $reviews = substr ( $reviews , 0, strlen($reviews)-2 );*/
+            
+            // get trailer
+            $trailer="";
+            foreach($movieVideos[2]['results'] as $video)
+            {
+                if (strcmp($video['type'], 'Trailer') == 0)
+                {
+                    $trailer="https://www.youtube.com/watch?v=".$video['key'];
+                    break;
+                }
+            }
+            
+            // pack all the data into a Movie object
+            $movie = new Movie([
+                'tmdbID' => $tmdbID,
+                'title' => $title,
+                'released' => $release,
+                'runtime' => $runtime,
+                'genre' => $genres,
+                'director' => $directors,
+                'writer' => $writers,
+                'actors' => $actors,
+                'plot' => $plot,
+                'poster' => $poster,
+                'backgroundImg' =>  $backgroundImg,
+                'imdbRating' => $imdbRating,
+                'imdbID' => $imdbID,
+                'reviews' => "0",
+                'trailer' => $trailer
+            ]);
+
+            // insert new Movie into db
+            $movieModel = new MovieModel();
+            try
+            {
+                $movieModel->insert($movie);
+                echo json_encode("success");
+            }
+            catch (Exception $e)
+            {
+                echo json_encode("failure");
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------
+    //  PRIVATE METHODS  //
+    //--------------------------------------------------------------------
+    
+    // Calls the validation service test named $testName to check validity of $data.
+    private function isValid($testName, $data)
+    {
+        $validation =  \Config\Services::validation();
+
+        $ret = $validation->run($data, $testName);
+
+        if ($ret == 1)
+            return 1;
+        return $validation->getErrors();
+    }
+
+    // Checks if the request is of POST type and if it's not, reroutes home.
+    private function goHomeIfNotPost()
+    {
+        if($_SERVER["REQUEST_METHOD"] != "POST") {
+            // Unauthorized GET request
+            header("Location: /Cinema");
+            exit();
+        }
+    }
+    
+    private function getToken()
+    {
+        helper('auth');
+
+        if (isset($_COOKIE['token']))
+        {
+            $tokenCookie = $_COOKIE['token'];   
+            $token = isValid($tokenCookie);
+            
+            if ($token && isAuthenticated("Cinema"))
+            {
+                $image = (new UserModel())->find($token->email);
+                $token->image = $image->image;
+
+                return $token;
+            }
+        }
+        return null;
     }
 
     public function cinemaPage()

@@ -90,12 +90,20 @@
                     <!-- SEARCH BAR -->
                     <form class="searchForm">
                         <label>
-                            <input type="text" placeholder="Search something" class="search" name="title" />
-                        </label>
-                        <!-- pamtim na kojoj sam strani -->
-                        <input type="hidden" id="optionPrimary" name="optionPrimary" value="<?php if(isset($optionPrimary)) echo $optionPrimary;?>" />
-                        <input type="hidden" id="optionSecondary" name="optionSecondary" value="<?php if(isset($optionSecondary)) echo $optionSecondary;?>" />
-						
+                            <input type="text" placeholder="Search something" class="search" name="title" id="searchBar" onInput="<?php
+                                if (!isset($optionPrimary) || $optionPrimary==0)
+                                {
+                                    if (!isset($optionSecondary) || $optionSecondary==0)
+                                        echo "searchForMoviesLike()";
+                                    else
+                                        echo "searchForComingSoonsLike()";
+                                }
+                                else if ($optionPrimary==1)
+                                    echo "searchForRoomsLike()";
+                                else
+                                    echo "searchForEmployeesLike()";
+                            ?>" />
+                        </label>	
                     </form>
                     <!-- ADD SOMETHING BUTTON -->
                     <div class="row ml-2">
@@ -145,7 +153,7 @@
                 <?php
 
                     $wrapper = isset($optionPrimary) && $optionPrimary == 2 ? "list" : "movies";
-                    echo "<div class=\"".$wrapper."\">";
+                    echo "<div class=\"".$wrapper."\" id=\"actualContent\">";
                     if (!isset($items))
                         $items = [];
 
@@ -272,4 +280,5 @@
         </div>
     </body>
     <script src="/js/areYouSure.js"></script>
+    <script src="/js/cinemaOverviewSearchBar.js"></script>
 </html>

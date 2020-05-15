@@ -2,8 +2,8 @@
     <li>
         <!-- MOVIES -->
         <?php 
-            if (!isset($optionPrimary) || $optionPrimary==0)
-                echo "<div class=\"activeMenuText\">Movies</div>";
+            if (isset($optionPrimary) || $optionPrimary==0)
+                echo "<a href=\"/Cinema\" class=\"activeMenu\">Movies</a>";
             else
                 echo "<a href=\"/Cinema\">Movies</a>";
         ?>
@@ -12,7 +12,7 @@
         <!-- ROOMS -->
         <?php 
             if (isset($optionPrimary) && $optionPrimary==1)
-                echo "<div class=\"activeMenuText\">Rooms</div>";
+                echo "<a href=\"/Cinema/Rooms\" class=\"activeMenu\">Rooms</a>";
             else
                 echo "<a href=\"/Cinema/Rooms\">Rooms</a>";
         ?>
@@ -21,7 +21,7 @@
         <!-- EMPLOYEES -->
         <?php 
             if (isset($optionPrimary) && $optionPrimary==2)
-                echo "<div class=\"activeMenuText\">Employees</div>";
+                echo "<a href=\"/Cinema/Employees\" class=\"activeMenu\">Employees</a>";
             else
                 echo "<a href=\"/Cinema/Employees\">Employees</a>";
         ?>

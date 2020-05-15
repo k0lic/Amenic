@@ -124,6 +124,98 @@ class AACinemaModel extends Model
         }
     }
 
+    public function findAllProjectionsOfMyCinemaLike($email, $match)
+    {
+        $moviemdl = new MovieModel();
+        $promdl = new ProjectionModel();
+        $projectionIds = [];
+        $moviePosters = [];
+
+        // find by comparing with movie name
+        $moviesLike = $moviemdl->like("title", $match)->find();
+        $projectionsMovieNameLike = [];
+        foreach ($moviesLike as $movie)
+        {
+            $projectionBatch = $promdl->where("email", $email)->where("tmdbID", $movie->tmdbID)->find();
+            foreach ($projectionBatch as $pro)
+            {
+                array_push($projectionsMovieNameLike, $pro);
+                $projectionIds[$pro->idPro] = 1;
+            }
+            $moviePosters[$movie->tmdbID] = $movie->poster;
+        }
+
+        // find by comparing with room name
+        $projectionsRoomNameLike = $promdl->where("email", $email)->like("roomName", $match)->find();
+        
+        // combine
+        $projectionsLike = $projectionsMovieNameLike;
+        foreach ($projectionsRoomNameLike as $pro)
+        {
+            if (!isset($projectionIds[$pro->idPro]))
+            {
+                array_push($projectionsLike, $pro);
+                $projectionIds[$pro->idPro] = 1;
+            }
+        }
+
+        // attach posters
+        $results = [];
+        foreach ($projectionsLike as $pro)
+        {
+            $res["projection"] = $pro;
+            if (isset($moviePosters[$pro->tmdbID]))
+            {
+                $res["poster"] = $moviePosters[$pro->tmdbID];
+            }
+            else
+            {
+                $movie = $moviemdl->find($pro->tmdbID);
+                $moviePosters[$movie->tmdbID] = $movie->poster;
+                $res["poster"] = $movie->poster;
+            }
+            array_push($results, $res);
+        }
+
+        // sort by start time
+        for ($i=0;$i<count($results)-1;$i++)
+        {
+            for ($j=0;$j<(count($results)-1-$i);$j++)
+            {
+                $date1 = strtotime($results[$j]["projection"]->dateTime);
+                $date2 = strtotime($results[$j+1]["projection"]->dateTime);
+                if ($date1 > $date2) {
+                    $tmp = $results[$j];
+                    $results[$j] = $results[$j+1];
+                    $results[$j+1] = $tmp;
+                }
+            }
+        }
+
+        return $results;
+    }
+
+    public function findAllComingSoonsOfMyCinemaLike($email, $match)
+    {
+        $moviemdl = new MovieModel();
+        $soonmdl = new ComingSoonModel();
+
+        $moviesLike = $moviemdl->like("title", $match)->find();
+        $results = [];
+        foreach ($moviesLike as $movie)
+        {
+            $soon = $soonmdl->where("email", $email)->where("tmdbID", $movie->tmdbID)->find();
+            if ($soon != null)
+            {
+                $res["poster"] = $movie->poster;
+                $res["soon"] = $soon[0];
+                array_push($results, $res);
+            }
+        }
+
+        return $results;
+    }
+
 }
 
 ?>
