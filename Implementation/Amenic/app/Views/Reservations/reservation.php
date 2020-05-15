@@ -163,9 +163,10 @@
 			</div>
 			<?php include 'reservationModal.php'; ?>
 		</div>
-		<input type="hidden" value="4" id="projectionRows">
-		<input type="hidden" value="12" id="projectionColumns">
-		<input type="hidden" value="7" id="idPro">
+		<input type="hidden" value="<?php echo $numRows ?>" id="projectionRows">
+		<input type="hidden" value="<?php echo $numCols ?>" id="projectionColumns">
+		<input type="hidden" value="<?php echo $idPro ?>" id="idPro">
+		<input type="hidden" value="<?php echo $ticketPrice ?>" id="ticketPrice">
 	</body>
 	<script src="/js/reservations/reservation.js"></script>
 </html>

@@ -150,10 +150,16 @@ const getTechName = async (idTech) => {
 	return data.name;
 };
 
-const createRow = (cinemaName, time, room, type) => {
+const createRow = (cinemaName, time, room, type, idPro) => {
 	let wrapper = document.createElement("div");
 
 	wrapper.classList.add("showingTableRow", "row", "centerY", "mb-1");
+
+	// TESTING //
+	let anchor = document.createElement("a");
+	anchor.href = `/reservation/${idPro}`;
+	anchor.classList.add("anchorWrapper");
+	///////////////////////////////////
 
 	let el = document.createElement("div");
 	el.classList.add("w10", "column", "centerRow");
@@ -189,7 +195,9 @@ const createRow = (cinemaName, time, room, type) => {
 	el.innerHTML = type;
 	wrapper.appendChild(el);
 
-	return wrapper;
+	anchor.appendChild(wrapper);
+
+	return anchor;
 };
 
 const createHeader = () => {
@@ -318,7 +326,8 @@ const renderTable = () => {
 						await getCinemaName(projection.email),
 						re.exec(projection.dateTime)[2],
 						projection.roomName,
-						await getTechName(projection.idTech)
+						await getTechName(projection.idTech),
+						projection.idPro
 					)
 				);
 				projectionsAdded++;

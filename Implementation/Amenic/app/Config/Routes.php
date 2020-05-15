@@ -35,6 +35,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'HomeController::index');
 $routes->get('/admin', 'AdminController::index');
 $routes->get('/movie/(:num)', 'Movie::index/$1');
+$routes->get('/reservation/(:num)', 'Reservation::index/$1');
 
 /**
  * --------------------------------------------------------------------

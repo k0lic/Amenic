@@ -5,7 +5,7 @@
     <div class="modal centerX" id="resConfirm">
             <div class="modalHead centerX spaceBetween">
                 <span>Reservation</span>
-                    <img src="assets/close.svg" class="modalClose" alt="Close form" onclick="closeResModal()"/>
+                    <img src="/assets/close.svg" class="modalClose" alt="Close form" onclick="closeResModal()"/>
             </div>
             <div class="modalColumn">
                 <label for="seats" class="reservationBottom">Seats:</label>
@@ -28,7 +28,7 @@
     <div class="modal hideModal centerX" id="resSuccess">
             <div class="modalHead centerX spaceBetween">
                 <span>Success!</span>
-                    <img src="assets/close.svg" class="modalClose" alt="Close form" onclick="msgCloseModal()"/>
+                    <img src="/assets/close.svg" class="modalClose" alt="Close form" onclick="msgCloseModal()"/>
             </div>
             <div class="modalColumn">
                 <label for="seats" class="reservationBottom">Your tickets are reserved, and you should receive an email confirmation soon.</label>
@@ -38,7 +38,7 @@
     <div class="modal hideModal centerX" id="resError">
             <div class="modalHead centerX spaceBetween">
                 <span>Oh no!</span>
-                    <img src="assets/close.svg" class="modalClose" alt="Close form" onclick="msgCloseModal()"/>
+                    <img src="/assets/close.svg" class="modalClose" alt="Close form" onclick="msgCloseModal()"/>
             </div>
             <div class="modalColumn">
                 <label for="seats" class="reservationBottom">You've already reserved 6 tickets for this screening.</label>

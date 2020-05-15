@@ -16,7 +16,7 @@ const resConfirm = document.getElementById("resConfirm");
 const resSuccess = document.getElementById("resSuccess");
 const resError = document.getElementById("resError");
 const confirmButton = document.getElementById("confirmButton");
-const ticketPrice = 5;
+const ticketPrice = parseFloat(document.getElementById("ticketPrice").value);
 
 document.getElementById("resConfirm").addEventListener("click", (e) => {
 	e.stopPropagation();
@@ -173,7 +173,6 @@ updateSeatsText();
 
 const updatePrice = (offset) => {
 	total += offset;
-
 	totalPrice.innerHTML = `€${total.toFixed(2)}`;
 };
 
@@ -253,7 +252,7 @@ const prepareSeats = () => {
 
 const confirmReservation = async () => {
 	let preparedSeats = prepareSeats();
-	console.log(preparedSeats);
+
 	let postData = {
 		idPro: idPro,
 		seats: preparedSeats
@@ -264,6 +263,7 @@ const confirmReservation = async () => {
 		fd.append(i, postData[i]);
 	}
 
+	console.log(`Confirming for ${idPro}`);
 	let response = await fetch(`http://localhost:8080/reservation/confirm`, {
 		method: "POST",
 		body: fd,
@@ -280,11 +280,9 @@ const initiateConfirm = () => {
 	confirmReservation().then((data) => {
 		console.log(data);
 		if (data == "OK") {
-			console.log("success");
 			resConfirm.classList.add("hideModal");
 			resSuccess.classList.remove("hideModal");
 		} else {
-			console.log("fail");
 			resConfirm.classList.add("hideModal");
 			resError.classList.remove("hideModal");
 		}

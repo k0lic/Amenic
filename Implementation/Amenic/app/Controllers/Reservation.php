@@ -11,8 +11,10 @@ use App\Models\CinemaModel;
 use App\Models\MovieModel;
 use App\Models\ProjectionModel;
 use App\Models\ReservationModel;
+use App\Models\RoomModel;
 use App\Models\SeatModel;
 use App\Models\TechnologyModel;
+use Exception;
 
 use function App\Helpers\isAuthenticated;
 use function App\Helpers\isValid;
@@ -20,22 +22,46 @@ use function App\Helpers\sendMail;
 
 class Reservation extends BaseController {
 
-    public function index() {
+    public function index($idPro) {
+
+        // TEST
+        //////
 
         $movieModel = new MovieModel();
         $projectionModel = new ProjectionModel();
         $cinemaModel = new CinemaModel();
 
-        $projection = $projectionModel->find(7);
+        $projection = $projectionModel->find($idPro);
+        
+        if(is_null($projection)) {
+            // Bad screening request
+            header('Location: /');
+            exit();
+        }
 
-        $cinemaName = $cinemaModel->find('milos@cineplexx.com')->name;
-        $roomName = 'Merlyn Monroe';
+        $cinemaName = $cinemaModel->find($projection->email)->name;
+        $roomName = $projection->roomName;
+
+        $roomModel = new RoomModel();
+        $room = $roomModel
+                        ->where('name', $roomName)
+                        ->where('email', $projection->email)
+                        ->findAll();
         
-        // TEST AREA //
-        // END OF TEST //
-        
-        $movie = $movieModel->find(437068);
-        return view('Reservations/reservation', ['movie' => $movie, 'idPro' => 7, 'price' => $projection->price, 'cinemaName' => $cinemaName, 'roomName' => $roomName]);
+        $numRows = $room[0]->numberOfRows;
+        $numCols = $room[0]->seatsInRow;
+        $movie = $movieModel->find($projection->tmdbID);
+
+        return view('Reservations/reservation', 
+        ['movie' => $movie, 
+        'idPro' => $idPro, 
+        'price' => $projection->price, 
+        'cinemaName' => $cinemaName, 
+        'roomName' => $roomName,
+        'ticketPrice' => $projection->price,
+        'numRows' => $numRows,
+        'numCols' => $numCols
+        ]);
     }
 
     public function getReservations() {
@@ -68,28 +94,38 @@ class Reservation extends BaseController {
 
         $idPro = $_POST['idPro'];
         $token = $this->getToken();
+
+        
+        if(is_null($token)) {
+            // Bad token
+            echo json_encode("tokenBad");
+        }
+
         $message = "OK";
 
         $reservationModel = new ReservationModel();
         $seatModel = new SeatModel();
         
+        
         $numReservations = $reservationModel
-                                ->where('email', 'rUser2')
-                                ->join('Seats', 'Reservations.idRes = Seats.idRes', 'Reservations.idPro = Seats.idPro')
-                                ->findAll();
+                            ->join('Seats', 'Reservations.idRes = Seats.idRes')
+                            ->where('email', $token->email)
+                            ->where('Reservations.idPro', $idPro)
+                            
+                            ->findAll();
 
-        if(count($numReservations) > 5) {
+        if(is_null($numReservations) || count($numReservations) > 5) {
             $message = "BAD";
         } else {
             $reservation = new EntitiesReservation([
                 'confirmed' => 0,
                 'idPro' => $idPro,
-                'email' => 'rUser2' // todo change to $token->email
+                'email' => $token->email
             ]);
 
             $reservationModel->insert($reservation);
 
-            $last = $reservationModel->where('email', 'rUser2')->findAll();
+            $last = $reservationModel->where('email', $token->email)->findAll();
             // Grab the just added idRes
             $idRes = $last[count($last)-1]->idRes;
 
@@ -145,7 +181,7 @@ class Reservation extends BaseController {
                         $resSeatsStr <br />
             ";
 
-            sendMail('milosmisazivkovic@gmail.com', "Reservation - $movie->title", $content);
+            sendMail($token->email, "Reservation - $movie->title", $content);
         }
 
         echo json_encode($message);

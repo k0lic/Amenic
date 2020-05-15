@@ -49,7 +49,7 @@ if(!function_exists('setToken')) {
             // If it's a valid token, set it to the cookie
             // Cookie is valid for 1h
     
-            setcookie('token', $token,time()+3600,'/');
+            setcookie('token', $token,time()+3600*24,'/');
             $_COOKIE['token'] = $token;
         }
     }

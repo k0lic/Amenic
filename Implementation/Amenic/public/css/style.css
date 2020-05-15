@@ -1714,7 +1714,7 @@ body {
 	font-size: 1.2em;
 }
 
-.showingTable .showingTableRow:nth-child(odd) {
+.showingTable a:nth-child(odd) .showingTableRow {
 	background-color: var(--formInput);
 }
 
@@ -1873,6 +1873,12 @@ body {
 .seatTaken {
 	pointer-events: none;
 	background-color: var(--formInput);
+}
+
+.anchorWrapper {
+	width: 100%;
+	text-decoration: none;
+	color: white;
 }
 /* ADMIN CONTROLLER */
 
@@ -2267,11 +2273,11 @@ input[type="file"] {
 	width: 100%;
 }
 
- .cinemaContainer {
+.cinemaContainer {
 	position: relative;
-  }
-  
-  .text-block {
+}
+
+.text-block {
 	width: 80%;
 	position: absolute;
 	top: 10%;
@@ -2281,4 +2287,4 @@ input[type="file"] {
 	color: white;
 	padding-left: 20px;
 	padding-right: 20px;
-  } 
+}
