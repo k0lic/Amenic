@@ -3,28 +3,44 @@
     Github: Rpsaman13000
 */
 
-function createListElement(data, actMenu) {
+function createListElement(data, subMenu) {
     let a = document.createElement('a');
     a.className = "coolLink";
     let img = document.createElement("img");
-    img.src = actMenu === "0" ? "data:image/jpeg;base64, " + data.banner : data.poster;
-    img.className = "movieImg";
     a.appendChild(img);
-    a.href = "/movie/" + data.tmdbID;
+    img.className = "movieImg";
 
-    return a;
+    if (subMenu === "") {
+        let div = document.createElement('div');
+        div.className = 'cinemaContainer';
+        a.href = "/Cinema/cinemaPage"; // + data.email;
+        img.src = data.banner == null ? "/assets/Cinema/cinema.jpg" : "data:image/jpeg;base64, " + data.banner;
+        let textDiv = document.createElement('div');
+        textDiv.className = "text-block";
+        let paragraph = document.createElement('p');
+        paragraph.innerHTML = data.name;
+        textDiv.appendChild(paragraph);
+        a.appendChild(textDiv);
+        div.appendChild(a);
+        return div;
+    }
+    else {
+        img.src = data.poster;
+        a.href = "/movie/" + data.tmdbID;
+        return a;
+    }
 }
 
 const searchBar = document.getElementById("searchBar");
 const list = document.getElementById("list");
+let activeMenus = document.getElementsByClassName("activeMenu");
 
-
-const getMovies = async () => {
+const getMoviesAndCinemas = async () => {
     let path = "";
     let menu = "";
     let aM = 0;
 
-    let activeMenus = document.getElementsByClassName("activeMenu");
+
     for (let i = 0; i < activeMenus.length; i++) {
         if (activeMenus[i].innerHTML === "Movies") {
             path = "/HomeController/titleSearch";
@@ -32,7 +48,7 @@ const getMovies = async () => {
             continue;
         }
         if (activeMenus[i].innerHTML === "Cinemas") {
-            path = "";
+            path = "/HomeController/nameSearch";
             aM = 1;
             continue;
         }
@@ -55,20 +71,19 @@ const getMovies = async () => {
     );
 
     let data = await response.json();
-    console.log(data);
 
     while (list.firstChild) {
         list.removeChild(list.lastChild);
     };
 
     for (let i = 0; i < data.length; i++) {
-        let element = createListElement(data[i], aM);
+        let element = createListElement(data[i], menu);
         list.appendChild(element);
-        console.log(element);
     }
 
     return;
 };
 
-searchBar.addEventListener('input', getMovies);
+
+searchBar.addEventListener('input', getMoviesAndCinemas);
 

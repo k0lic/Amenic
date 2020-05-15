@@ -774,6 +774,11 @@ class Cinema extends BaseController
         return $this->index();
     }
 
+    public function cinemaPage()
+    {
+        return "Ovo ce se uraditi kada se Milos smiluje da uzme nazad svoju stranicu ili andrija resi da je uradi umesto njeg";
+    }
+
 }
 
 ?>

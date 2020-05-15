@@ -43,10 +43,10 @@ use function App\Helpers\isValid;
 					</li>
 				</ul>
 				<?php 
-
-					if (isAuthenticated('Cinema'))
+			
+					if(isAuthenticated('RUser'))
 						echo "
-						<a href=\"#\">
+						<a href=\"/RUser/settings\">
 							<div class=\"icon baseline\">
 								<svg
 									width=\"48\"
@@ -119,20 +119,29 @@ use function App\Helpers\isValid;
 
 					foreach($movies as $movie)
 					{
-						echo "<a href=\"/movie/".$movie->tmdbID."\" class=\"coolLink\">";
-						if (isset($cinMenu))
-						{
-							echo (
-								"<img src=\"data:image/jpeg;base64, ".$movie->banner."\" class=\"movieImg\" alt=\"\" />"
-							);
-						}
-						else
-						{
-							echo (
-								"<img src=\"".$movie->poster."\" class=\"movieImg\" alt=\"\" />"
-							);
-						}
-						echo "</a>";
+						echo "<div class=\"cinemaContainer\">";
+							if (isset($cinMenu))
+							{
+								echo "<a href=\"/Cinema/cinemaPage\" class=\"coolLink\" >"; //cinema mail!!!
+								if (isset($movie->banner))
+									echo (
+										"<img src=\"data:image/jpeg;base64, ".$movie->banner."\" class=\"movieImg\" alt=\"\" />"
+									);
+								else
+									echo ("<img src=\"/assets/Cinema/cinema.jpg\" class=\"movieImg\" alt=\"\" />"
+									);
+								echo "<div class=\"text-block\">
+										<p>".$movie->name."</p>
+									</div>";
+							}
+							else
+							{
+								echo (
+									"<a href=\"/movie/".$movie->tmdbID."\" class=\"coolLink\" >
+									<img src=\"".$movie->poster."\" class=\"movieImg\" alt=\"\" />"
+								);
+							}
+							echo "</a></div>";
 					}
 
 					?>

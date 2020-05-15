@@ -125,6 +125,18 @@ class HomeController extends BaseController
 		return view('index.php',[ 'movies' => $cinemaArray, 'cinMenu' => 1]);
 	}
 
+	public function nameSearch()
+	{
+		$title = $_GET['title'];
+		unset($_GET['title']);
+
+		$cinemaArray=[];
+		$cinemas = (new CinemaModel())
+			->where('approved',1)	
+			->like('name',$title, $insensitiveSearch = TRUE)->find();
+	
+		return json_encode($cinemas);
+	}
 	//connect to a database
 	/*$db = \Config\Database::connect());
 	$db->query('select * from Admins');

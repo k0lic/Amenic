@@ -2257,3 +2257,19 @@ input[type="file"] {
 .settingsInputText {
 	width: 100%;
 }
+
+ .cinemaContainer {
+	position: relative;
+  }
+  
+  .text-block {
+	width: 80%;
+	position: absolute;
+	top: 10%;
+	right: 20%;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.6);
+	color: white;
+	padding-left: 20px;
+	padding-right: 20px;
+  } 
