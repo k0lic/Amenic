@@ -1,61 +1,103 @@
+/*
+    Author: Andrija Kolić
+    Github: k0lic
+*/
 
 // VARIABLES //
 
 const movieNameInput = document.getElementById("movieNameInput");
+const tmdbIDInput = document.getElementById("tmdbIDInput");
 const movieSearchResultsContainer = document.getElementById("movieSearchResultsContainer");
 const movieSearchResults = document.getElementById("movieSearchResults");
 const leftArrow = document.getElementById("leftArrow");
 const rightArrow = document.getElementById("rightArrow");
-var myTimeout = null;
+const firstPage = document.getElementById("firstPage");
+const firstDots = document.getElementById("firstDots");
+const previousPage = document.getElementById("previousPage");
+const currentPage = document.getElementById("currentPage");
+const nextPage = document.getElementById("nextPage");
+const lastDots = document.getElementById("lastDots");
+const lastPage = document.getElementById("lastPage");
+
+const uiPageSize = 5;
+const dbPageSize = 20;
 var isHidden = true;
+var newTermGracePeriod = null;
 
 var searchTerm = null;
 var totalResultsInHouse = null;
 var totalResultsTMDB = null;
 var movies = [];
 var pageNum = null;
-const uiPageSize = 5;
+var exploredTheEnd = false;
+var duplicates = 0;
+var tmdbIDset = new Set();
+
+// COMPUTED //
+
+function maxPageNumber() {
+    if (totalResultsInHouse == null) {
+        return 1;
+    } else if (totalResultsTMDB == null) {
+        return 1 + Math.floor(totalResultsInHouse / uiPageSize);
+    } else {
+        return 1 + Math.floor((totalResultsInHouse + totalResultsTMDB - duplicates - 1) / uiPageSize);
+    }
+};
+
+function movieAfterLast() {
+    if (totalResultsInHouse == null) {
+        return 0;
+    } else if (totalResultsTMDB == null) {
+        return totalResultsInHouse;
+    } else {
+        return totalResultsInHouse + totalResultsTMDB - duplicates;
+    }
+}
+
+function nextTMDBpage() {
+    if (totalResultsTMDB == null) {
+        return 1;
+    } else {
+        return 1 + (movies.length - totalResultsInHouse + duplicates) / dbPageSize;
+    }
+}
 
 // EVENT LISTENERS //
 
 function setupListeners() {
-    movieNameInput.addEventListener("focusin", showSearchResultsContainer);
-    movieNameInput.addEventListener("focusout", hideSearchResultsContainer);
+    document.body.addEventListener("click", hideSearchResultsContainer);
     movieNameInput.addEventListener("input", newSearchTerm);
-    movieSearchResultsContainer.addEventListener("click", (e) => { doNotLoseInputFocus(e); });
+    movieNameInput.addEventListener("click", (e) => { e.stopPropagation(); });
+    movieSearchResultsContainer.addEventListener("click", (e) => { e.stopPropagation(); });
     leftArrow.addEventListener("click", pageBack);
     rightArrow.addEventListener("click", pageForward);
-    console.log("I did my best");
+    firstPage.addEventListener("click", goToFirstPage);
+    previousPage.addEventListener("click", pageBack);
+    nextPage.addEventListener("click", pageForward);
+    lastPage.addEventListener("click", goToLastPage);
 }
 
-function showSearchResultsContainer() {
+function hideSearchResultsContainer() {
+    if (!isHidden) {
+        movieSearchResultsContainer.classList.remove("movieDropdownVisible");
+        isHidden = true;
+    }
+}
+
+function newSearchTerm() {
     if (isHidden) {
         movieSearchResultsContainer.classList.add("movieDropdownVisible");
         isHidden = false;
     }
-}
 
-function hideSearchResultsContainer() {
-    myTimeout = setTimeout(function () {
-        if (!isHidden) {
-            movieSearchResultsContainer.classList.remove("movieDropdownVisible");
-            isHidden = true;
-        }
-    }, 100);
-}
-
-function doNotLoseInputFocus(e) {
-    clearTimeout(myTimeout);
-    let vertScrollPosition = document.scrollingElement.scrollTop;
-    movieNameInput.focus();
-    document.scrollingElement.scrollTop = vertScrollPosition;
-}
-
-function newSearchTerm() {
     let newTerm = movieNameInput.value;
-    console.log("Searching for: " + newTerm);
     if (newTerm != searchTerm) {
-        updateSearchTerm(newTerm);
+        clearTimeout(newTermGracePeriod);
+        newTermGracePeriod = setTimeout(function () {
+            updateSearchTerm(newTerm);
+        }, 300);
+        generateDummyContent();
     }
 }
 
@@ -67,9 +109,38 @@ function pageBack() {
 }
 
 function pageForward() {
-    if (totalResultsInHouse != null && pageNum < (totalResultsInHouse+1) / uiPageSize) {
+    if (pageNum < maxPageNumber()) {
         pageNum++;
         pageChanged();
+    }
+}
+
+function goToFirstPage() {
+    if (pageNum > 1) {
+        pageNum = 1;
+        pageChanged();
+    }
+}
+
+function goToLastPage() {
+    if (pageNum < maxPageNumber()) {
+        pageNum = maxPageNumber();
+        pageChanged();
+    }
+}
+
+function chooseMovie(num) {
+    movieNameInput.value = movies[num].title;
+    tmdbIDInput.value = movies[num].tmdbID;
+    if (!isHidden) {
+        movieSearchResultsContainer.classList.remove("movieDropdownVisible");
+        isHidden = true;
+    }
+}
+
+function showMoreMovies() {
+    if (totalResultsTMDB == null) {
+        getTmdbMoviesThenUpdateVarThenUpdateDom();
     }
 }
 
@@ -81,25 +152,51 @@ function updateSearchTerm(newTerm) {
     totalResultsTMDB = null;
     movies = [];
     pageNum = 1;
-    getMoviesLike(searchTerm, pageNum).then((data) => {
-        console.log("Here's what we got: "+data);
-        updateMovies(data);
-        generateContent();
-    });
+    exploredTheEnd = false;
+    duplicates = 0;
+    tmdbIDset.clear();
+    getMoviesThenUpdateVarThenUpdateDom();
 }
 
 function pageChanged() {
-    console.log("Page number is now: " + pageNum);
-    console.log("Total movie number is: " + totalResultsInHouse);
     let firstMovieToShow = (pageNum - 1) * uiPageSize;
-    if (movies.length <= firstMovieToShow || movies[firstMovieToShow] == null)
-        getMoviesThenUdateVarThenUpdateDom();
-    else
+    if (firstMovieToShow < movieAfterLast() && (movies.length <= firstMovieToShow || movies[firstMovieToShow] == null)) {
+        getMoviesThenUpdateVarThenUpdateDom();
+    } else {
+        if (totalResultsTMDB != null && pageNum == maxPageNumber()) {
+            exploredTheEnd = true;
+        }
         generateContent();
+        updatePageNumberControls();
+    }
 }
 
-function getMoviesThenUdateVarThenUpdateDom() {
-    getMoviesLike(searchTerm, pageNum).then((data) => { updateMovies(data); generateContent(); });
+function getMoviesThenUpdateVarThenUpdateDom() {
+    if (totalResultsTMDB == null) {
+        getMoviesLike(searchTerm, pageNum).then((data) => { updateMovies(data); generateContent(); updatePageNumberControls(); });
+    } else {
+        getTmdbMoviesThenUpdateVarThenUpdateDom();
+    }
+}
+
+function getTmdbMoviesThenUpdateVarThenUpdateDom() {
+    let batchDuplicates = 20;
+    getMoviesLikeInTMDB(searchTerm, nextTMDBpage()).then((data) => {
+        if (totalResultsTMDB == null) {
+            totalResultsTMDB = data.total_results;
+        }
+        batchDuplicates = updateMoviesFromTmdbObject(data.results);
+        duplicates += batchDuplicates;
+        if (batchDuplicates <= 15 || (nextTMDBpage() -1) * dbPageSize >= totalResultsTMDB) {
+            if (pageNum == maxPageNumber()) {
+                exploredTheEnd = true;
+            }
+            generateContent();
+            updatePageNumberControls();
+        } else {
+            getTmdbMoviesThenUpdateVarThenUpdateDom();
+        }
+    });
 }
 
 function updateMovies(moreMovies) {
@@ -111,8 +208,26 @@ function updateMovies(moreMovies) {
             poster: movie.poster,
             tmdbID: movie.tmdbID
         };
+        tmdbIDset.add(Number(movie.tmdbID));
     });
-    console.log(moreMovies);
+}
+
+function updateMoviesFromTmdbObject(moreMovies) {
+    let batchDuplicates = 0;
+    moreMovies.forEach(movie => {
+        if (tmdbIDset.has(Number(movie.id))) {
+            batchDuplicates++;
+        } else {
+            movies.push({
+                title: movie.title,
+                released: movie.release_date,
+                poster: "https://image.tmdb.org/t/p/original/" + movie.poster_path,
+                tmdbID: movie.id
+            });
+            tmdbIDset.add(Number(movie.id));
+        }
+    });
+    return batchDuplicates;
 }
 
 // DOM MODIFIERS //
@@ -123,10 +238,12 @@ function generateContent() {
 
     for (let j = 0; j < uiPageSize; j++) {
         if (i >= movies.length) {
-            content += refreshDbItem();
+            if (totalResultsTMDB == null) {
+                content += refreshDbItem();
+            }
             break;
         } else {
-            content += searchItemTemplate(movies[i]);
+            content += searchItemTemplate(i);
             i++;
         }
     }
@@ -134,24 +251,24 @@ function generateContent() {
     movieSearchResults.innerHTML = content;
 }
 
-function searchItemTemplate(item) {
-    return "<li class=\"movieSearchResultItem\">"
+function searchItemTemplate(index) {
+    return "<li class=\"movieSearchResultItem\" onClick=\"chooseMovie(" + index + ")\">"
         + "<div class=\"row centerY spaceBetween movieSearchResultItemInner\">"
-        + "<img src=\"" + item.poster + "\" class=\"movieSearchImg\" />"
+        + "<img src=\"" + movies[index].poster + "\" class=\"movieSearchImg\" />"
         + "<div class=\"column ml-3\">"
         + "<div class=\"movieSearchItemHeader mb-1\">Title:</div>"
-        + "<div class=\"movieSearchItemText\">" + item.title + "</div>"
+        + "<div class=\"movieSearchItemText\">" + movies[index].title + "</div>"
         + "</div>"
         + "<div class=\"column ml-3\">"
         + "<div class=\"movieSearchItemHeader mb-1\">Release date:</div>"
-        + "<div class=\"movieSearchItemText\">" + item.released + "</div>"
+        + "<div class=\"movieSearchItemText\">" + movies[index].released + "</div>"
         + "</div>"
         + "</div>"
         + "</li>";
 }
 
 function refreshDbItem() {
-    return "<li class=\"movieSearchResultItem movieSearchItemEmpty\">"
+    return "<li class=\"movieSearchResultItem movieSearchItemEmpty\" onClick=\"showMoreMovies()\">"
         + "<div class=\"row centerRow movieSearchResultItemInner\">"
         + "<div class=\"column\">"
         + "<div class=\"movieSearchItemText mb-1\">Haven't found what you were looking for?</div>"
@@ -159,6 +276,65 @@ function refreshDbItem() {
         + "</div>"
         + "</div>"
         + "</li>";
+}
+
+function generateDummyContent() {
+    movieSearchResults.innerHTML = "<li class=\"movieSearchResultItem movieSearchItemEmpty movieSearchItemText row centerRow\"><div>...</div></li>"
+}
+
+function updatePageNumberControls() {
+    if (pageNum == 1) {
+        leftArrow.classList.remove("movieSearchActiveControl");
+    } else {
+        leftArrow.classList.add("movieSearchActiveControl");
+    }
+
+    if (pageNum > 2) {
+        firstPage.classList.remove("hidden");
+        if (pageNum > 3) {
+            firstDots.classList.remove("hidden");
+        } else {
+            firstDots.classList.add("hidden");
+        }
+    } else {
+        firstPage.classList.add("hidden");
+        firstDots.classList.add("hidden");
+    }
+
+    if (pageNum > 1) {
+        previousPage.classList.remove("hidden");
+        previousPage.innerText = pageNum - 1;
+    } else {
+        previousPage.classList.add("hidden");
+    }
+
+    currentPage.innerText = pageNum;
+
+    if (pageNum < maxPageNumber()) {
+        nextPage.classList.remove("hidden");
+        nextPage.innerText = pageNum + 1;
+    } else {
+        nextPage.classList.add("hidden");
+    }
+
+    if (exploredTheEnd && pageNum < maxPageNumber() - 1) {
+        if (pageNum < maxPageNumber() - 2) {
+            lastDots.classList.remove("hidden");
+        } else {
+            lastDots.classList.add("hidden");
+        }
+        lastPage.classList.remove("hidden");
+        lastPage.innerText = maxPageNumber();
+    } else {
+        lastDots.classList.add("hidden");
+        lastPage.classList.add("hidden");
+    }
+
+    if (pageNum == maxPageNumber()) {
+        rightArrow.classList.remove("movieSearchActiveControl");
+    } else {
+        rightArrow.classList.add("movieSearchActiveControl");
+    }
 }
 
 // FETCH METHODS //
@@ -192,6 +368,19 @@ const countHowManyMoviesLike = async function (match) {
 const getMoviesLike = async function (match, page) {
     let response = await fetch(
         "http://localhost:8080/Cinema/getMoviesLike?match=" + match + "&page=" + page,
+        {
+            method: "GET",
+            mode: "cors"
+        }
+    );
+
+    let data = await response.json();
+    return data;
+};
+
+const getMoviesLikeInTMDB = async function (match, page) {
+    let response = await fetch(
+        "http://localhost:8080/Cinema/getMoviesLikeInTMDB?match=" + match + "&page=" + page,
         {
             method: "GET",
             mode: "cors"

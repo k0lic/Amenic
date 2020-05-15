@@ -130,23 +130,19 @@
                                     </div>
                                     <div id="movieSearchResultsContainer" class="movieDropdownResultsContainer row">
                                         <div class="column movieSearchResultListWrapper">
-                                            <ul class="movieSearchResultList" id="movieSearchResults">
-                                                <li class="movieSearchResultItem">Ananas</li>
-                                                <li class="movieSearchResultItem">Avokado</li>
-                                                <li class="movieSearchResultItem">Banana</li>
-                                            </ul>
+                                            <ul class="movieSearchResultList" id="movieSearchResults"></ul>
                                             <div class="row spaceBetween mt-2">
                                                 <div class="movieSearchArrow movieSearchActiveControl column centerRow" id="leftArrow">
                                                     <img src="/assets/Movie/arrowLeft.svg" class="movieArrow" />
                                                 </div>
                                                 <div class="row centerRow ml-1 mr-1" id="movieSearchPageNumbers">
-                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="firstPage">1</div>
-                                                    <div class="movieSearchDots">...</div>
-                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="previousPage">3</div>
-                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="currentPage">4</div>
-                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="nextPage">5</div>
-                                                    <div class="movieSearchDots">...</div>
-                                                    <div class="movieSearchPageNumber movieSearchActiveControl column centerRow" id="lastPage">8</div>
+                                                    <div class="movieSearchPageNumber column centerRow movieSearchActiveControl hidden" id="firstPage">1</div>
+                                                    <div class="movieSearchDots hidden" id="firstDots">...</div>
+                                                    <div class="movieSearchPageNumber column centerRow movieSearchActiveControl hidden" id="previousPage">1</div>
+                                                    <div class="movieSearchPageNumber column centerRow movieSearchCurrentPageNumber" id="currentPage">1</div>
+                                                    <div class="movieSearchPageNumber column centerRow movieSearchActiveControl hidden" id="nextPage">1</div>
+                                                    <div class="movieSearchDots hidden" id="lastDots">...</div>
+                                                    <div class="movieSearchPageNumber column centerRow movieSearchActiveControl hidden" id="lastPage">1</div>
                                                 </div>
                                                 <div class="movieSearchArrow movieSearchActiveControl column centerRow" id="rightArrow">
                                                     <img src="/assets/Movie/arrowRight.svg" class="movieArrow" />
@@ -155,7 +151,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="number" name="tmdbID" value="<?php
+                                <input type="number" name="tmdbID" id="tmdbIDInput" value="<?php
                                     if (isset($target))
                                         echo $target->tmdbID;
                                     else if (isset($halfTarget))

@@ -1617,6 +1617,10 @@ body {
 	clip-path: circle(50% at 50% 50%);
 }
 
+.movieSearchCurrentPageNumber {
+	color: var(--orange);
+}
+
 .movieSearchDots {
 	font-size: 0.9em;
 	margin: 0 0.2em;
@@ -1631,6 +1635,10 @@ body {
 .movieSearchActiveControl:hover {
 	background-color: var(--orange);
 	transition: 0.2s background-color ease-in-out;
+}
+
+.hidden {
+	visibility: hidden;
 }
 
 /* CRITICS */

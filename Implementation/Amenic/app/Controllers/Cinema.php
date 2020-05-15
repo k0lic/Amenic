@@ -5,6 +5,7 @@
     Github: k0lic
 */
 
+use \App\Libraries\APIlib;
 use \App\Models\UserModel;
 use \App\Models\CountryModel;
 use \App\Models\CinemaModel;
@@ -584,6 +585,18 @@ class Cinema extends BaseController
         $results = $moviemdl->limit(20, 20*($page-1))->like("title", $match)->findAll();
 
         echo json_encode($results);
+    }
+
+    // Fetch request No4.
+    public function getMoviesLikeInTMDB()
+    {
+        $match = $_REQUEST["match"];
+        $page = $_REQUEST["page"];
+
+        $api = new APIlib();
+        $results = $api->getMoviesPage($match, $page);
+
+        echo json_encode($results["body"]);
     }
 
     //--------------------------------------------------------------------
