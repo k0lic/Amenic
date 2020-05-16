@@ -98,7 +98,7 @@ class Reservation extends BaseController {
         
         if(is_null($token)) {
             // Bad token
-            echo json_encode("tokenBad");
+            echo json_encode("BAD");
         }
 
         $message = "OK";
