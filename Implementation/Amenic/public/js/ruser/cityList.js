@@ -6,7 +6,7 @@
 const countryList = document.getElementById("countryList");
 const cityList = document.getElementById('cityList');
 
-function createListElement(data) {
+function generateCity(data) {
     var x = document.createElement("OPTION");
     x.value = data.idCity;
     x.innerHTML = data.name;
@@ -30,12 +30,13 @@ const getCities = async () => {
         cityList.removeChild(cityList.lastChild);
     };
 
-    let zeroOption = createListElement({ idCity: 0, name: "" });
+    let zeroOption = generateCity({ idCity: 0, name: "" });
     cityList.appendChild(zeroOption);
     for (let i = 0; i < data.length; i++) {
-        let element = createListElement(data[i]);
+        let element = generateCity(data[i]);
         cityList.appendChild(element);
     }
+    cityList.selectedIndex = 0;
 
     return;
 };

@@ -69,22 +69,12 @@
 			<div class="adminWrapper">
 			<div class="topBar">
 					<div></div>
-					<div class="user">
-						<img
-						src="<?php if(!$token->image) echo"/assets/Admins/profile.jpeg"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
-						class="profPic"
-						alt="Profile picture"
-						/>
-						<span>
-							<?php 
-								use function App\Helpers\isAuthenticated;
-
-								if (isAuthenticated('Cinema'))
-									echo $token->name;
-								else
-									echo $token->firstName." ".$token->lastName;
-							?>
-						</span>
+					<div>
+						<form action="/logout">
+							<button class="addAdminButton" >
+								Log out
+							</button>
+						</form>
 					</div>
 			</div>
 				<?php
@@ -199,7 +189,7 @@
 													</select>													
 												</div>
 												<div>	
-													<label for=\"country\">City</label>
+													<label for=\"city\">City</label>
 													<select class=\"formSelect settingsSelect\" name=\"city\" disabled>
 														<option value=\"".$data['city']->idCity."\">".$data['city']->name."</option>
 													</select>
@@ -300,6 +290,4 @@
 		</div>
 	</body>
 	<script src="/js/ruser/cityList.js"></script>
-	<script src="/js/passwordStrength/zxcvbn.js"></script>
-    <script src="/js/passwordStrength/passwordStrength.js"></script>
 </html>

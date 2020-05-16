@@ -95,6 +95,7 @@ body {
 }
 
 .logo {
+	margin-top: 10px;
 	height: 40px;
 }
 
@@ -2294,4 +2295,13 @@ input[type="file"] {
 	color: white;
 	padding-left: 20px;
 	padding-right: 20px;
+}
+
+.placeSelector
+{
+	max-width: 65%;
+	display: grid;
+	grid-template-columns: 4fr 3fr 3fr;
+	color:white;
+	column-gap: 2%;
 }

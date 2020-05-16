@@ -33,6 +33,8 @@ function createListElement(data, subMenu) {
 
 const searchBar = document.getElementById("searchBar");
 const list = document.getElementById("list");
+const countryListSearch = document.getElementById("countryList");
+const cityListSearch = document.getElementById('cityList');
 let activeMenus = document.getElementsByClassName("activeMenu");
 
 const getMoviesAndCinemas = async () => {
@@ -43,12 +45,10 @@ const getMoviesAndCinemas = async () => {
 
     for (let i = 0; i < activeMenus.length; i++) {
         if (activeMenus[i].innerHTML === "Movies") {
-            path = "/HomeController/titleSearch";
             aM = 0;
             continue;
         }
         if (activeMenus[i].innerHTML === "Cinemas") {
-            path = "/HomeController/nameSearch";
             aM = 1;
             continue;
         }
@@ -62,8 +62,16 @@ const getMoviesAndCinemas = async () => {
         }
     }
 
+    if (aM) {
+        path = `http://localhost:8080/HomeController/cinemasSearch/${countryListSearch.selectedIndex}/${cityListSearch[cityListSearch.selectedIndex].value}/${searchBar.value}`;
+    }
+    else {
+        path = `http://localhost:8080/HomeController/titleSearch?actMenu=${menu}&title=${searchBar.value}`;
+    }
+
+
     let response = await fetch(
-        `http://localhost:8080${path}?actMenu=${menu}&title=${searchBar.value}`,
+        path,
         {
             method: 'GET',
             mode: "cors"
@@ -86,4 +94,11 @@ const getMoviesAndCinemas = async () => {
 
 
 searchBar.addEventListener('input', getMoviesAndCinemas);
-
+if (countryListSearch != null) {
+    countryListSearch.addEventListener('change', function () {
+        //reset city index after changing country
+        cityList.selectedIndex = 0;
+        getMoviesAndCinemas();
+    });
+    cityListSearch.addEventListener('change', getMoviesAndCinemas);
+}

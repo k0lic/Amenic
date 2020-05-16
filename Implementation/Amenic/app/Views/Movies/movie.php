@@ -31,13 +31,19 @@
 			</a>
 
             <ul>
-                <li>Movies</li>
-                <li>Cinemas</li>
+                <li><a href="/HomeController">Movies</a></li>
+                <li><a href="/HomeController/cinemas">Cinemas</a></li>
                 <li>
                     <div class="user">
-                        <img src="https://via.placeholder.com/150" class="userIcon" />
-                        <span class="userName" id="userName">Miloš</span>
-                    </div>
+						<img
+						src="<?php if(!$token->image) echo"/assets/Admins/profile.jpeg"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
+						class="profPic"
+						alt="Profile picture"
+						/>
+						<span>
+							<?php echo $token->firstName." ".$token->lastName?>
+						</span>
+					</div>
                 </li>
             </ul>
 		</div>

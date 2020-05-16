@@ -28,11 +28,72 @@ use function App\Helpers\setToken;
  */
 class HomeController extends BaseController
 {
+    private function getToken()
+    {
+        helper('auth');
+
+        if (isset($_COOKIE['token']))
+        {
+            $tokenCookie = $_COOKIE['token'];   
+            $token = isValid($tokenCookie);
+            
+            if ($token && isAuthenticated("RUser"))
+            {
+                $image = (new UserModel())->find($token->email);
+                $token->image = $image->image;
+
+                return $token;
+            }
+        }
+        return null;
+    }
+    
+    public function index()
+	{
+        helper('auth');
+
+        $token = null;
+        if (isset($_COOKIE['token']))
+        {
+            $tokenCookie = $_COOKIE['token'];   
+            $token = isValid($tokenCookie);
+        }
+
+        //guest view
+        if (is_null($token))
+        {
+            $movieArray = $this->getPlayingMovies();	
+		    return view('index.php',[ 'movies' => $movieArray, 'actMenu' => 1]);
+        }
+        if(isAuthenticated("Admin"))
+        {
+            return redirect()->to('AdminController');
+        }
+        if(isAuthenticated("Cinema"))
+        {
+            return redirect()->to('Cinema');
+        }
+        if(isAuthenticated("RUser"))
+        {
+            $token = $this->getToken();
+            $movieArray = $this->getPlayingMovies();	
+		    return view('index.php',[ 'movies' => $movieArray, 'actMenu' => 1, 'token' => $token]);
+        }
+        if(isAuthenticated("Worker"))
+        {
+            return redirect()->to('Worker');
+        }
+    }
+    
 	/** Function which returns movies currently playing
      * @return array[Movie] list of available movies
      */
 	private function getPlayingMovies()
 	{
+        $token = $this->getToken();
+        if (is_null($token) && isset($_COOKIE['token']))
+            return view('AdminBreachMessage',[]);
+
 		$movieArray=[];
 		$projections = (new ProjectionModel())->select('tmdbID')->groupBy('tmdbID')->findAll();
 		
@@ -50,6 +111,10 @@ class HomeController extends BaseController
      */
 	private function getComingSoonMovies()
 	{
+        $token = $this->getToken();
+        if (is_null($token) && isset($_COOKIE['token']))
+            return view('AdminBreachMessage',[]);
+
 		$movieArray=[];
 		$comingSoon = (new ComingSoonModel())->findAll();	
 
@@ -62,16 +127,14 @@ class HomeController extends BaseController
 		return $movieArray;
 	}
 
-	public function index()
-	{
-		$movieArray = $this->getPlayingMovies();	
-		return view('index.php',[ 'movies' => $movieArray, 'actMenu' => 1]);
-	}
-
 	public function comingSoon()
-	{
+	{   
+        $token = $this->getToken();
+        if (is_null($token) && isset($_COOKIE['token']))
+            return view('AdminBreachMessage',[]);
+
 		$movieArray = $this->getComingSoonMovies();
-		return view('index.php',[ 'movies' => $movieArray, 'actMenu' => 2]);
+		return view('index.php',[ 'movies' => $movieArray, 'actMenu' => 2, 'token' => $token]);
 	}
 
 	private function getWantedPlayingMovies($title)
@@ -110,6 +173,10 @@ class HomeController extends BaseController
 
 	public function titleSearch()
 	{
+        $token = $this->getToken();
+        if (is_null($token) && isset($_COOKIE['token']))
+            return view('AdminBreachMessage',[]);
+
 		$menu = $_GET['actMenu'];
 		unset($_GET['actMenu']);
 		$title = $_GET['title'];
@@ -130,45 +197,58 @@ class HomeController extends BaseController
 
 	public function cinemas()
 	{
-		$cinemaArray = (new CinemaModel())->where(['approved' => 1])->findAll();	
-		return view('index.php',[ 'movies' => $cinemaArray, 'cinMenu' => 1]);
-	}
+        $token = $this->getToken();
+        if (is_null($token) && isset($_COOKIE['token']))
+            return view('AdminBreachMessage',[]);
 
-	public function nameSearch()
+        $cinemaArray = (new CinemaModel())->where(['approved' => 1])->findAll();	
+        $countries = (new CountryModel())->findAll();
+		return view('index.php',[ 'movies' => $cinemaArray, 'cinMenu' => 1, 'token' => $token, 'countries' => $countries]);
+    }
+    public function cinemasSearch($idCountry, $idCity, $title=null)
 	{
-		$title = $_GET['title'];
-		unset($_GET['title']);
+        $token = $this->getToken();
+        if (is_null($token) && isset($_COOKIE['token']))
+            return view('AdminBreachMessage',[]);
 
-		$cinemaArray=[];
-		$cinemas = (new CinemaModel())
-			->where('approved',1)	
-			->like('name',$title, $insensitiveSearch = TRUE)->find();
-	
-		return json_encode($cinemas);
-	}
-	
-	private function getToken()
-    {
-        helper('auth');
-
-        if (isset($_COOKIE['token']))
+        //edge cases
+        if(strcmp($idCountry,"0")==0 || strcmp($idCountry,"-1")==0)
         {
-            $tokenCookie = $_COOKIE['token'];   
-            $token = isValid($tokenCookie);
-            
-            if ($token && isAuthenticated("RUser"))
-            {
-                $image = (new UserModel())->find($token->email);
-                $token->image = $image->image;
-
-                return $token;
-            }
+            $countrySelect = "idCountry > 0";
         }
-        return null;
-	}
+        else
+        {
+            $countrySelect = "idCountry = ".$idCountry;
+        }
+
+        if(strcmp($idCity,"0")==0 || strcmp($idCity,"-1")==0)
+        {
+            $citySelect = 'idCity > 0';
+        }
+        else
+        {
+            $citySelect = 'idCity = '.$idCity;
+        }
+        
+        $cinemaArray = (new CinemaModel())
+            ->where(['approved' => 1])
+            ->where($countrySelect)
+            ->where($citySelect);
+        
+        if(!is_null($title))
+            $cinemaArray = $cinemaArray->like('name',$title);
+            
+        $cinemaArray = $cinemaArray->findAll();	
+
+        return json_encode($cinemaArray);
+    }
 
 	public function getCities($countryId)
 	{
+        $token = $this->getToken();
+        if (is_null($token) && isset($_COOKIE['token']))
+            return view('AdminBreachMessage',[]);
+
 		if (is_null($countryId))
 			return null;
 		return json_encode((new CityModel())->where('idCountry',$countryId)->find());
@@ -180,6 +260,10 @@ class HomeController extends BaseController
      */
     public function settings()
     {
+        $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
+
         $token = $this->getToken();
         if (is_null($token))
             return view('AdminBreachMessage',[]);
@@ -207,6 +291,10 @@ class HomeController extends BaseController
 
     public function saveSettings()
     {
+        $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
+
         $token = $this->getToken();
         if (is_null($token))
             return view('AdminBreachMessage',[]);        

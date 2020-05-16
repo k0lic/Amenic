@@ -69,18 +69,51 @@ use function App\Helpers\isValid;
 			</div>
 			<div class="moviesWrapper">
 				<div class="topBar">
-					<form action="javascript:void(0);" method="GET" class="searchForm">
-						<label>
-							<input
-								type="text"
-								placeholder="Search movies"
-								class="search"
-								name="title"
-								id = "searchBar"
-								value=""
-							/>
-						</label>
-					</form>
+					<div class='placeSelector'>
+						<div></div>
+						<div><?php if(strcasecmp($cinMenu,"1") == 0) echo"<label for=\"country\">Country</label>"; ?></div>
+						<div><?php if(strcasecmp($cinMenu,"1") == 0) echo"<label for=\"city\">City</label>"; ?></div>
+						<div>
+							<form action="javascript:void(0);" method="GET" class="searchForm">
+								<label>
+									<input
+										type="text"
+										placeholder="Search movies"
+										class="search"
+										name="title"
+										id = "searchBar"
+										value=""
+									/>
+								</label>
+							</form>
+						</div>
+						<div>
+						<?php
+							if(strcasecmp($cinMenu,"1") == 0)
+							{
+								echo"
+								<select class=\"formSelect settingsSelect\" id=\"countryList\" name=\"country\">";
+										echo "<option value=\"0\" selected></option>";
+										foreach($countries as $country)
+										{
+											echo "<option value=\"".$country->idCountry."\" >".$country->name."</option>";
+										}		
+								echo"</select>";											
+							};
+						?>	
+						</div>
+						<div>
+						<?php
+							if(strcasecmp($cinMenu,"1") == 0)
+							{
+								echo"
+								<select class=\"formSelect settingsSelect\" id=\"cityList\" name=\"city\">
+									<option value=\"0\" selected></option>
+								</select>";
+							}
+						?>
+						</div>
+					</div>
 					<?php  
 							if(!is_null($user)) {
 							?>
@@ -153,4 +186,5 @@ use function App\Helpers\isValid;
 		</div>
 	</body>
 	<script src="/js/movieSearch.js"></script>
+	<script src="/js/ruser/cityList.js"></script>
 </html>

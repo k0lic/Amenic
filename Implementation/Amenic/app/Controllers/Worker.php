@@ -11,6 +11,11 @@ use function App\Helpers\setToken;
 
 class Worker extends BaseController
 {
+    public function index()
+    {
+        return "WORKER HERE";
+    }
+
     private function getToken()
     {
         helper('auth');
