@@ -12,7 +12,7 @@
 			<div class="menuBar">
 				<a href="/HomeController"><img src="/assets/MoviesPage/imgs/logo.svg" class="logo" alt="Amenic" /></a>
 				<?php include 'SideMenus/AdminSideMenu.php'; ?>
-				<a href="/AdminController/settings"
+				<a href="/AdminController/settings" class="<?php if(strcmp($actMenu,"5")==0) echo "activeMenu";?>"
 					><div class="icon baseline">
 						<svg
 							width="48"

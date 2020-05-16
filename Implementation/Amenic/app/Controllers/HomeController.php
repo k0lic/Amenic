@@ -7,6 +7,7 @@
 use \App\Models\UserModel;
 use \App\Models\CountryModel;
 use \App\Models\CityModel;
+use \App\Models\RUserModel;
 
 use App\Models\MovieModel;
 use App\Models\ComingSoonModel;
@@ -199,7 +200,7 @@ class HomeController extends BaseController
 			'countries' => $countries,
 			'cities' => $cities
             ];
-
+        
         //you have to save admin info twice beacause this page is being used by all users
         return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'RUser', 'token' => $token, 'errors' => '' ]);    
     }
@@ -214,21 +215,25 @@ class HomeController extends BaseController
         $db = db_connect();
 
         //fetching data
-        $name = $_POST['name'];
+        $fName = $_POST['fName'];
+        $lName = $_POST['lName'];
         $email = $token->email;
-        $city = $token->city;
-        $country = $token->country;
+        $city = $_POST['city'];
+        $country = $_POST['country'];
         $phone = $_POST['phone'];
-        $address = $_POST['address'];
         $pswdOld = $_POST['pswdOld'];
         $pswdNew = $_POST['pswdNew'];
         $image = $this->request->getFile('profilePicture');
         
         $form = [
-            'name' => $name,
+            'fName' => $fName,
+            'lName' => $lName,
             'email' => $email,
             'phone' => $phone,
-            'address' => $address,
+            'place' => [
+                'country' => $country,
+                'city' => $city
+            ],
             'pswd' => [ 
                 'oldPswd' => $pswdOld,
                 'newPswd' => $pswdNew,
@@ -236,28 +241,30 @@ class HomeController extends BaseController
             ],
             'profilePicture' => $image
         ]; 
-        
-        $valid = $validation->run($form, "cinemaInfoCheck");
-    
-        if($valid != 1)
+
+        $valid = $validation->run($form, "rUserAccountCheck");
+        $validPlace = $validation->run($form, "placeCheck");
+
+        if($valid != 1 || $validPlace != 1)
         {
-            $city = (new CityModel())->find($token->city);
-            $country = (new CountryModel())->find($token->country);
+            $countries = (new CountryModel())->findAll();
+            $cities = (new CityModel())->where('idCountry',$token->country)->find();
             
             $data = [
-                'name' => $name,
+                'firstName' => $token->firstName,
+                'lastName' => $token->lastName,
                 'email' =>  $token->email,
-                'phoneNumber' => $phone,
-                'address' => $address,
-                'city' => $city,
-                'country' => $country
+                'phone' => $token->phone,
+                'userCountry' => $token->country,
+                'userCity' => $token->city,
+                'countries' => $countries,
+                'cities' => $cities
             ];
 
             $errors = $validation->getErrors();
 
-            return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Cinema', 'token' => $token, 'errors' => $errors ]);    
+            return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'RUser', 'token' => $token, 'errors' => $errors ]);    
         }
-        
         
         //password remains the same
         if(strcmp($pswdNew,"") == 0)
@@ -285,7 +292,11 @@ class HomeController extends BaseController
             (new UserModel())->where(['email' => $email])->set([
                 'password' => $pswdNew               
                 ])->update();
-            (new CinemaModel())->where(['email' => $email])->set(['name' => $name, 'phoneNumber' => $phone, 'address' => $address])->update();
+            
+            $country = strcasecmp($country,"0") == 0 ? NULL : $country;
+            $city = strcasecmp($city,"0") == 0 ? NULL : $city;
+
+            (new RUserModel())->where(['email' => $email])->set(['fName' => $fName, 'lName' => $lName, 'phoneNumber' => $phone, 'idCountry' => $country,'idCity' => $city])->update();
             $db->transCommit();
         }
         catch (Exception $e)
@@ -296,13 +307,13 @@ class HomeController extends BaseController
 
         //change token
         $payload = [
-            "name" => $name,
-            'address' => $address,
-            'phone' => $phone,
-            'city' => $city,
-            'country' => $country,
+            'firstName' => $fName,
+            'lastName' => $lName,
             "email" => $email,
-            "type" => "Cinema"
+            'phone' => $phone,
+            'country' => $country,
+            'city' => $city,
+            "type" => "RUser"
         ]; 
 
         setToken(generateToken($payload));

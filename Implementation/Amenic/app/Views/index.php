@@ -86,7 +86,10 @@ use function App\Helpers\isValid;
 							?>
 							<div class="user">
 								<img
-								src="/assets/MoviesPage/imgs/profPic.png"
+								src="<?php  if(!isset($token) || !$token->image) 
+												echo"/assets/Admins/profile.jpeg"; 
+											else 
+												echo "data:image/jpg;base64, ".$token->image;  ?>"
 								class="profPic"
 								alt="Profile picture"
 								/>

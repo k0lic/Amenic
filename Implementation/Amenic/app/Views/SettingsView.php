@@ -93,8 +93,7 @@
 					$fNameError = isset($errors['fName']) && !is_null($errors['fName']) ? $errors['fName'] : ""; 
 					$lNameError = isset($errors['lName']) && !is_null($errors['lName']) ? $errors['lName'] : ""; 
 					$emailError = isset($errors['email']) && !is_null($errors['email']) ? $errors['email'] : ""; 
-					$countryError = isset($errors['country']) && !is_null($errors['country']) ? $errors['country'] : ""; 
-					$cityError = isset($errors['city']) && !is_null($errors['city']) ? $errors['city'] : "";
+					$placeError = isset($errors['place']) && !is_null($errors['place']) ? $errors['place'] : ""; 
 					$phoneError = isset($errors['phone']) && !is_null($errors['phone']) ? $errors['phone'] : ""; 
 					$addressError = isset($errors['address']) && !is_null($errors['address']) ? $errors['address'] : ""; 
 					$pswdError = isset($errors['pswd']) && !is_null($errors['pswd']) ? $errors['pswd'] : ""; 
@@ -197,17 +196,16 @@
 													<label for=\"country\">Country</label>
 													<select class=\"formSelect settingsSelect\" name=\"country\" disabled>
 														<option value=\"".$data['country']->idCountry."\">".$data['country']->name."</option>									
-													</select>
-													<div class=\"formError ml-1\">".$countryError."</div>
+													</select>													
 												</div>
 												<div>	
 													<label for=\"country\">City</label>
 													<select class=\"formSelect settingsSelect\" name=\"city\" disabled>
 														<option value=\"".$data['city']->idCity."\">".$data['city']->name."</option>
 													</select>
-													<div class=\"formError ml-1\">".$cityError."</div>
 												</div>
 												<div class=\"span2\"></div>
+												<div class=\"span4 formError ml-1\">".$placeError."</div>
 											</div>
 											";
 									}
@@ -222,10 +220,12 @@
 														<option value=\"0\"></option>";	
 										foreach($data['countries'] as $country)
 										{
-											echo "		<option value=\"".$country->idCountry."\">".$country->name."</option>";		
+											echo "		<option value=\"".$country->idCountry."\"";
+											if (strcmp($data['userCountry'],$country->idCountry) == 0)
+												echo "selected";
+											echo ">".$country->name."</option>";		
 										}			
 										echo "		</select>
-													<div class=\"formError ml-1\">".$countryError."</div>
 												</div>
 												<div>
 													<label for=\"country\">City</label>
@@ -235,13 +235,16 @@
 										{
 											foreach($data['cities'] as $city)
 											{
-												echo "	<option value=\"".$city->idCity."\">".$city->name."</option>";		
+												echo "	<option value=\"".$city->idCity."\"";
+												if (strcmp($data['userCity'],$city->idCity) == 0)
+													echo "selected";
+												echo ">".$city->name."</option>";		
 											}
 										}	
 										echo"			</select>
-													<div class=\"formError ml-1\">".$cityError."</div>
 												</div>
 												<div class=\"span2\"></div>
+												<div class=\"span4 formError ml-1\">".$placeError."</div>
 											</div>
 											";
 									}

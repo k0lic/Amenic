@@ -9,7 +9,7 @@ use function App\Helpers\isValid;
 use function App\Helpers\generateToken;
 use function App\Helpers\setToken;
 
-class WorkerController extends BaseController
+class Worker extends BaseController
 {
     public function settings()
     {

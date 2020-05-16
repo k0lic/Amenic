@@ -164,7 +164,7 @@ class AdminController extends BaseController
             ];
 
         //you have to save admin info twice beacause this page is being used by all users
-        return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Admin', 'token' => $token, 'errors' => '' ]);    
+        return view('SettingsView',['data' => $data, 'actMenu' => "5", 'image' => $token->image, 'userType' => 'Admin', 'token' => $token, 'errors' => '' ]);    
     }
 
 

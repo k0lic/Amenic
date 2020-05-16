@@ -315,6 +315,7 @@ class CustomRules
     //SETTINGS FORM VALIDATING RULES
 
     //Preventing user to force custom place
+    //allows empty place
     public function checkPlace($place,&$error = null)
     {
         if (is_null($place))
@@ -323,25 +324,25 @@ class CustomRules
             return false;
         }
 
-        if(isset($place['country']))
+        if(isset($place['country']) && strcmp($place['country'],"0") != 0)
         {
-            $country = (new CountryModel())->where('name',$place['country'])->findAll();
-            if (count($country) == 0)
+            $country = (new CountryModel())->find($place['country']);
+            if (is_null($country))
             {
                 $error = "Unrecognised country";
                 return false;
             }
-            if(isset($place['city']))
+            if(isset($place['city']) && strcmp($place['city'],"0") != 0)
             {
-                $city = (new CityModel())->where('name',$place['city'])->findAll();
-                if (count($city) == 0)
+                $city = (new CityModel())->find($place['city']);
+                if (is_null($city))
                 {
                     $error = "Unrecognised city";
                     return false;
                 }
                 else
                 {
-                    if ($city[0]->idCountry == $country[0]->idCountry)
+                    if ($city->idCountry == $country->idCountry)
                         return true;
                     else
                     {
@@ -352,14 +353,13 @@ class CustomRules
             }
             return true;
         }
-        if(isset($place['city']))
+        if(isset($place['city']) && strcmp($place['city'],"0") != 0)
         {
             $error = "Every city requires country";
             return false;
         }
 
-        $error = "Invalid data format";
-        return false;
+        return true;
     }
 
     //used for existing users
