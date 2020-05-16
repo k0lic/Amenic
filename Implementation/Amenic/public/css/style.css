@@ -90,6 +90,10 @@ body {
 	margin-bottom: 20px;
 }
 
+.isMenuBarLastChild {
+	margin-bottom: 20px;
+}
+
 .logo {
 	height: 40px;
 }
@@ -135,6 +139,8 @@ body {
 
 .profPic {
 	height: 56px;
+	width: 56px;
+	object-fit: cover;
 	border-radius: 50%;
 }
 
@@ -1926,8 +1932,10 @@ body {
 	min-height: 120px;
 	max-height: 140px;
 	min-width: 120px;
+	max-width: 140px;
 	border: 4px solid var(--imgOutline);
 	border-radius: 50%;
+	object-fit: cover;
 }
 
 .editWrapper {

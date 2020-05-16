@@ -29,7 +29,7 @@
 							break;	
 					}
 				?>
-				<a href="#"
+				<div class="activeMenuText isMenuBarLastChild"
 					><div class="icon baseline">
 						<svg
 							width="48"
@@ -45,7 +45,7 @@
 							/>
 						</svg>
 					</div>
-					Settings</a
+					Settings</div
 				>
 			</div>
 			<?php 

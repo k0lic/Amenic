@@ -36,4 +36,36 @@ class WorkerModel extends SmartDeleteModel
             throw new Exception("Transaction ".get_class($this).".transSmartCreate() failed!<br/>".$e->getMessage());
         }
     }
+
+    public function getMyWorkersWithImages($email)
+    {
+        $usermdl = new UserModel();
+        $cinemaWorkers = $this->where("idCinema", $email)->find();
+        $results = [];
+        foreach ($cinemaWorkers as $worker)
+        {
+            $image = ($usermdl->find($worker->email))->image;
+            array_push($results, [
+                "worker" => $worker,
+                "image" => $image
+            ]);
+        }
+        return $results;
+    }
+
+    public function getMyWorkersLikeWithImages($email, $match)
+    {
+        $usermdl = new UserModel();
+        $cinemaWorkers = $this->where("idCinema", $email)->groupStart()->like("firstName", $match)->orLike("lastName", $match)->orLike("email", $match)->groupEnd()->find();
+        $results = [];
+        foreach ($cinemaWorkers as $worker)
+        {
+            $image = ($usermdl->find($worker->email))->image;
+            array_push($results, [
+                "worker" => $worker,
+                "image" => $image
+            ]);
+        }
+        return $results;
+    }
 }

@@ -2,7 +2,7 @@
     <li>
         <!-- MOVIES -->
         <?php 
-            if (isset($optionPrimary) || $optionPrimary==0)
+            if (isset($optionPrimary) && $optionPrimary==0)
                 echo "<a href=\"/Cinema\" class=\"activeMenu\">Movies</a>";
             else
                 echo "<a href=\"/Cinema\">Movies</a>";

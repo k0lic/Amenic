@@ -70,7 +70,7 @@
                     </li>
                 </ul>
                 <!-- SETTINGS -->
-                <a href="/Cinema/settings">
+                <a href="/Cinema/Settings">
                     <div class="icon baseline">
                         <svg width="48" height="48" viewBox="0 0 512 512">
 							<path
@@ -127,8 +127,15 @@
                     </div>
                     <!-- PROFILE PICTURE AND NAME -->
                     <div class="user">
-                        <img src="/assets/profPic.png" class="profPic" alt="Profile picture" />
-                        <span>Lošmi</span>
+                        <img src="<?php 
+                                if (!isset($userImage) || $userImage==null)
+                                    echo "/assets/defaultUserImage.jpg";
+                                else
+                                    echo "data:image/jpg;base64, ".$userImage;
+                        ?>" class="profPic" alt="Profile picture" />
+                        <span><?php
+                            echo $userFullName;
+                        ?></span>
                     </div>
                 </div>
                 <!-- SECONDARY NAV BAR (FOR MOVIES) -->
@@ -231,15 +238,15 @@
                             "
                                 <div class=\"rowWrapper\">
                                     <div class=\"userPicture\">
-                                            <img src=\"/assets/profPic.png\" alt=\"Worker pic\" />
+                                            <img src=\"".((!isset($item["image"]) || $item["image"]==null) ? "/assets/defaultUserImage.jpg" : "data:image/jpg;base64, ".$item["image"])."\" alt=\"Worker pic\" />
                                     </div>
                                     <div class=\"description\">
-                                        <div><h1>".$item->firstName." ".$item->lastName."</h1></div>     
-                                        <div><span>".$item->email."</span></div>
+                                        <div><h1>".$item["worker"]->firstName." ".$item["worker"]->lastName."</h1></div>     
+                                        <div><span>".$item["worker"]->email."</span></div>
                                     </div>
                                     <div class=\"binWrapper\">
                                         <button type=\"button\"
-                                                onClick=\"document.getElementById('workerForDelete').value='".$item->email."'; areYouSure('You are about to remove an employee.','/Cinema/ActionRemoveEmployee')\"
+                                                onClick=\"document.getElementById('workerForDelete').value='".$item["worker"]->email."'; areYouSure('You are about to remove an employee.','/Cinema/ActionRemoveEmployee')\"
                                                 class=\"highlightSvgOnHover\">
                                             <svg viewBox=\"-286 137 346.8 427\">
                                                 <path d=\"M-53.6,291.7c-5.5,0-10,4.5-10,10v189c0,5.5,4.5,10,10,10s10-4.5,10-10v-189C-43.6,296.2-48.1,291.7-53.6,291.7 z\"/>

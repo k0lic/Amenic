@@ -69,7 +69,7 @@
                     </li>
                 </ul>
                 <!-- SETTINGS -->
-                <a href="#">
+                <a href="/Cinema/Settings">
                     <div class="icon baseline">
                         <svg width="48" height="48" viewBox="0 0 512 512">
 							<path
@@ -90,8 +90,15 @@
                     <div class="topBar">
                         <div></div>
                         <div class="user">
-                            <img src="/assets/profPic.png" class="profPic" alt="Profile picture" />
-                            <span>Lošmi</span>
+                            <img src="<?php 
+                                    if (!isset($userImage) || $userImage==null)
+                                        echo "/assets/defaultUserImage.jpg";
+                                    else
+                                        echo "data:image/jpg;base64, ".$userImage;
+                            ?>" class="profPic" alt="Profile picture" />
+                            <span><?php
+                                echo $userFullName;
+                            ?></span>
                         </div>
                     </div>
                 </div>
