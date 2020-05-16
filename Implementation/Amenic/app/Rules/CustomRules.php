@@ -12,19 +12,20 @@ use App\Models\ProjectionModel;
 use App\Models\ComingSoonModel;
 use App\Models\MovieModel;
 use App\Models\WorkerModel;
-
-date_default_timezone_set("Europe/Belgrade");
 use App\Models\UserModel;
 use App\Models\CityModel;
 use App\Models\CountryModel;
 use App\Entities\User;
-
+use function \App\Helpers\isAuthenticated;
+use function \App\Helpers\isValid;
 use Exception;
+
+date_default_timezone_set("Europe/Belgrade");
 
 class CustomRules
 {
 
-    private string $userMail = "cinemaMail";
+    private string $userMail = "";
 
     // Always throws an error.
     public function shouldNotExist($str,&$error = null)
@@ -63,6 +64,7 @@ class CustomRules
     // Checks if a room name is available in this cinema.
     public function checkRoomName($str,&$error = null)
     {
+        $this->getUserMail();
         $model = new RoomModel();
         if ($model->where("email", $this->userMail)->where("name", $str)->find() != null)
         {
@@ -75,6 +77,7 @@ class CustomRules
     // Checks if the new room name is available, ignoring the old one.
     public function checkRoomNameExcept($str,&$error = null)
     {
+        $this->getUserMail();
         if (!isset($_POST["oldRoomName"]))
         {
             $error = "";
@@ -93,6 +96,7 @@ class CustomRules
     // Checks if a room with the passed name exists.
     public function checkOldRoomName($str,&$error = null)
     {
+        $this->getUserMail();
         $model = new RoomModel();
         if ($model->where("email", $this->userMail)->where("name", $str)->find() != null)
         {
@@ -105,6 +109,7 @@ class CustomRules
     // Checks if the passed technology is implemented in the passed room.
     public function checkMovieTech($str,&$error = null)
     {
+        $this->getUserMail();
         if (!isset($_POST["room"]))
         {
             $error = "";
@@ -148,6 +153,7 @@ class CustomRules
     // Checks if the movie isn't already announced as coming soon, or if projections are already scheduled.
     public function checkIfReallySoon($str,&$error = null)
     {
+        $this->getUserMail();
         $tmdbID = $str;
 
         $promdl = new ProjectionModel();
@@ -169,6 +175,7 @@ class CustomRules
     // Checks if the movies is already announced as coming soon.
     public function checkIfNotSoon($tmdbID,&$error = null)
     {
+        $this->getUserMail();
         $soonmdl = new ComingSoonModel();
 
         if ($soonmdl->where("email", $this->userMail)->where("tmdbID", $tmdbID)->find() == null)
@@ -219,6 +226,7 @@ class CustomRules
     // Doesn't account for any grace time between projections.
     public function checkForCollisions($str,&$error = null)
     {
+        $this->getUserMail();
         $promdl = new ProjectionModel();
         $moviemdl = new MovieModel();
 
@@ -415,6 +423,7 @@ class CustomRules
     // Checks if the worker you are trying to delete actually works for you.
     public function isYourWorker($workerEmail,&$error = null)
     {
+        $this->getUserMail();
         $workermdl = new WorkerModel();
 
         if ($workermdl->where("email", $workerEmail)->where("idCinema", $this->userMail)->find() == null)
@@ -424,6 +433,23 @@ class CustomRules
         }
 
         return true;
+    }
+
+    // Gets the logged in users email address, providing the user is logged into a Cinema account.
+    private function getUserMail()
+    {
+        helper("auth");
+
+        if (isset($_COOKIE["token"]))
+        {
+            $tokenCookie = $_COOKIE["token"];
+            $token = isValid($tokenCookie);
+            
+            if ($token != null && isAuthenticated("Cinema"))
+            {
+                $this->userMail = $token->email;
+            }
+        }
     }
 
 }
