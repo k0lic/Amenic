@@ -273,12 +273,12 @@ class Validation
 	public $adminSettingsCheck_errors =[
 		'fName' => [
 			'required' => 'First name is required',
-			'alpha' => 'Field must contain only letters',
+			'alpha_space' => 'Field must contain only letters and spaces',
 			'max_length' => 'First name should have less than 64 characters'
 		],
 		'lName' => [
 			'required' => 'Last name is required',
-			'alpha' => 'Field must contain only letters',
+			'alpha_space' => 'Field must contain only letters and spaces',
 			'max_length' => 'Last name should have less than 64 characters'
 		],
 		'email' => [

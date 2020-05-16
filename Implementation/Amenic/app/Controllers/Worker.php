@@ -11,6 +11,27 @@ use function App\Helpers\setToken;
 
 class Worker extends BaseController
 {
+    private function getToken()
+    {
+        helper('auth');
+
+        if (isset($_COOKIE['token']))
+        {
+            $tokenCookie = $_COOKIE['token'];   
+            $token = isValid($tokenCookie);
+            
+            if ($token && isAuthenticated("Worker"))
+            {
+                $image = (new UserModel())->find($token->email);
+                $image = $image->image;
+        
+                $token->image = $image;
+                return $token;
+            }
+        }
+        return null;
+    }
+
     public function settings()
     {
         $token = $this->getToken();
@@ -24,7 +45,7 @@ class Worker extends BaseController
             ];
 
         //you have to save admin info twice beacause this page is being used by all users
-        return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Admin', 'token' => $token, 'errors' => '' ]);    
+        return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Worker', 'token' => $token, 'errors' => '' ]);    
     }
 
     public function saveSettings()
@@ -66,9 +87,10 @@ class Worker extends BaseController
                 'lastName' => $token->lastName,
                 'email' =>  $token->email,
                 ];
+
             $errors = $validation->getErrors();
 
-            return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Admin', 'token' => $token, 'errors' => $errors ]);    
+            return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Worker', 'token' => $token, 'errors' => $errors ]);    
         }
 
         //password remains the same
@@ -97,7 +119,7 @@ class Worker extends BaseController
             (new UserModel())->where(['email' => $email])->set([
                 'password' => $pswdNew               
                 ])->update();
-            (new AdminModel())->where(['email' => $email])->set(['firstName' => $fName, 'lastName' => $lName])->update();
+            (new WorkerModel())->where(['email' => $email])->set(['firstName' => $fName, 'lastName' => $lName])->update();
             $db->transCommit();
         }
         catch (Exception $e)
@@ -111,11 +133,11 @@ class Worker extends BaseController
             "firstName" => $fName,
             "lastName" => $lName,
             "email" => $email,
-            "type" => "Admin"
+            "type" => "Worker"
         ]; 
         setToken(generateToken($payload));
         $token = $this->getToken();
 
-        return $this->selectMenu(3);
+        header("/HomeController");
     }
 }
