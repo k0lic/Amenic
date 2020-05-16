@@ -42,7 +42,8 @@ class Cinema extends BaseController
     //--------------------------------------------------------------------
 
     // Hard coding the email for now.
-    private string $userMail = "cinemaMail";
+    private string $userMail = "";
+    private $userImage = null;
 
     //--------------------------------------------------------------------
     //  PUBLIC METHODS  //
@@ -51,6 +52,7 @@ class Cinema extends BaseController
     // Shows all the projections. 
     public function index()
     {
+        $this->goHomeIfNotCinema();
         $projectionsWithPosters = (new AACinemaModel())->findAllProjectionsOfMyCinemaAndAttachPosters($this->userMail);
         return view("Cinema/CinemaOverview.php",["items" => $projectionsWithPosters,"optionPrimary" => 0,"optionSecondary" => 0]);
     }
@@ -58,6 +60,7 @@ class Cinema extends BaseController
     // Shows the movies that are coming soon.
     public function comingSoon()
     {
+        $this->goHomeIfNotCinema();
         $soonsWithPosters = (new AACinemaModel())->findAllComingSoonsOfMyCinemaAndAttachPosters($this->userMail);
         return view("Cinema/CinemaOverview.php",["items" => $soonsWithPosters,"optionPrimary" => 0,"optionSecondary" => 1]);
     }
@@ -65,6 +68,7 @@ class Cinema extends BaseController
     // Shows all the rooms.
     public function rooms()
     {
+        $this->goHomeIfNotCinema();
         $rooms = (new RoomModel())->where("email",$this->userMail)->findAll();
         return view("Cinema/CinemaOverview.php",["items" => $rooms,"optionPrimary" => 1]);
     }
@@ -72,6 +76,7 @@ class Cinema extends BaseController
     // Shows all the employees.
     public function employees()
     {
+        $this->goHomeIfNotCinema();
         $employees = (new WorkerModel())->where("idCinema",$this->userMail)->findAll();
         return view("Cinema/CinemaOverview.php",["items" => $employees,"optionPrimary" => 2]);
     }
@@ -79,6 +84,7 @@ class Cinema extends BaseController
     // Presents the form for adding a new projection.
     public function addMovie()
     {
+        $this->goHomeIfNotCinema();
         $rooms = (new RoomModel())->where("email",$this->userMail)->findAll();
         $technologies = (new TechnologyModel())->findAll();
         return view("Cinema/CinemaAddMovie.php",["rooms" => $rooms,"technologies" => $technologies,"optionPrimary" => 0]);
@@ -87,6 +93,7 @@ class Cinema extends BaseController
     // Presents the form for editing an existing projection.
     public function editMovie($idPro)
     {
+        $this->goHomeIfNotCinema();
         $rooms = (new RoomModel())->where("email",$this->userMail)->findAll();
         $technologies = (new TechnologyModel())->findAll();
         $projection = (new ProjectionModel())->find($idPro);
@@ -99,6 +106,7 @@ class Cinema extends BaseController
     // Presents the form for editing a movie that is coming soon.
     public function editComingSoon($tmdbID)
     {
+        $this->goHomeIfNotCinema();
         $rooms = (new RoomModel())->where("email",$this->userMail)->findAll();
         $technologies = (new TechnologyModel())->findAll();
         $soon = (new ComingSoonModel())->where("email", $this->userMail)->where("tmdbID", $tmdbID)->find();
@@ -111,6 +119,7 @@ class Cinema extends BaseController
     // Presents the form for adding a new room.
     public function addRoom()
     {
+        $this->goHomeIfNotCinema();
         $technologies = (new TechnologyModel())->findAll();
         return view("Cinema/CinemaAddRoom.php",["technologies" => $technologies,"optionPrimary" => 1]);
     }
@@ -118,6 +127,7 @@ class Cinema extends BaseController
     // Presents the form for editing an existing room.
     public function editRoom($name)
     {
+        $this->goHomeIfNotCinema();
         $name = str_replace("%20"," ",$name);
         $technologies = (new TechnologyModel())->findAll();
         $targetTechnologies = (new RoomTechnologyModel())->where("email",$this->userMail)->where("name",$name)->findColumn("idTech");
@@ -130,6 +140,7 @@ class Cinema extends BaseController
     // Adds a new projection or adds a movie to the coming soon list.
     public function actionAddMovie()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $addToSoon = isset($_POST["soon"]);
@@ -199,6 +210,7 @@ class Cinema extends BaseController
     // Edits an existing projection.
     public function actionEditMovie()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $validationResult = $this->isValid("actionEditMovie", $_POST);
@@ -234,6 +246,7 @@ class Cinema extends BaseController
     // Adds a movie created from the coming soon list.
     public function actionReleaseComingSoon()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $validationResult = $this->isValid("actionReleaseSoon", $_POST);
@@ -282,6 +295,7 @@ class Cinema extends BaseController
     // Cancels an existing projection.
     public function actionCancelMovie()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $validationResult = $this->isValid("actionCancelMovie", $_POST);
@@ -316,6 +330,7 @@ class Cinema extends BaseController
     // Cancels a movie that is announced as coming soon to the cinema.
     public function actionCancelComingSoon()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $validationResult = $this->isValid("actionCancelSoon", $_POST);
@@ -350,6 +365,7 @@ class Cinema extends BaseController
     // Adds a new room.
     public function actionAddRoom()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $validationResult = $this->isValid("actionAddRoom", $_POST);
@@ -394,6 +410,7 @@ class Cinema extends BaseController
     // Edits an existing room.
     public function actionEditRoom()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $validationResult = $this->isValid("actionEditRoom", $_POST);
@@ -441,6 +458,7 @@ class Cinema extends BaseController
     // Removes an existing room.
     public function actionRemoveRoom()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $validationResult = $this->isValid("actionRemoveRoom", $_POST);
@@ -472,6 +490,7 @@ class Cinema extends BaseController
     // Ads a new employee.
     public function actionAddEmployee()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $validationResult = $this->isValid("actionAddEmployee", $_POST);
@@ -525,6 +544,7 @@ class Cinema extends BaseController
     // Removes an existing employee.
     public function actionRemoveEmployee()
     {
+        $this->goHomeIfNotCinema();
         $this->goHomeIfNotPost();
 
         $validationResult = $this->isValid("actionRemoveEmployee", $_POST);
@@ -556,6 +576,7 @@ class Cinema extends BaseController
     //Settings function
     public function settings()
     {
+        $this->goHomeIfNotCinema();
         $token = $this->getToken();
         if (is_null($token))
             return view('AdminBreachMessage',[]);
@@ -577,6 +598,7 @@ class Cinema extends BaseController
 
     public function saveSettings()
     {
+        $this->goHomeIfNotCinema();
         $token = $this->getToken();
         if (is_null($token))
             return view('AdminBreachMessage',[]);        
@@ -682,21 +704,10 @@ class Cinema extends BaseController
         return $this->index();
     }
 
-    // Fetch request No1.
-    public function getSomeMovies()
-    {
-
-        //$idCountry = $_REQUEST['country'];
-
-        $moviemdl = new MovieModel();
-        $results = $moviemdl->limit(3)->find();
-
-        echo json_encode($results);
-    }
-
     // Fetch request No2.
     public function countHowManyMoviesLike()
     {
+        $this->goHomeIfNotCinema();
         $match = $_REQUEST["match"];
 
         $moviemdl = new MovieModel();
@@ -708,6 +719,7 @@ class Cinema extends BaseController
     // Fetch request No3.
     public function getMoviesLike()
     {
+        $this->goHomeIfNotCinema();
         $match = $_REQUEST["match"];
         $page = $_REQUEST["page"];
 
@@ -720,6 +732,7 @@ class Cinema extends BaseController
     // Fetch request No4.
     public function getMoviesLikeInTMDB()
     {
+        $this->goHomeIfNotCinema();
         $match = $_REQUEST["match"];
         $page = $_REQUEST["page"];
 
@@ -732,6 +745,7 @@ class Cinema extends BaseController
     // Fetch request No5.
     public function getMyProjectionsLike()
     {
+        $this->goHomeIfNotCinema();
         $match = $_REQUEST["match"];
 
         $aamdl = new AACinemaModel();
@@ -743,6 +757,7 @@ class Cinema extends BaseController
     // Fetch request No6.
     public function getMyComingSoonsLike()
     {
+        $this->goHomeIfNotCinema();
         $match = $_REQUEST["match"];
 
         $aamdl = new AACinemaModel();
@@ -754,6 +769,7 @@ class Cinema extends BaseController
     // Fetch request No7.
     public function getMyRoomsLike()
     {
+        $this->goHomeIfNotCinema();
         $match = $_REQUEST["match"];
 
         $roommdl = new RoomModel();
@@ -765,6 +781,7 @@ class Cinema extends BaseController
     // Fetch request No8.
     public function getMyEmployeesLike()
     {
+        $this->goHomeIfNotCinema();
         $match = $_REQUEST["match"];
 
         $workermdl = new WorkerModel();
@@ -776,6 +793,7 @@ class Cinema extends BaseController
     // Fetch request No99.
     public function addMovieIfNotExisting()
     {
+        $this->goHomeIfNotCinema();
         $tmdbID = $_REQUEST["tmdbID"];
 
         $moviemdl = new MovieModel();
@@ -916,6 +934,27 @@ class Cinema extends BaseController
         return $validation->getErrors();
     }
 
+    // Checks if the request is from a logged in Cinema account.
+    private function goHomeIfNotCinema()
+    {
+        helper("auth");
+
+        if (isset($_COOKIE["token"]))
+        {
+            $tokenCookie = $_COOKIE["token"];
+            $token = isValid($tokenCookie);
+            
+            if ($token != null && isAuthenticated("Cinema"))
+            {
+                $this->userMail = $token->email;
+                $this->userImage = ((new UserModel())->find($token->email))->image;
+                return;
+            }
+        }
+        header("Location: /HomeController");
+        exit();
+    }
+
     // Checks if the request is of POST type and if it's not, reroutes home.
     private function goHomeIfNotPost()
     {
@@ -926,6 +965,7 @@ class Cinema extends BaseController
         }
     }
     
+    // Gets the token and appends an image to it.
     private function getToken()
     {
         helper('auth');
@@ -944,11 +984,6 @@ class Cinema extends BaseController
             }
         }
         return null;
-    }
-
-    public function cinemaPage()
-    {
-        return "Ovo ce se uraditi kada se Milos smiluje da uzme nazad svoju stranicu ili andrija resi da je uradi umesto njeg";
     }
 
 }
