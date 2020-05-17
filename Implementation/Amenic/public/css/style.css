@@ -1291,7 +1291,7 @@ body {
 	font-weight: 700;
 	font-size: 2.5em;
 	background-color: transparent;
-	z-index: 20;
+	z-index: 16;
 	margin-top: 1em;
 	margin-left: 0.4em;
 }
@@ -1886,6 +1886,19 @@ body {
 }
 
 .showingTable a:nth-child(odd) .showingTableRow {
+	background-color: var(--formInput);
+}
+
+.showingTablePatch {
+	width: 100%;
+	color: white;
+}
+
+.paintEveryOddItem:nth-of-type(odd) {
+	background-color: var(--formInput);
+}
+
+.paintEveryOddItemsKid:nth-of-type(odd) .showingTableRow {
 	background-color: var(--formInput);
 }
 

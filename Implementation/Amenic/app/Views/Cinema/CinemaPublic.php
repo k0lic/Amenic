@@ -27,7 +27,7 @@
     </head>
     <!-- BODY -->
     <body onLoad="<?php
-        echo "setupOnLoad('".$cinema->email."','".date('Ymd', strtotime('today'))."')";
+        echo "setupOnLoad('".$cinema->email."','".date('Ymd', strtotime('today'))."','".$userIsLoggedIn."')";
     ?>">
 		<div class="container column">
             <!-- HORIZONTAL NAVIGATION -->
@@ -40,7 +40,7 @@
                     <li><a href="/HomeController/Cinemas">Cinemas</a></li>
                     <li>
                         <div class="user"><?php
-                            if (isset($userImage) && isset($userFullName))
+                            if ($userIsLoggedIn)
                             {
                                 $image = $userImage == null ? "/assets/defaultUserImage.jpg" : "data:image/jpg;base64, ".$userImage;
                                 echo "
@@ -50,8 +50,8 @@
                             }
                             else
                             {
-                                //include "../app/Views/loginModal.php";
-                                echo "<div>Gost</div>";
+                                include "../app/Views/loginModal.php";
+                                //echo "<div>Gost</div>";
                             }
                         ?></div>
                     </li>
@@ -107,7 +107,7 @@
                                 <div class="w20 textCenter">Free seats</div>
                             </div>
                             <div class="repertoireReserveHeight">
-                                <div class="showingTable column centerRow" id="showingTable">
+                                <div class="showingTablePatch column centerRow" id="showingTable">
                                     <!-- REPERTOIRE CONTENT -->
                                 </div>
                             </div>
@@ -129,6 +129,10 @@
                                     <img src="/assets/Movie/arrowRight.svg" class="movieArrow" />
                                 </div>
                             </div>
+                            <?php
+                                if ($userIsLoggedIn == false)
+                                    echo "<div class=\"movieImgText movieSearchItemEmpty mt-2\">Please log in in order to proceed to reservation.</div>";
+                            ?>
                         </div>
                     </div>
                 </div>

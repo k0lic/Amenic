@@ -38,9 +38,9 @@ class Theatre extends BaseController
         $cinemaCity = $cinema->idCity == null ? null : (new CityModel())->find($cinema->idCity);
         $cinemaCountry = $cinema->idCountry == null ? ($cinemaCity == null ? null : (new CountryModel())->find($cinemaCity->idCountry)) : (new CountryModel())->find($cinema->idCountry);
         if (empty($this->userMail))                 // for guests
-            return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $cinemaImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name]);
+            return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $cinemaImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name,"userIsLoggedIn" => false]);
         else                                        // for registered users (RUsers)
-            return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $cinemaImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name,"userImage" => $this->userImage,"userFullName" => $this->userName]);
+            return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $cinemaImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name,"userIsLoggedIn" => true,"userImage" => $this->userImage,"userFullName" => $this->userName]);
     }
 
     // Fetch methods //

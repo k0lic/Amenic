@@ -22,6 +22,7 @@ const lastPage = document.getElementById("lastPage");
 const uiPageSize = 5;
 
 var thisCinema = null;
+var allowLinks = false;
 var selectedDate = null;
 var collection = [];
 var pageNum = 1;
@@ -30,9 +31,10 @@ var mode = 0;
 
 // EVENT LISTENERS //
 
-function setupOnLoad(email, date) {
+function setupOnLoad(email, date, userIsLoggedIn) {
     console.log("seting up for: " + email);
     thisCinema = email;
+    allowLinks = userIsLoggedIn;
     dateChanged(date);
 }
 
@@ -105,7 +107,7 @@ function modeChanged(newMode) {
 
 function pageChanged(newPage) {
     pageNum = newPage;
-    console.log("pageNum= "+pageNum+"; totalItems= "+totalItems+"; maxPageNumber= "+maxPageNumber());
+    console.log("pageNum= " + pageNum + "; totalItems= " + totalItems + "; maxPageNumber= " + maxPageNumber());
     let firstIndex = (pageNum - 1) * uiPageSize;
     if (firstIndex >= collection.length || collection[firstIndex] == null) {
         if (mode == 0) {
@@ -132,7 +134,7 @@ function comingSoonRun(email, page) {
 function firstMovieRun(email, date, page) {
     countMovieRepertoire(email, date).then((data) => {
         totalItems = data;
-        console.log("totalItems= "+totalItems);
+        console.log("totalItems= " + totalItems);
         movieRun(email, date, page);
     });
 }
@@ -140,7 +142,7 @@ function firstMovieRun(email, date, page) {
 function firstComingSoonRun(email, page) {
     countComingSoonRepertoire(email).then((data) => {
         totalItems = data;
-        console.log("totalItems= "+totalItems);
+        console.log("totalItems= " + totalItems);
         comingSoonRun(email, page);
     });
 }
@@ -294,25 +296,36 @@ function populateRepertoire() {
 // DOM TEMPLATES //
 
 function movieTemplate(projection) {
-    return "" +
-        "<a class=\"anchorWrapper\" href=\"/reservation/" + projection.idPro + "\">" +
-        "<div class=\"showingTableRow row centerY mb-1\">" +
+    let template = "" +
         "<div class=\"w30 column centerRow\">" + projection.movieName + "</div>" +
         "<div class=\"w15 textCenter\">" + projection.startTime + "</div>" +
         "<div class=\"w20 textCenter\">" + projection.roomName + "</div>" +
         "<div class=\"w15 textCenter\">" + projection.type + "</div>" +
         "<div class=\"w20 textCenter\">" + projection.freeSeats + "</div>" +
-        "</div>" +
-        "</a>";
+        "</div>";
+
+    if (allowLinks) {
+        template = "" +
+            "<a class=\"anchorWrapper paintEveryOddItemsKid\" href=\"/reservation/" + projection.idPro + "\">" +
+            "<div class=\"showingTableRow row centerY mb-1\">" +
+            template +
+            "</a>";
+    } else {
+        template = "" +
+            "<div class=\"showingTableRow paintEveryOddItem row centerY mb-1\">" +
+            template;
+    }
+
+    return template;
 }
 
 function soonTemplate(soon) {
     return "" +
-        "<a class=\"anchorWrapper\" href=\"#\">" +
-        "<div class=\"showingTableRow row centerY mb-1\">" +
+        //"<a class=\"anchorWrapper\" href=\"#\">" +
+        "<div class=\"showingTableRow paintEveryOddItem row centerY mb-1\">" +
         "<div class=\"w100 column centerRow\">" + soon.movieName + "</div>" +
-        "</div>" +
-        "</a>";
+        "</div>";
+    //"</a>";
 }
 
 // FETCH METHODS //
