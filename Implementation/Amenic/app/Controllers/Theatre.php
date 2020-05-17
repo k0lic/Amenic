@@ -11,7 +11,10 @@ use App\Models\CityModel;
 use App\Models\CountryModel;
 use App\Models\ComingSoonModel;
 use App\Models\MovieModel;
+use App\Models\GalleryModel;
 use App\Models\AACinemaModel;
+use App\Entities\Gallery;
+use Exception;
 use function \App\Helpers\isAuthenticated;
 use function \App\Helpers\isValid;
 
@@ -37,10 +40,39 @@ class Theatre extends BaseController
         $cinemaImage = ((new UserModel())->find($email))->image;
         $cinemaCity = $cinema->idCity == null ? null : (new CityModel())->find($cinema->idCity);
         $cinemaCountry = $cinema->idCountry == null ? ($cinemaCity == null ? null : (new CountryModel())->find($cinemaCity->idCountry)) : (new CountryModel())->find($cinema->idCountry);
+        $gallery = (new GalleryModel())->where("email", $email)->find();
         if (empty($this->userMail))                 // for guests
-            return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $cinemaImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name,"userIsLoggedIn" => false]);
+            return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $cinemaImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name,"gallery" => $gallery,"userIsLoggedIn" => false]);
         else                                        // for registered users (RUsers)
-            return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $cinemaImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name,"userIsLoggedIn" => true,"userImage" => $this->userImage,"userFullName" => $this->userName]);
+            return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $cinemaImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name,"gallery" => $gallery,"userIsLoggedIn" => true,"userImage" => $this->userImage,"userFullName" => $this->userName]);
+    }
+
+    // Adds a new image to the gallery of the chosen cinema.
+    public function actionAddImage()
+    {
+        $email = $_POST["email"];
+        $imageName = $_FILES["newImage"]["name"];
+        $imageTempFile = $_FILES["newImage"]["tmp_name"];
+
+        try
+        {
+            $image = base64_encode(file_get_contents($imageTempFile));
+            $galleryRow = new Gallery([
+                "email" => $email,
+                "name" => $imageName,
+                "image" => $image
+            ]);
+            (new GalleryModel())->insert($galleryRow);
+        }
+        catch (Exception $e)
+        {
+            $msg = "Adding a new image to the gallery failed!<br/>".$e->getMessage();
+            return view("Exception.php",["msg" => $msg,"destination" => "/Theatre/Repertoire/$email"]);
+        }
+
+
+        header("Location: /Theatre/Repertoire/$email");
+        exit();
     }
 
     // Fetch methods //

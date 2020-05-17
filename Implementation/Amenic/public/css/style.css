@@ -446,6 +446,34 @@ body {
 	max-width: 90% !important;
 }
 
+.bigModal {
+	display: flex;
+	flex-direction: column;
+	margin: 3em auto;
+	width: 80vw;
+	height: 80vh;
+	padding: 2em;
+	background-color: var(--imgOutline);
+	color: white;
+	border-radius: 20px;
+	font-family: "Nunito";
+	-webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.bigModalBody {
+	height: 90%;
+	width: 100%;
+	display: flex;
+}
+
+.bigModalBody img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
 /* Utility */
 
 .centerY {
@@ -1366,6 +1394,11 @@ body {
 	object-fit: cover;
 	border-radius: 15px;
 	margin: 4px;
+	cursor: pointer;
+}
+
+.galleryHidden {
+	display: none;
 }
 
 .flexEnd {

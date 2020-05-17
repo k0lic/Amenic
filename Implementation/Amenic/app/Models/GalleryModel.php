@@ -8,5 +8,8 @@ class GalleryModel extends Model
     #find($id)–findAll()–findAll($limit, $offset)–first()–where($name, $value)–insert($data)–update($id, $data)–save($data)–delete($id)
     protected $table = 'Galleries';
     protected $primaryKey= 'email';
-    protected $returnType= 'object';    
+    protected $returnType= 'App\Entities\Movie';
+    protected $allowedFields = [
+        'email', 'name', 'image'
+    ];
 }

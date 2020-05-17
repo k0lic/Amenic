@@ -21,13 +21,14 @@
     <!-- HEAD -->
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 		<title>Amenic - <?php echo $cinema->name; ?></title>
     </head>
     <!-- BODY -->
     <body onLoad="<?php
-        echo "setupOnLoad('".$cinema->email."','".date('Ymd', strtotime('today'))."','".$userIsLoggedIn."')";
+        echo "setupOnLoad('".$cinema->email."','".date('Ymd', strtotime('today'))."','".$userIsLoggedIn."');";
+        echo " stopCarouselPropagation();";
     ?>">
 		<div class="container column">
             <!-- HORIZONTAL NAVIGATION -->
@@ -223,16 +224,50 @@
                     <!-- END OF CALENDAR -->
                     <!-- GALLERY -->
                     <div class="gallery mb-2 w100">
-                        <div class="mb-1">Gallery</div>
-                        <div class="galleryItems">
-                            <img src="/assets/Cinema/room.jpg" class="galleryItem" />
-                            <img src="/assets/Cinema/room.jpg" class="galleryItem" />
-                            <img src="/assets/Cinema/room.jpg" class="galleryItem" />
+                        <div class="column">
+                            <div class="mb-1">Gallery</div>
+                            <!--form method="POST" action="/Theatre/ActionAddImage" enctype="multipart/form-data" class="column">
+                                <label class="goodButton">
+                                    <input type="file" name="newImage" />
+                                    Browse
+                                </label>
+                                <input type="hidden" name="email" value="<?php
+                                    echo $cinema->email;
+                                ?>" />
+                                <button type="submit" class="goodButton mt-1">Save</button>
+                            </form-->
                         </div>
-                    </div>
+                        <div class="galleryItems">
+                            <?php
+                                if (isset($gallery) && count($gallery)>0)
+                                {
+                                    $cnt = 0;
+                                    foreach ($gallery as $picture)
+                                    {
+                                        if ($cnt<6)
+                                        {
+                                            echo "
+                                                    <img src=\"data:image/jpg;base64, ".$picture->image."\" class=\"galleryItem coolLink\" onclick=\"openCarousel(".$cnt.")\" />
+                                            ";
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                        $cnt++;
+                                    }
+                                }
+                            ?>
+                        </div>
+                    </button>
                 </div>
             </div>
+            <!-- CAROUSEL MODAL -->
+            <?php
+                include "CarouselModal.php";
+            ?>
         </div>
     </body>
+    <script src="/js/carousel.js"></script>
     <script src="/js/theatreRepertoire.js"></script>
 </html>
