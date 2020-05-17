@@ -41,36 +41,57 @@
                 <a href="/"><img src="/assets/logo.svg" class="logo" alt="Amenic" /></a>
                 <!-- NAV ITEMS -->
                 <ul class="nav">
-                    <li>
-                        <!-- MOVIES -->
-                        <?php 
+                    <?php
+                        if (!isset($isWorker) || $isWorker==false)
+                        {
+
+                            // MOVIES //
+
                             if (!isset($optionPrimary) || $optionPrimary==0)
-                                echo "<div class=\"activeMenuText\">Movies</div>";
+                                echo "<li><div class=\"activeMenuText\">Movies</div></li>";
                             else
-                                echo "<a href=\"/Cinema\">Movies</a>";
-                        ?>
-                    </li>
-                    <li>
-                        <!-- ROOMS -->
-                        <?php 
+                                echo "<li><a href=\"/Cinema\">Movies</a></li>";
+
+                            // ROOMS //
+
                             if (isset($optionPrimary) && $optionPrimary==1)
-                                echo "<div class=\"activeMenuText\">Rooms</div>";
+                                echo "<li><div class=\"activeMenuText\">Rooms</div></li>";
                             else
-                                echo "<a href=\"/Cinema/Rooms\">Rooms</a>";
-                        ?>
-                    </li>
-                    <li>
-                        <!-- EMPLOYEES -->
-                        <?php 
+                                echo "<li><a href=\"/Cinema/Rooms\">Rooms</a></li>";
+
+                            // EMPLOYEES //
+
                             if (isset($optionPrimary) && $optionPrimary==2)
-                                echo "<div class=\"activeMenuText\">Employees</div>";
+                                echo "<li><div class=\"activeMenuText\">Employees</div></li>";
                             else
-                                echo "<a href=\"/Cinema/Employees\">Employees</a>";
-                        ?>
-                    </li>
+                                echo "<li><a href=\"/Cinema/Employees\">Employees</a></li>";
+
+                        }
+                        else
+                        {
+                            // MOVIES //
+
+                            if (!isset($optionPrimary) || $optionPrimary==0)
+                                echo "<li><div class=\"activeMenuText\">Movies</div></li>";
+                            else
+                                echo "<li><a href=\"/Cinema\">Movies</a></li>";
+
+                            // RESERVATIONS //
+
+                            if (isset($optionPrimary) && $optionPrimary==1)
+                                echo "<li><div class=\"activeMenuText\">Reservations</div></li>";
+                            else
+                                echo "<li><a href=\"/Worker\">Reservations</a></li>";
+                        }
+                    ?>
                 </ul>
                 <!-- SETTINGS -->
-                <a href="/Cinema/Settings">
+                <a href="<?php
+                    if (!isset($isWorker) || $isWorker==0)
+                        echo "/Cinema/Settings";
+                    else
+                        echo "/Worker/Settings";
+                    ?>">
                     <div class="icon baseline">
                         <svg width="48" height="48" viewBox="0 0 512 512">
 							<path

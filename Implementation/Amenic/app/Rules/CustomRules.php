@@ -436,6 +436,7 @@ class CustomRules
     }
 
     // Gets the logged in users email address, providing the user is logged into a Cinema account.
+    // Or, if the user is logged in as a Worker, gets his Cinemas email.
     private function getUserMail()
     {
         helper("auth");
@@ -448,6 +449,12 @@ class CustomRules
             if ($token != null && isAuthenticated("Cinema"))
             {
                 $this->userMail = $token->email;
+                return;
+            }
+            
+            if ($token != null && isAuthenticated("Worker"))
+            {
+                $this->userMail = ((new WorkerModel())->find($token->email))->idCinema;
             }
         }
     }
