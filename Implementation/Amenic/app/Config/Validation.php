@@ -347,7 +347,7 @@ class Validation
 	public $actionAddMovie = [
 		'tmdbID' => [
 			'label' => 'Movie ID',
-			'rules' => 'required|integer|max_length[64]|is_not_unique[movies.tmdbID]'
+			'rules' => 'required|integer|max_length[64]|is_not_unique[Movies.tmdbID]'
 		],
 		'room' => [
 			'label' => 'Room',
@@ -374,14 +374,14 @@ class Validation
 	public $actionAddSoon = [
 		'tmdbID' => [
 			'label' => 'Movie ID',
-			'rules' => 'required|integer|max_length[64]|is_not_unique[movies.tmdbID]|checkIfReallySoon'
+			'rules' => 'required|integer|max_length[64]|is_not_unique[Movies.tmdbID]|checkIfReallySoon'
 		]
 	];
 
 	public $actionEditMovie = [
 		"oldIdPro" => [
 			'label' => 'Projection ID',
-			'rules' => 'required|integer|max_length[64]|is_not_unique[projections.idPro]|checkIfProjectionOkToEdit'
+			'rules' => 'required|integer|max_length[64]|is_not_unique[Projections.idPro]|checkIfProjectionOkToEdit'
 		],
 		'startDate' => [
 			'label' => 'Date of projection',
@@ -396,14 +396,14 @@ class Validation
 	public $actionCancelMovie = [
 		"oldIdPro" => [
 			'label' => 'Projection ID',
-			'rules' => 'required|integer|max_length[64]|is_not_unique[projections.idPro]|checkIfProjectionOkToEdit'
+			'rules' => 'required|integer|max_length[64]|is_not_unique[Projections.idPro]|checkIfProjectionOkToEdit'
 		]
 	];
 
 	public $actionCancelSoon = [
 		"tmdbID" => [
 			'label' => 'Movie ID',
-			'rules' => 'required|integer|max_length[64]|is_not_unique[movies.tmdbID]|checkIfNotSoon'
+			'rules' => 'required|integer|max_length[64]|is_not_unique[Movies.tmdbID]|checkIfNotSoon'
 		]
 	];
 
@@ -414,7 +414,7 @@ class Validation
 		],
 		'tmdbID' => [
 			'label' => 'Movie ID',
-			'rules' => 'required|integer|max_length[64]|is_not_unique[movies.tmdbID]|checkIfNotSoon'
+			'rules' => 'required|integer|max_length[64]|is_not_unique[Movies.tmdbID]|checkIfNotSoon'
 		],
 		'room' => [
 			'label' => 'Room',
@@ -441,14 +441,14 @@ class Validation
 	public $actionRemoveEmployee = [
 		'email' => [
 			'label' => 'Worker E-mail',
-			'rules' => 'required|valid_email|is_not_unique[workers.email]|isYourWorker'
+			'rules' => 'required|valid_email|is_not_unique[Workers.email]|isYourWorker'
 		]
 	];
 
 	public $actionAddEmployee = [
 		'email' => [
 			'label' => 'Worker E-mail',
-			'rules' => 'required|valid_email|is_unique[users.email]'
+			'rules' => 'required|valid_email|is_unique[Users.email]'
 		],
 		'firstName' => [
 			'label' => 'First name',

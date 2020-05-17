@@ -7,6 +7,16 @@
     <!-- STARTUP PHP CODE -->
     <?php
         date_default_timezone_set("Europe/Belgrade");
+
+        $loginError = '';
+        if(isset($_COOKIE['loginError'])) {
+            $loginError = $_COOKIE['loginError'];
+        }
+    
+        $resetError = '';
+        if(isset($_COOKIE['resetError'])) {
+            $resetError = $_COOKIE['resetError'];
+        }
     ?>
     <!-- HEAD -->
 	<head>
@@ -40,19 +50,23 @@
                             }
                             else
                             {
-                                echo "<span>Gost</span>";
+                                //include "../app/Views/loginModal.php";
+                                echo "<div>Gost</div>";
                             }
                         ?></div>
                     </li>
                 </ul>
             </div>
             <!-- BACKGROUND CINEMA BANNER -->
-            <div class="cinemaBackground centerRow" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php
-                if ($cinema->banner == null)
+            <!--div class="cinemaBackground centerRow" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php
+                /*if ($cinema->banner == null)
                     echo "/assets/Cinema/room.jpg";
                 else
-                    echo "data:image/jpg;base64, ".$cinema->banner;
-            ?>); background-position: center bottom; background-size: cover; background-repeat: no-repeat;"></div>
+                    echo "data:image/jpg;base64, ".$cinema->banner;*/
+            ?>); background-position: center bottom; background-size: cover; background-repeat: no-repeat;"></div-->
+            <img class="cinemaBackgroundV2 centerRow" src="<?php
+                echo "/assets/Cinema/cinemaBG.jpg";
+            ?>" />
             <!-- OVER AND UNDER THE BANNER -->
             <div class="row">
                 <!-- LEFT COLUMN -->
@@ -60,10 +74,10 @@
                     <!-- MAIN CINEMA INFO DIV -->
                     <div class="row cinemaInfo">
                         <img src="<?php
-                            if ($cinemaImage == null)
+                            if ($cinema->banner == null)
                                 echo "/assets/defaultUserImage.jpg";
                             else
-                                echo "data:image/jpg;base64, ".$cinemaImage;
+                                echo "data:image/jpg;base64, ".$cinema->banner;
                         ?>" class="cinemaProfileIcon" />
                         <div class="column w70">
                             <div class="cinemaName"><?php
@@ -139,17 +153,9 @@
                             ?></div>
                         </div>
                     </div>
-                    <!-- GALLERY -->
-                    <div class="gallery mt-3 w100">
-                        <div class="mb-1">Gallery</div>
-                        <div class="galleryItems">
-                            <img src="/assets/Cinema/room.jpg" class="galleryItem" />
-                            <img src="/assets/Cinema/room.jpg" class="galleryItem" />
-                            <img src="/assets/Cinema/room.jpg" class="galleryItem" />
-                        </div>
-                    </div>
                     <!-- CALENDAR -->
-                    <div class="smallCalendarWrapper mb-2">
+                    <div class="smallCalendarHeader">Pick a day</div>
+                    <div class="smallCalendarWrapper"> 
                         <div class="calendar">
                             <?php
 
@@ -211,6 +217,15 @@
                         </div>
                     </div>
                     <!-- END OF CALENDAR -->
+                    <!-- GALLERY -->
+                    <div class="gallery mb-2 w100">
+                        <div class="mb-1">Gallery</div>
+                        <div class="galleryItems">
+                            <img src="/assets/Cinema/room.jpg" class="galleryItem" />
+                            <img src="/assets/Cinema/room.jpg" class="galleryItem" />
+                            <img src="/assets/Cinema/room.jpg" class="galleryItem" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
