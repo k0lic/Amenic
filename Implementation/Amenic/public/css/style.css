@@ -11,7 +11,6 @@
 	--lightPurple: #342739;
 	--imgOutline: #2b1e30;
 	--stepCircle: #3d2b44;
-
 	--movieDate: #43324a;
 }
 
@@ -106,15 +105,13 @@ body {
 	align-self: center;
 }
 
-.icon svg,
-.icon img {
+.icon svg, .icon img {
 	height: 1em;
 	width: 1em;
 	fill: currentColor;
 }
 
-.icon.baseline svg,
-.icon img {
+.icon.baseline svg, .icon img {
 	top: 0.125em;
 	position: relative;
 }
@@ -176,8 +173,7 @@ body {
 	top: 0;
 	bottom: 0;
 	width: 20px;
-	background: url(../assets/MoviesPage/imgs/search.svg) center / contain
-		no-repeat;
+	background: url(../assets/MoviesPage/imgs/search.svg) center / contain no-repeat;
 }
 
 .search {
@@ -193,8 +189,7 @@ body {
 	transition: border 0.2s ease-in-out;
 }
 
-.search:focus,
-.search:hover {
+.search:focus, .search:hover {
 	border: rgba(255, 255, 255, 0.8) 1px solid;
 	transition: border 0.2s ease-in-out;
 }
@@ -318,6 +313,7 @@ body {
 	transition: 0.2s all easy-in-out;
 	box-shadow: 0px 0px 10px var(--orange);
 }
+
 /*
 .movies a {
 	color: white !important;
@@ -706,8 +702,7 @@ body {
 	flex-direction: column !important;
 }
 
-.loginLinks a,
-.loginLinks span {
+.loginLinks a, .loginLinks span {
 	text-decoration: none !important;
 	color: var(--orange) !important;
 	margin-top: 0.3em !important;
@@ -719,8 +714,7 @@ body {
 	font-size: 0.9em !important;
 }
 
-.loginLinks a span:hover,
-.loginLinks span:hover {
+.loginLinks a span:hover, .loginLinks span:hover {
 	border-bottom: 1px solid var(--orange) !important;
 }
 
@@ -920,8 +914,7 @@ body {
 	margin-bottom: 0.1em;
 }
 
-.formWrapper input,
-.formWrapper textarea {
+.formWrapper input, .formWrapper textarea {
 	width: 100%;
 	font-family: "Nunito";
 	font-weight: 500;
@@ -936,8 +929,7 @@ body {
 	transition: 0.2s border ease-in-out;
 }
 
-.formWrapper input:disabled,
-.formWrapper .formSelect:disabled {
+.formWrapper input:disabled, .formWrapper .formSelect:disabled {
 	background-color: var(--deepPurple);
 }
 
@@ -1025,8 +1017,7 @@ body {
 	height: 100%;
 }
 
-.formWrapper input:focus,
-.formWrapper textarea:focus {
+.formWrapper input:focus, .formWrapper textarea:focus {
 	border: 2px solid var(--orange);
 	transition: 0.2s border ease-in-out;
 }
@@ -1157,6 +1148,7 @@ body {
 	background-color: var(--formInput);
 	border-radius: 15px;
 }
+
 .strengthBarFilled {
 	background-color: var(--orange);
 }
@@ -1170,7 +1162,7 @@ body {
 	color: white;
 }
 
-/* NEW CINEMA PAGE - MILOS*/
+/* CINEMA PAGE */
 
 .horizontalNav {
 	display: flex;
@@ -1198,18 +1190,29 @@ body {
 	margin-left: 2em;
 }
 
+.horizontalNav a {
+	color: white;
+	text-decoration: none;
+	transition: color 0.2s ease-in-out;
+}
+
+.horizontalNav a:hover {
+	color: var(--orange) !important;
+	transition: color 0.2s ease-in-out;
+}
+
 .userIcon {
 	width: 50px;
 	clip-path: circle(50% at 50% 50%);
 }
 
 .cinemaBackground {
-	height: 50vh;
+	height: 35vh;
 	width: 100%;
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-image: url("./imgs/cinemaBG.jpg");
+	background-size: cover;																						/* gets overwritenn by inline style */
+	background-repeat: no-repeat;																				/* gets overwritenn by inline style */
+	background-position: center bottom;																			/* gets overwritenn by inline style */
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/Cinema/room.jpg");	/* gets overwritenn by inline style */
 	display: flex;
 	z-index: 10;
 }
@@ -1225,12 +1228,14 @@ body {
 	object-fit: cover;
 	z-index: 15;
 	clip-path: circle(50% at 50% 50%);
+	border: 6px solid var(--imgOutline);
+	border-radius: 50%;
 }
 
 .cinemaInfo {
 	display: flex;
-	align-items: center;
-	margin-top: -4em;
+	/*align-items: center;*/
+	margin-top: -6em;
 }
 
 .cinemaDesc {
@@ -1240,6 +1245,10 @@ body {
 	background-color: var(--deepPurple);
 	color: white;
 	padding: 1em;
+	padding-top: 2em;
+	padding-left: 9em;
+	margin-top: -1.5em;
+	margin-left: -8em;
 }
 
 .cinemaName {
@@ -1248,11 +1257,37 @@ body {
 	font-size: 2.5em;
 	background-color: transparent;
 	z-index: 20;
+	margin-top: 1em;
+	margin-left: 0.4em;
 }
 
 .cinemaNameDesc {
 	z-index: 20;
 	margin-left: 1em;
+}
+
+.repertoireTableTitle {
+	font-weight: 200;
+	font-size: 1.3em;
+	color: white;
+	align-self: flex-start;
+	cursor: pointer;
+}
+
+.repertoireTableTitleSelected {
+	font-weight: 800;
+	cursor: default;
+}
+
+.repertoireReserveHeight {
+	min-height: 250px;
+	width: 100%;
+}
+
+.smallIcon {
+	width: 20px;
+	height: 20px;
+	object-fit: contain;
 }
 
 .pageIcon {
@@ -1265,6 +1300,8 @@ body {
 	background-color: var(--deepPurple);
 	justify-self: flex-end;
 	padding: 1em;
+	padding-top: 2em;
+	margin-top: -1em;
 	border-radius: 15px;
 	justify-content: center;
 	align-items: center;
@@ -1278,10 +1315,14 @@ body {
 	align-self: flex-end;
 	color: white;
 	font-weight: 300;
+	font-size: 1.2em;
 }
 
 .galleryItems {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	grid-gap: 8px;
+	justify-items: center;
 }
 
 .galleryItem {
@@ -1289,10 +1330,94 @@ body {
 	width: 100px;
 	object-fit: cover;
 	border-radius: 15px;
+	margin: 4px;
 }
 
 .flexEnd {
 	justify-content: flex-end;
+}
+
+.smallCalendarWrapper {
+	margin-top: 2em;
+	padding: 0.5em;
+	width: 100%;
+	font-family: "Nunito";
+	font-weight: 300;
+	color: white;
+	justify-content: center;
+}
+
+.smallCalendarWrapper .dayButton {
+	margin: 4px;
+	font-size: 0.8em;
+	font-weight: 300;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	color: white;
+	background-color: var(--lightPurple);
+	outline: none;
+}
+
+.smallCalendarWrapper .dayButton:hover {
+	transition: 0.2s box-shadow easy-in-out;
+	box-shadow: 0px 2px 5px var(--orange);
+}
+
+.smallCalendarWrapper .todayButton {
+	margin: 4px;
+	font-size: 0.8em;
+	font-weight: 300;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--orange);
+	color: white;
+	background-color: var(--lightPurple);
+	outline: none;
+}
+
+.smallCalendarWrapper .todayButton:hover {
+	transition: 0.2s box-shadow easy-in-out;
+	box-shadow: 0px 2px 5px var(--orange);
+}
+
+.smallCalendarWrapper .yesterdayButton {
+	margin: 4px;
+	font-size: 0.8em;
+	font-weight: 300;
+	text-align: center;
+	line-height: 32px;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	color: var(--lightGray);
+	background-color: var(--formInput);
+	outline: none;
+}
+
+.smallCalendarWrapper .selectedDay {
+	color: var(--orange);
+	box-shadow: 0px 2px 5px 3px var(--orange);
+}
+
+.smallCalendarWrapper button {
+	font-family: "Nunito";
+	align-self: flex-end;
+	color: white;
+	font-weight: 700;
+	background-color: var(--orange);
+	border: none;
+	padding: 0.5em 1.3em;
+	border-radius: 10px;
+	outline: none !important;
+	font-size: 1.2em;
+	cursor: pointer;
 }
 
 /* MOVIE SEARCH PAGE */
@@ -1301,16 +1426,12 @@ body {
 	height: 70vh;
 	width: 100%;
 	display: flex;
-
 	position: relative;
-
-	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-		url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/cheese-curds.jpg);
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/cheese-curds.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center bottom;
 	z-index: 10;
-
 	color: white;
 }
 
@@ -1319,7 +1440,6 @@ body {
 	width: 190px;
 	object-fit: cover;
 	border-radius: 15px;
-
 	-webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
@@ -1390,8 +1510,7 @@ body {
 	min-width: 70px;
 }
 
-.movieMonth,
-.movieDay {
+.movieMonth, .movieDay {
 	font-size: 1em;
 	font-weight: 500;
 }
@@ -1401,30 +1520,36 @@ body {
 	font-size: 1.2em;
 }
 
-.movieDay {
-}
+.movieDay {}
 
 .o30 {
 	opacity: 0.3;
 }
+
 .o40 {
 	opacity: 0.4;
 }
+
 .o50 {
 	opacity: 0.5;
 }
+
 .o60 {
 	opacity: 0.6;
 }
+
 .o70 {
 	opacity: 0.7;
 }
+
 .o80 {
 	opacity: 0.8;
 }
+
 .o90 {
 	opacity: 0.9;
 }
+
 .o100 {
 	opacity: 1;
 }
@@ -1499,7 +1624,6 @@ body {
 .dropdownColumn ul li ul {
 	background-color: var(--deepPurple);
 	border: 1px solid var(--movieDate);
-
 	visibility: hidden;
 	opacity: 0;
 	min-width: 5em;
@@ -1508,13 +1632,11 @@ body {
 	margin-top: 1em;
 	left: 0;
 	display: none;
-
 	border-radius: 15px;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
-.dropdownColumn ul li:hover > ul,
-.dropdownColumn ul li ul:hover {
+.dropdownColumn ul li:hover>ul, .dropdownColumn ul li ul:hover {
 	visibility: visible;
 	opacity: 1;
 	display: block;
@@ -1536,7 +1658,6 @@ body {
 .movieDropdownResultsContainer {
 	background-color: var(--deepPurple);
 	border: 1px solid var(--movieDate);
-
 	visibility: hidden;
 	opacity: 0;
 	min-width: 5em;
@@ -1545,7 +1666,6 @@ body {
 	margin-bottom: 1em;
 	left: 0;
 	display: none;
-
 	border-radius: 8px;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
@@ -1663,7 +1783,6 @@ body {
 	background-color: var(--formInput);
 	padding: 1.5em;
 	border-radius: 15px;
-
 	-webkit-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.6);
 	-moz-box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.6);
 	box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.6);
@@ -1812,7 +1931,6 @@ body {
 .legend {
 	width: 30px;
 	height: 30px;
-
 	background-color: transparent;
 	border: 2px solid var(--registerButton);
 	border-radius: 5px;
@@ -1886,6 +2004,7 @@ body {
 	text-decoration: none;
 	color: white;
 }
+
 /* ADMIN CONTROLLER */
 
 .adminWrapper {
@@ -1927,7 +2046,7 @@ body {
 	padding: 0.5em 1em;
 }
 
-.userPicture > img {
+.userPicture>img {
 	width: auto;
 	height: 90% !important;
 	min-height: 120px;
@@ -1948,7 +2067,7 @@ body {
 	background-color: var(--deepPurple);
 }
 
-.editWrapper > button {
+.editWrapper>button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -1966,7 +2085,7 @@ body {
 	border-radius: 0px 10px 10px 0px !important;
 }
 
-.binWrapper > button {
+.binWrapper>button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -2009,8 +2128,7 @@ body {
 	align-self: flex-start;
 }
 
-.settingsForm input[type="text"],
-.settingsForm input[type="password"] {
+.settingsForm input[type="text"], .settingsForm input[type="password"] {
 	border-radius: 4px 4px 4px 4px;
 	margin: 2px;
 	padding: 10px;
@@ -2046,7 +2164,7 @@ body {
 	border: 2px solid transparent;
 }
 
-.requestSettingsButtons > button {
+.requestSettingsButtons>button {
 	margin-left: 15px;
 	margin-right: 15px;
 	width: 35%;
@@ -2078,8 +2196,7 @@ body {
 	width: 100%;
 }
 
-#passwordNA,
-#passwordConfirmNA {
+#passwordNA, #passwordConfirmNA {
 	background-color: var(--lightPurple) !important;
 }
 
@@ -2090,12 +2207,12 @@ body {
 	min-height: 60px;
 }
 
-.passwordRow > div {
+.passwordRow>div {
 	width: 45%;
 	margin: 0px;
 }
 
-.passwordRow > div input[type="text"] {
+.passwordRow>div input[type="text"] {
 	width: 100%;
 }
 
@@ -2114,7 +2231,7 @@ body {
 	max-width: 250px;
 }
 
-.adminPicture > img {
+.adminPicture>img {
 	border-radius: 50%;
 	width: 50% !important;
 	margin-bottom: 10px;
@@ -2183,7 +2300,7 @@ input[type="file"] {
 	font-size: 2em;
 }
 
-.oneLine > label {
+.oneLine>label {
 	width: 40%;
 }
 
@@ -2208,7 +2325,7 @@ input[type="file"] {
 	width: 100%;
 }
 
-.confirmModuleButtons > button {
+.confirmModuleButtons>button {
 	width: 30%;
 	margin: 15px;
 	border: 2px solid var(--orange);

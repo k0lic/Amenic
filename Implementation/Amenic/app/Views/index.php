@@ -158,7 +158,7 @@ use function App\Helpers\isValid;
 						echo "<div class=\"cinemaContainer\">";
 							if (isset($cinMenu))
 							{
-								echo "<a href=\"/Cinema/cinemaPage\" class=\"coolLink\" >"; //cinema mail!!!
+								echo "<a href=\"/Theatre/Repertoire/".$movie->email."\" class=\"coolLink\" >";
 								if (isset($movie->banner))
 									echo (
 										"<img src=\"data:image/jpeg;base64, ".$movie->banner."\" class=\"movieImg\" alt=\"\" />"

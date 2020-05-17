@@ -72,9 +72,9 @@ class ProjectionModel extends SmartDeleteModel
             $inserted = $this->where("email", $pro->email)->where("roomName", $pro->roomName)->where("dateTime", $pro->dateTime)->findAll()[0];
             $room = $roommdl->where("email", $pro->email)->where("name", $pro->roomName)->findAll()[0];
             $seats = [];
-            for ($i=0;$i<$room->numberOfRows;$i++)
+            for ($i=1;$i<=$room->numberOfRows;$i++)
             {
-                for ($j=0;$j<$room->seatsInRow;$j++)
+                for ($j=1;$j<=$room->seatsInRow;$j++)
                 {
                     $seat = new Seat([
                         "idPro" => $inserted->idPro,

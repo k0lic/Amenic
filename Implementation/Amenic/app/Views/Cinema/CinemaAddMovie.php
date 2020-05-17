@@ -154,7 +154,7 @@
                                                 <div class="movieSearchArrow movieSearchActiveControl column centerRow" id="rightArrow">
                                                     <img src="/assets/Movie/arrowRight.svg" class="movieArrow" />
                                                 </div>
-                                            </div>                                    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

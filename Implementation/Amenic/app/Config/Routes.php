@@ -36,6 +36,7 @@ $routes->get('/', 'HomeController::index');
 $routes->get('/admin', 'AdminController::index');
 $routes->get('/movie/(:num)', 'Movie::index/$1');
 $routes->get('/reservation/(:num)', 'Reservation::index/$1');
+//$routes->get('/Theatre/(:any)', 'Theatre::index/$1');
 $routes->get('/HomeController/getCities/(:any)','HomeController::getCities/$1');
 $routes->get('/HomeController/cinemasSearch/(:any)/(:any)/(:any)','HomeController::cinemasSearch/$1/$2/$3');
 /**

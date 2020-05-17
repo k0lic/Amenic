@@ -8,8 +8,7 @@
 class Dummy extends BaseController {
 
     public function index() {
-
-       return view('dummy');
+        return view('dummy');
     }
 
 }

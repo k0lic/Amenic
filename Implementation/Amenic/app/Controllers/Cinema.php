@@ -705,7 +705,7 @@ class Cinema extends BaseController
         return $this->index();
     }
 
-    // Fetch request No2.
+    // Fetch request No1.
     public function countHowManyMoviesLike()
     {
         $this->goHomeIfNotCinema();
@@ -717,7 +717,7 @@ class Cinema extends BaseController
         echo json_encode($num);
     }
 
-    // Fetch request No3.
+    // Fetch request No2.
     public function getMoviesLike()
     {
         $this->goHomeIfNotCinema();
@@ -730,7 +730,7 @@ class Cinema extends BaseController
         echo json_encode($results);
     }
 
-    // Fetch request No4.
+    // Fetch request No3.
     public function getMoviesLikeInTMDB()
     {
         $this->goHomeIfNotCinema();
@@ -743,7 +743,7 @@ class Cinema extends BaseController
         echo json_encode($results["body"]);
     }
 
-    // Fetch request No5.
+    // Fetch request No4.
     public function getMyProjectionsLike()
     {
         $this->goHomeIfNotCinema();
@@ -755,7 +755,7 @@ class Cinema extends BaseController
         echo json_encode($results);
     }
 
-    // Fetch request No6.
+    // Fetch request No5.
     public function getMyComingSoonsLike()
     {
         $this->goHomeIfNotCinema();
@@ -767,7 +767,7 @@ class Cinema extends BaseController
         echo json_encode($results);
     }
 
-    // Fetch request No7.
+    // Fetch request No6.
     public function getMyRoomsLike()
     {
         $this->goHomeIfNotCinema();
@@ -779,7 +779,7 @@ class Cinema extends BaseController
         echo json_encode($results);
     }
 
-    // Fetch request No8.
+    // Fetch request No7.
     public function getMyEmployeesLike()
     {
         $this->goHomeIfNotCinema();

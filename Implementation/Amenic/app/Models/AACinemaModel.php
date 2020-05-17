@@ -10,7 +10,9 @@ use App\Models\MovieModel;
 use App\Models\ProjectionModel;
 use App\Models\ComingSoonModel;
 use App\Models\RoomModel;
+use App\Models\TechnologyModel;
 use App\Models\RoomTechnologyModel;
+use App\Models\SeatModel;
 use App\Entities\RoomTechnology;
 use Exception;
 
@@ -211,6 +213,63 @@ class AACinemaModel extends Model
                 $res["soon"] = $soon[0];
                 array_push($results, $res);
             }
+        }
+
+        return $results;
+    }
+
+    public function countMyMovieRepertoire($email, $day)
+    {
+        $promdl = new ProjectionModel();
+
+        $dayOf = strtotime($day);
+        $dayAfter = $dayOf + 24*60*60;
+        $repertoireSize = $promdl
+                            ->where("email", $email)
+                            ->where("dateTime >=", date("Y-m-d H:i:s", $dayOf))
+                            ->where("dateTime <", date("Y-m-d H:i:s", $dayAfter))
+                            ->countAllResults();
+
+        return $repertoireSize;
+    }
+
+    public function findMyMovieRepertoire($email, $day, $page)
+    {
+        $promdl = new ProjectionModel();
+
+        $dayOf = strtotime($day);
+        $dayAfter = $dayOf + 24*60*60;
+        $projections = $promdl
+                        ->where("email", $email)
+                        ->where("dateTime >=", date("Y-m-d H:i:s", $dayOf))
+                        ->where("dateTime <", date("Y-m-d H:i:s", $dayAfter))
+                        ->orderBy('dateTime', 'ASC')
+                        ->limit(20, ($page-1)*20)
+                        ->find();
+        //$projections = $promdl->where("email", $email)->limit(20, ($page-1)*20)->findAll();
+
+        $results = [];
+        $moviemdl = new MovieModel();
+        $techmdl = new TechnologyModel();
+        $seatmdl = new SeatModel();
+        foreach ($projections as $pro)
+        {
+            $res = [
+                "idPro" => $pro->idPro,
+                "movieName" => "",
+                "startTime" => date("H:i", strtotime($pro->dateTime)),
+                "roomName" => $pro->roomName,
+                "type" => "",
+                "freeSeats" => -1
+            ];
+            $movie = $moviemdl->find($pro->tmdbID);
+            $res["movieName"] = $movie->title;
+            $tech = $techmdl->find($pro->idTech);
+            $res["type"] = $tech->name;
+            $freeSeats = $seatmdl->where("idPro", $pro->idPro)->where("status", "free")->countAllResults();
+            $res["freeSeats"] = $freeSeats;
+
+            array_push($results, $res);
         }
 
         return $results;
