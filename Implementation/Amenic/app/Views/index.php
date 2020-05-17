@@ -71,8 +71,8 @@ use function App\Helpers\isValid;
 				<div class="topBar">
 					<div class='placeSelector'>
 						<div></div>
-						<div><?php if(strcasecmp($cinMenu,"1") == 0) echo"<label for=\"country\">Country</label>"; ?></div>
-						<div><?php if(strcasecmp($cinMenu,"1") == 0) echo"<label for=\"city\">City</label>"; ?></div>
+						<div><?php if(isset($cinMenu) && strcasecmp($cinMenu,"1") == 0) echo"<label for=\"country\">Country</label>"; ?></div>
+						<div><?php if(isset($cinMenu) && strcasecmp($cinMenu,"1") == 0) echo"<label for=\"city\">City</label>"; ?></div>
 						<div>
 							<form action="javascript:void(0);" method="GET" class="searchForm">
 								<label>
@@ -89,7 +89,7 @@ use function App\Helpers\isValid;
 						</div>
 						<div>
 						<?php
-							if(strcasecmp($cinMenu,"1") == 0)
+							if(isset($cinMenu) && strcasecmp($cinMenu,"1") == 0)
 							{
 								echo"
 								<select class=\"formSelect settingsSelect\" id=\"countryList\" name=\"country\">";
@@ -104,7 +104,7 @@ use function App\Helpers\isValid;
 						</div>
 						<div>
 						<?php
-							if(strcasecmp($cinMenu,"1") == 0)
+							if(isset($cinMenu) && strcasecmp($cinMenu,"1") == 0)
 							{
 								echo"
 								<select class=\"formSelect settingsSelect\" id=\"cityList\" name=\"city\">

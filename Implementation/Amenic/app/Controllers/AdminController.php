@@ -539,6 +539,15 @@ class AdminController extends BaseController
 
     public function closeCinema()
     {
-        echo "CINEMA DELETED";
+        $email = $_POST['key'];
+        unset($_POST['key']);
+
+        try
+        {
+            $cinema = (new CinemaModel())->where(['email' => $email])->set(['closed' => 1])->update();
+        } catch(Exception $e) {
+            echo $e->getMessage();
+        }
+        return redirect()->to('/Logout');
     }
 }

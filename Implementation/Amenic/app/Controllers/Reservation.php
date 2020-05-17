@@ -5,6 +5,7 @@
     Github: zivkovicmilos
 */
 
+use App\Models\UserModel;
 use App\Entities\Reservation as EntitiesReservation;
 use App\Entities\Seat;
 use App\Models\CinemaModel;
@@ -23,6 +24,10 @@ use function App\Helpers\sendMail;
 class Reservation extends BaseController {
 
     public function index($idPro) {
+
+        $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
 
         // TEST
         //////
@@ -65,6 +70,11 @@ class Reservation extends BaseController {
     }
 
     public function getReservations() {
+
+        $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
+
         $idPro = $_REQUEST['idPro'];
 
         $seatModel = new SeatModel();
@@ -85,6 +95,15 @@ class Reservation extends BaseController {
             $tokenCookie = $_COOKIE['token'];   
             $token = isValid($tokenCookie);
             
+            if ($token && isAuthenticated("RUser"))
+            {
+                $image = (new UserModel())->find($token->email);
+                $image = $image->image;
+        
+                $token->image = $image;
+                return $token;
+            }
+
             return $token;
         }
         return null;
@@ -92,9 +111,12 @@ class Reservation extends BaseController {
 
     public function confirm() {
 
+        $token = $this->getToken();
+        if (is_null($token))
+            return view('AdminBreachMessage',[]);
+
         $idPro = $_POST['idPro'];
         $token = $this->getToken();
-
         
         if(is_null($token)) {
             // Bad token

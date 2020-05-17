@@ -185,12 +185,12 @@
 												<div>	
 													<label for=\"country\">Country</label>
 													<select class=\"formSelect settingsSelect\" name=\"country\" disabled>
-														<option value=\"".$data['country']->idCountry."\">".$data['country']->name."</option>									
+														<option id=\"countryList\"value=\"".$data['country']->idCountry."\">".$data['country']->name."</option>									
 													</select>													
 												</div>
 												<div>	
 													<label for=\"city\">City</label>
-													<select class=\"formSelect settingsSelect\" name=\"city\" disabled>
+													<select id=\"cityList\"class=\"formSelect settingsSelect\" name=\"city\" disabled>
 														<option value=\"".$data['city']->idCity."\">".$data['city']->name."</option>
 													</select>
 												</div>
@@ -290,4 +290,6 @@
 		</div>
 	</body>
 	<script src="/js/ruser/cityList.js"></script>
+	<script src="/js/passwordStrength/zxcvbn.js"></script>
+    <script src="/js/passwordStrength/passwordStrength.js"></script>
 </html>

@@ -33,18 +33,25 @@
             <ul>
                 <li><a href="/HomeController">Movies</a></li>
                 <li><a href="/HomeController/cinemas">Cinemas</a></li>
-                <li>
-                    <div class="user">
-						<img
-						src="<?php if(!$token->image) echo"/assets/Admins/profile.jpeg"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
-						class="profPic"
-						alt="Profile picture"
-						/>
-						<span>
-							<?php echo $token->firstName." ".$token->lastName?>
-						</span>
-					</div>
-                </li>
+                <?php
+                    if (isset($token))
+                    {
+                        echo "
+                        <li>
+                            <div class=\"user\">
+                                <img
+                                src="; 
+                        if(!$token->image) echo"\"/assets/Admins/profile.jpeg\""; else echo "\"data:image/jpg;base64, ".$token->image."\"";
+                        echo    "class=\"profPic\"
+                                alt=\"Profile picture\"
+                                />
+                                <span>
+                                    ".$token->firstName." ".$token->lastName."
+                                </span>
+                            </div>
+                        </li>";
+                    }
+                ?>
             </ul>
 		</div>
 

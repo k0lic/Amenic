@@ -16,7 +16,7 @@
                     document.getElementById('passResetInner').classList.remove('showModal');
                     document.getElementById('loginModalInner').classList.remove('hideModal');
                 ">
-                <img src="assets/close.svg" class="modalClose" alt="Close form" />
+                <img src="/assets/close.svg" class="modalClose" alt="Close form" />
                 </a> 
             </div>
             <div class="modalColumn">

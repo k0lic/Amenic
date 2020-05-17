@@ -182,7 +182,7 @@ class Worker extends BaseController
 
         $cinema = $cinemaModel->find('testcinema@gmail.com'); // TODO switch to token 
 
-        return view('Worker/worker.php', ['cinema' => $cinema]);
+        return view('Worker/worker.php', ['cinema' => $cinema, 'actMenu' => 0]);
     }
 
     // RESERVATION LIST //

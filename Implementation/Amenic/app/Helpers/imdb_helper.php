@@ -17,29 +17,34 @@ if(!function_exists('getReviews')) {
 
         // First review
         $wrapper = $dom->find('.display-name-link')[0];
-        $child = $wrapper->firstChild();
+        if(!is_null($wrapper))
+        {
+            $child = $wrapper->firstChild();
 
-        $firstAuthor = $child->text; 
+            $firstAuthor = $child->text; 
 
-        $child = $dom->find('.text')[0];
-        $firstAuthorText = $child->text;
+            $child = $dom->find('.text')[0];
+            $firstAuthorText = $child->text;
+        }
 
         // Second review
         $wrapper = $dom->find('.display-name-link')[1];
-        $child = $wrapper->firstChild();
-        $secondAuthor = $child->text;
-        $child = $dom->find('.text')[1];
-        $secondAuthorText = $child->text;
-
+        if(!is_null($wrapper))
+        {
+            $child = $wrapper->firstChild();
+            $secondAuthor = $child->text;
+            $child = $dom->find('.text')[1];
+            $secondAuthorText = $child->text;
+        }
         
         $reviews = [
             'firstAuthor' => [
-                'name' => $firstAuthor,
-                'text' => $firstAuthorText
+                'name' => (isset($firstAuthor) ? $firstAuthor : "No review available"),
+                'text' => (isset($firstAuthorText) ? $firstAuthorText : "")
             ],
             'secondAuthor' => [
-                'name' => $secondAuthor,
-                'text' => $secondAuthorText
+                'name' => (isset($secondAuthor) ? $secondAuthor : "No review available"),
+                'text' => (isset($secondAuthorText) ? $secondAuthorText : "")
             ]
         ];
 

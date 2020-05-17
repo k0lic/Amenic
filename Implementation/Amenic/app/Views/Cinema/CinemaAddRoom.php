@@ -206,7 +206,7 @@
                         <!-- ROOM SEATING PREVIEW -->
                         <div class="row mb-4">
                             <div class="column w80 centerRow">
-                                <img src="/assets/reservation/screen.svg" class="screen" />
+                                <img src="/assets/Reservation/screen.svg" class="screen" />
                                 <div id="seatingPreview" style="display: grid;"></div>
                             </div>
                         </div>
