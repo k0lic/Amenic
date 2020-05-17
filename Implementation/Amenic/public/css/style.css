@@ -105,13 +105,15 @@ body {
 	align-self: center;
 }
 
-.icon svg, .icon img {
+.icon svg,
+.icon img {
 	height: 1em;
 	width: 1em;
 	fill: currentColor;
 }
 
-.icon.baseline svg, .icon img {
+.icon.baseline svg,
+.icon img {
 	top: 0.125em;
 	position: relative;
 }
@@ -173,7 +175,8 @@ body {
 	top: 0;
 	bottom: 0;
 	width: 20px;
-	background: url(../assets/MoviesPage/imgs/search.svg) center / contain no-repeat;
+	background: url(../assets/MoviesPage/imgs/search.svg) center / contain
+		no-repeat;
 }
 
 .search {
@@ -189,7 +192,8 @@ body {
 	transition: border 0.2s ease-in-out;
 }
 
-.search:focus, .search:hover {
+.search:focus,
+.search:hover {
 	border: rgba(255, 255, 255, 0.8) 1px solid;
 	transition: border 0.2s ease-in-out;
 }
@@ -243,6 +247,7 @@ body {
 	color: white;
 	font-size: 1em;
 	outline: none;
+	transition: 0.2s box-shadow ease-in-out;
 }
 
 .goodButton {
@@ -260,12 +265,12 @@ body {
 }
 
 .standardButton:hover {
-	transition: 0.2s box-shadow easy-in-out;
+	transition: 0.2s box-shadow ease-in-out;
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
 }
 
 .badButton:hover {
-	transition: 0.2s background-color easy-in-out;
+	transition: 0.2s background-color ease-in-out;
 	background-color: var(--red);
 }
 
@@ -435,6 +440,10 @@ body {
 	-webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
 	-moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.employeeModal {
+	max-width: 90% !important;
 }
 
 /* Utility */
@@ -640,6 +649,18 @@ body {
 	width: auto !important;
 }
 
+.workerConfirmButton {
+	margin: 0 0em 0 auto;
+	border: 2px solid var(--orange);
+	border-radius: 15px;
+	color: white;
+	font-weight: bolder;
+	background-color: var(--orange);
+	font-size: 1.5em;
+	cursor: pointer;
+	padding: 0.2em 0.5em;
+}
+
 .modalHead {
 	font-size: 2em;
 	font-weight: 700;
@@ -702,7 +723,8 @@ body {
 	flex-direction: column !important;
 }
 
-.loginLinks a, .loginLinks span {
+.loginLinks a,
+.loginLinks span {
 	text-decoration: none !important;
 	color: var(--orange) !important;
 	margin-top: 0.3em !important;
@@ -714,7 +736,8 @@ body {
 	font-size: 0.9em !important;
 }
 
-.loginLinks a span:hover, .loginLinks span:hover {
+.loginLinks a span:hover,
+.loginLinks span:hover {
 	border-bottom: 1px solid var(--orange) !important;
 }
 
@@ -914,7 +937,8 @@ body {
 	margin-bottom: 0.1em;
 }
 
-.formWrapper input, .formWrapper textarea {
+.formWrapper input,
+.formWrapper textarea {
 	width: 100%;
 	font-family: "Nunito";
 	font-weight: 500;
@@ -929,7 +953,8 @@ body {
 	transition: 0.2s border ease-in-out;
 }
 
-.formWrapper input:disabled, .formWrapper .formSelect:disabled {
+.formWrapper input:disabled,
+.formWrapper .formSelect:disabled {
 	background-color: var(--deepPurple);
 }
 
@@ -1017,7 +1042,8 @@ body {
 	height: 100%;
 }
 
-.formWrapper input:focus, .formWrapper textarea:focus {
+.formWrapper input:focus,
+.formWrapper textarea:focus {
 	border: 2px solid var(--orange);
 	transition: 0.2s border ease-in-out;
 }
@@ -1209,10 +1235,11 @@ body {
 .cinemaBackground {
 	height: 35vh;
 	width: 100%;
-	background-size: cover;																						/* gets overwritenn by inline style */
-	background-repeat: no-repeat;																				/* gets overwritenn by inline style */
-	background-position: center bottom;																			/* gets overwritenn by inline style */
-	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/Cinema/room.jpg");	/* gets overwritenn by inline style */
+	background-size: cover; /* gets overwritenn by inline style */
+	background-repeat: no-repeat; /* gets overwritenn by inline style */
+	background-position: center bottom; /* gets overwritenn by inline style */
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url("./assets/Cinema/room.jpg"); /* gets overwritenn by inline style */
 	display: flex;
 	z-index: 10;
 }
@@ -1427,7 +1454,8 @@ body {
 	width: 100%;
 	display: flex;
 	position: relative;
-	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/cheese-curds.jpg);
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/cheese-curds.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center bottom;
@@ -1510,7 +1538,8 @@ body {
 	min-width: 70px;
 }
 
-.movieMonth, .movieDay {
+.movieMonth,
+.movieDay {
 	font-size: 1em;
 	font-weight: 500;
 }
@@ -1520,7 +1549,8 @@ body {
 	font-size: 1.2em;
 }
 
-.movieDay {}
+.movieDay {
+}
 
 .o30 {
 	opacity: 0.3;
@@ -1636,7 +1666,8 @@ body {
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
-.dropdownColumn ul li:hover>ul, .dropdownColumn ul li ul:hover {
+.dropdownColumn ul li:hover > ul,
+.dropdownColumn ul li ul:hover {
 	visibility: visible;
 	opacity: 1;
 	display: block;
@@ -1881,6 +1912,12 @@ body {
 	font-size: 2em;
 }
 
+.confirmedText {
+	color: white;
+	font-weight: 800;
+	font-size: 1.2em;
+}
+
 /* RESERVATION */
 
 .reservationWrapper {
@@ -2046,7 +2083,7 @@ body {
 	padding: 0.5em 1em;
 }
 
-.userPicture>img {
+.userPicture > img {
 	width: auto;
 	height: 90% !important;
 	min-height: 120px;
@@ -2067,7 +2104,7 @@ body {
 	background-color: var(--deepPurple);
 }
 
-.editWrapper>button {
+.editWrapper > button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -2085,7 +2122,18 @@ body {
 	border-radius: 0px 10px 10px 0px !important;
 }
 
-.binWrapper>button {
+.checkWrapper {
+	display: flex !important;
+	height: 100% !important;
+	width: 15% !important;
+	justify-content: center !important;
+	align-items: center !important;
+	background-color: var(--deepPurple);
+	border-radius: 0px !important;
+}
+
+.binWrapper > button,
+.checkWrapper > button {
 	border: 0;
 	max-width: 45px !important;
 	width: 30%;
@@ -2128,7 +2176,8 @@ body {
 	align-self: flex-start;
 }
 
-.settingsForm input[type="text"], .settingsForm input[type="password"] {
+.settingsForm input[type="text"],
+.settingsForm input[type="password"] {
 	border-radius: 4px 4px 4px 4px;
 	margin: 2px;
 	padding: 10px;
@@ -2164,7 +2213,7 @@ body {
 	border: 2px solid transparent;
 }
 
-.requestSettingsButtons>button {
+.requestSettingsButtons > button {
 	margin-left: 15px;
 	margin-right: 15px;
 	width: 35%;
@@ -2196,7 +2245,8 @@ body {
 	width: 100%;
 }
 
-#passwordNA, #passwordConfirmNA {
+#passwordNA,
+#passwordConfirmNA {
 	background-color: var(--lightPurple) !important;
 }
 
@@ -2207,12 +2257,12 @@ body {
 	min-height: 60px;
 }
 
-.passwordRow>div {
+.passwordRow > div {
 	width: 45%;
 	margin: 0px;
 }
 
-.passwordRow>div input[type="text"] {
+.passwordRow > div input[type="text"] {
 	width: 100%;
 }
 
@@ -2231,7 +2281,7 @@ body {
 	max-width: 250px;
 }
 
-.adminPicture>img {
+.adminPicture > img {
 	border-radius: 50%;
 	width: 50% !important;
 	margin-bottom: 10px;
@@ -2256,6 +2306,10 @@ input[type="file"] {
 
 .formError {
 	color: var(--red);
+}
+
+.formSuccess {
+	color: #affc41;
 }
 
 .registerSuccess {
@@ -2300,7 +2354,7 @@ input[type="file"] {
 	font-size: 2em;
 }
 
-.oneLine>label {
+.oneLine > label {
 	width: 40%;
 }
 
@@ -2325,7 +2379,7 @@ input[type="file"] {
 	width: 100%;
 }
 
-.confirmModuleButtons>button {
+.confirmModuleButtons > button {
 	width: 30%;
 	margin: 15px;
 	border: 2px solid var(--orange);
@@ -2414,11 +2468,10 @@ input[type="file"] {
 	padding-right: 20px;
 }
 
-.placeSelector
-{
+.placeSelector {
 	max-width: 65%;
 	display: grid;
 	grid-template-columns: 4fr 3fr 3fr;
-	color:white;
+	color: white;
 	column-gap: 2%;
 }

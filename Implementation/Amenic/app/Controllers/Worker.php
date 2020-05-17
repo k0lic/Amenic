@@ -197,6 +197,11 @@ class Worker extends BaseController
         $projections = $projectionsModel
                             ->where('Projections.email', 'testcinema@gmail.com')
                             ->join('Reservations', 'Projections.idPro = Reservations.idPro')
+                            
+                            //->join('Seats', 'Reservations.idRes = Seats.idRes')
+                            //->join('Movies', 'Projections.tmdbID = Movies.tmdbID')
+                            //->join('Technologies', 'Projections.idTech = Technologies.idTech')
+
                             ->join('RUsers', 'Reservations.email = RUsers.email')
                             ->like('RUsers.email',$phrase, $insensitiveSearch = TRUE)
                             ->orLike('firstName',$phrase, $insensitiveSearch = TRUE)
