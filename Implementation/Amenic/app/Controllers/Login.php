@@ -73,16 +73,22 @@ class Login extends BaseController {
             // Everything is ok, update the DB
             $ret = isValid($_POST['token']);
             try {
-
-                $userModel = new UserModel();
-                $user = $userModel->find($ret->email);
-
                 // Hash the password with Bcrypt
                 $password = password_hash($formData['firstPassword'], PASSWORD_BCRYPT, ['cost' => 8]); 
 
                 // Save to the DB
-                $user->password = $password;
-                $userModel->save($user);
+
+                $userModel = new UserModel();
+                //$user = $userModel->find($ret->email);
+
+                $userModel->where([
+                    'email' => $ret->email
+                    ])->set([
+                    'password' => $password       
+                    ])->update();
+
+                //$user->password = $password;
+                //$userModel->save($user);
                 
             } catch(Exception $e) {
                 return view('PasswordReset/passwordResetFatal.php');

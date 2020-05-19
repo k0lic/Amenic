@@ -15,6 +15,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
+		<link rel="icon" type="image/x-icon" href="<?php echo $baseURL ?>/favicon.ico">
 		<title>Amenic - Reservation</title>
 	</head>
 	<body>
@@ -120,7 +121,7 @@
                 <div class="column w15 ml-5 priceColumn">
                     <span class="reservationTitle">Your selected seats</span>
                     <div class='column mt-2 mb-3'>
-                        <span class="reservationSubtitle" id="numSeats">2 seats</span>
+                        <span class="reservationSubtitle" id="numSeats"></span>
                         <div class="reservedSeats mt-3 textCenter" id ="reservedSeats">
                         </div>
 					</div>

@@ -7,7 +7,8 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <link rel="icon" type="image/x-icon" href="<?php echo $baseURL ?>/favicon.ico">
 		<title>Amenic - Reservations</title>
 	</head>
 	<body>
@@ -43,8 +44,15 @@
                         </div>
                     </div>
                     <div class="user">
-                        <img src="/assets/profPic.png" class="profPic" alt="Profile picture">
-                        <span>Lošmi</span>
+                        <img src="<?php 
+                                if (!isset($userImage) || $userImage==null)
+                                    echo "/assets/profPic.png";
+                                else
+                                    echo "data:image/jpg;base64, ".$userImage;
+                        ?>" class="profPic" alt="Profile picture" />
+                        <span><?php
+                            echo $userFullName;
+                        ?></span>
                     </div>
                 </div>
                 <div id="actualContent" class="list">

@@ -5,6 +5,7 @@
     Github: zivkovicmilos
 */
 
+use \App\Models\UserModel;
 use App\Models\MovieModel;
 use App\Models\ProjectionModel;
 use App\Models\CinemaModel;
@@ -12,13 +13,44 @@ use App\Models\CityModel;
 use App\Models\CountryModel;
 use App\Models\TechnologyModel;
 
+use function App\Helpers\isAuthenticated;
+use function App\Helpers\isValid;
+use function App\Helpers\generateToken;
+use function App\Helpers\setToken;
+
 use CodeIgniter\I18n\Time;
 
 use function App\Helpers\getReviews;
 
 class Movie extends BaseController {
 
+    private function getToken() {
+        helper('auth');
+
+        if (isset($_COOKIE['token'])) {
+            $tokenCookie = $_COOKIE['token'];   
+            $token = isValid($tokenCookie);
+            
+            if ($token && isAuthenticated("RUser")) {
+                $image = (new UserModel())->find($token->email);
+                $image = $image->image;
+        
+                $token->image = $image;
+                return $token;
+            }
+        }
+        return null;
+    }
+
     public function index($tmdbID) {
+
+        $authenticated = "false";
+
+        $token = $this->getToken();
+
+        if (!is_null($token)){
+            $authenticated = "true";
+        }
 
         helper('imdb_helper');
 
@@ -28,7 +60,7 @@ class Movie extends BaseController {
 
         $reviews = getReviews($movie->imdbID);
         
-        return view('Movies/movie.php', ['movie' => $movie, 'reviews' => $reviews]);
+        return view('Movies/movie.php', ['movie' => $movie, 'reviews' => $reviews, 'authenticated' => $authenticated]);
     }
 
     public function getProjections() {

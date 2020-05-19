@@ -9,6 +9,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+		<link rel="icon" type="image/x-icon" href="<?php echo $baseURL ?>/favicon.ico">
 		<title>Amenic - Register</title>
 	</head>
 	<body>

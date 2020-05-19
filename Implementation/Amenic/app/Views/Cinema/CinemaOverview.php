@@ -22,7 +22,8 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <link rel="icon" type="image/x-icon" href="<?php echo $baseURL ?>/favicon.ico">
 		<title>Amenic - My cinema</title>
 	</head>
     <body <?php
@@ -107,7 +108,7 @@
             </div>
             <!-- CONTENT -->
             <div class="moviesWrapper">
-                <div class="topBar">
+                <div class="topBar centerY">
                     <!-- SEARCH BAR -->
                     <form class="searchForm">
                         <label>
@@ -150,7 +151,7 @@
                     <div class="user">
                         <img src="<?php 
                                 if (!isset($userImage) || $userImage==null)
-                                    echo "/assets/defaultUserImage.jpg";
+                                    echo "/assets/profPic.png";
                                 else
                                     echo "data:image/jpg;base64, ".$userImage;
                         ?>" class="profPic" alt="Profile picture" />

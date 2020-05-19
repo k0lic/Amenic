@@ -15,6 +15,9 @@ use \App\Entities\RUser;
 use \App\Entities\User;
 use Exception;
 
+use function App\Helpers\isAuthenticated;
+use function App\Helpers\isValid;
+
 class Register extends BaseController {
 
     private function clearSessionData() {
@@ -52,6 +55,13 @@ class Register extends BaseController {
 
 	public function index() {	
         // Start the user session where form data will be stored
+        $token = $this->getToken();
+
+        if (!is_null($token)) {
+            header('Location: /');
+            exit();
+        }
+
         session_start();
 
         $this->clearSessionData();
@@ -70,9 +80,10 @@ class Register extends BaseController {
     }
 
     public function next($step, $type, $postData) {
-        if($_SERVER["REQUEST_METHOD"] != "POST") {
-            // Unauthorized GET request
-            header('Location: /register');
+        $token = $this->getToken();
+
+        if (!is_null($token)) {
+            header('Location: /');
             exit();
         }
 
@@ -234,6 +245,24 @@ class Register extends BaseController {
         } catch(Exception $e) {
             throw new Exception('Failed to insert the cinema into the database ' . $e->getMessage());
         }   
+    }
+
+    private function getToken() {
+        helper('auth');
+
+        if (isset($_COOKIE['token'])) {
+            $tokenCookie = $_COOKIE['token'];   
+            $token = isValid($tokenCookie);
+            
+            if ($token && isAuthenticated("RUser")) {
+                $image = (new UserModel())->find($token->email);
+                $image = $image->image;
+        
+                $token->image = $image;
+                return $token;
+            }
+        }
+        return null;
     }
 
 }

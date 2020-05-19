@@ -9,6 +9,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+		<link rel="icon" type="image/x-icon" href="<?php echo $baseURL ?>/favicon.ico">
 		<title>Amenic - Register</title>
 	</head>
 	<body>
@@ -24,10 +25,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="registerWrapper centerRow">
+			<div class="registerWrapper centerX">
 				<form method="POST" action="/register/user/1" id="typeUser">
 				<div class="registerRow centerRow" onclick="document.forms['typeUser'].submit();">
-					<img src="/assets/Registration/user.svg" class="icon" />
+					<img src="/assets/Registration/user.svg" class="userChoiceIcon" />
 
 					<div class="registerType">
 						<span class="registerTypeTitle">Individual</span>

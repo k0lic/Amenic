@@ -10,6 +10,8 @@ let country = "1";
 let city = "";
 let tmdbID = document.getElementById("movieID").value;
 
+let authenticated = document.getElementById("authenticated");
+
 // FILTER LOGIC //
 
 const setDefaultCountry = () => {
@@ -155,7 +157,11 @@ const createRow = (cinemaName, time, room, type, idPro) => {
 
 	wrapper.classList.add("showingTableRow", "row", "centerY", "mb-1");
 
-	// TESTING //
+	if (authenticated.value == "false") {
+		wrapper.classList.add("nonAnchor");
+	}
+
+	// LINKING //
 	let anchor = document.createElement("a");
 	anchor.href = `/reservation/${idPro}`;
 	anchor.classList.add("anchorWrapper");
@@ -195,9 +201,12 @@ const createRow = (cinemaName, time, room, type, idPro) => {
 	el.innerHTML = type;
 	wrapper.appendChild(el);
 
-	anchor.appendChild(wrapper);
-
-	return anchor;
+	if (authenticated.value == "true") {
+		anchor.appendChild(wrapper);
+		return anchor;
+	} else {
+		return wrapper;
+	}
 };
 
 const createHeader = () => {

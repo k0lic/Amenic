@@ -28,6 +28,7 @@ use function App\Helpers\isValid;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+		<link rel="icon" type="image/x-icon" href="<?php echo $baseURL ?>/favicon.ico">
 		<title>Amenic - Movies</title>
 	</head>
 	<body>
@@ -120,7 +121,7 @@ use function App\Helpers\isValid;
 							<div class="user">
 								<img
 								src="<?php  if(!isset($token) || !$token->image) 
-												echo"/assets/Admins/profile.jpeg"; 
+												echo"/assets/Common/imgs/profPic.png"; 
 											else 
 												echo "data:image/jpg;base64, ".$token->image;  ?>"
 								class="profPic"

@@ -44,4 +44,14 @@
                 <label for="seats" class="reservationBottom">You've already reserved 6 tickets for this screening.</label>
             </div>
     </div>
+
+    <div class="modal hideModal centerX" id="resTaken">
+            <div class="modalHead centerX spaceBetween">
+                <span>Oh no!</span>
+                    <img src="/assets/close.svg" class="modalClose" alt="Close form" onclick="msgCloseModal()"/>
+            </div>
+            <div class="modalColumn">
+                <label for="seats" class="reservationBottom">Somebody has reserved these seats while you were browsing the page.</label>
+            </div>
+    </div>
 </div>

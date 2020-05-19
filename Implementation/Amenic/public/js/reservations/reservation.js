@@ -15,6 +15,7 @@ const modalTotal = document.getElementById("reservationModalTotal");
 const resConfirm = document.getElementById("resConfirm");
 const resSuccess = document.getElementById("resSuccess");
 const resError = document.getElementById("resError");
+const resTaken = document.getElementById("resTaken");
 const confirmButton = document.getElementById("confirmButton");
 const ticketPrice = parseFloat(document.getElementById("ticketPrice").value);
 
@@ -196,6 +197,7 @@ let reservations = [];
 const fillReserved = () => {
 	reservations.splice(0, reservations);
 	getReservations().then((data) => {
+		console.log(data);
 		if (!Array.isArray(data)) {
 			reservations.push(data["1"]);
 		} else {
@@ -282,6 +284,9 @@ const initiateConfirm = () => {
 		if (data == "OK") {
 			resConfirm.classList.add("hideModal");
 			resSuccess.classList.remove("hideModal");
+		} else if (data == "TAKEN") {
+			resConfirm.classList.add("hideModal");
+			resTaken.classList.remove("hideModal");
 		} else {
 			resConfirm.classList.add("hideModal");
 			resError.classList.remove("hideModal");

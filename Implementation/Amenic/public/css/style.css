@@ -746,7 +746,7 @@ body {
 }
 
 .loginLinks {
-	width: 60% !important;
+	/*width: 60% !important;*/
 	display: flex !important;
 	flex-direction: column !important;
 }
@@ -914,6 +914,11 @@ body {
 
 .registerWrapper .icon {
 	width: 5em;
+}
+
+.registerWrapper .userChoiceIcon {
+	width: 80px;
+	height: 80px;
 }
 
 .stepCircle {
@@ -1919,6 +1924,10 @@ body {
 }
 
 .showingTable a:nth-child(odd) .showingTableRow {
+	background-color: var(--formInput) !important;
+}
+
+.showingTable .nonAnchor:nth-child(odd) {
 	background-color: var(--formInput);
 }
 
@@ -2231,7 +2240,7 @@ body {
 }
 
 .searchForm {
-	align-self: flex-start;
+	/*align-self: flex-start; Turned off so horizontal nav alignment would work*/
 }
 
 .settingsForm input[type="text"],

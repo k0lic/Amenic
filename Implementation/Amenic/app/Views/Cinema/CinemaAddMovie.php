@@ -109,12 +109,12 @@
             <div class="emptyWrapper">
                 <!-- PROFILE PICTURE AND NAME -->
                 <div class="accountWrapper">
-                    <div class="topBar">
+                    <div class="topBar centerY">
                         <div></div>
                         <div class="user">
                             <img src="<?php 
                                     if (!isset($userImage) || $userImage==null)
-                                        echo "/assets/defaultUserImage.jpg";
+                                        echo "/assets/profPic.png";
                                     else
                                         echo "data:image/jpg;base64, ".$userImage;
                             ?>" class="profPic" alt="Profile picture" />

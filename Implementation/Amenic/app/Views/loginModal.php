@@ -1,4 +1,4 @@
-<button class="modalTrigger" onclick="document.getElementById('loginModal').classList.add('showModal');">
+<button class="modalTrigger standardButton" onclick="document.getElementById('loginModal').classList.add('showModal');">
     Log in
 </button>
 <div class="modalWrapper <?php echo $loginError!='' || $resetError!=''?'showModal':''?>" id="loginModal" 

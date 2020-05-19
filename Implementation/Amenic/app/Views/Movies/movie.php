@@ -19,7 +19,8 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <link rel="icon" type="image/x-icon" href="<?php echo $baseURL ?>/favicon.ico">
 		<title>Amenic - <?php echo $movie->title ?></title>
 	</head>
 	<body>
@@ -248,6 +249,7 @@
                 </div>
             </div>
             <input type="hidden" id="movieID" value=<?php echo $movie->tmdbID ?> />
+            <input type="hidden" id="authenticated" value=<?php echo $authenticated ?> />
         </div>
     </body>
     <script src="/js/movie/projectionLogic.js"></script>

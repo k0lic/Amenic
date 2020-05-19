@@ -31,7 +31,6 @@ use function App\Helpers\setToken;
 
 class Worker extends BaseController
 {
-
     private function getToken()
     {
         helper('auth');
@@ -47,6 +46,7 @@ class Worker extends BaseController
                 $image = $image->image;
         
                 $token->image = $image;
+        
                 return $token;
             }
         }
@@ -178,11 +178,17 @@ class Worker extends BaseController
         */
         ///////////////////////////////
 
+        $token = $this->getToken();
+        if (is_null($token)) {
+            header('Location: /');
+            exit();
+        }
+
         $cinemaModel = new CinemaModel();
 
-        $cinema = $cinemaModel->find('testcinema@gmail.com'); // TODO switch to token 
+        $cinema = $cinemaModel->find($token->email);
 
-        return view('Worker/worker.php', ['cinema' => $cinema, 'actMenu' => 0]);
+        return view('Worker/worker.php', ['cinema' => $cinema, 'actMenu' => 0, 'userImage' => $token->image, "userFullName" => "$token->firstName $token->lastName"]);
     }
 
     // RESERVATION LIST //
@@ -272,7 +278,13 @@ class Worker extends BaseController
         $reservation = $reservationModel->find($idRes);
         $reservation->confirmed = 1;
 
-        $reservationModel->save($reservation);
+        $reservationModel->where([
+            'idRes' => $idRes
+            ])->set([
+            'confirmed' => 1         
+            ])->update();
+
+        //$reservationModel->save($reservation);
 
         echo json_encode("ok");
     }

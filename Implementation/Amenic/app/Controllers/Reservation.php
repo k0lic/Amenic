@@ -26,10 +26,20 @@ class Reservation extends BaseController {
     public function index($idPro) {
 
         $token = $this->getToken();
-        if (is_null($token))
-            return view('AdminBreachMessage',[]);
+        if (is_null($token)) {
+            header('Location: /');
+            exit();
+        }
 
         // TEST
+        /*
+        $seatModel = new SeatModel();
+        $results = $seatModel
+                    ->where('idPro', 24)
+                    ->where('status !=', 'free')
+                    ->findAll();
+        die(var_dump($results));
+        */
         //////
 
         $movieModel = new MovieModel();
@@ -72,8 +82,10 @@ class Reservation extends BaseController {
     public function getReservations() {
 
         $token = $this->getToken();
-        if (is_null($token))
-            return view('AdminBreachMessage',[]);
+        if (is_null($token)) {
+            header('Location: /');
+            exit();
+        }
 
         $idPro = $_REQUEST['idPro'];
 
@@ -81,8 +93,7 @@ class Reservation extends BaseController {
 
         $results = $seatModel
                     ->where('idPro', $idPro)
-                    ->where('status', 'reserved')
-                    ->orWhere('status', 'sold')
+                    ->where('status !=', 'free')
                     ->findAll();
 
         echo json_encode($results);
@@ -112,8 +123,10 @@ class Reservation extends BaseController {
     public function confirm() {
 
         $token = $this->getToken();
-        if (is_null($token))
-            return view('AdminBreachMessage',[]);
+        if (is_null($token)) {
+            header('Location: /');
+            exit();
+        }
 
         $idPro = $_POST['idPro'];
         $token = $this->getToken();
@@ -122,6 +135,8 @@ class Reservation extends BaseController {
             // Bad token
             echo json_encode("BAD");
         }
+
+        $db = db_connect();
 
         $message = "OK";
 
@@ -145,6 +160,8 @@ class Reservation extends BaseController {
                 'email' => $token->email
             ]);
 
+            $db->transStart();
+
             $reservationModel->insert($reservation);
 
             $last = $reservationModel->where('email', $token->email)->findAll();
@@ -158,7 +175,31 @@ class Reservation extends BaseController {
             $seat = null;
             foreach($pairs as $pair) {
                 preg_match('/([0-9]{1,2}):([0-9]{1,2})/', $pair, $resArr);
-    
+
+                // Check if seats are still free
+                $foundSeat = $seatModel
+                                    ->where('idPro', $idPro)
+                                    ->where('rowNumber', $resArr[1])
+                                    ->where('seatNumber', $resArr[2])
+                                    ->findAll();
+                
+                if($foundSeat[0]->status != 'free') {
+                    $db->transRollback();
+                    echo json_encode('TAKEN');
+                    return;
+                }
+
+                $seatModel->where([
+                    'idPro' => $idPro, 
+                    'rowNumber' => $resArr[1], 
+                    'seatNumber' => $resArr[2]
+                    ])->set([
+                    'status' => 'reserved',
+                    'idRes' => $idRes            
+                    ])->update();
+
+                $db->transCommit();
+                /*
                 $seat = new Seat([
                     'idPro' => $idPro,
                     'rowNumber' => $resArr[1],
@@ -166,7 +207,8 @@ class Reservation extends BaseController {
                     'status' => 'reserved',
                     'idRes' => $idRes
                 ]);
-                $seatModel->insert($seat);
+                */
+
                 $roomLetter = $this->rowNumToStr($resArr[1]);
                 array_push($reservedSeats, "$roomLetter$resArr[2]");
             }
