@@ -51,7 +51,7 @@
 </XPD:OBJ>
 <XPD:ATTR name="#OwnedElements" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLPackage" guid="cog0mwzG60uqyB5tCrNWIwAA">
-<XPD:ATTR name="Name" type="string">SSU Rezervacija mesta</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">SSU Prodaja karte</XPD:ATTR>
 <XPD:REF name="Namespace">yDPg6d3gW0ih9vmDzTrfCgAA</XPD:REF>
 <XPD:ATTR name="#OwnedElements" type="integer">4</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLClass" guid="1NDMqgVGxEmVAyii5XgETQAA">
