@@ -260,7 +260,7 @@
                             "
                                 <div class=\"rowWrapper\">
                                     <div class=\"userPicture\">
-                                            <img src=\"".((!isset($item["image"]) || $item["image"]==null) ? "/assets/defaultUserImage.jpg" : "data:image/jpg;base64, ".$item["image"])."\" alt=\"Worker pic\" />
+                                            <img src=\"".((!isset($item["image"]) || $item["image"]==null) ? "/assets/profPic.png" : "data:image/jpg;base64, ".$item["image"])."\" alt=\"Worker pic\" />
                                     </div>
                                     <div class=\"description\">
                                         <div><h1>".$item["worker"]->firstName." ".$item["worker"]->lastName."</h1></div>     

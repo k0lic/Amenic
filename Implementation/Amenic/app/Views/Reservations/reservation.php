@@ -36,7 +36,7 @@
                             <div class=\"user\">
                                 <img
                                 src="; 
-                        if(!$token->image) echo"\"/assets/Admins/profile.jpeg\""; else echo "\"data:image/jpg;base64, ".$token->image."\"";
+                        if(!$token->image) echo"\"/assets/profPic.png\""; else echo "\"data:image/jpg;base64, ".$token->image."\"";
                         echo    "class=\"profPic\"
                                 alt=\"Profile picture\"
                                 />

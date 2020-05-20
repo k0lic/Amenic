@@ -114,7 +114,7 @@
                             </div>
                             <div class="adminPicture">
 								<img src="<?php 
-										$image = is_null($image) ? "/assets/Admins/profile.jpeg" : "data:image/jpg;base64, ".$image;
+										$image = is_null($image) ? "/assets/profPic.png" : "data:image/jpg;base64, ".$image;
 										echo $image; 						
 									?>" id="adminPic" alt="Picture not found!" />
                                 <label class="browseButton">

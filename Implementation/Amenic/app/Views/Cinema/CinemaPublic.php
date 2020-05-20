@@ -44,7 +44,7 @@
                         <div class="user"><?php
                             if ($userIsLoggedIn)
                             {
-                                $image = $userImage == null ? "/assets/defaultUserImage.jpg" : "data:image/jpg;base64, ".$userImage;
+                                $image = $userImage == null ? "/assets/profPic.png" : "data:image/jpg;base64, ".$userImage;
                                 echo "
                                     <img src=\"".$image."\" class=\"profPic\" alt=\"Profile picture\" />
                                     <span>".$userFullName."</span>
@@ -77,7 +77,7 @@
                     <div class="row cinemaInfo">
                         <img src="<?php
                             if ($cinema->banner == null)
-                                echo "/assets/defaultUserImage.jpg";
+                                echo "/assets/profPic.png";
                             else
                                 echo "data:image/jpg;base64, ".$cinema->banner;
                         ?>" class="cinemaProfileIcon" />

@@ -115,7 +115,7 @@
 					</div>
 					<div class="user">
 						<img
-						src="<?php if(!$token->image) echo"/assets/Admins/profile.jpeg"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
+						src="<?php if(!$token->image) echo"/assets/profPic.png"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
 						class="profPic"
 						alt="Profile picture"
 						/>
@@ -130,7 +130,7 @@
 					{
 						$city = !isset($row->cityName) || is_null($row->cityName) ? "" : " • ".$row->cityName;
 						$country = !isset($row->countryName) || is_null($row->countryName) ? "" : " • ".$row->countryName;
-						$image = !isset($row->image) || is_null($row->image) ? "/assets/Admins/profile.jpeg" : "data:image/jpg;base64, ".$row->image;
+						$image = !isset($row->image) || is_null($row->image) ? "/assets/profPic.png" : "data:image/jpg;base64, ".$row->image;
 						$name = strcmp($actMenu,0)==0 || strcmp($actMenu,3) == 0 ? $row->firstName." ".$row->lastName : $row->name;
 						$address = strcmp($actMenu,1)==0 || strcmp($actMenu,2)==0 ? " • ".$row->address : "";
 						$phone = strcmp($actMenu,1)==0 || strcmp($actMenu,2)==0 ? " • ".$row->phoneNumber : "";

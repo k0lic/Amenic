@@ -75,7 +75,7 @@
                     <div></div>
 					<div class="user">
 						<img
-						src="<?php if(!$token->image) echo"/assets/Admins/profile.jpeg"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
+						src="<?php if(!$token->image) echo"/assets/profPic.png"; else echo "data:image/jpg;base64, ".$token->image;  ?>"
 						class="profPic"
 						alt="Profile picture"
 						/>
