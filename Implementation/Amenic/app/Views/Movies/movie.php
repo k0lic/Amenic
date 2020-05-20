@@ -8,10 +8,10 @@
     $year = substr($movie->released, 0, 4);
 
     $actors = explode(',', $movie->actors, 4);
-    $cnt = count($actors);
+
+    $genres = explode(',', $movie->genre, 4);
 
     $maxlen = 510;
-
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +47,7 @@
                                 alt=\"Profile picture\"
                                 />
                                 <span>
-                                    ".$token->firstName." ".$token->lastName."
+                                    $token->firstName
                                 </span>
                             </div>
                         </li>";
@@ -70,7 +70,14 @@
                         <img src="/assets/Movie/movieClock.svg" class="movieInfoIconClock mr-1" alt="Runtime" class="movieInfoIcon" />
                         <span class="movieInfo mr-2"><?php echo $hour."h"." ".$minutes."m" ?></span>
                         <span class="movieInfo mr-2"><?php echo $year?></span>
-                        <span class="movieInfo"><?php echo $movie->genre ?></span> 
+                        <span class="movieInfo">
+                        <?php 
+                        $cnt = count($genres);
+                        for($i = 0; $i < count($genres) && $i < 3; $i++) {
+                            echo $genres[$i];
+                            if($i != 2 && $i != $cnt-1) echo ", ";
+                        }
+                        ?></span> 
                     </div>
                     <div class="row mt-2">
                         <span class="movieDesc w100"><?php echo $movie->plot ?></span>
@@ -84,7 +91,9 @@
                         <div class="column w60">
                             <span class="movieInfoCrewTitle">Stars:</span>
                             <span class="movieInfoCrew">
-                                <?php for($i = 0; $i < count($actors) && $i < 3; $i++) {
+                                <?php 
+                                $cnt = count($actors);
+                                for($i = 0; $i < count($actors) && $i < 3; $i++) {
                                         echo $actors[$i];
                                         if($i != 2 && $i != $cnt-1) echo ", ";
                                     }

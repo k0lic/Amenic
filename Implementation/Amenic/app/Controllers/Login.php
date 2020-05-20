@@ -223,7 +223,19 @@ class Login extends BaseController {
                     'country' => $user->idCountry,
                     'type' => $type
                 ];
-            }else {
+            } else if($type == 'Worker') {
+                $workerModel = new WorkerModel();
+
+                $worker = $workerModel->find($user->email);
+
+                $tokenPayload = [
+                    'firstName' => $user->firstName,
+                    'lastName' => $user->lastName,
+                    'email' => $user->email,
+                    'cinemaEmail' => $worker->idCinema,
+                    'type' => $type
+                ];
+            } else {
                 $tokenPayload = [
                     'firstName' => $user->firstName,
                     'lastName' => $user->lastName,

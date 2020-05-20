@@ -34,11 +34,12 @@ class Reservation extends BaseController {
         // TEST
         /*
         $seatModel = new SeatModel();
-        $results = $seatModel
-                    ->where('idPro', 24)
-                    ->where('status !=', 'free')
-                    ->findAll();
-        die(var_dump($results));
+        $foundSeat = $seatModel
+                                    ->where('idPro', 10)
+                                    ->where('rowNumber', 6)
+                                    ->where('seatNumber', 7)
+                                    ->findAll();
+        die(var_dump($foundSeat));
         */
         //////
 
@@ -245,7 +246,7 @@ class Reservation extends BaseController {
                         $resSeatsStr <br />
             ";
 
-            sendMail($token->email, "Reservation - $movie->title", $content);
+            $ret = sendMail($token->email, "Reservation - $movie->title", $content);
         }
 
         echo json_encode($message);

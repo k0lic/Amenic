@@ -139,6 +139,19 @@ const getCinemaName = async (email) => {
 	return data.name;
 };
 
+const getCinemaImage = async (email) => {
+	let response = await fetch(
+		`http://localhost:8080/movie/getCinemaImage?email=${email}`,
+		{
+			method: "GET",
+			mode: "cors"
+		}
+	);
+
+	let data = await response.json();
+	return data.image;
+};
+
 const getTechName = async (idTech) => {
 	let response = await fetch(
 		`http://localhost:8080/movie/getTechName?idTech=${idTech}`,
@@ -152,7 +165,7 @@ const getTechName = async (idTech) => {
 	return data.name;
 };
 
-const createRow = (cinemaName, time, room, type, idPro) => {
+const createRow = (cinemaName, time, room, type, idPro, cinemaImg, price) => {
 	let wrapper = document.createElement("div");
 
 	wrapper.classList.add("showingTableRow", "row", "centerY", "mb-1");
@@ -170,8 +183,13 @@ const createRow = (cinemaName, time, room, type, idPro) => {
 	let el = document.createElement("div");
 	el.classList.add("w10", "column", "centerRow");
 	let img = document.createElement("img");
-	img.classList.add("userIcon");
-	img.src = "https://via.placeholder.com/150";
+	img.classList.add("profPic");
+
+	if (cinemaImg == null) {
+		img.src = "/assets/profPic.png";
+	} else {
+		img.src = `data:image/jpg;base64, ${cinemaImg}`;
+	}
 
 	el.appendChild(img);
 
@@ -185,20 +203,26 @@ const createRow = (cinemaName, time, room, type, idPro) => {
 
 	// Time
 	el = document.createElement("div");
-	el.classList.add("w20", "textCenter");
+	el.classList.add("w10", "textCenter");
 	el.innerHTML = time;
 	wrapper.appendChild(el);
 
 	// Room
 	el = document.createElement("div");
-	el.classList.add("w20", "textCenter");
+	el.classList.add("w25", "textCenter");
 	el.innerHTML = room;
 	wrapper.appendChild(el);
 
 	// Type
 	el = document.createElement("div");
-	el.classList.add("w20", "textCenter");
+	el.classList.add("w10", "textCenter");
 	el.innerHTML = type;
+	wrapper.appendChild(el);
+
+	// Price
+	el = document.createElement("div");
+	el.classList.add("w10", "textCenter");
+	el.innerHTML = `€${price.toFixed(2)}`;
 	wrapper.appendChild(el);
 
 	if (authenticated.value == "true") {
@@ -226,20 +250,26 @@ const createHeader = () => {
 
 	// Time
 	el = document.createElement("div");
-	el.classList.add("w20", "textCenter");
+	el.classList.add("w10", "textCenter");
 	el.innerHTML = "Time";
 	wrapper.appendChild(el);
 
 	// Room
 	el = document.createElement("div");
-	el.classList.add("w20", "textCenter");
+	el.classList.add("w25", "textCenter");
 	el.innerHTML = "Room";
 	wrapper.appendChild(el);
 
 	// Type
 	el = document.createElement("div");
-	el.classList.add("w20", "textCenter");
+	el.classList.add("w10", "textCenter");
 	el.innerHTML = "Type";
+	wrapper.appendChild(el);
+
+	// Price
+	el = document.createElement("div");
+	el.classList.add("w10", "textCenter");
+	el.innerHTML = "Price";
 	wrapper.appendChild(el);
 
 	table.appendChild(wrapper);
@@ -330,13 +360,17 @@ const renderTable = () => {
 			resultsPL.forEach(async (projection, index, data) => {
 				let re = /(.*) (.*):.*/;
 
+				let cinemaImg = await getCinemaImage(projection.email);
+
 				projections.push(
 					createRow(
 						await getCinemaName(projection.email),
 						re.exec(projection.dateTime)[2],
 						projection.roomName,
 						await getTechName(projection.idTech),
-						projection.idPro
+						projection.idPro,
+						cinemaImg,
+						Number(projection.price)
 					)
 				);
 				projectionsAdded++;

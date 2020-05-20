@@ -109,6 +109,7 @@
                 -->
                 </div>
             </div>
+            <input type="hidden" id="cinemaEmail" value="<?php echo $cinema->email ?>">
             <?php include 'workerModal.php'; ?>
     </body>
     <script src="/js/worker/workerList.js"></script>

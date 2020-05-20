@@ -60,7 +60,7 @@ class Movie extends BaseController {
 
         $reviews = getReviews($movie->imdbID);
         
-        return view('Movies/movie.php', ['movie' => $movie, 'reviews' => $reviews, 'authenticated' => $authenticated]);
+        return view('Movies/movie.php', ['movie' => $movie, 'reviews' => $reviews, 'authenticated' => $authenticated, 'token' => $token]);
     }
 
     public function getProjections() {
@@ -129,6 +129,14 @@ class Movie extends BaseController {
         $email = $_REQUEST['email'];
         $cinemasModel = new CinemaModel();
         $result = $cinemasModel->find($email);
+
+        echo json_encode($result);
+    }
+
+    public function getCinemaImage() {
+        $email = $_REQUEST['email'];
+        $userModel = new UserModel();
+        $result = $userModel->find($email);
 
         echo json_encode($result);
     }

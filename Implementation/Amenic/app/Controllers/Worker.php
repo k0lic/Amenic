@@ -164,19 +164,7 @@ class Worker extends BaseController
 
     public function index() {
 
-        // TEST ZONE //
-        /*
-        $projectionsModel = new ProjectionModel();
-
-        $seatModel = new SeatModel();
-        $seats = $seatModel
-                        ->where('idPro', 17)
-                        ->where('status !=', 'free')
-                        ->findAll();
         
-        die(var_dump($seats));
-        */
-        ///////////////////////////////
 
         $token = $this->getToken();
         if (is_null($token)) {
@@ -185,8 +173,11 @@ class Worker extends BaseController
         }
 
         $cinemaModel = new CinemaModel();
+        $cinema = $cinemaModel->find($token->cinemaEmail);
 
-        $cinema = $cinemaModel->find($token->email);
+        // TEST ZONE //
+        //die(var_dump($token));
+        ///////////////////////////////
 
         return view('Worker/worker.php', ['cinema' => $cinema, 'actMenu' => 0, 'userImage' => $token->image, "userFullName" => "$token->firstName $token->lastName"]);
     }
@@ -201,7 +192,7 @@ class Worker extends BaseController
         $projectionsModel = new ProjectionModel();
 
         $projections = $projectionsModel
-                            ->where('Projections.email', 'testcinema@gmail.com')
+                            ->where('Projections.email', $cinemaEmail)
                             ->join('Reservations', 'Projections.idPro = Reservations.idPro')
                             
                             //->join('Seats', 'Reservations.idRes = Seats.idRes')
