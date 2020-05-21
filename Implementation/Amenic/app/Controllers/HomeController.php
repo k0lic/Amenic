@@ -201,9 +201,20 @@ class HomeController extends BaseController
         if (is_null($token) && isset($_COOKIE['token']))
             return view('AdminBreachMessage',[]);
 
-        $cinemaArray = (new CinemaModel())->where(['approved' => 1])->findAll();	
+        
+        $cinemaArray = (new CinemaModel())->where(['approved' => 1]);
+        if (!is_null($token) && strcmp($token->country,"") != 0)
+            $cinemaArray = $cinemaArray->where('idCountry',$token->country);
+        if (!is_null($token) && strcmp($token->city,"") != 0)
+            $cinemaArray = $cinemaArray->where('idCity',$token->city);
+        $cinemaArray = $cinemaArray->findAll();	
         $countries = (new CountryModel())->findAll();
-		return view('index.php',[ 'movies' => $cinemaArray, 'cinMenu' => 1, 'token' => $token, 'countries' => $countries]);
+        $cities = [];
+
+        if(!is_null($token) && strcmp($token->city,"") != 0)
+            $cities = (new CityModel())->where('idCountry',$token->country)->findAll();
+
+		return view('index.php',[ 'movies' => $cinemaArray, 'cinMenu' => 1, 'token' => $token, 'countries' => $countries, 'cities' => $cities]);
     }
     public function cinemasSearch($idCountry, $idCity, $title=null)
 	{

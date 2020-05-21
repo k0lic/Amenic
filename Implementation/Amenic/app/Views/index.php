@@ -28,7 +28,7 @@ use function App\Helpers\isValid;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-		<link rel="icon" type="image/x-icon" href="<?php echo $baseURL ?>/favicon.ico">
+		<link rel="icon" type="image/x-icon" href="<?php echo base_url(); ?>/favicon.ico">
 		<title>Amenic - Movies</title>
 	</head>
 	<body>
@@ -94,10 +94,14 @@ use function App\Helpers\isValid;
 							{
 								echo"
 								<select class=\"formSelect settingsSelect\" id=\"countryList\" name=\"country\">";
-										echo "<option value=\"0\" selected></option>";
+										echo "<option value=\"0\"".
+										(!isset($token) || strcmp($token->country,"") == 0 ? "selected" : "").
+										"></option>";
 										foreach($countries as $country)
 										{
-											echo "<option value=\"".$country->idCountry."\" >".$country->name."</option>";
+											echo "<option value=\"".$country->idCountry."\"". 
+											(strcmp($token->country,"") != 0 && strcmp($token->country,$country->idCountry) == 0 ? "selected" : "").
+											">".$country->name."</option>";
 										}		
 								echo"</select>";											
 							};
@@ -109,7 +113,20 @@ use function App\Helpers\isValid;
 							{
 								echo"
 								<select class=\"formSelect settingsSelect\" id=\"cityList\" name=\"city\">
-									<option value=\"0\" selected></option>
+									<option value=\"0\"".
+									(!isset($token) || strcmp($token->city,"") == 0 ? "selected" : "").
+									"></option>";
+								if(isset($cities) && count($cities) > 0)
+								{
+									foreach($cities as $city)
+									{
+										var_dump($city);
+										echo "<option value=\"".$city->idCity."\"". 
+										(strcmp($token->city,"") != 0 && strcmp($token->city,$city->idCity) == 0 ? "selected" : "").
+										">".$city->name."</option>";
+									}	
+								}
+								echo "
 								</select>";
 							}
 						?>
