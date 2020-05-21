@@ -12,7 +12,7 @@
 			<div class="menuBar">
 				<a href="/HomeController"><img src="/assets/MoviesPage/imgs/logo.svg" class="logo" alt="Amenic" /></a>
 				<?php include 'SideMenus/AdminSideMenu.php'; ?>
-				<a href="#"
+				<a href="/AdminController/settings"
 					><div class="icon baseline">
 						<svg
 							width="48"
@@ -80,7 +80,7 @@
 						alt="Profile picture"
 						/>
 						<span>
-							<?php echo $token->firstName." ".$token->lastName?>
+							<?php echo $token->firstName; ?>
 						</span>
 					</div>
 				</div>	

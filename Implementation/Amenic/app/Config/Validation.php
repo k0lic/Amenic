@@ -191,7 +191,7 @@ class Validation
 		'fName' => 'required|alpha|max_length[64]',
 		'lName' => 'required|alpha|max_length[64]',
 		'email' => 'required|valid_email|max_length[255]',
-		'phone' =>	'decimal|max_length[64]',
+		'phone' =>	'permit_empty|decimal|max_length[64]',
 		'pswd' => 'checkPassword',
 		'profilePicture' => 'ext_in[profilePicture,png,jpg,jpeg]|max_size[profilePicture,200]|is_image[profilePicture]|mime_in[profilePicture,image/jpeg,image/jpg,image/png]'
 	];
@@ -213,7 +213,6 @@ class Validation
 			'max_length' => 'Email should have less than 255 characters'
 		],
 		'phone' =>	[
-			'required' => 'Phone is required',
 			'max_length' => 'Phone number should have less than 64 numbers',
 			'decimal' => 'Phone can only have numbers'
 		],

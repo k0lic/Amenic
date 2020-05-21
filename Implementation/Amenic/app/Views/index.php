@@ -148,7 +148,7 @@ use function App\Helpers\isValid;
 							if (isAuthenticated('Cinema'))
 								echo $user->name;
 							else
-								echo $user->firstName." ".$user->lastName;
+								echo $user->firstName;
 							
 							?></span>
 						

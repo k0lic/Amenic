@@ -435,7 +435,7 @@ class AdminController extends BaseController
         try
         {
             //update database
-            $db->transCommit();
+            $db->transBegin();
             $img=null;
             if (strcmp($image->getName(),"") !=0)
             {
@@ -512,7 +512,7 @@ class AdminController extends BaseController
 
         try
         {
-            $db->transCommit();
+            $db->transBegin();
             $user = new User([
                 'email' => $emailNA,
                 'password' => $passwordNA,

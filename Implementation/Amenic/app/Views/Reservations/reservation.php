@@ -15,7 +15,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
-		<link rel="icon" type="image/x-icon" href="<?php echo $baseURL ?>/favicon.ico">
+		<link rel="icon" type="image/x-icon" href="<?php echo base_url(); ?>/favicon.ico">
 		<title>Amenic - Reservation</title>
 	</head>
 	<body>

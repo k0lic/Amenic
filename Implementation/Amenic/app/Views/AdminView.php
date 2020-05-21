@@ -120,7 +120,7 @@
 						alt="Profile picture"
 						/>
 						<span>
-							<?php echo $token->firstName." ".$token->lastName?>
+							<?php echo $token->firstName; ?>
 						</span>
 					</div>
 				</div>	
