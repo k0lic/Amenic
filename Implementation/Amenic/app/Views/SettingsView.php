@@ -290,6 +290,7 @@
 			</div>
 		</div>
 	</body>
+	<script src = "/js/settingsCorrectPictureRatio.js"></script>
 	<script src="/js/ruser/cityList.js"></script>
 	<script src="/js/passwordStrength/zxcvbn.js"></script>
     <script src="/js/passwordStrength/passwordStrength.js"></script>

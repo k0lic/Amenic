@@ -159,7 +159,7 @@ class Worker extends BaseController
         setToken(generateToken($payload));
         $token = $this->getToken();
 
-        header("/HomeController");
+        return redirect()->to('/HomeController');
     }
 
     public function index() {
