@@ -15,6 +15,7 @@ use App\Models\WorkerModel;
 use App\Models\UserModel;
 use App\Models\CityModel;
 use App\Models\CountryModel;
+use App\Models\GalleryModel;
 use App\Entities\User;
 use function \App\Helpers\isAuthenticated;
 use function \App\Helpers\isValid;
@@ -311,6 +312,22 @@ class CustomRules
         if ($originalStart < $now + 3600)
         {
             $error = "Cannot edit a projection that is starting in less than an hour";
+            return false;
+        }
+    }
+
+    // Check if a gallery image for the same account with the same name exists.
+    public function uniqueGalleryImage($imageName,&$error = null)
+    {
+        $this->getUserMail();
+
+        $galleryModel = new GalleryModel();
+
+        $galleryImage = $galleryModel->where("email", $this->userMail)->where("name", $imageName)->find();
+
+        if ($galleryImage != null && count($galleryImage) > 0)
+        {
+            $error = "This image has already been uploaded to the gallery";
             return false;
         }
     }

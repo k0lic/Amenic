@@ -7,6 +7,7 @@ const carouselModal = document.getElementById("carouselModal");
 const leftCarouselArrow = document.getElementById("leftCarouselArrow");
 const rightCarouselArrow = document.getElementById("rightCarouselArrow");
 const carouselImages = document.getElementById("carouselImages");
+const imageNameForDelete = document.getElementById("imageNameForDelete");
 
 var currentSlide = 0;
 
@@ -57,6 +58,7 @@ function goToCarouselImage(nextSlide) {
     currentSlide = nextSlide;
 
     children[currentSlide].classList.remove("galleryHidden");
+    imageNameForDelete.value = children[currentSlide].id;
 
     if (currentSlide == 0) {
         leftCarouselArrow.classList.remove("movieSearchActiveControl");

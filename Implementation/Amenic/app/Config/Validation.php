@@ -467,6 +467,23 @@ class Validation
 		]
 	];
 
+	// Theatre validation
+
+	public $actionAddGalleryImage = [
+		'imageName' => [
+			'label' => 'New image name',
+			'rules' => 'required|max_length[64]|uniqueGalleryImage'
+		],
+		'imageFile' => [
+			'label' => 'New image',
+			'rules' => 'ext_in[imageFile,png,jpg,jpeg]|max_size[imageFile,600]|is_image[imageFile]|mime_in[imageFile,image/jpeg,image/jpg,image/png]'
+		]/*,
+		'imageFile' => [
+			'label' => 'New image',
+			'rules' => 'ext_in[imageFile,png,jpg,jpeg]|max_size[imageFile,600]|is_image[imageFile]|mime_in[imageFile,image/jpeg,image/jpg,image/png]'
+		]*/
+	];
+
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------

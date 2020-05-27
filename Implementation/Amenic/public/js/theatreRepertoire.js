@@ -18,11 +18,18 @@ const currentPage = document.getElementById("currentPage");
 const nextPage = document.getElementById("nextPage");
 const lastDots = document.getElementById("lastDots");
 const lastPage = document.getElementById("lastPage");
+const galleryNewImageSource = document.getElementById("galleryNewImageSource");
+const galleryNewImagePreview = document.getElementById("galleryNewImagePreview");
+const galleryNewImageSubmit = document.getElementById("galleryNewImageSubmit");
+const cinemaBannerImage = document.getElementById("cinemaBannerImage");
+const newBannerSource = document.getElementById("newBannerSource");
+const newBannerSubmit = document.getElementById("newBannerSubmit");
 
 const uiPageSize = 5;
 
 var thisCinema = null;
 var allowLinks = false;
+var cinemaStartingBanner = null;
 var selectedDate = null;
 var collection = [];
 var pageNum = 1;
@@ -31,10 +38,10 @@ var mode = 0;
 
 // EVENT LISTENERS //
 
-function setupOnLoad(email, date, userIsLoggedIn) {
-    console.log("seting up for: " + email);
+function setupOnLoad(email, date, userIsLoggedIn, cinemaBanner) {
     thisCinema = email;
     allowLinks = userIsLoggedIn;
+    cinemaStartingBanner = cinemaBanner;
     dateChanged(date);
 }
 
@@ -50,30 +57,51 @@ function changeMode(nextMode) {
 }
 
 function pageBack() {
-    console.log("Trying to change the page!");
     if (pageNum > 1) {
         pageChanged(pageNum - 1);
     }
 }
 
 function pageForward() {
-    console.log("Trying to change the page!");
     if (pageNum < maxPageNumber()) {
         pageChanged(pageNum + 1);
     }
 }
 
 function pageFirst() {
-    console.log("Trying to change the page!");
     if (pageNum > 1) {
         pageChanged(1);
     }
 }
 
 function pageLast() {
-    console.log("Trying to change the page!");
     if (pageNum < maxPageNumber()) {
         pageChanged(maxPageNumber());
+    }
+}
+
+function showPicture() {
+    let newImage = galleryNewImageSource["files"][0];
+
+    if (newImage != null) {
+        galleryNewImagePreview.src = URL.createObjectURL(newImage);
+        galleryNewImagePreview.classList.remove("galleryHidden");
+        galleryNewImageSubmit.classList.remove("galleryHidden");
+    } else {
+        galleryNewImagePreview.classList.add("galleryHidden");
+        galleryNewImageSubmit.classList.add("galleryHidden");
+    }
+}
+
+function previewBanner() {
+    let newBanner = newBannerSource["files"][0];
+
+    if (newBanner != null) {
+        cinemaBannerImage.src = URL.createObjectURL(newBanner);
+        newBannerSubmit.classList.remove("galleryHidden");
+    } else {
+        cinemaBannerImage.src = cinemaStartingBanner;
+        newBannerSubmit.classList.add("galleryHidden");
     }
 }
 

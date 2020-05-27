@@ -17,6 +17,18 @@
         if(isset($_COOKIE['resetError'])) {
             $resetError = $_COOKIE['resetError'];
         }
+
+        $errors = [];
+        if (isset($_COOKIE["addGalleryImageErrors"]))
+        {
+            parse_str($_COOKIE["addGalleryImageErrors"], $errors);
+            setcookie("addGalleryImageErrors","",time() - 3600, "/");
+        }
+
+        if ($cinema->banner == null)
+            $cinemaBannerSource = "/assets/profPic.png";
+        else
+            $cinemaBannerSource = "data:image/jpg;base64, ".$cinema->banner;
     ?>
     <!-- HEAD -->
 	<head>
@@ -28,7 +40,7 @@
     </head>
     <!-- BODY -->
     <body onLoad="<?php
-        echo "setupOnLoad('".$cinema->email."','".date('Ymd', strtotime('today'))."','".$userIsLoggedIn."');";
+        echo "setupOnLoad('".$cinema->email."','".date('Ymd', strtotime('today'))."','".$userIsLoggedIn."','".$cinemaBannerSource."');";
         echo " stopCarouselPropagation();";
     ?>">
 		<div class="container column">
@@ -38,11 +50,22 @@
                     <img src="/assets/Common/svg/logo.svg" class="logo" alt="Amenic" />
                 </a>
                 <ul>
-                    <li><a href="/HomeController">Movies</a></li>
-                    <li><a href="/HomeController/Cinemas">Cinemas</a></li>
+                    <?php
+                        if ($cinemaIsLoggedIn)
+                        {
+                            echo "<li><a href=\"/Cinema\">Movies</a></li>";
+                            echo "<li><a href=\"/Cinema/Rooms\">Rooms</a></li>";
+                            echo "<li><a href=\"/Cinema/Employees\">Employees</a></li>";
+                        }
+                        else
+                        {
+                            echo "<li><a href=\"/HomeController\">Movies</a></li>";
+                            echo "<li><a href=\"/HomeController/Cinemas\">Cinemas</a></li>";
+                        }
+                    ?>
                     <li>
                         <div class="user"><?php
-                            if ($userIsLoggedIn)
+                            if ($userIsLoggedIn || $cinemaIsLoggedIn)
                             {
                                 $image = $userImage == null ? "/assets/profPic.png" : "data:image/jpg;base64, ".$userImage;
                                 echo "
@@ -53,19 +76,12 @@
                             else
                             {
                                 include "../app/Views/loginModal.php";
-                                //echo "<div>Gost</div>";
                             }
                         ?></div>
                     </li>
                 </ul>
             </div>
             <!-- BACKGROUND CINEMA BANNER -->
-            <!--div class="cinemaBackground centerRow" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php
-                /*if ($cinema->banner == null)
-                    echo "/assets/Cinema/room.jpg";
-                else
-                    echo "data:image/jpg;base64, ".$cinema->banner;*/
-            ?>); background-position: center bottom; background-size: cover; background-repeat: no-repeat;"></div-->
             <img class="cinemaBackgroundV2 centerRow" src="<?php
                 echo "/assets/Cinema/cinemaBG.jpg";
             ?>" />
@@ -75,12 +91,37 @@
                 <div class="column w70 cinemaInfoWrapper">
                     <!-- MAIN CINEMA INFO DIV -->
                     <div class="row cinemaInfo">
+                        <!-- CINEMA BANNER -->
+                        <?php
+                            if ($cinemaIsLoggedIn)
+                            {
+                                echo "
+                                    <div class=\"column\">
+                                ";
+                            }
+                        ?>
                         <img src="<?php
-                            if ($cinema->banner == null)
-                                echo "/assets/profPic.png";
-                            else
-                                echo "data:image/jpg;base64, ".$cinema->banner;
-                        ?>" class="cinemaProfileIcon" />
+                            echo $cinemaBannerSource;
+                        ?>" class="cinemaProfileIcon" id="cinemaBannerImage" />
+                        <!-- CINEMA BANNER EDITOR -->
+                        <?php
+                            if ($cinemaIsLoggedIn)
+                            {
+                                echo "
+                                        <form method=\"POST\" action=\"/Theatre/ActionChangeBanner\" enctype=\"multipart/form-data\" class=\"column centerRow mt-1\">
+                                            <div class=\"row\">
+                                                <label class=\"galleryAdminButton\">
+                                                    <input type=\"file\" onchange=\"previewBanner()\" name=\"newBanner\" id=\"newBannerSource\" required accept=\".jpg, .jpeg, .png\" />
+                                                    Browse
+                                                </label>
+                                                <button type=\"submit\" class=\"galleryAdminButton galleryHidden ml-1\" id=\"newBannerSubmit\">Save change</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                ";
+                            }
+                        ?>
+                        <!-- CINEMA DESCRIPTION -->
                         <div class="column w70">
                             <div class="cinemaName"><?php
                                 echo $cinema->name;
@@ -132,7 +173,7 @@
                                 </div>
                             </div>
                             <?php
-                                if ($userIsLoggedIn == false)
+                                if ($userIsLoggedIn == false && $cinemaIsLoggedIn == false)
                                     echo "<div class=\"movieImgText movieSearchItemEmpty mt-2\">Please log in in order to proceed to reservation.</div>";
                             ?>
                         </div>
@@ -227,16 +268,6 @@
                     <div class="gallery mb-2 w100">
                         <div class="column">
                             <div class="mb-1">Gallery</div>
-                            <!--form method="POST" action="/Theatre/ActionAddImage" enctype="multipart/form-data" class="column">
-                                <label class="goodButton">
-                                    <input type="file" name="newImage" />
-                                    Browse
-                                </label>
-                                <input type="hidden" name="email" value="<?php
-                                    echo $cinema->email;
-                                ?>" />
-                                <button type="submit" class="goodButton mt-1">Save</button>
-                            </form-->
                         </div>
                         <div class="galleryItems">
                             <?php
@@ -260,6 +291,31 @@
                                 }
                             ?>
                         </div>
+                        <!-- ADD NEW IMAGE TO GALLERY -->
+                        <?php
+                            if ($cinemaIsLoggedIn)
+                            {
+                                $localFormErrorPart1 = isset($errors["imageFile"]) ? $errors["imageFile"] : null;
+                                $localFormErrorPart2 = isset($errors["imageName"]) ? $errors["imageName"] : null;
+                                $localFormError = $localFormErrorPart1 == null ? "" : $localFormErrorPart1;
+                                $localFormError = $localFormErrorPart2 == null ? $localFormError : ($localFormErrorPart1 == null ? $localFormErrorPart2 : $localFormErrorPart1."<br/>".$localFormErrorPart2);
+                                echo "
+                                    <div class=\"column mt-3\">
+                                        <form method=\"POST\" action=\"/Theatre/ActionAddImage\" enctype=\"multipart/form-data\" class=\"column centerRow mb-2\">
+                                            <div class=\"row mb-1\">
+                                                <label class=\"galleryAdminButton\">
+                                                    <input type=\"file\" onchange=\"showPicture()\" name=\"newImage\" id=\"galleryNewImageSource\" required accept=\".jpg, .jpeg, .png\" />
+                                                    Browse
+                                                </label>
+                                                <button type=\"submit\" class=\"galleryAdminButton galleryHidden ml-1\" id=\"galleryNewImageSubmit\">Add image</button>
+                                            </div>
+                                            <img src=\"https://via.placeholder.com/100x76\" class=\"galleryAdminPreview galleryHidden\" id=\"galleryNewImagePreview\" />
+                                            <div class=\"formError\">".$localFormError."</div>
+                                        </form>
+                                    </div>
+                                ";
+                            }
+                        ?>
                     </button>
                 </div>
             </div>

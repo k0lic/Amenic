@@ -67,6 +67,10 @@
                             else
                                 echo "<li><a href=\"/Cinema/Employees\">Employees</a></li>";
 
+                            // CINEMA PAGE //
+
+                            echo "<li><a href=\"/Theatre\">My page</a></li>";
+
                         }
                         else
                         {

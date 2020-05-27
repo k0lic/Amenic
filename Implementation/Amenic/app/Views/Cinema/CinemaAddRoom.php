@@ -67,6 +67,10 @@
                                 echo "<a href=\"/Cinema/Employees\">Employees</a>";
                         ?>
                     </li>
+                    <li>
+                        <!-- CINEMA PAGE -->
+                        <a href="/Theatre">My page</a>
+                    </li>
                 </ul>
                 <!-- SETTINGS -->
                 <a href="/Cinema/Settings">
