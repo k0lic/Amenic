@@ -55,7 +55,7 @@ CREATE TABLE `Admins` (
   `email` varchar(255) NOT NULL,
   `firstName` varchar(64) NOT NULL,
   `lastName` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `Admins`
@@ -88,7 +88,7 @@ CREATE TABLE `Cinemas` (
   `closed` tinyint(1) NOT NULL,
   `idCountry` bigint DEFAULT NULL,
   `idCity` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `Cinemas`
@@ -142,7 +142,7 @@ INSERT INTO `Cities` (`idCity`, `name`, `idCountry`) VALUES
 CREATE TABLE `ComingSoon` (
   `tmdbID` varchar(64) NOT NULL,
   `email` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `ComingSoon`
@@ -190,7 +190,7 @@ CREATE TABLE `Galleries` (
   `email` varchar(255) NOT NULL,
   `name` varchar(64) NOT NULL,
   `image` mediumblob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `Galleries`
@@ -312,7 +312,7 @@ CREATE TABLE `Projections` (
   `canceled` tinyint(1) NOT NULL,
   `tmdbID` varchar(64) NOT NULL,
   `idTech` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `Projections`
@@ -354,7 +354,7 @@ CREATE TABLE `Reservations` (
   `confirmed` tinyint(1) NOT NULL,
   `idPro` bigint NOT NULL,
   `email` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 -- --------------------------------------------------------
 
@@ -367,7 +367,7 @@ CREATE TABLE `Rooms` (
   `email` varchar(255) NOT NULL,
   `numberOfRows` int NOT NULL,
   `seatsInRow` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `Rooms`
@@ -390,7 +390,7 @@ CREATE TABLE `RoomTechnologies` (
   `name` varchar(64) NOT NULL,
   `email` varchar(255) NOT NULL,
   `idTech` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `RoomTechnologies`
@@ -419,7 +419,7 @@ CREATE TABLE `RUsers` (
   `phoneNumber` varchar(64) DEFAULT NULL,
   `idCountry` bigint DEFAULT NULL,
   `idCity` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `RUsers`
@@ -556,7 +556,7 @@ CREATE TABLE `Users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `image` longblob DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `Users`
@@ -590,7 +590,7 @@ CREATE TABLE `Verifications` (
   `email` varchar(255) NOT NULL,
   `code` varchar(64) NOT NULL,
   `created` timestamp NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 -- --------------------------------------------------------
 
@@ -603,7 +603,7 @@ CREATE TABLE `Workers` (
   `idCinema` varchar(255) NOT NULL,
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=dynamic;
 
 --
 -- Dumping data for table `Workers`
