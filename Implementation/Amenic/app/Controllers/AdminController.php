@@ -7,6 +7,7 @@
 
 */
 
+//models
 use \App\Models\UserModel;
 use \App\Models\CinemaModel;
 use \App\Models\ComingSoonModel;
@@ -15,32 +16,35 @@ use \App\Models\RUserModel;
 use \App\Models\CountryModel;
 use \App\Models\CityModel;
 
+//libraries
 use App\Libraries\Upload;
 
+//entities
 use App\Entities\User;
 use App\Entities\Admin;
 
+//helpers
 use function App\Helpers\isAuthenticated;
 use function App\Helpers\isValid;
 use function App\Helpers\generateToken;
 use function App\Helpers\setToken;
 
+//exceptions
 use Exception;
 
-/** AdminController – klasa koja obradjuje zahteve vezane za "Admin" nalog
- *  -pregled i brisanje registrovanih korisnika
- *  -pregled i brisanje registrovanih bioskopa
- *  -pregled, potvrda i brisanje zahteva za nalog bioskopa
- *  -dodavanje novog admina
- *  -podešavanje postojećeg naloga
+/** AdminController - handles tasks that 'Cinema' account can do
+ *  -overview of registered users, ability to delete accounts
+ *  -overview of registered cinemas, ability to delete accounts
+ *  -overview of cinema requests, ability to accept or delete request
+ *  -ability to add new admins
+ *  -account settings
  *  @version 1.0
  */
 class AdminController extends BaseController
 {
-    /** Funkcija koja uzima kolačić u kome se nalaze informacije
-     *  potrebne za dohvatanje tokena koji sadrži informacije o admin nalogu
-     * @return view|object AdminBreachMessage koji obaveštava korisnika da nema privilegije admina |
-     *   $token koji sadrži potrebne informacije o adminu 
+    /** Gets the cookie containing basic info of logged user
+     * @return view|object AdminBreachMessage user is not looged or is not admin |
+     *   $token - contains admins info 
      */
     private function getToken()
     {
@@ -53,6 +57,7 @@ class AdminController extends BaseController
             
             if ($token && isAuthenticated("Admin"))
             {
+                //get admins picture form db
                 $image = (new UserModel())->find($token->email);
                 $image = $image->image;
         
@@ -63,16 +68,16 @@ class AdminController extends BaseController
         return null;
     }
 
-    /** Funkcija koja se poziva kada se pozove samo AdminController
-     * @return function users koja vraća spisak registrovanih korisnika
+    /** Default function for AdminController
+     * @return callable function which returns a list of registered users
      */
     public function index()
     {
         return $this->users();
     }
 
-    /** Funkcija koja dohvata sve registrovane korisnike iz baze i prikazuje ih adminu
-     * @return view AdminView sa podacima [$trenutnoAktivniMeni, $podaciZaPrikazivanje, $podaciAdmina]
+    /** Fetches all registered users from database
+     * @return view AdminView using data - [$curActiveMenu, $usersList, $adminInfo]
      */
     public function users()
     {
@@ -92,8 +97,8 @@ class AdminController extends BaseController
         return view('AdminView',['actMenu' => "0", 'data' => $data->getResult(), 'token' => $token]);
     }
 
-    /** Funkcija koja dohvata sve registrovane bioskope iz baze i prikazuje ih adminu
-     * @return view AdminView sa podacima [$trenutnoAktivniMeni, $podaciZaPrikazivanje, $podaciAdmina]
+    /** Fetches all cinema accounts from database
+     * @return view AdminView using data - [$curActiveMenu, $cinemaList, $adminInfo]
      */
     public function cinemas()
     {   
@@ -112,8 +117,8 @@ class AdminController extends BaseController
         return view('AdminView',['actMenu' => "1", 'data' => $data->getResult(), 'token' => $token]);
     }
 
-    /** Funkcija koja dohvata sve zahteve za registrovanje novih bioskopa
-     * @return view AdminView sa podacima [$trenutnoAktivniMeni, $podaciZaPrikazivanje, $podaciAdmina]
+    /** Fetches all cinema requests from database
+     * @return view AdminView using data - [$curActiveMenu, $requestList, $adminInfo]
      */
     public function requests()
     {
@@ -132,8 +137,8 @@ class AdminController extends BaseController
         return view('AdminView',['actMenu' => "2", 'data' => $data->getResult(), 'token' => $token]);
     }
 
-    /** Funkcija koja dohvata sve admine u sistemu
-     * @return view AdminView sa podacima [$trenutnoAktivniMeni, $podaciZaPrikazivanje, $podaciAdmina]
+    /** Fetches all admins from database
+     * @return view AdminView using data - [$curActiveMenu, $adminList, $adminInfo]
      */
     public function admins()
     {
@@ -150,8 +155,8 @@ class AdminController extends BaseController
         return view('AdminView',['actMenu' => "3", 'data' => $data->getResult(), 'token' => $token]);
     }
 
-    /** Funkcija koja adminu prikazuje formu kojom može da menja svoje podatke osim email adrese
-     * @return view SettingsView sa podacima [$podaciZaPrikazivanje, $trenutnoAktivniMeni, $slikaKorisnika, $tipKorisnika]
+    /** Creates a form to allow admin to change his information
+     * @return view SettingsView using data - [$adminInfo, $curActiveMenu, $adminImage, $accountType, $accountToken, $errors] 
      */
     public function settings()
     {
@@ -169,7 +174,9 @@ class AdminController extends BaseController
         return view('SettingsView',['data' => $data, 'actMenu' => "5", 'image' => $token->image, 'userType' => 'Admin', 'token' => $token, 'errors' => '' ]);    
     }
 
-
+    /** Filters accounts using provided phrase in post request
+     * @return json [actMenu, data, token, phrase]
+     */
     public function search()
     {
         $token = $this->getToken();
@@ -258,8 +265,9 @@ class AdminController extends BaseController
     }
 
     //HELPER FUNCTIONS
-    /** Funkcija koja šalje admina na željenu funkciju kontrolera u zavisnosti od menija u kom se nalazi
-     * @return function koja vraća želejene podatke
+    /** Selects function to call depending on cuurrently active menu
+     * @param int $actMenu currently active menu
+     * @return callable function which provides adequate view
      */
     private function selectMenu($actMenu)
     {
@@ -280,8 +288,8 @@ class AdminController extends BaseController
         }
     }
 
-    /** Funkcija koja uklanja korisnika iz baze nezavisno od toga kog tipa je korisnik. Osim admina naravno
-     * @return function koja salje admina na željeni meni
+    /** Removes account from database except admin account
+     * @return callable function to show desired menu
      */
     public function removeUser()
     {
@@ -315,9 +323,8 @@ class AdminController extends BaseController
         return $this->selectMenu($actMenu);
     }
 
-    /** Funkcija koja daje adminu na pregled nalog bioskopa koji je već potvrdjen ili još nije
-     * @return view AdminRequestView [$podaciOBioskopu, $aktivniMeni, $imeDržave, $imeGrada ] - 
-     * vraća formu sa svim poslatim podacima i daje adminu mogućnost da potvrdi zahtev, obriše nalog ili otvori zatvoreni bioskop
+    /** Overview of cinema account (approved or not) 
+     * @return view AdminRequestView using data [$cinemaData, $actMenu, $countryName, $cityName, $adminData ] - 
      */
     public function editRequest()
     {
@@ -340,8 +347,8 @@ class AdminController extends BaseController
         return view("AdminRequestView",["data" => $data, "actMenu" => $actMenu, "country" => $county->name, "city" => $city->name, "token" => $token ]);
     }
 
-    /** Funkcija koja potvrdjuje nalog bioskopa
-     * @return function koja salje admina na željeni meni
+    /** Approves cinema request in database
+     * @return callable function to show desired menu
      */
     public function approveCinema()
     {
@@ -359,8 +366,8 @@ class AdminController extends BaseController
         return $this->selectMenu($actMenu);
     }
 
-    /** Funkcija koja otvara nalog bioskopa koji je bio zatvoren
-     * @return function koja salje admina na željeni meni
+    /** Reopens cinema account
+     * @return callable function to show desired menu
      */
     public function openCinema()
     {
@@ -377,8 +384,8 @@ class AdminController extends BaseController
         return $this->selectMenu($actMenu);
     }
 
-    /** Funkcija koja pamti promene na nalogu admina
-     * @return function koja salje admina na željeni meni
+    /** Saves changes to admin account
+     * @return callable function to show desired menu
      */
     public function saveSettings()
     {
@@ -472,8 +479,8 @@ class AdminController extends BaseController
         return $this->selectMenu(3);
     }
 
-    /** Funkcija koja otvara nalog novom adminu
-     * @return function koja salje admina na preged svih admina
+    /** Creates new admin in database
+     * @return callable function to show desired menu
      */
     public function addAdmin()
     {
@@ -539,6 +546,9 @@ class AdminController extends BaseController
         return $this->selectMenu(3);
     }
 
+    /** Closes cinema account 
+     * @return callable function that logs out user
+     */
     public function closeCinema()
     {
         $email = $_POST['key'];

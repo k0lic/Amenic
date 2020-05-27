@@ -7,30 +7,35 @@
 
 */
 
+//models
 use \App\Models\UserModel;
 use \App\Models\CountryModel;
 use \App\Models\CityModel;
 use \App\Models\RUserModel;
+use \App\Models\MovieModel;
+use \App\Models\ComingSoonModel;
+use \App\Models\CinemaModel;
+use \App\Models\ProjectionModel;
 
-use App\Models\MovieModel;
-use App\Models\ComingSoonModel;
-use App\Models\CinemaModel;
-use App\Models\ProjectionModel;
-
-use function App\Helpers\isAuthenticated;
-use function App\Helpers\isValid;
-use function App\Helpers\generateToken;
-use function App\Helpers\setToken;
+//helpers
+use function \App\Helpers\isAuthenticated;
+use function \App\Helpers\isValid;
+use function \App\Helpers\generateToken;
+use function \App\Helpers\setToken;
 
 
 /** HomeController – starting class which takes care of guests and registered users
- *  -provides list of all awailable movies
- *  -provides list of all awailable cinemas
+ *  -provides list of all available movies
+ *  -provides list of all available cinemas
  *  -registered users can change account information 
  *  @version 1.0
  */
 class HomeController extends BaseController
 {
+    /** Gets the cookie containing basic info of logged user
+     * @return view|object AdminBreachMessage user is not looged or is not admin |
+     *   $token - contains RUser info 
+     */
     private function getToken()
     {
         helper('auth');
@@ -51,6 +56,10 @@ class HomeController extends BaseController
         return null;
     }
     
+    /** Default function for HomeController
+     * @return callable function which returns a list of trending movies 
+     * if logged user is RUser or redirects to different controller 
+     */
     public function index()
 	{
         helper('auth');
@@ -88,7 +97,7 @@ class HomeController extends BaseController
         }
     }
     
-	/** Function which returns movies currently playing
+	/** Function which returns movies currently playing from database
      * @return array[Movie] list of available movies
      */
 	private function getPlayingMovies()
@@ -109,7 +118,7 @@ class HomeController extends BaseController
 		return $movieArray;
 	}
 
-	/** Function which returns movies marked as coming soon
+	/** Function which returns movies marked as coming soon from database
      * @return array[Movie] list of available movies
      */
 	private function getComingSoonMovies()
@@ -130,6 +139,9 @@ class HomeController extends BaseController
 		return $movieArray;
 	}
 
+    /** Function which shows movies marked as coming soon
+     * @return view index.php using data [$movieArray, $activeMenu, $userInfo]
+     */
 	public function comingSoon()
 	{   
         $token = $this->getToken();
@@ -140,6 +152,11 @@ class HomeController extends BaseController
 		return view('index.php',[ 'movies' => $movieArray, 'actMenu' => 2, 'token' => $token]);
 	}
 
+    /** Function which returns movies currently playing from database
+     * having $title phrase in their title  
+     * @param string $title part of the title
+     * @return array[Movie] list of available movies
+     */
 	private function getWantedPlayingMovies($title)
 	{
 		$movieArray=[];
@@ -155,6 +172,11 @@ class HomeController extends BaseController
 		return $movieArray;
 	}
 
+    /** Function which returns movies marked as coming soon from database
+     * having $title phrase in their title  
+     * @param string $title part of the title
+     * @return array[Movie] list of available movies
+     */
 	private function getWantedComingSoonMovies($title)
 	{
 		$movieArray=[];
@@ -174,6 +196,10 @@ class HomeController extends BaseController
 		return $movieArray;
 	}
 
+    /** Function retrieving movies marked as coming soon or playing from database
+     * having $title phrase in their title  
+     * @return json movieArray
+     */
 	public function titleSearch()
 	{
         $token = $this->getToken();
@@ -198,6 +224,10 @@ class HomeController extends BaseController
 		//return view('index.php',[ 'movies' => $movieArray, 'actMenu' => $menu]);
 	}
 
+    /** Function which shows approved cinemas
+     * if logged and place set, filtered by country and city
+     * @return view index.php using data [$cinemaArray, $cinemaMenu, $userInfo, $countries, $cities]
+     */
 	public function cinemas()
 	{
         $token = $this->getToken();
@@ -219,6 +249,14 @@ class HomeController extends BaseController
 
 		return view('index.php',[ 'movies' => $cinemaArray, 'cinMenu' => 1, 'token' => $token, 'countries' => $countries, 'cities' => $cities]);
     }
+
+    /** Function which returns cinemas from database
+     * filtered by country, city and phrase (name or email)
+     * @param int $idCountry in which country cinema is located
+     * @param int $idCity in which city cinema is located
+     * @param string $title part of the name or email of cinema
+     * @return json array[Cinema] list of available cinemas
+     */
     public function cinemasSearch($idCountry, $idCity, $title=null)
 	{
         $token = $this->getToken();
@@ -257,6 +295,11 @@ class HomeController extends BaseController
         return json_encode($cinemaArray);
     }
 
+    /** Function which returns cities from database
+     * which belong to provided country
+     * @param int $countryId requested country
+     * @return json array[Cities] list of available cities
+     */
 	public function getCities($countryId)
 	{
         $token = $this->getToken();
@@ -269,8 +312,8 @@ class HomeController extends BaseController
 	}
 	
 	//Settings function
-    /** Funkcija koja adminu prikazuje formu kojom može da menja svoje podatke osim email adrese
-     * @return view SettingsView sa podacima [$podaciZaPrikazivanje, $trenutnoAktivniMeni, $slikaKorisnika, $tipKorisnika]
+    /** Shows settings form to allow user to change his information except email
+     * @return view SettingsView using data [$userInfo, $activeMenu, $userImage, $userType, $token, $listOfErrors]
      */
     public function settings()
     {
@@ -303,6 +346,10 @@ class HomeController extends BaseController
         return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'RUser', 'token' => $token, 'errors' => '' ]);    
     }
 
+    /** Saves settings to the database or prints errors if the data is invalid
+     * @return view|callable SettingsView using data [$userInfo, $activeMenu, $userImage, $userType, $token, $listOfErrors] |
+     * function which shows current playing movies
+     */
     public function saveSettings()
     {
         $token = $this->getToken();

@@ -22,6 +22,9 @@ use Exception;
 
 date_default_timezone_set("Europe/Belgrade");
 
+/** CustomRules - custom rules used for form validation
+ *  @version 1.0
+ */
 class CustomRules
 {
 
@@ -314,8 +317,9 @@ class CustomRules
     
     //SETTINGS FORM VALIDATING RULES
 
-    //Preventing user to force custom place
-    //allows empty place
+    /** Preventing user to force custom place but allowing empty place
+     * @return boolean is the place correct or not
+     */
     public function checkPlace($place,&$error = null)
     {
         if (is_null($place))
@@ -362,7 +366,9 @@ class CustomRules
         return true;
     }
 
-    //used for existing users
+    /** Checks the password for existing users
+     * @return boolean is the password correct or not
+     */
     public function checkPassword($pswd, &$error = null)
     {
         if (is_null($pswd))
