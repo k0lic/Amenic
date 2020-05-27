@@ -1,3 +1,11 @@
+<!--
+    Author: Martin Mitrović
+    Github: Rpsaman13000
+
+	Author: Miloš Živkovic
+    Github: zivkovicmilos
+-->
+
 <?php
 
 use function App\Helpers\isAuthenticated;

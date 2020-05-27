@@ -1,3 +1,8 @@
+/*
+    Author: Martin Mitrović
+    Github: Rpsaman13000
+*/
+
 function showPicture() {
 
 
