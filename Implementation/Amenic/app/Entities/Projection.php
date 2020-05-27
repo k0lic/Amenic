@@ -1,20 +1,30 @@
 <?php namespace App\Entities;
 
+/*
+
+    Author: Martin Mitrović
+    Github: Rpsaman13000
+
+*/
+
 use CodeIgniter\Entity;
 
+/** Projection - object of this class represents one row in Projections table
+ *  @version 1.0
+ */
 class Projection extends Entity
 {
-
     /*
-        idPro
-        roomName
-        email
-        dateTime
-        price
-        canceled
-        tmdbID
-        idTech
-    */    
+        Columns:
+         -idPro
+         -roomName
+         -email
+         -dateTime
+         -price
+         -canceled
+         -tmdbID
+         -idTech
+    */ 
    
     public function toString()
     {

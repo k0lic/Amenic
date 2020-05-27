@@ -1,26 +1,36 @@
 <?php namespace App\Entities;
 
+/*
+
+    Author: Martin Mitrović
+    Github: Rpsaman13000
+
+*/
+
 use CodeIgniter\Entity;
 
+/** Movie - object of this class represents one row in Movies table
+ *  @version 1.0
+ */
 class Movie extends Entity
 {
-
     /*
-        tmdbID
-        title
-        released
-        runtime
-        genre
-        director
-        writer
-        actors
-        plot
-        poster
-        backgroundImg
-        imdbRating
-        imdbID
-        reviews
-        trailer
+        Columns:
+         -tmdbID
+         -title
+         -released
+         -runtime
+         -genre
+         -director
+         -writer
+         -actors
+         -plot
+         -poster
+         -backgroundImg
+         -imdbRating
+         -imdbID
+         -reviews
+         -trailer
     */    
    
     public function toString()

@@ -555,7 +555,7 @@ INSERT INTO `Technologies`(`idTech`, `name`) VALUES
 CREATE TABLE `Users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `image` varbinary(60000) DEFAULT NULL
+  `image` longblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

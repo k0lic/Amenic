@@ -1,13 +1,23 @@
 <?php namespace App\Entities;
 
+/*
+
+    Author: Martin Mitrović
+    Github: Rpsaman13000
+
+*/
+
 use CodeIgniter\Entity;
 
+/** Tecnology - object of this class represents one row in Technologies table
+ *  @version 1.0
+ */
 class Technology extends Entity
 {
-
     /*
-        idTech
-        name
+        Columns:
+         -idTech
+         -name
     */    
    
     public function toString()

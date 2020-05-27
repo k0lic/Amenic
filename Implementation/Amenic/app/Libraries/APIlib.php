@@ -1,21 +1,29 @@
 <?php namespace App\Libraries;
 
+/*
+
+    Author: Martin Mitrović
+    Github: Rpsaman13000
+
+*/
+
 use GuzzleHttp\Client;
 
-/** APIlib – biblioteka koja dohvata podatke sa TMDB apija i vraca json format
+/** APIlib – library used to fetch data from TMDB API and return it in JSON format
  *  @version 1.0
  */
 
 class APIlib {
 
-    /** Funkcija koja dohvata osnovne podatke o filmu na osnovu njegovog TMDBid polja
-     * @param string $movieID id filma u TMDB bazi filmova
-     * @return array $params [$statusniKod, $tipFajla, $jsonObjekat]
+    /** Fetches primary information for a movie
+     * @param string $movieID TMDBid - unique identifier for a movie in TMDB
+     * @return array $params [$statusCode, $fileType, $jsonObject]
      */
         public function getMovieBasic($movieID)
         {
             $client = new Client();
 
+            //hardcoding obtained api_key from TMDB
             $res = $client->request('GET', 'https://api.themoviedb.org/3/movie/'.$movieID.'?api_key=a447e93ca55c73e315f16a4930488fcf', [
                 'auth' => ['', '']
             ]);
@@ -27,14 +35,15 @@ class APIlib {
             return $params;
         }
     
-    /** Funkcija koja dohvata podatke o svim ljudima koji su radili na filmu i njihovim ulogama
-     * @param string $movieID id filma u TMDB bazi filmova
-     * @return array $params [$statusniKod, $tipFajla, $jsonObjekat]
+    /** Fetches cast and crew for a movie
+     * @param string $movieID TMDBid - unique identifier for a movie in TMDB
+     * @return array $params [$statusCode, $fileType, $jsonObject]
      */
         public function getMovieCredits($movieID)
         {
             $client = new Client();
 
+            //hardcoding obtained api_key from TMDB
             $res = $client->request('GET', 'https://api.themoviedb.org/3/movie/'.$movieID.'/credits?api_key=a447e93ca55c73e315f16a4930488fcf', [
                 'auth' => ['', '']
             ]);
@@ -46,14 +55,15 @@ class APIlib {
             return $params;
         }
 
-    /** Funkcija koja dohvata podatke o videima koji su vezani za zadati film
-     * @param string $movieID id filma u TMDB bazi filmova
-     * @return array $params [$statusniKod, $tipFajla, $jsonObjekat]
+    /** Fetches the videos that have been added to a movie
+     * @param string $movieID TMDBid - unique identifier for a movie in TMDB
+     * @return array $params [$statusCode, $fileType, $jsonObject]
      */
         public function getMovieVideos($movieID)
         {
             $client = new Client();
 
+            //hardcoding obtained api_key from TMDB
             $res = $client->request('GET', 'https://api.themoviedb.org/3/movie/'.$movieID.'/videos?api_key=a447e93ca55c73e315f16a4930488fcf', [
                 'auth' => ['', '']
             ]);
@@ -65,14 +75,15 @@ class APIlib {
             return $params;
         }
 
-     /** Funkcija koja dohvata neke komentare za zadati film
-     * @param string $movieID id filma u TMDB bazi filmova
-     * @return array $params [$statusniKod, $tipFajla, $jsonObjekat]
+     /** Fetches the user reviews for a movie
+     * @param string $movieID TMDBid - unique identifier for a movie in TMDB
+     * @return array $params [$statusCode, $fileType, $jsonObject]
      */
         public function getMovieReviews($movieID)
         {
             $client = new Client();
 
+            //hardcoding obtained api_key from TMDB
             $res = $client->request('GET', 'https://api.themoviedb.org/3/movie/'.$movieID.'/reviews?api_key=a447e93ca55c73e315f16a4930488fcf', [
                 'auth' => ['', '']
             ]);
@@ -84,14 +95,16 @@ class APIlib {
             return $params;
         }
 
-    /** Funkcija koja dohvata sve filmove koji u naslovu imaju zadat parametar
-     * @param string $movieTitle naslov ili deo naslova filma koji se trazi
-     * @return array $params [$statusniKod, $tipFajla, $jsonObjekat]
+    /** Fetches all the movies containing the phrase provided
+     *  as a parameter to the function in their title
+     * @param string $movieTitle title, or part of the title of a movie
+     * @return array $params [$statusCode, $fileType, $jsonObject]
      */
         public function getMovies($movieTitle)
         {
             $client = new Client();
             
+            //hardcoding obtained api_key from TMDB
             $res = $client->request('GET', 'https://api.themoviedb.org/3/search/movie?api_key=a447e93ca55c73e315f16a4930488fcf&language=en-US&page=1&include_adult=false&query='.$movieTitle, [
                 'auth' => ['', '']
             ]);
@@ -113,6 +126,7 @@ class APIlib {
         $movieTitle = str_replace(" ", "%20", $movieTitle);
         $client = new Client();
         
+        //hardcoding obtained api_key from TMDB
         $res = $client->request('GET', 'https://api.themoviedb.org/3/search/movie?api_key=a447e93ca55c73e315f16a4930488fcf&language=en-US&page='.$pageNumber.'&include_adult=false&query='.$movieTitle, [
             'auth' => ['', '']
         ]);
@@ -124,14 +138,15 @@ class APIlib {
         return $page;
     }
 
-    /** Funkcija koja dohvata neke parametre o zadatom filmu sa OMDBja
-     * @param string $movieID IMDB id za zeljeni film
-     * @return array $params [$statusniKod, $tipFajla, $jsonObjekat]
+    /** Fetches the data about a movie from OMDB API 
+     * @param string $movieID OMDBid - unique identifier for a movie in OMDB
+     * @return array $params [$statusCode, $fileType, $jsonObject]
      */
         public function getMovieInfoOMDB($movieID)
         {
             $client = new Client();
              
+            //hardcoding obtained api_key from TMDB
             $res = $client->request('GET', 'http://www.omdbapi.com/?apikey=eec78257&i='.$movieID, [
                 'auth' => ['', '']
             ]);
@@ -143,3 +158,5 @@ class APIlib {
             return $params;
         }
 }
+
+//it is possible to put all of this functions into one function but it would ruin all the code using this library so it is left for another version of project

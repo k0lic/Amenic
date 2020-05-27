@@ -1,8 +1,10 @@
 <?php namespace App\Controllers;
 
 /*
+
     Author: Martin Mitrović
     Github: Rpsaman13000
+
 */
 
 use \App\Models\UserModel;

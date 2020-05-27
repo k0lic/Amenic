@@ -1,14 +1,24 @@
 <?php namespace App\Entities;
 
+/*
+
+    Author: Martin Mitrović
+    Github: Rpsaman13000
+
+*/
+
 use CodeIgniter\Entity;
 
+/** RoomTecnology - object of this class represents one row in RoomTechnologies table
+ *  @version 1.0
+ */
 class RoomTechnology extends Entity
 {
-
     /*
-        name
-        email
-        idTech
+        Columns:
+         -name
+         -email
+         -idTech
     */    
    
     public function toString()

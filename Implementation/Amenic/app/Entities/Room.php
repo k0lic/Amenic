@@ -1,15 +1,25 @@
 <?php namespace App\Entities;
 
+/*
+
+    Author: Martin Mitrović
+    Github: Rpsaman13000
+
+*/
+
 use CodeIgniter\Entity;
 
+/** Room - object of this class represents one row in Rooms table
+ *  @version 1.0
+ */
 class Room extends Entity
 {
-
     /*
-        name
-        email
-        numberOfRows
-        seatsInRow
+        Columns:
+         -name
+         -email
+         -numberOfRows
+         -seatsInRow 
     */    
    
     public function toString()
