@@ -213,7 +213,8 @@
                                     ");
                                 }
                                 else
-                                {       // CANCELED PROJECTIONS
+                                {       
+                                    // CANCELED PROJECTIONS
                                     echo
                                     ("
                                             <div class=\"movieImgExtended centerY column\">

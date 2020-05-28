@@ -181,29 +181,28 @@ use function App\Helpers\isValid;
 
 					foreach($movies as $movie)
 					{
-						echo "<div class=\"cinemaContainer\">";
-							if (isset($cinMenu))
-							{
-								echo "<a href=\"/Theatre/Repertoire/".$movie->email."\" class=\"coolLink\" >";
-								if (isset($movie->banner))
-									echo (
-										"<img src=\"data:image/jpeg;base64, ".$movie->banner."\" class=\"movieImg\" alt=\"\" />"
-									);
-								else
-									echo ("<img src=\"/assets/Cinema/cinema.jpg\" class=\"movieImg\" alt=\"\" />"
-									);
-								echo "<div class=\"text-block\">
-										<p>".$movie->name."</p>
-									</div>";
-							}
-							else
-							{
+						if (isset($cinMenu))
+						{
+							echo "<a href=\"/Theatre/Repertoire/".$movie->email."\" class=\"coolLink\" ><div class=\"guestCardExtended\">";
+							if (isset($movie->banner))
 								echo (
-									"<a href=\"/movie/".$movie->tmdbID."\" class=\"coolLink\" >
-									<img src=\"".$movie->poster."\" class=\"movieImg\" alt=\"\" />"
+									"<img src=\"data:image/jpeg;base64, ".$movie->banner."\" class=\"movieImg\" alt=\"\" />"
 								);
-							}
-							echo "</a></div>";
+							else
+								echo ("<img src=\"/assets/Cinema/cinema.jpg\" class=\"movieImg\" alt=\"\" />"
+								);
+							echo "<div class=\"text-block\">
+									<p>".$movie->name."</p>
+								</div>";
+						}
+						else
+						{
+							echo (
+								"<a href=\"/movie/".$movie->tmdbID."\" class=\"coolLink\" ><div class=\"guestCardExtended\">
+								<img src=\"".$movie->poster."\" class=\"movieImg\" alt=\"\" />"
+							);
+						}
+						echo "</div></a>";
 					}
 
 					?>
