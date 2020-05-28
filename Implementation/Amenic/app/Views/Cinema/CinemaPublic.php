@@ -96,7 +96,7 @@
                             if ($cinemaIsLoggedIn)
                             {
                                 echo "
-                                    <div class=\"column\">
+                                    <div class=\"column centerY\">
                                 ";
                             }
                         ?>
@@ -184,8 +184,8 @@
                 <div class="column w25 mr-5">
                     <!-- CINEMA CONTACT INFO -->
                     <div class="cinemaContactInfo">
-                        <div class="row">
-                            <img src="/assets/Cinema/location.png" class="smallIcon" />
+                        <div class="row centerY">
+                            <img src="/assets/Cinema/pin.svg" class="smallIcon" />
                             <div class="ml-1"><?php
                                 echo $cinema->address;
                                 if (isset($cinemaCity) && $cinemaCity!=null)
@@ -194,8 +194,8 @@
                                     echo " &middot; ".$cinemaCountry;
                             ?></div>
                         </div>
-                        <div class="row mt-2">
-                            <img src="/assets/Cinema/phone.png" class="smallIcon" />
+                        <div class="row centerY mt-2">
+                            <img src="/assets/Cinema/phone.svg" class="smallIcon" />
                             <div class="ml-1"><?php
                                 echo $cinema->phoneNumber;
                             ?></div>

@@ -189,6 +189,14 @@ class Login extends BaseController {
             } else if(!is_null($cinemaModel->find($email))) {
                 $user = $cinemaModel->find($email);
                 $type = 'Cinema';
+
+                if($user->closed == 1) {
+                    $cinemaModel->where([
+                        'email' => $email
+                        ])->set([
+                        'closed' => 0         
+                        ])->update();
+                }
             } else if(!is_null($adminModel->find($email))) {
                 $user = $adminModel->find($email);
                 $type = 'Admin';

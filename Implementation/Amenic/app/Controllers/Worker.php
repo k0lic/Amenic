@@ -179,7 +179,7 @@ class Worker extends BaseController
         //die(var_dump($token));
         ///////////////////////////////
 
-        return view('Worker/worker.php', ['cinema' => $cinema, 'actMenu' => 0, 'userImage' => $token->image, "userFullName" => "$token->firstName $token->lastName"]);
+        return view('Worker/worker.php', ['cinema' => $cinema, 'actMenu' => 0, 'userImage' => $token->image, "userFullName" => $token->firstName]);
     }
 
     // RESERVATION LIST //
