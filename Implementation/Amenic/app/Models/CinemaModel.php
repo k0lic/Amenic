@@ -1,5 +1,10 @@
 <?php namespace App\Models;
 
+/*
+    Author: Andrija Kolić
+    Github: k0lic
+*/
+
 use App\Models\SmartDeleteModel;
 use App\Models\UserModel;
 use App\Models\WorkerModel;
@@ -8,14 +13,41 @@ use App\Models\ComingSoonModel;
 use App\Models\RoomModel;
 use App\Models\ProjectionModel;
 
+/**
+ *  Model used for database operations focused on the 'Cinemas' table.
+ *  Extends the SmartDeleteModel.
+ * 
+ *  @version 1.0
+ */
 class CinemaModel extends SmartDeleteModel
 {
+    /**
+     *  @var string $table table name
+     */
     protected $table = 'Cinemas';
+
+    /**
+     *  @var string $primaryKey primary key name
+     */
     protected $primaryKey= 'email';
-    protected $returnType= 'App\Entities\Cinema';  
+
+    /**
+     *  @var object $returnType the type of the return objects for methods of this class
+     */
+    protected $returnType= 'App\Entities\Cinema';
+    
+    /**
+     *  @var array $allowedFields fields in the table that can be manipulated using this model
+     */
     protected $allowedFields= ['email', 'name', 'address', 'phoneNumber', 'description', 'mngFirstName', 'mngLastName', 'mngPhoneNumber', 'mngEmail', 'banner', 'approved', 'closed', 'idCountry', 'idCity'];  
 
-    // Deletes the entry from the 'Cinemas' table along with all of its dependants: galleries, comingsoon, rooms, workers; and its base object.
+    /**
+     *  Deletes the entry from the 'Cinemas' table along with all of its dependants: galleries, comingsoon, rooms, workers; and its base object.
+     * 
+     *  @param string $email email address of the chosen cinema account
+     * 
+     *  @return void
+     */
     public function smartDelete($email)
     {
         $usermdl = new UserModel();
@@ -36,7 +68,15 @@ class CinemaModel extends SmartDeleteModel
         $usermdl->smartDelete($email);                                                  // deletes the base object
     }
 
-    // Closes the cinema, which involves canceling all the projections.
+    /**
+     *  Closes the cinema, which involves canceling all the projections. Wraps the operation in a transaction.
+     * 
+     *  @param string $email email address of the chosen cinema account
+     * 
+     *  @return void
+     * 
+     *  @throws Exception
+     */
     public function transSmartClose($email)
     {
         try

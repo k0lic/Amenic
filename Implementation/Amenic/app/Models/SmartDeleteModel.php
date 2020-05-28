@@ -1,12 +1,31 @@
 <?php namespace App\Models;
 
+/*
+    Author: Andrija Kolić
+    Github: k0lic
+*/
+
 use CodeIgniter\Model;
 use Exception;
 
+/**
+ *  Abstract base model that provides the SmartDelete interface.
+ *  The idea of SmartDelete is to delete all dependencies with the chosen entry.
+ * 
+ *  @version 1.0
+ */
 abstract class SmartDeleteModel extends Model
 {
-    // Invokes smartDelete within a transaction.
-    // Smart delete is used to delete an entry with all its dependant entities.
+    /**
+     *  Wraps SmartDelete in a transaction.
+     *  Smart delete is used to delete an entry with all its dependant entities.
+     * 
+     *  @param string $key primary key - used to select an entry from the appropriate table
+     * 
+     *  @return void
+     * 
+     *  @throws Exception
+     */
     public function transSmartDelete($key)
     {
         try

@@ -16,10 +16,30 @@ use App\Models\SeatModel;
 use App\Entities\RoomTechnology;
 use Exception;
 
+/**
+ *  This model handles database operations that span across multiple lower level models and are not easily associated with a specific one.
+ *  Some of the operations are:
+ *      -getting a cinemas projections/comingSoons and attaching posters to them
+ *      -getting a cinemas projections/comingSoons that match a search term and attaching posters to them
+ *      -getting a page of a detailed cinema repertoire
+ * 
+ *  @version 1.0
+ */
 class AACinemaModel extends Model
 {
+
+    /**
+     *  @var object $returnType the type of the return objects for methods of this class
+     */
     protected $returnType= 'object';
 
+    /**
+     *  Finds all of the projections of the chosen cinema. Attaches posters to them all.
+     * 
+     *  @param string $cinemaEmail email address of the chosen cinema account
+     * 
+     *  @return array projections with attached posters
+     */
     public function findAllProjectionsOfMyCinemaAndAttachPosters($cinemaEmail)
     {
         $movieModel = new MovieModel();
@@ -53,6 +73,13 @@ class AACinemaModel extends Model
         return $results;
     }
 
+    /**
+     *  Finds all of the movies that are coming soon for the chosen cinema. Attaches posters to them all.
+     * 
+     *  @param string $cinemaEmail email address of the chosen cinema account
+     * 
+     *  @return array movies that are coming soon with attached posters
+     */
     public function findAllComingSoonsOfMyCinemaAndAttachPosters($cinemaEmail)
     {
         $movieModel = new MovieModel();
@@ -86,6 +113,16 @@ class AACinemaModel extends Model
         return $results;
     }
 
+    /**
+     *  Adds the prebuilt room to the database and adds all of the rooms technologies as well.
+     * 
+     *  @param object $room prebuilt room entry
+     *  @param array $technologies technologies that are supported in this room
+     * 
+     *  @return void
+     * 
+     *  @throws Exception
+     */
     public function addRoom($room,$technologies)
     {
         try
@@ -111,21 +148,15 @@ class AACinemaModel extends Model
         }
     }
 
-    public function changeRoom($email,$oldName,$room,$technologies)
-    {
-        try
-        {
-            $this->db->transBegin();
-            throw new Exception("NOT YET IMPLEMENTED!<br/>>");
-            $this->db->transCommit();
-        }
-        catch (Exception $e)
-        {
-            $this->db->transRollback();
-            throw new Exception("AACinemaModel.changeRoom() failed!<br/>".$e->getMessage());
-        }
-    }
-
+    /**
+     *  Searches the projections of the chosen cinema by matching with: movie title, room name.
+     *  Attaches posters to them all. Orders by start time.
+     * 
+     *  @param string $email email address of the chosen cinema account
+     *  @param string $match the search term
+     * 
+     *  @return array projections with attached posters
+     */
     public function findAllProjectionsOfMyCinemaLike($email, $match)
     {
         $moviemdl = new MovieModel();
@@ -197,6 +228,15 @@ class AACinemaModel extends Model
         return $results;
     }
 
+    /**
+     *  Searches the movies that are coming soon for the chosen cinema by matching with: movie title.
+     *  Attaches posters to them all.
+     * 
+     *  @param string $email email address of the chosen cinema account
+     *  @param string $match the search term
+     * 
+     *  @return array movies that are coming soon with attached posters
+     */
     public function findAllComingSoonsOfMyCinemaLike($email, $match)
     {
         $moviemdl = new MovieModel();
@@ -218,6 +258,14 @@ class AACinemaModel extends Model
         return $results;
     }
 
+    /**
+     *  Counts the number of projections for the chosen cinema, for the chosen day. Excludes canceled projections.
+     * 
+     *  @param string $email email address of the chosen cinema account
+     *  @param string $day chosen day
+     * 
+     *  @return int number of projections
+     */
     public function countMyMovieRepertoire($email, $day)
     {
         $promdl = new ProjectionModel();
@@ -234,6 +282,19 @@ class AACinemaModel extends Model
         return $repertoireSize;
     }
 
+    /**
+     *  Gets the chosen page (20) of projections for the chosen cinema, for the chosen day. Excludes canceled projections.
+     *  Attaches additional information:
+     *      -movie title
+     *      -technology
+     *      -free seats
+     * 
+     *  @param string $email email address of the chosen cinema account
+     *  @param string $day chosen day
+     *  @param string $page chosen page
+     * 
+     *  @return array projections with added details
+     */
     public function findMyMovieRepertoire($email, $day, $page)
     {
         $promdl = new ProjectionModel();

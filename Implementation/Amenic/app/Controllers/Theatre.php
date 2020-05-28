@@ -18,13 +18,52 @@ use Exception;
 use function \App\Helpers\isAuthenticated;
 use function \App\Helpers\isValid;
 
+/**
+ *  This controller handles the public facing page of the cinema account. Often referred to in house as CinemaPage.
+ *  This page includes such features as:
+ *      -basic cinema information overview
+ *      -detailed repertoire overview
+ *      -cinema gallery overview
+ *  If accessed by a cinema account, additional features are enabled:
+ *      -gallery management: adding or removing images
+ *      -banner management: changing the cinema banner image
+ * 
+ *  This controller is not accessible by workers or administrators.
+ * 
+ *  @version 1.0
+ */
 class Theatre extends BaseController
 {
+
+    //--------------------------------------------------------------------
+    //  FIELDS  //
+    //--------------------------------------------------------------------
+
+    /**
+     *  @var string $userMail email address of the logged in account (can be empty - if controller used by guest)
+     */
     private string $userMail = "";
+
+    /**
+     *  @var blob $userImage profile picture of the logged in account (can be null)
+     */
     private $userImage = null;
+
+    /**
+     *  @var string $userName the name of the logged in account - displayed next to the profile picture
+     */
     private string $userName = "";
 
-    // Does nothing, for now.
+    //--------------------------------------------------------------------
+    //  GET METHODS  //
+    //--------------------------------------------------------------------
+
+    /**
+     *  Presents the public CinemaPage to its owner. Also enables gallery and banner management.
+     *  Accessible only by a cinema account.
+     * 
+     *  @return view Cinema/CinemaPublic
+     */
     public function index()
     {
         $this->goHomeIfNotCinema();
@@ -35,10 +74,16 @@ class Theatre extends BaseController
         $gallery = (new GalleryModel())->where("email", $this->userMail)->find();
 
         return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $this->userImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name,"gallery" => $gallery,"userIsLoggedIn" => false,"cinemaIsLoggedIn" => true,"userImage" => $this->userImage,"userFullName" => $this->userName]);
-        //return view("404.php");
     }
 
-    // Shows the repertoire of the chosen cinema page. 
+    /**
+     *  Presents the public version of the CinemaPage of the chosen cinema. If accessed by a registered user, reservation links are enabled.
+     *  Accessible only by a guest or registered user.
+     * 
+     *  @param string $email email address of the chosen cinema
+     * 
+     *  @return view Cinema/CinemaPublic
+     */
     public function repertoire($email)
     {
         $this->onlyBasicAccounts();
@@ -56,7 +101,17 @@ class Theatre extends BaseController
             return view("Cinema/CinemaPublic.php", ["cinema" => $cinema,"cinemaImage" => $cinemaImage,"cinemaCity" => $cinemaCity->name,"cinemaCountry" => $cinemaCountry->name,"gallery" => $gallery,"userIsLoggedIn" => true,"cinemaIsLoggedIn" => false,"userImage" => $this->userImage,"userFullName" => $this->userName]);
     }
 
-    // Adds a new image to the gallery of the chosen cinema.
+    //--------------------------------------------------------------------
+    //  POST METHODS  //
+    //--------------------------------------------------------------------
+
+    /**
+     *  Adds a new image to the gallery.
+     *  Accessible only by a cinema account.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Theatre
+     */
     public function actionAddImage()
     {
         $this->goHomeIfNotPost();
@@ -98,7 +153,13 @@ class Theatre extends BaseController
         exit();
     }
 
-    // Deletes an image from the gallery.
+    /**
+     *  Deletes an image from the gallery.
+     *  Accessible only by a cinema account.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Theatre
+     */
     public function actionDeleteImage()
     {
         $this->goHomeIfNotPost();
@@ -127,7 +188,13 @@ class Theatre extends BaseController
         exit();
     }
 
-    // Changes the cinema banner image.
+    /**
+     *  Changes the cinema banner image.
+     *  Accessible only by a cinema account.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Theatre
+     */
     public function actionChangeBanner()
     {
         $this->goHomeIfNotPost();
@@ -162,9 +229,15 @@ class Theatre extends BaseController
         exit();
     }
 
-    // Fetch methods //
+    //--------------------------------------------------------------------
+    //  FETCH METHODS  //
+    //--------------------------------------------------------------------
 
-    // Fetches a page (20) of projections for a specific cinema, for a specific day.
+    /**
+     *  Fetches a page (20) of projections for a specific cinema, for a specific day.
+     * 
+     *  @return JSON projections
+     */
     public function getMyRepertoire()
     {
         $this->tasteTheCookie();
@@ -179,7 +252,11 @@ class Theatre extends BaseController
         echo json_encode($results);
     }
 
-    // Fetches how many projections there are for a specific cinema, for a specific day.
+    /**
+     *  Fetches how many projections there are for a specific cinema, for a specific day.
+     * 
+     *  @return JSON number of projections
+     */
     public function countMyRepertoire()
     {
         $this->tasteTheCookie();
@@ -193,7 +270,11 @@ class Theatre extends BaseController
         echo json_encode($results);
     }
 
-    // Fetches a page (20) of movies that are coming soon for a specific cinema.
+    /**
+     *  Fetches a page (20) of movies that are coming soon for a specific cinema.
+     * 
+     *  @return JSON movies that are coming soon
+     */
     public function getMyComingSoons()
     {
         $this->tasteTheCookie();
@@ -216,7 +297,11 @@ class Theatre extends BaseController
         echo json_encode($results);
     }
 
-    // Fetches how many movies that are coming soon are ther for a specific cinema.
+    /**
+     *  Fetches how many movies that are coming soon are there for a specific cinema.
+     * 
+     *  @return JSON number of movies that are coming soon
+     */
     public function countMyComingSoons()
     {
         $this->tasteTheCookie();
@@ -229,9 +314,18 @@ class Theatre extends BaseController
         echo json_encode($results);
     }
 
-    // Private methods //
+    //--------------------------------------------------------------------
+    //  PRIVATE METHODS  //
+    //--------------------------------------------------------------------
 
-    // Calls the validation service test named $testName to check validity of $data.
+    /**
+     *  Calls the validation service test $testName to check validity of $data.
+     * 
+     *  @param string $testName name of the validation test
+     *  @param array $data data which needs to be validated
+     *  
+     *  @return array errors from the validation testing
+     */
     private function isValid($testName, $data)
     {
         $validation =  \Config\Services::validation();
@@ -243,7 +337,17 @@ class Theatre extends BaseController
         return $validation->getErrors();
     }
 
-    // Only lets through: guests, registered users, or cinemas.
+    /**
+     *  Checks if the request is either from:
+     *      -a cinema account,
+     *      -a guest,
+     *      -or a registered user.
+     *  Redirects to /HomeController if not.
+     *  Used to limit access to methods.
+     *  Gets relevant account data from the token.
+     *  
+     *  @return void
+     */
     private function tasteTheCookie()
     {
         helper("auth");
@@ -275,7 +379,13 @@ class Theatre extends BaseController
         }
     }
 
-    // Only lets through guests and registered users.
+    /**
+     *  Checks if the request is from a logged in registered user or a guest by checking the provided token. Redirects to /HomeController if not.
+     *  Used to limit access to methods.
+     *  Gets relevant account data from the token, when possible.
+     *  
+     *  @return void
+     */
     private function onlyBasicAccounts()
     {
         helper("auth");
@@ -299,7 +409,13 @@ class Theatre extends BaseController
         }
     }
     
-    // Checks if the request is from a logged in Cinema account.
+    /**
+     *  Checks if the request is from a logged in Cinema account by checking the provided token. Redirects to /HomeController if not.
+     *  Used to limit access to methods.
+     *  Gets relevant account data from the token.
+     *  
+     *  @return void
+     */
     private function goHomeIfNotCinema()
     {
         helper("auth");
@@ -321,7 +437,12 @@ class Theatre extends BaseController
         exit();
     }
 
-    // Checks if the request is of POST type and if it's not, reroutes home.
+    /**
+     *  Checks if the request is of POST type. Redirects to /Cinema if not.
+     *  Used to limit access to methods.
+     *  
+     *  @return void
+     */
     private function goHomeIfNotPost()
     {
         if($_SERVER["REQUEST_METHOD"] != "POST") {

@@ -29,16 +29,31 @@ date_default_timezone_set("Europe/Belgrade");
 class CustomRules
 {
 
+    /**
+     *  @var string $userMail email address of the logged in account
+     */
     private string $userMail = "";
 
-    // Always throws an error.
+    /**
+     *  Always throws an error. Used to validate variables that must be left empty.
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function shouldNotExist($str,&$error = null)
     {
         $error = "This field should be left empty";
         return false;
     }
 
-    // Checks if an array containing only valid idTechs was passed.
+    /**
+     *  Checks if the variable is an array containing only valid idTechs (PK for Technologies table).
+     * 
+     *  @var string $arr variable
+     * 
+     *  @return bool success
+     */
     public function checkRoomTech($arr,&$error = null)
     {
         if (count($arr)<1)
@@ -65,7 +80,13 @@ class CustomRules
         return true;
     }
 
-    // Checks if a room name is available in this cinema.
+    /**
+     *  Checks if a room name is available in the logged in cinema (Two rooms with the same name are not allowed in one cinema).
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function checkRoomName($str,&$error = null)
     {
         $this->getUserMail();
@@ -78,7 +99,13 @@ class CustomRules
         return true;
     }
 
-    // Checks if the new room name is available, ignoring the old one.
+    /**
+     *  Checks if the new room name is available, ignoring the old one. Used to verify renaming of a room.
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function checkRoomNameExcept($str,&$error = null)
     {
         $this->getUserMail();
@@ -97,7 +124,13 @@ class CustomRules
         return true;
     }
 
-    // Checks if a room with the passed name exists.
+    /**
+     *  Checks if a room with the chosen name exists in the logged in cinema.
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function checkOldRoomName($str,&$error = null)
     {
         $this->getUserMail();
@@ -110,7 +143,13 @@ class CustomRules
         return false;
     }
 
-    // Checks if the passed technology is implemented in the passed room.
+    /**
+     *  Checks if the selected technology is implemented in the selected room.
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function checkMovieTech($str,&$error = null)
     {
         $this->getUserMail();
@@ -129,7 +168,13 @@ class CustomRules
         return true;
     }
 
-    // Checks if valid time was passed.
+    /**
+     *  Checks if variable represents a valid time.
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function validateTime($str,&$error = null)
     {
         $hh = substr($str, 0, 2);
@@ -154,7 +199,14 @@ class CustomRules
         return true;
     }
 
-    // Checks if the movie isn't already announced as coming soon, or if projections are already scheduled.
+    /**
+     *  Checks if the movie isn't already announced as coming soon, or if projections are already scheduled, for the logged in cinema.
+     *  Used to verify adding a new movie to the coming soon list.
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function checkIfReallySoon($str,&$error = null)
     {
         $this->getUserMail();
@@ -176,7 +228,13 @@ class CustomRules
         return true;
     }
 
-    // Checks if the movies is already announced as coming soon.
+    /**
+     *  Checks if the movies is already announced as coming soon for the logged in cinema.
+     * 
+     *  @var string $tmdbID variable
+     * 
+     *  @return bool success
+     */
     public function checkIfNotSoon($tmdbID,&$error = null)
     {
         $this->getUserMail();
@@ -191,7 +249,13 @@ class CustomRules
         return true;
     }
 
-    // Checks if date is in the past.
+    /**
+     *  Checks if date is in the past.
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function checkIfDateInThePast($str,&$error = null)
     {
         $date = strtotime($str);
@@ -206,7 +270,13 @@ class CustomRules
         return true;
     }
 
-    // Checks if datetime is in the past, or less than an hour in the future.
+    /**
+     *  Checks if datetime is in the past, or less than an hour in the future.
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function checkIfTimeInThePast($str,&$error = null)
     {
         if (!isset($_POST["startDate"]))
@@ -226,8 +296,14 @@ class CustomRules
         return true;
     }
 
-    // Checks if for the chosen room, date and time, there are other projections that would conflict.
-    // Doesn't account for any grace time between projections.
+    /**
+     *  Checks if for the chosen room, date and time, there are other projections that would conflict. Doesn't account for any grace time between projections.
+     *  Used to verify if the selected room is available for a projection in the chosen time.
+     * 
+     *  @var string $str variable
+     * 
+     *  @return bool success
+     */
     public function checkForCollisions($str,&$error = null)
     {
         $this->getUserMail();
@@ -293,7 +369,13 @@ class CustomRules
         return true;
     }
 
-    // Check if the projections is not canceled or showing in less than an hour.
+    /**
+     *  Check if the projections is not canceled or showing in less than an hour.
+     * 
+     *  @var string $idPro variable
+     * 
+     *  @return bool success
+     */
     public function checkIfProjectionOkToEdit($idPro,&$error = null)
     {
         $promdl = new ProjectionModel();
@@ -316,7 +398,13 @@ class CustomRules
         }
     }
 
-    // Check if a gallery image for the same account with the same name exists.
+    /**
+     *  Check if a gallery image for the same account with the same name exists. Two images with the same name are not allowed in a gallery.
+     * 
+     *  @var string $imageName variable
+     * 
+     *  @return bool success
+     */
     public function uniqueGalleryImage($imageName,&$error = null)
     {
         $this->getUserMail();
@@ -332,7 +420,13 @@ class CustomRules
         }
     }
 
-    // Check if a gallery image for the same account with the same name doesn't exist.
+    /**
+     *  Check if a gallery image for the same account with the same name doesn't exist. Used to check if the image in question was already uploaded.
+     * 
+     *  @var string $str imageName
+     * 
+     *  @return bool success
+     */
     public function notUniqueGalleryImage($imageName,&$error = null)
     {
         $this->getUserMail();
@@ -459,7 +553,13 @@ class CustomRules
         return true;
     }
 
-    // Checks if the worker you are trying to delete actually works for you.
+    /**
+     *  Checks if the worker you are trying to delete actually works for you.
+     * 
+     *  @var string $workerEmail variable
+     * 
+     *  @return bool success
+     */
     public function isYourWorker($workerEmail,&$error = null)
     {
         $this->getUserMail();
@@ -474,8 +574,12 @@ class CustomRules
         return true;
     }
 
-    // Gets the logged in users email address, providing the user is logged into a Cinema account.
-    // Or, if the user is logged in as a Worker, gets his Cinemas email.
+    /**
+     *  Gets the logged in users email address, providing the user is logged into a Cinema account.
+     *  Or, if the user is logged in as a Worker, gets his Cinemas email.
+     * 
+     *  @return void
+     */
     private function getUserMail()
     {
         helper("auth");
@@ -494,6 +598,7 @@ class CustomRules
             if ($token != null && isAuthenticated("Worker"))
             {
                 $this->userMail = ((new WorkerModel())->find($token->email))->idCinema;
+                return;
             }
         }
     }

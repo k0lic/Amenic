@@ -13,14 +13,41 @@ use App\Models\ComingSoonModel;
 use App\Entities\Seat;
 use Exception;
 
+/**
+ *  Model used for database operations focused on the 'Projections' table.
+ *  Extends the SmartDeleteModel.
+ * 
+ *  @version 1.0
+ */
 class ProjectionModel extends SmartDeleteModel
 {
+    /**
+     *  @var string $table table name
+     */
     protected $table = 'Projections';
+
+    /**
+     *  @var string $primaryKey primary key name
+     */
     protected $primaryKey= 'idPro';
-    protected $returnType= 'App\Entities\Projection';   
+
+    /**
+     *  @var object $returnType the type of the return objects for methods of this class
+     */
+    protected $returnType= 'App\Entities\Projection';
+
+    /**
+     *  @var array $allowedFields fields in the table that can be manipulated using this model
+     */
     protected $allowedFields = ['roomName','email','dateTime','price','canceled','tmdbID','idTech'];
     
-    // Deletes the projection along with all of the dependant seats and reservations.
+    /**
+     *  Deletes the projection along with all of the dependant seats and reservations.
+     * 
+     *  @param string $idPro id of the chosen projection
+     * 
+     *  @return void
+     */
     public function smartDelete($idPro)
     {
         $seatmdl = new SeatModel();
@@ -32,7 +59,13 @@ class ProjectionModel extends SmartDeleteModel
         $this->delete($idPro);
     }
 
-    // Cancels the projection, deleting all the reservations.
+    /**
+     *  Cancels the projection, deleting all the reservations.
+     * 
+     *  @param string $idPro id of the chosen projection
+     * 
+     *  @return void
+     */
     public function smartCancel($idPro)
     {
         $resmdl = new ReservationModel();
@@ -42,7 +75,15 @@ class ProjectionModel extends SmartDeleteModel
         $this->update($idPro, ["canceled" => 1]);
     }
 
-    // Wraps smartCancel() into a transaction.
+    /**
+     *  Wraps smartCancel() into a transaction.
+     * 
+     *  @param string $idPro id of the chosen projection
+     * 
+     *  @return void
+     * 
+     *  @throws Exception
+     */
     public function transSmartCancel($idPro)
     {
         try
@@ -58,7 +99,16 @@ class ProjectionModel extends SmartDeleteModel
         }
     }
 
-    // Creates a projection, along with all of its seats. Deletes the coming soon entry if it exists.
+    /**
+     *  Creates a projection, along with all of its seats. Deletes the coming soon entry if it exists.
+     *  Wraps the operation into a transaction.
+     * 
+     *  @param object $pro the prebuilt projection entry
+     * 
+     *  @return void
+     * 
+     *  @throws Exception
+     */
     public function transSmartCreate($pro)
     {
         try
@@ -97,7 +147,14 @@ class ProjectionModel extends SmartDeleteModel
         }
     }
 
-    // Changes the start time of the projection.
+    /**
+     *  Changes the start time of the projection.
+     * 
+     *  @param string $idPro id of the chosen projection
+     *  @param time $newStartTime new start time
+     * 
+     *  @return void
+     */
     public function smartChangeTime($idPro, $newStartTime)
     {
         /*
@@ -110,7 +167,13 @@ class ProjectionModel extends SmartDeleteModel
         $this->update($idPro, ["dateTime" => $newStartTime]);
     }
 
-    // Returns all projections in a given cinema, ordered by start date and time.
+    /**
+     *  Returns all projections in a given cinema, ordered by start date and time.
+     * 
+     *  @param string $cinemaEmail email address of the chosen cinema account
+     * 
+     *  @return array projections
+     */
     public function findAllProjectionsOfMyCinema($cinemaEmail)
     {
         $projections = $this->where('email',$cinemaEmail)->orderBy('dateTime','ASC')->findAll();

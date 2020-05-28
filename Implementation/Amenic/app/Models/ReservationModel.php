@@ -1,16 +1,48 @@
 <?php namespace App\Models;
 
+/*
+    Author: Andrija Kolić
+    Github: k0lic
+*/
+
 use App\Models\SmartDeleteModel;
 use App\Models\SeatModel;
 
+/**
+ *  Model used for database operations focused on the 'Reservations' table.
+ *  Extends the SmartDeleteModel.
+ * 
+ *  @version 1.0
+ */
 class ReservationModel extends SmartDeleteModel
 {
+    /**
+     *  @var string $table table name
+     */
     protected $table = 'Reservations';
+
+    /**
+     *  @var string $primaryKey primary key name
+     */
     protected $primaryKey= 'idRes';
-    protected $returnType= 'App\Entities\Reservation';  
+
+    /**
+     *  @var object $returnType the type of the return objects for methods of this class
+     */
+    protected $returnType= 'App\Entities\Reservation';
+
+    /**
+     *  @var array $allowedFields fields in the table that can be manipulated using this model
+     */
     protected $allowedFields = ['idRes','confirmed','idPro','email'];
 
-    // Deletes the reservation entry, and updates all of the reserved seats to 'free'.
+    /**
+     *  Deletes the reservation entry, and updates all of the reserved seats to 'free'.
+     * 
+     *  @param string $idRes id of the chosen reservation
+     * 
+     *  @return void
+     */
     public function smartDelete($idRes)
     {
         $seatmdl = new SeatModel();
@@ -18,7 +50,13 @@ class ReservationModel extends SmartDeleteModel
         $this->delete($idRes);
     }
 
-    // Updates the confirm field to true as well as updating all of the reserved seats to 'sold'.
+    /**
+     *  Updates the confirm field to true as well as updating all of the reserved seats to 'sold'.
+     * 
+     *  @param string $idRes id of the chosen reservation
+     * 
+     *  @return void
+     */
     public function smartConfirm($idRes)
     {
         $seatmdl = new SeatModel();
@@ -26,7 +64,15 @@ class ReservationModel extends SmartDeleteModel
         $this->update($idRes, ["confirmed" => 1]);
     }
 
-    // Wraps smartConfirm() in a transaction.
+    /**
+     *  Wraps smartConfirm() in a transaction.
+     * 
+     *  @param string $idRes id of the chosen reservation
+     * 
+     *  @return void
+     * 
+     *  @throws Exception
+     */
     public function transSmartConfirm($idRes)
     {
         try

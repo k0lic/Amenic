@@ -33,7 +33,7 @@ use Exception;
 /**
  *  This controller handles most if not all tasks that a user of type 'Cinema' can use.
  *  This includes but is not limited to:
- *      -repetoire overview
+ *      -repertoire overview
  *      -repertoire management: adding, editing or canceling projections
  *      -coming soon overview and management
  *      -room overview
@@ -45,6 +45,7 @@ use Exception;
  *      -settings overview and management
  *  Some of these functionalities are shared with the worker accounts of the cinema,
  *  so worker accounts have access to a few methods in this controller.
+ * 
  *  @version 1.0
  */
 class Cinema extends BaseController
@@ -58,14 +59,17 @@ class Cinema extends BaseController
      *  @var string $userMail email address of the logged in account
      */
     private string $userMail = "";
+
     /**
      *  @var blob $userImage profile picture of the logged in account (can be null)
      */
     private $userImage = null;
+    
     /**
      *  @var string $userName the name of the logged in account - displayed next to the profile picture
      */
     private string $userName = "";
+    
     /**
      *  @var bool $isWorker flag that is set when this controller is used by a worker account (used to slightly alter the page that is served to workers)
      */
