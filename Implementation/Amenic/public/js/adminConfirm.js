@@ -3,25 +3,48 @@
     Github: Rpsaman13000
 */
 
-document.getElementById('addAdminWrapper').addEventListener(('click'), (e) => {
-    hideModal('addAdminWrapper');
-    return false;
-});
+let addAdminWrapper = document.getElementById('addAdminWrapper');
+let addAdminModal = document.getElementById('addAdminModal');
+let deleteModalWrapper = document.getElementById('deleteModalWrapper');
+let deleteModal = document.getElementById('deleteModal');
+let confirmModalWrapper = document.getElementById('confirmModalWrapper');
+let confirmModal = document.getElementById('confirmModal');
 
-document.getElementById('addAdminModal').addEventListener(('click'), (e) => {
-    e.stopPropagation();
-    return false;
-});
+if (addAdminWrapper != null)
+    addAdminWrapper.addEventListener(('click'), (e) => {
+        hideModal('addAdminWrapper');
+        return false;
+    });
 
-document.getElementById('deleteModalWrapper').addEventListener(('click'), (e) => {
-    hideModal('deleteModalWrapper');
-    return false;
-});
+if (addAdminModal != null)
+    addAdminModal.addEventListener(('click'), (e) => {
+        e.stopPropagation();
+        return false;
+    });
 
-document.getElementById('deleteModal').addEventListener(('click'), (e) => {
-    e.stopPropagation();
-    return false;
-});
+if (deleteModalWrapper != null)
+    deleteModalWrapper.addEventListener(('click'), (e) => {
+        hideModal('deleteModalWrapper');
+        return false;
+    });
+
+if (deleteModal != null)
+    deleteModal.addEventListener(('click'), (e) => {
+        e.stopPropagation();
+        return false;
+    });
+
+if (confirmModalWrapper != null)
+    confirmModalWrapper.addEventListener(('click'), (e) => {
+        hideModal('confirmModalWrapper');
+        return false;
+    });
+
+if (confirmModal != null)
+    confirmModal.addEventListener(('click'), (e) => {
+        e.stopPropagation();
+        return false;
+    });
 
 function showModal(mail, actMenu) {
 
