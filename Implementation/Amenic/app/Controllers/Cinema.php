@@ -877,12 +877,13 @@ class Cinema extends BaseController
             }
             $reviews = substr ( $reviews , 0, strlen($reviews)-2 );*/
 
+            $movieReviews = null;
             $movieReviews = $apilib->getMovieReviews($imdbID);
             $reviews = "DummyAuthor#1#DummyText#0#Dummy2#1#DummyText2";
-            if ($movieReviews != null && isset($movieReviews["firstAuthor"]) && isset($movieReviews["secondAuthor"]) && isset($movieReviews["firstAuthor"]["name"]) && isset($movieReviews["secondAuthor"]["name"]))
+            if (isset($movieReviews) && $movieReviews != null && isset($movieReviews["firstAuthor"]) && isset($movieReviews["secondAuthor"]) && isset($movieReviews["firstAuthor"]["name"]) && isset($movieReviews["secondAuthor"]["name"]))
             {
-                $reviews = $movieReviews["firstAuthor"]["name"] + "#1#" + $movieReviews["firstAuthor"]["text"]
-                    + "#0#" + $movieReviews["secondAuthor"]["name"] + "#1#" + $movieReviews["secondAuthor"]["text"];
+                $reviews = $movieReviews["firstAuthor"]["name"]."#1#".$movieReviews["firstAuthor"]["text"]
+                    ."#0#".$movieReviews["secondAuthor"]["name"]."#1#".$movieReviews["secondAuthor"]["text"];
             }
 
             // get trailer

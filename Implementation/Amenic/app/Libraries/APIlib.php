@@ -7,6 +7,7 @@
 
 */
 
+use function App\Helpers\getReviews;
 use GuzzleHttp\Client;
 
 /** APIlib – library used to fetch data from TMDB API and return it in JSON format
