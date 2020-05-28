@@ -331,6 +331,22 @@ class CustomRules
             return false;
         }
     }
+
+    // Check if a gallery image for the same account with the same name doesn't exist.
+    public function notUniqueGalleryImage($imageName,&$error = null)
+    {
+        $this->getUserMail();
+
+        $galleryModel = new GalleryModel();
+
+        $galleryImage = $galleryModel->where("email", $this->userMail)->where("name", $imageName)->find();
+
+        if ($galleryImage == null || count($galleryImage) == 0)
+        {
+            $error = "This image has already been deleted from the gallery";
+            return false;
+        }
+    }
     
     //SETTINGS FORM VALIDATING RULES
 

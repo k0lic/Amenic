@@ -117,6 +117,7 @@
                                                 <button type=\"submit\" class=\"galleryAdminButton galleryHidden ml-1\" id=\"newBannerSubmit\">Save change</button>
                                             </div>
                                         </form>
+                                        <div class=\"formError\">".(isset($errors["bannerImage"]) ? $errors["bannerImage"] : "")."</div>
                                     </div>
                                 ";
                             }

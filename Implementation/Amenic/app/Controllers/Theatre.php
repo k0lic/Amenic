@@ -64,12 +64,7 @@ class Theatre extends BaseController
 
         $email = $this->userMail;
         $imageName = isset($_FILES["newImage"]["name"]) ? $_FILES["newImage"]["name"] : null;
-        //$imageTempFile = isset($_FILES["newImage"]["tmp_name"]) ? $_FILES["newImage"]["tmp_name"] : null;
         $imageTempFile = $this->request->getFile("newImage");
-        //$imageTempFile = $_FILES["newImage"];
-
-        //var_dump($imageTempFile);
-        //exit();
 
         $validationResult = $this->isValid("actionAddGalleryImage", [
             "imageName" => $imageName,
@@ -78,7 +73,6 @@ class Theatre extends BaseController
         if ($validationResult != 1)
         {
             setcookie("addGalleryImageErrors", http_build_query($validationResult), time() + 3600, "/");
-            //setcookie("addGalleryImageValues", http_build_query($_POST), time() + 3600, "/");
             header("Location: /Theatre");
             exit();
         }
@@ -110,14 +104,12 @@ class Theatre extends BaseController
         $this->goHomeIfNotPost();
         $this->goHomeIfNotCinema();
 
-        /*$validationResult = $this->isValid("alwaysFalse", $_POST);
+        $validationResult = $this->isValid("actionDeleteGalleryImage", $_POST);
         if ($validationResult != 1)
         {
-            //setcookie("addGalleryImageErrors", http_build_query($validationResult), time() + 3600, "/");
-            //setcookie("addGalleryImageValues", http_build_query($_POST), time() + 3600, "/");
             header("Location: /Theatre");
             exit();
-        }*/
+        }
 
         $imageName = $_POST["deleteImageName"];
         
@@ -141,16 +133,17 @@ class Theatre extends BaseController
         $this->goHomeIfNotPost();
         $this->goHomeIfNotCinema();
 
-        $validationResult = $this->isValid("alwaysFalse", $_POST);
+        $imageTempFile = $this->request->getFile("newBanner");
+
+        $validationResult = $this->isValid("actionChangeBanner", [
+            "bannerImage" => $imageTempFile
+        ]);
         if ($validationResult != 1)
         {
-            //setcookie("addGalleryImageErrors", http_build_query($validationResult), time() + 3600, "/");
-            //setcookie("addGalleryImageValues", http_build_query($_POST), time() + 3600, "/");
+            setcookie("addGalleryImageErrors", http_build_query($validationResult), time() + 3600, "/");
             header("Location: /Theatre");
             exit();
         }
-
-        $imageTempFile = $_FILES["newBanner"]["tmp_name"];
 
         try
         {
