@@ -44,7 +44,7 @@ class Theatre extends BaseController
         $this->onlyBasicAccounts();
 
         $cinema = (new CinemaModel())->find($email);
-        if ($cinema == null)
+        if ($cinema == null || $cinema->approved == 0 || $cinema->closed == 1)
             return view("404.php");
         $cinemaImage = ((new UserModel())->find($email))->image;
         $cinemaCity = $cinema->idCity == null ? null : (new CityModel())->find($cinema->idCity);

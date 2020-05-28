@@ -226,6 +226,7 @@ class AACinemaModel extends Model
         $dayAfter = $dayOf + 24*60*60;
         $repertoireSize = $promdl
                             ->where("email", $email)
+                            ->where("canceled", 0)
                             ->where("dateTime >=", date("Y-m-d H:i:s", $dayOf))
                             ->where("dateTime <", date("Y-m-d H:i:s", $dayAfter))
                             ->countAllResults();
@@ -241,12 +242,12 @@ class AACinemaModel extends Model
         $dayAfter = $dayOf + 24*60*60;
         $projections = $promdl
                         ->where("email", $email)
+                        ->where("canceled", 0)
                         ->where("dateTime >=", date("Y-m-d H:i:s", $dayOf))
                         ->where("dateTime <", date("Y-m-d H:i:s", $dayAfter))
                         ->orderBy('dateTime', 'ASC')
                         ->limit(20, ($page-1)*20)
                         ->find();
-        //$projections = $promdl->where("email", $email)->limit(20, ($page-1)*20)->findAll();
 
         $results = [];
         $moviemdl = new MovieModel();

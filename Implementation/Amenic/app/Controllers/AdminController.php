@@ -556,7 +556,11 @@ class AdminController extends BaseController
 
         try
         {
-            $cinema = (new CinemaModel())->where(['email' => $email])->set(['closed' => 1])->update();
+            // old Martins code
+                //$cinema = (new CinemaModel())->where(['email' => $email])->set(['closed' => 1])->update();
+            // my new code
+                (new CinemaModel())->transSmartClose($email);
+            // end
         } catch(Exception $e) {
             echo $e->getMessage();
         }

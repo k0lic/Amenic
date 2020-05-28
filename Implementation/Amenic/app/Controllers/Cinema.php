@@ -30,10 +30,23 @@ use function \App\Helpers\generateToken;
 use function \App\Helpers\setToken;
 use Exception;
 
-/*
-    This controller handles most if not all tasks that a user of type 'Cinema' can use.
-    All data used is for the logged in Cinema account.
-*/
+/**
+ *  This controller handles most if not all tasks that a user of type 'Cinema' can use.
+ *  This includes but is not limited to:
+ *      -repetoire overview
+ *      -repertoire management: adding, editing or canceling projections
+ *      -coming soon overview and management
+ *      -room overview
+ *      -room management: adding, editing or deleting rooms
+ *      -employee overview
+ *      -employee management: adding or deleting employees
+ *      -public cinema page overview - see how the public views your cinema
+ *      -public cinema management: gallery and banner management
+ *      -settings overview and management
+ *  Some of these functionalities are shared with the worker accounts of the cinema,
+ *  so worker accounts have access to a few methods in this controller.
+ *  @version 1.0
+ */
 class Cinema extends BaseController
 {
 
@@ -41,17 +54,34 @@ class Cinema extends BaseController
     //  FIELDS  //
     //--------------------------------------------------------------------
 
-    // Hard coding the email for now.
+    /**
+     *  @var string $userMail email address of the logged in account
+     */
     private string $userMail = "";
+    /**
+     *  @var blob $userImage profile picture of the logged in account (can be null)
+     */
     private $userImage = null;
+    /**
+     *  @var string $userName the name of the logged in account - displayed next to the profile picture
+     */
     private string $userName = "";
+    /**
+     *  @var bool $isWorker flag that is set when this controller is used by a worker account (used to slightly alter the page that is served to workers)
+     */
     private bool $isWorker = false;
 
     //--------------------------------------------------------------------
     //  PUBLIC METHODS  //
     //--------------------------------------------------------------------
 
-    // Shows all the projections. 
+    /**
+     *  The cinema account homepage.
+     *  Shows all the projections.
+     *  Accessible by workers.
+     * 
+     *  @return view Cinema/CinemaOverview
+     */
     public function index()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -59,7 +89,12 @@ class Cinema extends BaseController
         return view("Cinema/CinemaOverview.php",["items" => $projectionsWithPosters,"optionPrimary" => 0,"optionSecondary" => 0,"userImage" => $this->userImage,"userFullName" => $this->userName,"isWorker" => $this->isWorker]);
     }
 
-    // Shows the movies that are coming soon.
+    /**
+     *  Shows the movies that are coming soon.
+     *  Accessible by workers.
+     * 
+     *  @return view Cinema/CinemaOverview 
+     */
     public function comingSoon()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -67,7 +102,11 @@ class Cinema extends BaseController
         return view("Cinema/CinemaOverview.php",["items" => $soonsWithPosters,"optionPrimary" => 0,"optionSecondary" => 1,"userImage" => $this->userImage,"userFullName" => $this->userName,"isWorker" => $this->isWorker]);
     }
 
-    // Shows all the rooms.
+    /**
+     *  Shows all the rooms.
+     * 
+     *  @return view Cinema/CinemaOverview
+     */
     public function rooms()
     {
         $this->goHomeIfNotCinema();
@@ -75,7 +114,11 @@ class Cinema extends BaseController
         return view("Cinema/CinemaOverview.php",["items" => $rooms,"optionPrimary" => 1,"userImage" => $this->userImage,"userFullName" => $this->userName,"isWorker" => $this->isWorker]);
     }
 
-    // Shows all the employees.
+    /**
+     *  Shows all the employees.
+     * 
+     *  @return view Cinema/CinemaOverview
+     */
     public function employees()
     {
         $this->goHomeIfNotCinema();
@@ -83,7 +126,12 @@ class Cinema extends BaseController
         return view("Cinema/CinemaOverview.php",["items" => $employees,"optionPrimary" => 2,"userImage" => $this->userImage,"userFullName" => $this->userName,"isWorker" => $this->isWorker]);
     }
 
-    // Presents the form for adding a new projection.
+    /**
+     *  Presents the form for adding a new projection.
+     *  Accessible by workers.
+     * 
+     *  @return view Cinema/CinemaAddMovie
+     */
     public function addMovie()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -92,7 +140,12 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddMovie.php",["rooms" => $rooms,"technologies" => $technologies,"optionPrimary" => 0,"userImage" => $this->userImage,"userFullName" => $this->userName,"isWorker" => $this->isWorker]);
     }
 
-    // Presents the form for editing an existing projection.
+    /**
+     *  Presents the form for editing an existing projection.
+     *  Accessible by workers.
+     * 
+     *  @return view Cinema/CinemaAddMovie
+     */
     public function editMovie($idPro)
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -105,7 +158,12 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddMovie.php",["rooms" => $rooms,"technologies" => $technologies,"target" => $projection,"targetName" => $movie->title,"optionPrimary" => 0,"userImage" => $this->userImage,"userFullName" => $this->userName,"isWorker" => $this->isWorker]);
     }
 
-    // Presents the form for editing a movie that is coming soon.
+    /**
+     *  Presents the form for editing a movie that is coming soon.
+     *  Accessible by workers.
+     * 
+     *  @return view Cinema/CinemaAddMovie
+     */
     public function editComingSoon($tmdbID)
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -118,7 +176,11 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddMovie.php",["rooms" => $rooms,"technologies" => $technologies,"halfTarget" => $soon[0],"targetName" => $movie->title,"optionPrimary" => 0,"userImage" => $this->userImage,"userFullName" => $this->userName,"isWorker" => $this->isWorker]);
     }
 
-    // Presents the form for adding a new room.
+    /**
+     *  Presents the form for adding a new room.
+     * 
+     *  @return view Cinema/CinemaAddRoom
+     */
     public function addRoom()
     {
         $this->goHomeIfNotCinema();
@@ -126,7 +188,11 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddRoom.php",["technologies" => $technologies,"optionPrimary" => 1,"userImage" => $this->userImage,"userFullName" => $this->userName]);
     }
 
-    // Presents the form for editing an existing room.
+    /**
+     *  Presents the form for editing an existing room.
+     * 
+     *  @return view Cinema/CinemaAddRoom
+     */
     public function editRoom($name)
     {
         $this->goHomeIfNotCinema();
@@ -139,7 +205,13 @@ class Cinema extends BaseController
         return view("Cinema/CinemaAddRoom.php",["technologies" => $technologies,"target" => $room[0],"targetTechnologies" => $targetTechnologies,"optionPrimary" => 1,"userImage" => $this->userImage,"userFullName" => $this->userName]);
     }
 
-    // Adds a new projection or adds a movie to the coming soon list.
+    /**
+     *  Adds a new projection or adds a movie to the coming soon list.
+     *  Accessible by workers.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to the appropriate page (/Cinema for current movies; /Cinema/ComingSoon for movies that are coming soon)
+     */
     public function actionAddMovie()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -209,7 +281,13 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Edits an existing projection.
+    /**
+     *  Edits an existing projection.
+     *  Accessible by workers.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Cinema
+     */
     public function actionEditMovie()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -245,7 +323,14 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Adds a movie created from the coming soon list.
+    /**
+     *  Adds a movie created from the coming soon list.
+     *  Creates a new projection using the form input values, and deletes the coming soon entry.
+     *  Accessible by workers.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Cinema
+     */
     public function actionReleaseComingSoon()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -294,7 +379,13 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Cancels an existing projection.
+    /**
+     *  Cancels an existing projection.
+     *  Accessible by workers.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Cinema
+     */
     public function actionCancelMovie()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -329,7 +420,13 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Cancels a movie that is announced as coming soon to the cinema.
+    /**
+     *  Cancels a movie that is announced as coming soon to the cinema.
+     *  Accessible by workers.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Cinema
+     */
     public function actionCancelComingSoon()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -364,7 +461,12 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Adds a new room.
+    /**
+     *  Adds a new room.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Cinema/Rooms
+     */
     public function actionAddRoom()
     {
         $this->goHomeIfNotCinema();
@@ -409,7 +511,12 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Edits an existing room.
+    /**
+     *  Edits an existing room.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Cinema/Rooms
+     */
     public function actionEditRoom()
     {
         $this->goHomeIfNotCinema();
@@ -457,7 +564,12 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Removes an existing room.
+    /**
+     *  Removes an existing room.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Cinema/Rooms
+     */
     public function actionRemoveRoom()
     {
         $this->goHomeIfNotCinema();
@@ -489,7 +601,12 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Ads a new employee.
+    /**
+     *  Adds a new employee.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Cinema/Employees
+     */
     public function actionAddEmployee()
     {
         $this->goHomeIfNotCinema();
@@ -543,7 +660,12 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Removes an existing employee.
+    /**
+     *  Removes an existing employee.
+     *  Accessible only by POST request.
+     * 
+     *  @return redirects to /Cinema/Employees
+     */
     public function actionRemoveEmployee()
     {
         $this->goHomeIfNotCinema();
@@ -575,7 +697,12 @@ class Cinema extends BaseController
         exit();
     }
 
-    //Settings function
+    /**
+     *  Presents the settings form.
+     *  The account settings can be viewed or changed through said form.
+     * 
+     *  @return view SettingsView
+     */
     public function settings()
     {
         $this->goHomeIfNotCinema();
@@ -598,9 +725,16 @@ class Cinema extends BaseController
         return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Cinema', 'token' => $token, 'errors' => '']);    
     }
 
+    /**
+     *  Edits the account settings using form input values.
+     *  Accessible only by POST request.
+     * 
+     *  @return callable index method of this controller
+     */
     public function saveSettings()
     {
         $this->goHomeIfNotCinema();
+        $this->goHomeIfNotPost();
         $token = $this->getToken();
         if (is_null($token))
             return view('AdminBreachMessage',[]);        
@@ -706,7 +840,16 @@ class Cinema extends BaseController
         return $this->index();
     }
 
-    // Fetch request No1.
+    //--------------------------------------------------------------------
+    //  FETCH REQUEST METHODS  //
+    //--------------------------------------------------------------------
+
+    /**
+     *  Fetches the number of movies in our database that match the search term.
+     *  Accessible by workers.
+     * 
+     *  @return JSON number of movies
+     */
     public function countHowManyMoviesLike()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -718,7 +861,12 @@ class Cinema extends BaseController
         echo json_encode($num);
     }
 
-    // Fetch request No2.
+    /**
+     *  Fetches the movies in our database that match the search term.
+     *  Accessible by workers.
+     * 
+     *  @return JSON movies that match
+     */
     public function getMoviesLike()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -731,7 +879,12 @@ class Cinema extends BaseController
         echo json_encode($results);
     }
 
-    // Fetch request No3.
+    /**
+     *  Fetches the movies in TMDB that match the search term.
+     *  Accessible by workers.
+     * 
+     *  @return JSON movies that match
+     */
     public function getMoviesLikeInTMDB()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -744,7 +897,13 @@ class Cinema extends BaseController
         echo json_encode($results["body"]);
     }
 
-    // Fetch request No4.
+    /**
+     *  Fetches the projections of the users cinema that match the search term.
+     *  Matches with title name and room name.
+     *  Accessible by workers.
+     * 
+     *  @return JSON projections that match
+     */
     public function getMyProjectionsLike()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -756,7 +915,12 @@ class Cinema extends BaseController
         echo json_encode($results);
     }
 
-    // Fetch request No5.
+    /**
+     *  Fetches the movies that are coming soon of the users cinema that match the search term.
+     *  Accessible by workers.
+     * 
+     *  @return JSON movies that match
+     */
     public function getMyComingSoonsLike()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -768,7 +932,11 @@ class Cinema extends BaseController
         echo json_encode($results);
     }
 
-    // Fetch request No6.
+    /**
+     *  Fetches the rooms of the users cinema that match the search term.
+     * 
+     *  @return JSON rooms that match
+     */
     public function getMyRoomsLike()
     {
         $this->goHomeIfNotCinema();
@@ -780,7 +948,11 @@ class Cinema extends BaseController
         echo json_encode($results);
     }
 
-    // Fetch request No7.
+    /**
+     *  Fetches the employees of the users cinema that match the search term.
+     * 
+     *  @return JSON employees that match
+     */
     public function getMyEmployeesLike()
     {
         $this->goHomeIfNotCinema();
@@ -792,7 +964,12 @@ class Cinema extends BaseController
         echo json_encode($results);
     }
 
-    // Fetch request No99.
+    /**
+     *  Adds the selected movie from TMDB to our database.
+     *  Accessible by workers.
+     * 
+     *  @return JSON success
+     */
     public function addMovieIfNotExisting()
     {
         $this->goHomeIfNotCinemaOrWorkingForCinema();
@@ -806,7 +983,6 @@ class Cinema extends BaseController
             $movieBasicInfo = $apilib->getMovieBasic($tmdbID);
             $movieCredits = $apilib->getMovieCredits($tmdbID);
             $movieVideos = $apilib->getMovieVideos($tmdbID);
-            //$movieReviews = $apilib->getMovieReviews($tmdbID);    // WE HAVE NEW REVIEWS
 
             // parse the basic info
             $title = $movieBasicInfo[2]['title'];
@@ -863,20 +1039,7 @@ class Cinema extends BaseController
                 $imdbRating = "";
             $imdbRating = substr($imdbRating, 0, strpos($imdbRating,"/"));
 
-            // old review parsing
-            /*$reviews="";
-            $numOfReviews=0;
-            foreach($movieReviews[2]['results'] as $review)
-            {
-                if($numOfReviews < 10)
-                {
-                    $reviews=$reviews.$review['author']." - ".$review['content'].", ";
-                    $numOfReviews++;
-                }
-                else break;
-            }
-            $reviews = substr ( $reviews , 0, strlen($reviews)-2 );*/
-
+            // get the reviews
             $movieReviews = null;
             $movieReviews = $apilib->getMovieReviews($imdbID);
             $reviews = "DummyAuthor#1#DummyText#0#Dummy2#1#DummyText2";
@@ -934,7 +1097,14 @@ class Cinema extends BaseController
     //  PRIVATE METHODS  //
     //--------------------------------------------------------------------
     
-    // Calls the validation service test named $testName to check validity of $data.
+    /**
+     *  Calls the validation service test $testName to check validity of $data.
+     * 
+     *  @param string $testName name of the validation test
+     *  @param array $data data which needs to be validated
+     *  
+     *  @return array errors from the validation testing
+     */
     private function isValid($testName, $data)
     {
         $validation =  \Config\Services::validation();
@@ -946,7 +1116,13 @@ class Cinema extends BaseController
         return $validation->getErrors();
     }
 
-    // Checks if the request is from a logged in Cinema account.
+    /**
+     *  Checks if the request is from a logged in Cinema account by checking the provided token. Redirects to /HomeController if not.
+     *  Used to limit access to methods.
+     *  Gets relevant account data from the token.
+     *  
+     *  @return void
+     */
     private function goHomeIfNotCinema()
     {
         helper("auth");
@@ -968,7 +1144,13 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Checks if the request is from a logged in Cinema account, or a logged in Worker account.
+    /**
+     *  Checks if the request is from a logged in Cinema account, or a logged in Worker account by checking the provided token. Redirects to /HomeController if not.
+     *  Used to limit access to methods.
+     *  Gets relevant account data from the token.
+     *  
+     *  @return void
+     */
     private function goHomeIfNotCinemaOrWorkingForCinema()
     {
         helper("auth");
@@ -998,7 +1180,12 @@ class Cinema extends BaseController
         exit();
     }
 
-    // Checks if the request is of POST type and if it's not, reroutes home.
+    /**
+     *  Checks if the request is of POST type. Redirects to /Cinema if not.
+     *  Used to limit access to methods.
+     *  
+     *  @return void
+     */
     private function goHomeIfNotPost()
     {
         if($_SERVER["REQUEST_METHOD"] != "POST") {
@@ -1008,7 +1195,11 @@ class Cinema extends BaseController
         }
     }
     
-    // Gets the token and appends an image to it.
+    /**
+     *  Gets the token and appends an image to it.
+     *  
+     *  @return void
+     */
     private function getToken()
     {
         helper('auth');
