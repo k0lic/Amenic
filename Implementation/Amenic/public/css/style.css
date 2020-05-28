@@ -2019,6 +2019,10 @@ body {
 	width: 10em;
 }
 
+.popcornIconSmaller {
+	width: 8em;
+}
+
 .popcornText {
 	color: var(--formInput);
 	font-weight: 800;

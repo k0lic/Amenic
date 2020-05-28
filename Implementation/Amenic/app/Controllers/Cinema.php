@@ -863,6 +863,7 @@ class Cinema extends BaseController
                 $imdbRating = "";
             $imdbRating = substr($imdbRating, 0, strpos($imdbRating,"/"));
 
+            // old review parsing
             /*$reviews="";
             $numOfReviews=0;
             foreach($movieReviews[2]['results'] as $review)
@@ -875,7 +876,15 @@ class Cinema extends BaseController
                 else break;
             }
             $reviews = substr ( $reviews , 0, strlen($reviews)-2 );*/
-            
+
+            $movieReviews = $apilib->getMovieReviews($imdbID);
+            $reviews = "DummyAuthor#1#DummyText#0#Dummy2#1#DummyText2";
+            if ($movieReviews != null && isset($movieReviews["firstAuthor"]) && isset($movieReviews["secondAuthor"]) && isset($movieReviews["firstAuthor"]["name"]) && isset($movieReviews["secondAuthor"]["name"]))
+            {
+                $reviews = $movieReviews["firstAuthor"]["name"] + "#1#" + $movieReviews["firstAuthor"]["text"]
+                    + "#0#" + $movieReviews["secondAuthor"]["name"] + "#1#" + $movieReviews["secondAuthor"]["text"];
+            }
+
             // get trailer
             $trailer="";
             foreach($movieVideos[2]['results'] as $video)
@@ -902,7 +911,7 @@ class Cinema extends BaseController
                 'backgroundImg' =>  $backgroundImg,
                 'imdbRating' => $imdbRating,
                 'imdbID' => $imdbID,
-                'reviews' => "0",
+                'reviews' => $reviews,
                 'trailer' => $trailer
             ]);
 
@@ -978,7 +987,7 @@ class Cinema extends BaseController
             if ($token != null && isAuthenticated("Worker"))
             {
                 $this->userMail = ((new WorkerModel())->find($token->email))->idCinema;
-                $this->userName = $token->firstName." ".$token->lastName;
+                $this->userName = $token->firstName;
                 $this->userImage = ((new UserModel())->find($token->email))->image;
                 $this->isWorker = true;
                 return;

@@ -260,6 +260,7 @@ class AACinemaModel extends Model
                 "startTime" => date("H:i", strtotime($pro->dateTime)),
                 "roomName" => $pro->roomName,
                 "type" => "",
+                "price" => $pro->price,
                 "freeSeats" => -1
             ];
             $movie = $moviemdl->find($pro->tmdbID);

@@ -145,10 +145,11 @@
                             <!-- REPERTOIRE HEADER -->
                             <div class="showingTableHeader row centerY" id="repertoireHeader">
                                 <div class="w30 textCenter">Name</div>
-                                <div class="w15 textCenter">Time</div>
+                                <div class="w10 textCenter">Time</div>
                                 <div class="w20 textCenter">Room</div>
-                                <div class="w15 textCenter">Type</div>
-                                <div class="w20 textCenter">Free seats</div>
+                                <div class="w10 textCenter">Type</div>
+                                <div class="w15 textCenter">Price</div>
+                                <div class="w15 textCenter">Free seats</div>
                             </div>
                             <div class="repertoireReserveHeight">
                                 <div class="showingTablePatch column centerRow" id="showingTable">

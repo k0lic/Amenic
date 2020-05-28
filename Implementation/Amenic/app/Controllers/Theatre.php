@@ -258,7 +258,7 @@ class Theatre extends BaseController
                 if (isAuthenticated("Cinema"))
                     $this->userName = $token->name;
                 else if (isAuthenticated("RUser"))
-                    $this->userName = $token->firstName." ".$token->lastName;
+                    $this->userName = $token->firstName;
                 else
                 {
                     header("Location: /HomeController");
@@ -288,7 +288,7 @@ class Theatre extends BaseController
             if ($token != null && isAuthenticated("RUser"))
             {
                 $this->userMail = $token->email;
-                $this->userName = $token->firstName." ".$token->lastName;
+                $this->userName = $token->firstName;
                 $this->userImage = ((new UserModel())->find($token->email))->image;
             }
             else

@@ -240,10 +240,11 @@ function updateRepertoireHeaders() {
     if (mode == 0) {
         content = "" +
             "<div class=\"w30 textCenter\">Name</div>" +
-            "<div class=\"w15 textCenter\">Time</div>" +
+            "<div class=\"w10 textCenter\">Time</div>" +
             "<div class=\"w20 textCenter\">Room</div>" +
-            "<div class=\"w15 textCenter\">Type</div>" +
-            "<div class=\"w20 textCenter\">Free seats</div>";
+            "<div class=\"w10 textCenter\">Type</div>" +
+            "<div class=\"w15 textCenter\">Price</div>" +
+            "<div class=\"w15 textCenter\">Free seats</div>";
     } else {
         content = "<div class=\"w100 textCenter\">Name</div>";
     }
@@ -318,6 +319,24 @@ function populateRepertoire() {
         i++;
         cnt++;
     }
+
+    if (cnt == 0) {
+        content = emptyTemplate();
+    }
+
+    /*
+    const img = document.createElement("img");
+	img.src = "/assets/Movie/popcornSad.svg";
+	img.classList.add("popcornIcon", "mt-3");
+
+	const txt = document.createElement("span");
+	txt.classList.add("popcornText", "mt-1");
+	txt.innerHTML = "No screenings found";
+
+	table.appendChild(img);
+	table.appendChild(txt);
+    */
+
     repertoireTable.innerHTML = content;
 }
 
@@ -326,10 +345,11 @@ function populateRepertoire() {
 function movieTemplate(projection) {
     let template = "" +
         "<div class=\"w30 column centerRow\">" + projection.movieName + "</div>" +
-        "<div class=\"w15 textCenter\">" + projection.startTime + "</div>" +
+        "<div class=\"w10 textCenter\">" + projection.startTime + "</div>" +
         "<div class=\"w20 textCenter\">" + projection.roomName + "</div>" +
-        "<div class=\"w15 textCenter\">" + projection.type + "</div>" +
-        "<div class=\"w20 textCenter\">" + projection.freeSeats + "</div>" +
+        "<div class=\"w10 textCenter\">" + projection.type + "</div>" +
+        "<div class=\"w15 textCenter\">&euro;" + Number(projection.price).toFixed(2) + "</div>" +
+        "<div class=\"w15 textCenter\">" + projection.freeSeats + "</div>" +
         "</div>";
 
     if (allowLinks) {
@@ -354,6 +374,12 @@ function soonTemplate(soon) {
         "<div class=\"w100 column centerRow\">" + soon.movieName + "</div>" +
         "</div>";
     //"</a>";
+}
+
+function emptyTemplate() {
+    return "" +
+        "<img src=\"/assets/Movie/popcornSad.svg\" class=\"popcornIconSmaller mt-3\" />" +
+        "<span class=\"popcornText mt-1\">No results found</span>";
 }
 
 // FETCH METHODS //
