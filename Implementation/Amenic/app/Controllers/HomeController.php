@@ -446,7 +446,8 @@ class HomeController extends BaseController
             $country = strcasecmp($country,"0") == 0 ? NULL : $country;
             $city = strcasecmp($city,"0") == 0 ? NULL : $city;
 
-            (new RUserModel())->where(['email' => $email])->set(['fName' => $fName, 'lName' => $lName, 'phoneNumber' => $phone, 'idCountry' => $country,'idCity' => $city])->update();
+            (new RUserModel())->where(['email' => $email])->set(['firstName' => $fName, 'lastName' => $lName, 'phoneNumber' => $phone, 'idCountry' => $country,'idCity' => $city])->update();
+            
             $db->transCommit();
         }
         catch (Exception $e)

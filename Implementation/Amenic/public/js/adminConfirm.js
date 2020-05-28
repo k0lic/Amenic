@@ -3,15 +3,22 @@
     Github: Rpsaman13000
 */
 
-let adminWrapper = document.getElementById('addAdminWrapper');
-let adminModal = document.getElementById('addAdminModal');
-
-adminWrapper.addEventListener(('click'), (e) => {
+document.getElementById('addAdminWrapper').addEventListener(('click'), (e) => {
     hideModal('addAdminWrapper');
     return false;
 });
 
-adminModal.addEventListener(('click'), (e) => {
+document.getElementById('addAdminModal').addEventListener(('click'), (e) => {
+    e.stopPropagation();
+    return false;
+});
+
+document.getElementById('deleteModalWrapper').addEventListener(('click'), (e) => {
+    hideModal('deleteModalWrapper');
+    return false;
+});
+
+document.getElementById('deleteModal').addEventListener(('click'), (e) => {
     e.stopPropagation();
     return false;
 });

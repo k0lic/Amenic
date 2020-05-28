@@ -13,8 +13,6 @@ class UserModel extends SmartDeleteModel
     // Deletes the verifaction entry with the user.
     public function smartDelete($email)
     {
-        $vers = new VerificationModel();
-        $vers->delete($email);
         $this->delete($email);
     }
 }

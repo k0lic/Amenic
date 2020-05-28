@@ -156,4 +156,5 @@
 			</div>
 		</div>
 	</body>
+    <script src="/js/adminConfirm.js"></script>
 </html>

@@ -7,26 +7,30 @@ function createListElement(data, subMenu) {
     let a = document.createElement('a');
     a.className = "coolLink";
     let img = document.createElement("img");
-    a.appendChild(img);
     img.className = "movieImg";
 
     if (subMenu === "") {
+        a.href = "/Theatre/Repertoire/" + data.email;
         let div = document.createElement('div');
-        div.className = 'cinemaContainer';
-        a.href = "/Cinema/cinemaPage"; // + data.email;
+        div.className = 'guestCardExtended';
         img.src = data.banner == null ? "/assets/Cinema/cinema.jpg" : "data:image/jpeg;base64, " + data.banner;
         let textDiv = document.createElement('div');
         textDiv.className = "text-block";
         let paragraph = document.createElement('p');
         paragraph.innerHTML = data.name;
         textDiv.appendChild(paragraph);
-        a.appendChild(textDiv);
-        div.appendChild(a);
-        return div;
+        div.appendChild(img);
+        div.appendChild(textDiv);
+        a.appendChild(div);
+        return a;
     }
     else {
+        let div = document.createElement('div');
+        div.className = 'guestCardExtended';
         img.src = data.poster;
         a.href = "/movie/" + data.tmdbID;
+        div.appendChild(img);
+        a.appendChild(div);
         return a;
     }
 }
