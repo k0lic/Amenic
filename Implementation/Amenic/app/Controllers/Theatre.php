@@ -68,7 +68,7 @@ class Theatre extends BaseController
 
         $validationResult = $this->isValid("actionAddGalleryImage", [
             "imageName" => $imageName,
-            "imageFile" => $imageTempFile
+            "newImage" => $imageTempFile
         ]);
         if ($validationResult != 1)
         {
@@ -136,7 +136,7 @@ class Theatre extends BaseController
         $imageTempFile = $this->request->getFile("newBanner");
 
         $validationResult = $this->isValid("actionChangeBanner", [
-            "bannerImage" => $imageTempFile
+            "newBanner" => $imageTempFile
         ]);
         if ($validationResult != 1)
         {

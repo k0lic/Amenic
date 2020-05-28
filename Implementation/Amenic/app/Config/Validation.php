@@ -469,29 +469,14 @@ class Validation
 
 	// Theatre validation
 
-	/*
-			REAL VALIDATION, COMMENTED OUT BECAUSE CODEIGNITER HATES ME
 	public $actionAddGalleryImage = [
 		'imageName' => [
 			'label' => 'New image name',
 			'rules' => 'required|max_length[64]|uniqueGalleryImage'
 		],
-		'imageFile' => [
+		'newImage' => [
 			'label' => 'New image',
-			'rules' => 'ext_in[imageFile,png,jpg,jpeg]|max_size[imageFile,600]|is_image[imageFile]|mime_in[imageFile,image/jpeg,image/jpg,image/png]'
-		]
-	];
-	*/
-
-	//PHONY VALIDATION
-	public $actionAddGalleryImage = [
-		'imageName' => [
-			'label' => 'New image name',
-			'rules' => 'required'
-		],
-		'imageFile' => [
-			'label' => 'New image',
-			'rules' => 'required'
+			'rules' => 'ext_in[newImage,png,jpg,jpeg]|max_size[newImage,600]|is_image[newImage]|mime_in[newImage,image/jpeg,image/jpg,image/png]'
 		]
 	];
 
@@ -502,21 +487,10 @@ class Validation
 		]
 	];
 
-	/*
-			REAL VALIDATION, COMMENTED OUT BECAUSE CODEIGNITER HATES ME
 	public $actionChangeBanner = [
-		'bannerImage' => [
+		'newBanner' => [
 			'label' => 'New image',
-			'rules' => 'ext_in[bannerImage,png,jpg,jpeg]|max_size[bannerImage,600]|is_image[bannerImage]|mime_in[bannerImage,image/jpeg,image/jpg,image/png]'
-		]
-	];
-	*/
-
-	//PHONY VALIDATION
-	public $actionChangeBanner = [
-		'bannerImage' => [
-			'label' => 'New image',
-			'rules' => 'required'
+			'rules' => 'ext_in[newBanner,png,jpg,jpeg]|max_size[newBanner,600]|is_image[newBanner]|mime_in[newBanner,image/jpeg,image/jpg,image/png]'
 		]
 	];
 

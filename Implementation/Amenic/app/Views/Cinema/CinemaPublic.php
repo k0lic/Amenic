@@ -117,7 +117,7 @@
                                                 <button type=\"submit\" class=\"galleryAdminButton galleryHidden ml-1\" id=\"newBannerSubmit\">Save change</button>
                                             </div>
                                         </form>
-                                        <div class=\"formError\">".(isset($errors["bannerImage"]) ? $errors["bannerImage"] : "")."</div>
+                                        <div class=\"formError\">".(isset($errors["newBanner"]) ? $errors["newBanner"] : "")."</div>
                                     </div>
                                 ";
                             }
@@ -296,7 +296,7 @@
                         <?php
                             if ($cinemaIsLoggedIn)
                             {
-                                $localFormErrorPart1 = isset($errors["imageFile"]) ? $errors["imageFile"] : null;
+                                $localFormErrorPart1 = isset($errors["newImage"]) ? $errors["newImage"] : null;
                                 $localFormErrorPart2 = isset($errors["imageName"]) ? $errors["imageName"] : null;
                                 $localFormError = $localFormErrorPart1 == null ? "" : $localFormErrorPart1;
                                 $localFormError = $localFormErrorPart2 == null ? $localFormError : ($localFormErrorPart1 == null ? $localFormErrorPart2 : $localFormErrorPart1."<br/>".$localFormErrorPart2);
