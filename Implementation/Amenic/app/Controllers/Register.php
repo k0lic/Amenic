@@ -18,7 +18,17 @@ use Exception;
 use function App\Helpers\isAuthenticated;
 use function App\Helpers\isValid;
 
+/** Register – Controller that handles user registration
+ * 
+ * @version 1.0
+ */
+
 class Register extends BaseController {
+
+    /**
+     * Clears PHP Session data
+     * @return void
+     */
 
     private function clearSessionData() {
         // Start the registration forms on a clean slate
@@ -28,6 +38,13 @@ class Register extends BaseController {
             }
         }
     }
+
+    /**
+     * Checks if form input for a specific step is valid
+     * @param Number step
+     * @param Array data
+     * @return view
+     */
 
     private function isValid($step, $data) {
         
@@ -53,6 +70,12 @@ class Register extends BaseController {
         return $validation->getErrors();
     }
 
+
+    /**
+     * Initiates the register session
+     * @return view
+     */
+
 	public function index() {	
         // Start the user session where form data will be stored
         $token = $this->getToken();
@@ -69,15 +92,35 @@ class Register extends BaseController {
 		return view('Registration/register',[]);
     }
 
+    /**
+     * Serves the cinema registration views
+     * @param Number step
+     * @return view
+     */
+
     public function cinema($step) {
 
         return $this->next($step, "Cinema", $_POST);     
     }
 
+    /**
+     * Serves the user registration views
+     * @param Number step
+     * @return view
+     */
+
     public function user($step) {
 
         return $this->next($step, "User", $_POST);
     }
+
+    /**
+     * Serves the next step in the registration process
+     * @param Number step
+     * @param String type
+     * @param Array postData
+     * @return view
+     */
 
     public function next($step, $type, $postData) {
         $token = $this->getToken();
@@ -124,6 +167,12 @@ class Register extends BaseController {
     }
 
     // DB Functions //
+
+    /**
+     * Adds the user to the database
+     * @return void
+     * @throws Exception e
+     */
 
     private function registerUser() {
 
@@ -180,6 +229,12 @@ class Register extends BaseController {
         }
     }
 
+    /**
+     * Adds the cinema to the database
+     * @return void
+     * @throws Exception e
+     */
+
     private function registerCinema() {
 
         $step2Data = $_SESSION["step"][2];
@@ -191,7 +246,10 @@ class Register extends BaseController {
         $address = $step2Data['address']; 
         $phoneNumber = $step2Data['phoneNumber']; 
         $country = $step2Data['country']; 
-        $city = $step2Data['city']; 
+        $city = $step2Data['city'];
+
+        die($city);
+
         $description = isset($step2Data['description'])?$step2Data['description']:"";
 
         // Extract owner data
@@ -247,6 +305,11 @@ class Register extends BaseController {
         }   
     }
 
+    /** 
+     * Gets the cookie containing basic info of a logged in user
+     * @return object
+     */
+
     private function getToken() {
         helper('auth');
 
@@ -263,6 +326,25 @@ class Register extends BaseController {
             }
         }
         return null;
+    }
+
+    public function getCountries() {
+        $countryModel = new CountryModel();
+        $countries = $countryModel->findAll();
+        
+        echo json_encode($countries);
+    }
+
+    public function getCities() {
+        $cityModel = new CityModel();
+
+        $countryId = $_REQUEST['idCountry'];
+
+        $cities = $cityModel
+                            ->where('idCountry', $countryId)
+                            ->findAll();
+    
+        echo json_encode($cities);
     }
 
 }

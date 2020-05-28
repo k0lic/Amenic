@@ -2,6 +2,9 @@
     Author: Miloš Živkovic
     Github: zivkovicmilos
 -->
+<?php
+	$initCountry = 1;
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -70,17 +73,13 @@
 					<div class="row mb-2">
 						<div class="column w20 mr-5">
 							<label for="country">Country</label>
-							<select class="formSelect" name="country" required>
-								<option value="1">Serbia</option>
+							<select class="formSelect" name="country" required id="countryDropdown">
 							</select>
 							<div class="formError ml-1"><?php if(isset($errors['country'])) echo $errors['country'] ?></div>
 						</div>
 						<div class="column w20">
 							<label for="country">City</label>
-							<select class="formSelect" name="city" required>
-								<option value="1">Beograd</option>
-								<option value="2">Novi Sad</option>
-								<option value="3">Niš</option>
+							<select class="formSelect" name="city" required id="cityDropdown">
 							</select>
 							<div class="formError ml-1"><?php if(isset($errors['city'])) echo $errors['city'] ?></div>
 						</div>
@@ -94,5 +93,7 @@
 				</form>
 			</div>
 		</div>
+		<input type="hidden" id="countryId" value="<?php echo $initCountry ?>">
 	</body>
+	<script src="/js/register/fieldUpdater.js"></script>
 </html>

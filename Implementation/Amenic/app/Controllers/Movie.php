@@ -22,12 +22,17 @@ use CodeIgniter\I18n\Time;
 
 use function App\Helpers\getReviews;
 
-/** LoginController –klasa za logovanje registrovanog korisnika
+/** Movie – Controller for the movie search page
  * 
  * @version 1.0
  * */
 
 class Movie extends BaseController {
+
+    /**
+     * Checks the user's token
+     * @return object
+     */
 
     private function getToken() {
         helper('auth');
@@ -46,6 +51,12 @@ class Movie extends BaseController {
         }
         return null;
     }
+
+    /**
+     * Returns the movie search page view
+     * @param TMDBID of the projection in the database
+     * @return view
+     */
 
     public function index($tmdbID) {
 
@@ -67,6 +78,11 @@ class Movie extends BaseController {
         
         return view('Movies/movie.php', ['movie' => $movie, 'reviews' => $reviews, 'authenticated' => $authenticated, 'token' => $token]);
     }
+
+    /**
+     * Gets all the projections for a specific movie
+     * @return JSON
+     */
 
     public function getProjections() {
         
@@ -130,6 +146,11 @@ class Movie extends BaseController {
         echo json_encode($newRes);
     }
 
+    /**
+     * Returns the cinema name
+     * @return JSON
+     */
+
     public function getCinemaName() {
         $email = $_REQUEST['email'];
         $cinemasModel = new CinemaModel();
@@ -137,6 +158,11 @@ class Movie extends BaseController {
 
         echo json_encode($result);
     }
+
+    /**
+     * Returns the cinema's profile image
+     * @return JSON
+     */
 
     public function getCinemaImage() {
         $email = $_REQUEST['email'];
@@ -146,6 +172,11 @@ class Movie extends BaseController {
         echo json_encode($result);
     }
 
+    /**
+     * Returns the technology name based on the id
+     * @return JSON
+     */
+
     public function getTechName() {
         $idTech = $_REQUEST['idTech'];
         $techModel = new TechnologyModel();
@@ -154,6 +185,10 @@ class Movie extends BaseController {
         echo json_encode($result);
     }
 
+    /**
+     * Returns all of the countries
+     * @return JSON
+     */
     public function getCountries() {
         $countryModel = new CountryModel();
         $results = $countryModel->findAll();
@@ -161,6 +196,10 @@ class Movie extends BaseController {
         echo json_encode($results);
     }
 
+    /**
+     * Returns all of the cities for a specific country
+     * @return JSON
+     */
     public function getCities() {
 
         $idCountry = $_REQUEST['country'];
@@ -174,6 +213,10 @@ class Movie extends BaseController {
         echo json_encode($results);
     }
 
+    /**
+     * Returns all of the cinemas in a specific country / city
+     * @return JSON
+     */
     public function getCinemas() {
         $idCountry = $_REQUEST['country'];
         $idCity = $_REQUEST['city'];
@@ -197,6 +240,11 @@ class Movie extends BaseController {
         
         echo json_encode($results);
     }
+
+    /**
+     * Returns all of the times a projection is showing
+     * @return JSON
+     */
 
     public function getTimes() {
         $tmdbID = $_REQUEST['tmdbID'];
@@ -223,7 +271,6 @@ class Movie extends BaseController {
 
         if($_REQUEST['cinema'] != '') {
             $newRes = array_filter($results, function($result) {
-                //return !strcmp($result['email'], $_REQUEST['cinema']);
                 return $result->email == $_REQUEST['cinema'];
             });
         }

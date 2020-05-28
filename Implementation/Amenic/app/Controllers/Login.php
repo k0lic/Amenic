@@ -47,6 +47,7 @@ class Login extends BaseController {
 
     /**
      * Checks the validity of the reset token, and serves a reset page
+     * @param User token
      * @return view
      */
 
@@ -97,18 +98,13 @@ class Login extends BaseController {
                 $password = password_hash($formData['firstPassword'], PASSWORD_BCRYPT, ['cost' => 8]); 
 
                 // Save to the DB
-
                 $userModel = new UserModel();
-                //$user = $userModel->find($ret->email);
 
                 $userModel->where([
                     'email' => $ret->email
                     ])->set([
                     'password' => $password       
                     ])->update();
-
-                //$user->password = $password;
-                //$userModel->save($user);
                 
             } catch(Exception $e) {
                 return view('PasswordReset/passwordResetFatal.php');
@@ -121,6 +117,11 @@ class Login extends BaseController {
 
         return view ('PasswordReset/passwordResetSuccess.php');
     }
+
+    /**
+     * Checks user credentials and sends a password reset email
+     * @return void
+     */
 
     public function forgot() {
 
@@ -171,6 +172,11 @@ class Login extends BaseController {
         exit();
 
     }
+
+    /**
+     * The function that does the actual heavylifting - generates the token and logs the user in
+     * @return void
+     */
 
     public function index() {
 

@@ -29,8 +29,19 @@ use function App\Helpers\isValid;
 use function App\Helpers\generateToken;
 use function App\Helpers\setToken;
 
+/** Worker – Controller that handles Worker actions
+ * 
+ * @version 1.0
+ */
+
 class Worker extends BaseController
 {
+
+    /** 
+     * Gets the cookie containing basic info of a logged in user
+     * @return object
+     */
+
     private function getToken()
     {
         helper('auth');
@@ -53,6 +64,10 @@ class Worker extends BaseController
         return null;
     }
 
+    /** Creates a form to allow admin to change his information
+     * @return view SettingsView using data - [$adminInfo, $curActiveMenu, $adminImage, $accountType, $accountToken, $errors] 
+     */
+
     public function settings()
     {
         $token = $this->getToken();
@@ -69,6 +84,9 @@ class Worker extends BaseController
         return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Worker', 'token' => $token, 'errors' => '' ]);    
     }
 
+    /** Saves changes to admin account
+     * @return callable function to show desired menu
+     */
     public function saveSettings()
     {
         $token = $this->getToken();
@@ -162,6 +180,11 @@ class Worker extends BaseController
         return redirect()->to('/HomeController');
     }
 
+    /** 
+     * Renders the reservations page of the worker
+     * @return view
+     */
+
     public function index() {
 
         $token = $this->getToken();
@@ -173,14 +196,15 @@ class Worker extends BaseController
         $cinemaModel = new CinemaModel();
         $cinema = $cinemaModel->find($token->cinemaEmail);
 
-        // TEST ZONE //
-        //die(var_dump($token));
-        ///////////////////////////////
-
         return view('Worker/worker.php', ['cinema' => $cinema, 'actMenu' => 0, 'userImage' => $token->image, "userFullName" => $token->firstName]);
     }
 
     // RESERVATION LIST //
+
+    /** 
+     * Fetches all of the reservations for a specific cinema
+     * @return JSON
+     */
 
     public function getReservations() {
         $cinemaEmail = $_REQUEST['cinemaEmail'];
@@ -207,6 +231,11 @@ class Worker extends BaseController
         echo json_encode($projections);
     }
 
+    /** 
+     * Fetches all of the seats for a specific reservation
+     * @return JSON
+     */
+
     public function getSeats() {
         $idRes = $_REQUEST['idRes'];
 
@@ -220,6 +249,11 @@ class Worker extends BaseController
         echo json_encode($seats);
     }
 
+    /** 
+     * Fetches the user
+     * @return JSON
+     */
+
     public function getUser() {
         $userEmail = $_REQUEST['userEmail'];
 
@@ -229,6 +263,11 @@ class Worker extends BaseController
                             
         echo json_encode($ruser);
     }
+
+    /** 
+     * Fetches projection details
+     * @return JSON
+     */
 
     public function getProjection() {
         $idPro= $_REQUEST['idPro'];
@@ -240,6 +279,11 @@ class Worker extends BaseController
         echo json_encode($projection);
     }
 
+    /** 
+     * Fetches a specific movie
+     * @return JSON
+     */
+
     public function getMovie() {
         $tmdbID= $_REQUEST['tmdbID'];
 
@@ -250,6 +294,11 @@ class Worker extends BaseController
         echo json_encode($movie);
     }
 
+    /** 
+     * Fetches the name of a specific technology
+     * @return JSON
+     */
+
     public function getTechnology() {
         $idTech= $_REQUEST['idTech'];
 
@@ -259,6 +308,11 @@ class Worker extends BaseController
                             
         echo json_encode($technology);
     }
+
+    /** 
+     * Confirms a user's reservation
+     * @return JSON
+     */
 
     public function confirmReservation() {
         $idRes = $_REQUEST['idRes'];
@@ -273,10 +327,13 @@ class Worker extends BaseController
             'confirmed' => 1         
             ])->update();
 
-        //$reservationModel->save($reservation);
-
         echo json_encode("ok");
     }
+
+    /** 
+     * Deletes a user's reservation
+     * @return JSON
+     */
 
     public function deleteReservation() {
         $idRes = $_POST['idRes'];
@@ -292,6 +349,11 @@ class Worker extends BaseController
 
     // RESERVATION MODAL //
 
+    /** 
+     * Fetches all of the dates a specific movie is showing on
+     * @return JSON
+     */
+
     public function getDates() {
         $tmdbID =       $_REQUEST['tmdbID'];
         $cinemaEmail =  $_REQUEST['cinemaEmail'];
@@ -305,6 +367,11 @@ class Worker extends BaseController
 
         echo json_encode($dates);
     }
+
+    /** 
+     * Fetches all of the times a specific movie is showing at
+     * @return JSON
+     */
 
     public function getTimes() {
         $tmdbID =       $_REQUEST['tmdbID'];
@@ -331,6 +398,11 @@ class Worker extends BaseController
 
         echo json_encode($times);
     }
+
+    /** 
+     * Fetches all of the rooms for a specific movie
+     * @return JSON
+     */
 
     public function getRooms() {
         $tmdbID =       $_REQUEST['tmdbID'];
@@ -361,6 +433,10 @@ class Worker extends BaseController
         echo json_encode($rooms);
     }
 
+    /** 
+     * Fetches all available technologies for a specific movie
+     * @return JSON
+     */
 
     public function getTech() {
         $tmdbID =       $_REQUEST['tmdbID'];
@@ -392,6 +468,11 @@ class Worker extends BaseController
         echo json_encode($techs);
     }
 
+    /** 
+     * Fetches projection details
+     * @return JSON
+     */
+
     public function getSpecProjection() {
         $idPro = $_REQUEST['idPro'];
 
@@ -405,6 +486,11 @@ class Worker extends BaseController
         echo json_encode($projection);
     }
 
+    /** 
+     * Fetches all projections in a specific cinema
+     * @return JSON
+     */
+
     public function getAllProjections() {
         $cinemaEmail = $_REQUEST['cinemaEmail'];
 
@@ -417,6 +503,11 @@ class Worker extends BaseController
 
         echo json_encode($projections);
     }
+
+    /** 
+     * Marks the seat as taken when selling a ticket
+     * @return JSON
+     */
 
     public function confirm() {
 
@@ -460,6 +551,11 @@ class Worker extends BaseController
         
         echo json_encode($message);
     }
+
+    /** 
+     * Gets the seats that are taken
+     * @return JSON
+     */
 
     public function getProjSeats() {
         $idPro = $_REQUEST['idPro'];

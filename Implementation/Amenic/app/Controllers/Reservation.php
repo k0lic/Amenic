@@ -21,7 +21,18 @@ use function App\Helpers\isAuthenticated;
 use function App\Helpers\isValid;
 use function App\Helpers\sendMail;
 
+/** Reservation – Controller that controls ticket reservations
+ * 
+ * @version 1.0
+ */
+
 class Reservation extends BaseController {
+
+    /**
+     * Serves the room layout for a specific projection
+     * @param Number idPro
+     * @return view
+     */
 
     public function index($idPro) {
 
@@ -30,18 +41,6 @@ class Reservation extends BaseController {
             header('Location: /');
             exit();
         }
-
-        // TEST
-        /*
-        $seatModel = new SeatModel();
-        $foundSeat = $seatModel
-                                    ->where('idPro', 10)
-                                    ->where('rowNumber', 6)
-                                    ->where('seatNumber', 7)
-                                    ->findAll();
-        die(var_dump($foundSeat));
-        */
-        //////
 
         $movieModel = new MovieModel();
         $projectionModel = new ProjectionModel();
@@ -80,6 +79,11 @@ class Reservation extends BaseController {
         ]);
     }
 
+    /**
+     * Gets all of the reservations for a specific projection
+     * @return JSON
+     */
+
     public function getReservations() {
 
         $token = $this->getToken();
@@ -99,6 +103,11 @@ class Reservation extends BaseController {
 
         echo json_encode($results);
     }
+
+    /** 
+     * Gets the cookie containing basic info of a logged in user
+     * @return object
+     */
 
     private function getToken() {
         helper('auth');
@@ -120,6 +129,11 @@ class Reservation extends BaseController {
         }
         return null;
     }
+
+    /** 
+     * Confirms the reservation in the database, or returns an error message
+     * @return JSON
+     */
 
     public function confirm() {
 
@@ -200,15 +214,6 @@ class Reservation extends BaseController {
                     ])->update();
 
                 $db->transCommit();
-                /*
-                $seat = new Seat([
-                    'idPro' => $idPro,
-                    'rowNumber' => $resArr[1],
-                    'seatNumber' => $resArr[2],
-                    'status' => 'reserved',
-                    'idRes' => $idRes
-                ]);
-                */
 
                 $roomLetter = $this->rowNumToStr($resArr[1]);
                 array_push($reservedSeats, "$roomLetter$resArr[2]");
@@ -251,6 +256,11 @@ class Reservation extends BaseController {
 
         echo json_encode($message);
     }
+
+    /** 
+     * Helper function that converts a row number to a row letter
+     * @return Character
+     */
 
     private function rowNumToStr($rowNumber) {
         return chr($rowNumber + 65 - 1);
