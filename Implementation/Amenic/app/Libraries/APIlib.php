@@ -76,23 +76,14 @@ class APIlib {
         }
 
      /** Fetches the user reviews for a movie
-     * @param string $movieID TMDBid - unique identifier for a movie in TMDB
+     * @param string $imdbID IMDBid - unique identifier for a movie in IMDB
      * @return array $params [$statusCode, $fileType, $jsonObject]
      */
-        public function getMovieReviews($movieID)
+        public function getMovieReviews($imdbID)
         {
-            $client = new Client();
-
-            //hardcoding obtained api_key from TMDB
-            $res = $client->request('GET', 'https://api.themoviedb.org/3/movie/'.$movieID.'/reviews?api_key=a447e93ca55c73e315f16a4930488fcf', [
-                'auth' => ['', '']
-            ]);
-            
-            $params[0] =  $res->getStatusCode(); //200 is ok
-            $params[1] =  $res->getHeader('content-type')[0]; //is application/json?
-            $params[2] =  \GuzzleHttp\json_decode($res->getBody(),true); //json
-            
-            return $params;
+            helper('imdb_helper');
+    
+            return getReviews($imdbID);
         }
 
     /** Fetches all the movies containing the phrase provided
