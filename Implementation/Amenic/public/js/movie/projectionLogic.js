@@ -42,7 +42,7 @@ const updateDate = (element, offset, date) => {
 		date.getMonth(),
 		date.getDate() + offset
 	);
-
+	console.log(`Rendering new date! ${newDate.getDay()} ${newDate}`);
 	children[0].innerHTML = monthToStr(newDate.getMonth());
 	children[1].innerHTML = newDate.getDate();
 	children[2].innerHTML = dayToStr(newDate.getDay());
@@ -81,19 +81,19 @@ const monthToStr = (month) => {
 
 const dayToStr = (day) => {
 	switch (day) {
-		case 0:
-			return "Mon";
 		case 1:
-			return "Tue";
+			return "Mon";
 		case 2:
-			return "Wed";
+			return "Tue";
 		case 3:
-			return "Thu";
+			return "Wed";
 		case 4:
-			return "Fri";
+			return "Thu";
 		case 5:
-			return "Sat";
+			return "Fri";
 		case 6:
+			return "Sat";
+		case 0:
 			return "Sun";
 		default:
 			return "error";
