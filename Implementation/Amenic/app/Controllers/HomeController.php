@@ -235,7 +235,7 @@ class HomeController extends BaseController
             return view('AdminBreachMessage',[]);
 
         
-        $cinemaArray = (new CinemaModel())->where(['approved' => 1]);
+        $cinemaArray = (new CinemaModel())->where(['approved' => 1])->where(['closed' => 0]);
         if (!is_null($token) && strcmp($token->country,"") != 0)
             $cinemaArray = $cinemaArray->where('idCountry',$token->country);
         if (!is_null($token) && strcmp($token->city,"") != 0)
@@ -284,6 +284,7 @@ class HomeController extends BaseController
         
         $cinemaArray = (new CinemaModel())
             ->where(['approved' => 1])
+            ->where(['closed' => 0])
             ->where($countrySelect)
             ->where($citySelect);
         
@@ -428,7 +429,7 @@ class HomeController extends BaseController
         try
         {
             //update database
-            $db->transCommit();
+            $db->transBegin();
             $img=null;
             if (strcmp($image->getName(),"") !=0)
             {

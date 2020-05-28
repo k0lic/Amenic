@@ -127,7 +127,7 @@ class Worker extends BaseController
         try
         {
             //update database
-            $db->transCommit();
+            $db->transBegin();
             $img=null;
             if (strcmp($image->getName(),"") !=0)
             {
