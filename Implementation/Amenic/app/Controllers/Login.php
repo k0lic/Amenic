@@ -22,7 +22,17 @@ use function App\Helpers\isValid;
 use function App\Helpers\sendMail;
 use function App\Helpers\setToken;
 
+/** Login – Controller that controls user authentication / password reset
+ * 
+ * @version 1.0
+ */
+
 class Login extends BaseController {
+
+    /**
+     * Clears errors stored in cookies
+     * @return void
+     */
 
     public function clearErrors() {
 
@@ -34,6 +44,11 @@ class Login extends BaseController {
         header('Location: /');
         exit();
     }
+
+    /**
+     * Checks the validity of the reset token, and serves a reset page
+     * @return view
+     */
 
     public function reset($token) {
 
@@ -49,6 +64,11 @@ class Login extends BaseController {
         header('Location: /');
         exit();
     }
+
+    /**
+     * Gather form data and update the database
+     * @return view
+     */
 
     public function handleReset() {
         if($_SERVER["REQUEST_METHOD"] != "POST") {
@@ -189,6 +209,10 @@ class Login extends BaseController {
             } else if(!is_null($cinemaModel->find($email))) {
                 $user = $cinemaModel->find($email);
                 $type = 'Cinema';
+
+                if($user->approved == 0) {
+                    throw new Exception("This account is not yet approved!");
+                }
 
                 if($user->closed == 1) {
                     $cinemaModel->where([

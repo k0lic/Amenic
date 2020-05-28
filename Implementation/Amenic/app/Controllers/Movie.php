@@ -22,6 +22,11 @@ use CodeIgniter\I18n\Time;
 
 use function App\Helpers\getReviews;
 
+/** LoginController –klasa za logovanje registrovanog korisnika
+ * 
+ * @version 1.0
+ * */
+
 class Movie extends BaseController {
 
     private function getToken() {

@@ -164,8 +164,6 @@ class Worker extends BaseController
 
     public function index() {
 
-        
-
         $token = $this->getToken();
         if (is_null($token)) {
             header('Location: /');
