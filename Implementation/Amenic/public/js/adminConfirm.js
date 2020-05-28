@@ -3,6 +3,19 @@
     Github: Rpsaman13000
 */
 
+let adminWrapper = document.getElementById('addAdminWrapper');
+let adminModal = document.getElementById('addAdminModal');
+
+adminWrapper.addEventListener(('click'), (e) => {
+    hideModal('addAdminWrapper');
+    return false;
+});
+
+adminModal.addEventListener(('click'), (e) => {
+    e.stopPropagation();
+    return false;
+});
+
 function showModal(mail, actMenu) {
 
     console.log(mail);
