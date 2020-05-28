@@ -520,31 +520,35 @@ class Worker extends BaseController
     
         $pairs = explode(' ', $_POST['seats']);
 
+        $db = db_connect();
+        
+
         $seat = null;
         try {
+            $db->transStart();
             foreach($pairs as $pair) {
                 preg_match('/([0-9]{1,2}):([0-9]{1,2})/', $pair, $resArr);
-    
-                $seat = new Seat([
-                    'idPro' => $idPro,
-                    'rowNumber' => $resArr[1],
-                    'seatNumber' => $resArr[2],
-                    'status' => 'sold',
-                    'idRes' => null
-                ]);
 
+                // Check if seats are still free
                 $foundSeat = $seatModel
-                        ->where('idPro', $idPro)
-                        ->where('rowNumber', $resArr[1])
-                        ->where('seatNumber', $resArr[2])
-                        ->findAll();
-
-                if(count($foundSeat) == 0) {
-                    $seatModel->insert($seat);
-                } else {
+                                    ->where('idPro', $idPro)
+                                    ->where('rowNumber', $resArr[1])
+                                    ->where('seatNumber', $resArr[2])
+                                    ->findAll();
+                
+                if($foundSeat[0]->status != 'free') {
                     throw new Exception('Seat taken!');
                 }
+
+                $seatModel->where([
+                    'idPro' => $idPro, 
+                    'rowNumber' => $resArr[1], 
+                    'seatNumber' => $resArr[2]
+                    ])->set([
+                    'status' => 'sold'        
+                    ])->update();
             }
+            $db->transCommit();
         } catch (Exception $e) {
             $message = "BAD";
         }
