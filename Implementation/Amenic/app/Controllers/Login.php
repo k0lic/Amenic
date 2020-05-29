@@ -40,9 +40,6 @@ class Login extends BaseController {
         // Delete the error cookies
         deleteCookie('resetError');
         deleteCookie('loginError');
-
-        header('Location: /');
-        exit();
     }
 
     /**
@@ -57,13 +54,13 @@ class Login extends BaseController {
         
         $ret = isValid($token);
 
-        if(!is_null($ret) || $ret) {
-           return view('PasswordReset/passwordReset.php', ['token' => $token, 'errors' => []]);
+        if(is_null($ret) || !$ret) {
+            // Invalid reset link
+            header('Location: /');
+            exit();
         }
 
-        // Invalid reset link
-        header('Location: /');
-        exit();
+        return view('PasswordReset/passwordReset.php', ['token' => $token, 'errors' => []]);
     }
 
     /**
@@ -89,7 +86,7 @@ class Login extends BaseController {
         $validation =  \Config\Services::validation();
 
         $ret = $validation->run($formData, "passwordCheck");
-
+        
         if($ret == 1) {
             // Everything is ok, update the DB
             $ret = isValid($_POST['token']);
@@ -115,7 +112,8 @@ class Login extends BaseController {
         // Delete the login error cookie
         $this->clearErrors();
 
-        return view ('PasswordReset/passwordResetSuccess.php');
+        
+        return view('PasswordReset/passwordResetSuccess.php');
     }
 
     /**
