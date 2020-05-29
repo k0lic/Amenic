@@ -366,6 +366,7 @@ class Worker extends BaseController
         $dates = $projectionsModel
                             ->where('tmdbID', $tmdbID)
                             ->where('email', $cinemaEmail)
+                            ->where('canceled', 0)
                             ->findAll();
 
         echo json_encode($dates);
