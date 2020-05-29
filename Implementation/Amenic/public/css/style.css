@@ -2264,6 +2264,7 @@ body {
 	flex-direction: column !important;
 	justify-content: center !important;
 	height: 100% !important;
+	width: 50% !important;
 	color: white;
 	margin: 0 auto 0 0 !important;
 }

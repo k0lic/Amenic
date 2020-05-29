@@ -302,14 +302,22 @@ class AdminController extends BaseController
         unset($_POST['actMenu']);
         unset($_POST['key']);
 
-        $model = new UserModel();
-
-        //cannot delete other admins
-        if (strcmp($actMenu,"3") == 0)
+        $model = null;
+        switch($actMenu)
         {
-            return $this->admins();
+            case "0":
+                $model = new RUserModel();
+                break;
+            case "1":
+                $model = new CinemaModel();
+                break;
+            case "2":
+                $model = new CinemaModel();
+                break;
+            default:
+                return $this->selectMenu($actMenu);
         }
-    
+
         if(isset($key))
         {
             $user = $model->where(['email'=>$key])->findAll();
