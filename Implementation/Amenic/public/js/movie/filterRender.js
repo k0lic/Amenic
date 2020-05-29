@@ -8,6 +8,8 @@ const countryColumn = document.getElementById("countryDropdown");
 const cinemaColumn = document.getElementById("cinemaDropdown");
 const timeColumn = document.getElementById("timeDropdown");
 
+let gracePeriod = null;
+
 const getCities = async () => {
 	let response = await fetch(
 		`http://localhost:8080/movie/getCities?country=${country}`,
@@ -190,7 +192,11 @@ document.getElementById("movieArrowLeft").addEventListener("click", (e) => {
 	updateCinemas();
 	updateTimes();
 
-	renderTable();
+	clearTimeout(gracePeriod);
+	gracePeriod = setTimeout(() => {
+		renderTable();
+	}, 300);
+	//renderTable();
 });
 
 document.getElementById("movieArrowRight").addEventListener("click", (e) => {
@@ -209,7 +215,11 @@ document.getElementById("movieArrowRight").addEventListener("click", (e) => {
 	updateCinemas();
 	updateTimes();
 
-	renderTable();
+	clearTimeout(gracePeriod);
+	gracePeriod = setTimeout(() => {
+		renderTable();
+	}, 300);
+	//renderTable();
 });
 
 const setFilterParam = (className, value) => {

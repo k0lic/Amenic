@@ -18,6 +18,8 @@ let cinemaEmail = document.getElementById("cinemaEmail").value;
 let rowNumber = 1;
 let phrase = "";
 
+let gracePeriod = null;
+
 const getReservations = async () => {
 	let response = await fetch(
 		`http://localhost:8080/worker/getReservations?cinemaEmail=${cinemaEmail}&phrase=${phrase}`,
@@ -273,12 +275,11 @@ let processed = 0;
 let myRes = [];
 
 const renderReservations = () => {
+	list.textContent = "";
 	phrase = searchBar.value;
+
 	getReservations().then((reservations) => {
-		list.textContent = "";
-		processed = 0;
-		myRes.splice(0, myRes.length);
-		reservations.forEach(async (reservation, indx, arr) => {
+		reservations.forEach(async (reservation) => {
 			//let user = await getUser(reservation.email);
 			let projection = await getProjection(reservation.idPro);
 			let seats = await getSeats(reservation.idRes);
@@ -294,7 +295,8 @@ const renderReservations = () => {
 			} else {
 				price = projection.price;
 			}
-			myRes.push(
+
+			list.appendChild(
 				createRow(
 					name,
 					reservation.idRes,
@@ -308,15 +310,6 @@ const renderReservations = () => {
 					reservation.confirmed
 				)
 			);
-
-			processed++;
-
-			if (processed === arr.length) {
-				list.textContent = "";
-				myRes.forEach((res) => {
-					list.appendChild(res);
-				});
-			}
 		});
 	});
 };
@@ -370,4 +363,9 @@ const initiateDelete = (idRes) => {
 	});
 };
 
-searchBar.addEventListener("input", renderReservations);
+searchBar.addEventListener("input", (e) => {
+	clearTimeout(gracePeriod);
+	gracePeriod = setTimeout(() => {
+		renderReservations();
+	}, 300);
+});
