@@ -12,6 +12,7 @@ use App\Models\GalleryModel;
 use App\Models\ComingSoonModel;
 use App\Models\RoomModel;
 use App\Models\ProjectionModel;
+use function App\Helpers\sendMailOnCinemaClose;
 
 /**
  *  Model used for database operations focused on the 'Cinemas' table.
@@ -69,7 +70,8 @@ class CinemaModel extends SmartDeleteModel
     }
 
     /**
-     *  Closes the cinema, which involves canceling all the projections. Wraps the operation in a transaction.
+     *  Closes the cinema, which involves canceling all the projections. Sends an email to the account address.
+     *  Wraps the operation in a transaction.
      * 
      *  @param string $email email address of the chosen cinema account
      * 
@@ -88,7 +90,9 @@ class CinemaModel extends SmartDeleteModel
             foreach ($projections as $pro)
                 $promdl->smartCancel($pro->idPro);
             $this->update($email, ["closed" => 1]);
-            // mailOwner($email); ============================================================================= TODO
+
+            helper('mailer_helper');
+            sendMailOnCinemaClose($email);                          // sends notification mail about account closing
             
             $this->db->transCommit();
         }

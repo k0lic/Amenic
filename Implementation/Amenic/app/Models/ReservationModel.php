@@ -46,7 +46,11 @@ class ReservationModel extends SmartDeleteModel
     public function smartDelete($idRes)
     {
         $seatmdl = new SeatModel();
-        $seatmdl->where("idRes", $idRes)->set(["idRes" => null,"status" => "free"])->update();
+        $reservation = $this->find($idRes);
+        if ($reservation->confirmed)
+            $seatmdl->where("idRes", $idRes)->set(["idRes" => null])->update();
+        else
+            $seatmdl->where("idRes", $idRes)->set(["idRes" => null,"status" => "free"])->update();
         $this->delete($idRes);
     }
 

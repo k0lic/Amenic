@@ -28,6 +28,7 @@ use function App\Helpers\isAuthenticated;
 use function App\Helpers\isValid;
 use function App\Helpers\generateToken;
 use function App\Helpers\setToken;
+use function App\Helpers\sendMailOnReservationDelete;
 
 /** Worker – Controller that handles Worker actions
  * 
@@ -345,6 +346,15 @@ class Worker extends BaseController
         $seatModel->where('idRes', $idRes)->delete();
 
         $reservationModel = new ReservationModel();
+
+        // email the reservation holder
+        $reservation = $reservationModel->find($idRes);
+        if (!$reservation->confirmed)
+        {
+            helper('mailer_helper');
+            sendMailOnReservationDelete($reservation);
+        }
+
         $reservationModel->where('idRes', $idRes)->delete();
         
         echo json_encode('ok');

@@ -28,6 +28,7 @@ use function App\Helpers\isAuthenticated;
 use function App\Helpers\isValid;
 use function App\Helpers\generateToken;
 use function App\Helpers\setToken;
+use function App\Helpers\sendMailOnCinemaApproved;
 
 //exceptions
 use Exception;
@@ -370,6 +371,9 @@ class AdminController extends BaseController
         unset($_POST['key']);
 
         $cinema = (new CinemaModel())->where(['email' => $key])->set(['approved' => 1])->update();
+
+        helper('mailer_helper');
+        sendMailOnCinemaApproved($key);                          // sends notification mail about account approved
 
         return $this->selectMenu($actMenu);
     }

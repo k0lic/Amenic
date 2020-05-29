@@ -9,6 +9,8 @@ use App\Models\SmartDeleteModel;
 use App\Models\UserModel;
 use App\Models\ReservationModel;
 
+use function App\Helpers\sendMailOnReservationDelete;
+
 /**
  *  Model used for database operations focused on the 'RUsers' table.
  *  Extends the SmartDeleteModel.
@@ -49,8 +51,15 @@ class RUserModel extends SmartDeleteModel
         $usermdl = new UserModel();
         $resmdl = new ReservationModel();
         $reservations = $resmdl->where("email", $email)->findAll();
+        helper('mailer_helper');
         foreach ($reservations as $res)
-            $resmdl->delete($res->idRes);  //smartDeleteWithEmail($res->idRes); ======================================================== TODO
+        {
+            if (!$res->confirmed)
+            {
+                sendMailOnReservationDelete($res);
+            }
+            $resmdl->smartDelete($res->idRes);
+        }
         $this->delete($email);
         $usermdl->smartDelete($email);
     }

@@ -10,8 +10,16 @@ use App\Models\SeatModel;
 use App\Models\ReservationModel;
 use App\Models\RoomModel;
 use App\Models\ComingSoonModel;
+use App\Models\MovieModel;
+use App\Models\CinemaModel;
+use App\Models\TechnologyModel;
 use App\Entities\Seat;
 use Exception;
+
+use function App\Helpers\sendReservationInfo;
+use function App\Helpers\sendMailOnReservationDelete;
+
+date_default_timezone_set("Europe/Belgrade");
 
 /**
  *  Model used for database operations focused on the 'Projections' table.
@@ -42,7 +50,7 @@ class ProjectionModel extends SmartDeleteModel
     protected $allowedFields = ['roomName','email','dateTime','price','canceled','tmdbID','idTech'];
     
     /**
-     *  Deletes the projection along with all of the dependant seats and reservations.
+     *  Deletes the projection along with all of the dependant seats and reservations. Sends an email to all reservation holders if the projection didn't start.
      * 
      *  @param string $idPro id of the chosen projection
      * 
@@ -54,8 +62,26 @@ class ProjectionModel extends SmartDeleteModel
         $resmdl = new ReservationModel();
         $seatmdl->where("idPro", $idPro)->delete();
         $reservations = $resmdl->where("idPro", $idPro)->findAll();
-        foreach ($reservations as $res)
-            $resmdl->delete($res->idRes);   // mail if the projection hasn't started yet ======================================== TODO
+        
+        $projection = $this->find($idPro);
+        if (strtotime($projection->dateTime) > time())
+        {
+            // send email about reservation deletion
+            helper('mailer_helper');
+
+            foreach ($reservations as $res)
+            {
+                sendMailOnReservationDelete($res);
+                $resmdl->delete($res->idRes);
+            }
+        }
+        else
+        {
+            // do not send any emails, since this projection already started playing
+            foreach ($reservations as $res)
+                $resmdl->delete($res->idRes);
+        }
+
         $this->delete($idPro);
     }
 
@@ -70,8 +96,12 @@ class ProjectionModel extends SmartDeleteModel
     {
         $resmdl = new ReservationModel();
         $reservations = $resmdl->where("idPro", $idPro)->findAll();
+        helper('mailer_helper');
         foreach ($reservations as $res)
-            $resmdl->delete($res->idRes);   // change to deleteAndMail at some point ============================================= TODO
+        {
+            sendMailOnReservationDelete($res);
+            $resmdl->delete($res->idRes);
+        }
         $this->update($idPro, ["canceled" => 1]);
     }
 
@@ -148,7 +178,7 @@ class ProjectionModel extends SmartDeleteModel
     }
 
     /**
-     *  Changes the start time of the projection.
+     *  Changes the start time of the projection. Sends an email to every affected reservation.
      * 
      *  @param string $idPro id of the chosen projection
      *  @param time $newStartTime new start time
@@ -157,14 +187,29 @@ class ProjectionModel extends SmartDeleteModel
      */
     public function smartChangeTime($idPro, $newStartTime)
     {
-        /*
-        ================================================================================================================ TODO
-        $resmdl = new ReservationModel();
-        $reservations = $resmdl->where("idPro", $idPro)->findAll();
-        foreach ($reservations as $res)
-            $resmdl->mailOwner($res->idRes);
-        */
         $this->update($idPro, ["dateTime" => $newStartTime]);
+
+        helper('mailer_helper');
+        $resmdl = new ReservationModel();
+        $moviemdl = new MovieModel();
+        $cinemamdl = new CinemaModel();
+        $techmdl = new TechnologyModel();
+        $seatmdl = new SeatModel();
+        $reservations = $resmdl->where("idPro", $idPro)->findAll();
+        $projection = $this->find($idPro);
+        $movie = $moviemdl->find($projection->tmdbID);
+        $cinema = $cinemamdl->find($projection->email);
+        $tech = $techmdl->find($projection->idTech);
+        foreach ($reservations as $res)
+        {
+            $seats = $seatmdl->where("idRes", $res->idRes)->find();
+            $seatString = "";
+            foreach ($seats as $seat)
+            {
+                $seatString .= chr(64 + $seat->rowNumber)."".$seat->seatNumber." ";
+            }
+            sendReservationInfo($res, $seatString, $projection, $movie, $cinema, $tech, true);
+        }
     }
 
     /**
