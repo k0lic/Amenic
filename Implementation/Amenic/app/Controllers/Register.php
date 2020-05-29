@@ -248,8 +248,6 @@ class Register extends BaseController {
         $country = $step2Data['country']; 
         $city = $step2Data['city'];
 
-        die($city);
-
         $description = isset($step2Data['description'])?$step2Data['description']:"";
 
         // Extract owner data

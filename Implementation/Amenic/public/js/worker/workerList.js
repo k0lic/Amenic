@@ -115,7 +115,8 @@ const createRow = (
 	date,
 	movieName,
 	movieTech,
-	confirmed
+	confirmed,
+	userImg
 ) => {
 	const wrapper = document.createElement("div");
 
@@ -124,7 +125,13 @@ const createRow = (
 	let el = document.createElement("div");
 	el.classList.add("userPicture");
 	let img = document.createElement("img");
-	img.src = "/assets/profPic.png";
+
+	if (userImg == null) {
+		img.src = "/assets/profPic.png";
+	} else {
+		img.src = `data:image/jpg;base64, ${userImg}`;
+	}
+
 	img.alt = "Worker profile image";
 
 	el.appendChild(img);
@@ -307,7 +314,8 @@ const renderReservations = () => {
 					getDate(projection.dateTime),
 					movie.title,
 					technology.name,
-					reservation.confirmed
+					reservation.confirmed,
+					reservation.image
 				)
 			);
 		});

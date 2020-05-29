@@ -217,6 +217,7 @@ class Worker extends BaseController
                             ->where('Projections.email', $cinemaEmail)
                             ->join('Reservations', 'Projections.idPro = Reservations.idPro')
                             ->join('RUsers', 'Reservations.email = RUsers.email')
+                            ->join('Users', 'Reservations.email = Users.email')
                             ->like('RUsers.email',$phrase, $insensitiveSearch = TRUE)
                             ->orLike('firstName',$phrase, $insensitiveSearch = TRUE)
                             ->orLike('lastName',$phrase, $insensitiveSearch = TRUE)
