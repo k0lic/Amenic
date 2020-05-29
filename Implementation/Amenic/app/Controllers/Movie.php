@@ -129,9 +129,11 @@ class Movie extends BaseController {
                     ->where('tmdbID', $tmdbID)
                     ->where('dateTime'.$var, $date)
                     ->where('dateTime <', $endOfDay)
+                    ->where('canceled <', 1)
                     ->join('Cinemas', 'Projections.email = Cinemas.email')
                     ->where('idCountry', $country)
                     ->where('idCity'.$var1, $city)
+                    
                     ->findAll();
 
         $newRes = $results;

@@ -215,13 +215,20 @@ class Worker extends BaseController
 
         $projections = $projectionsModel
                             ->where('Projections.email', $cinemaEmail)
+                            ->where('Projections.canceled', 0)
                             ->join('Reservations', 'Projections.idPro = Reservations.idPro')
                             ->join('RUsers', 'Reservations.email = RUsers.email')
                             ->join('Users', 'Reservations.email = Users.email')
                             ->like('RUsers.email',$phrase, $insensitiveSearch = TRUE)
-                            ->orLike('firstName',$phrase, $insensitiveSearch = TRUE)
-                            ->orLike('lastName',$phrase, $insensitiveSearch = TRUE)
-                            ->orLike('Reservations.idRes',$phrase, $insensitiveSearch = TRUE)
+                            ->orWhere('Projections.email', $cinemaEmail)
+                            ->where('Projections.canceled', 0)
+                            ->like('firstName',$phrase, $insensitiveSearch = TRUE)
+                            ->orWhere('Projections.email', $cinemaEmail)
+                            ->where('Projections.canceled', 0)
+                            ->like('lastName',$phrase, $insensitiveSearch = TRUE)
+                            ->orWhere('Projections.email', $cinemaEmail)
+                            ->where('Projections.canceled', 0)
+                            ->like('Reservations.idRes',$phrase, $insensitiveSearch = TRUE)
                             ->findAll();
                             
         echo json_encode($projections);
@@ -494,6 +501,7 @@ class Worker extends BaseController
 
         $projections = $projectionsModel
                                     ->where('email', $cinemaEmail)
+                                    ->where('canceled <', 1)
                                     ->join('Movies', 'Projections.tmdbID = Movies.tmdbID')
                                     ->findAll();
 
