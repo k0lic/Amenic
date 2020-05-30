@@ -197,7 +197,6 @@ let reservations = [];
 const fillReserved = () => {
 	reservations.splice(0, reservations);
 	getReservations().then((data) => {
-		console.log(data);
 		if (!Array.isArray(data)) {
 			reservations.push(data["1"]);
 		} else {
@@ -265,7 +264,6 @@ const confirmReservation = async () => {
 		fd.append(i, postData[i]);
 	}
 
-	console.log(`Confirming for ${idPro}`);
 	let response = await fetch(`http://localhost:8080/reservation/confirm`, {
 		method: "POST",
 		body: fd,
@@ -280,7 +278,6 @@ const initiateConfirm = () => {
 	confirmButton.classList.add("reservationButtonDisabled");
 
 	confirmReservation().then((data) => {
-		console.log(data);
 		if (data == "OK") {
 			resConfirm.classList.add("hideModal");
 			resSuccess.classList.remove("hideModal");

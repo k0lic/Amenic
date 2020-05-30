@@ -242,18 +242,18 @@ class Register extends BaseController {
         $step4Data = $_SESSION["step"][4];
 
         // Extract cinema data
-        $cinemaName = $step2Data['cinemaName']; 
-        $address = $step2Data['address']; 
-        $phoneNumber = $step2Data['phoneNumber']; 
-        $country = $step2Data['country']; 
-        $city = $step2Data['city'];
+        $cinemaName =   $step2Data['cinemaName']; 
+        $address =      $step2Data['address']; 
+        $phoneNumber =  $step2Data['phoneNumber']; 
+        $country =      $step2Data['country']; 
+        $city =         $step2Data['city'];
 
         $description = isset($step2Data['description'])?$step2Data['description']:"";
 
         // Extract owner data
         $mngFirstName = ucfirst(strtolower($step3Data['mngFirstName'])); 
-        $mngLastName = ucfirst(strtolower($step3Data['mngLastName'])); 
-        $mngEmail = strtolower($step3Data['mngEmail']);
+        $mngLastName =  ucfirst(strtolower($step3Data['mngLastName'])); 
+        $mngEmail =     strtolower($step3Data['mngEmail']);
         $mngPhoneNumber = $step3Data['mngPhoneNumber'];
 
         // Hash the password
@@ -326,12 +326,22 @@ class Register extends BaseController {
         return null;
     }
 
+    /** 
+     * Gets all of the countries in the database
+     * @return JSON
+     */
+
     public function getCountries() {
         $countryModel = new CountryModel();
         $countries = $countryModel->findAll();
         
         echo json_encode($countries);
     }
+
+    /** 
+     * Gets all of the cities for a specific country
+     * @return JSON
+     */
 
     public function getCities() {
         $cityModel = new CityModel();

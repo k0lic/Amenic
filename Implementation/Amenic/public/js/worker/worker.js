@@ -104,7 +104,6 @@ const attachSeatListeners = () => {
 	let els = document.getElementsByClassName("projectionSeat");
 	for (let el of els) {
 		el.addEventListener("click", (e) => {
-			console.log("attached");
 			if (e.target.classList.contains("selectedProjectionSeat")) {
 				// Remove the seat from the current selection
 				removeSelected(e.target.id);
@@ -221,7 +220,6 @@ const getAllProjections = async () => {
 };
 
 const getDates = async () => {
-	console.log(`Searching for ${tmdbID}`);
 	let response = await fetch(
 		`http://localhost:8080/worker/getDates?tmdbID=${tmdbID}&cinemaEmail=${cinemaEmail}`,
 		{
@@ -327,14 +325,14 @@ const markUnavailable = (seat) => {
 
 const fillReserved = (idPro) => {
 	reservations.splice(0, reservations);
-	console.log(`Fetching for ${idPro}`);
+
 	getNewSeats(idPro).then((data) => {
 		if (!Array.isArray(data)) {
 			reservations.push(data["1"]);
 		} else {
 			reservations = data;
 		}
-		console.log(data);
+
 		reservations.forEach(async (reservation) => {
 			let row = String.fromCharCode(65 + Number(reservation.rowNumber) - 1);
 			let seat = reservation.seatNumber;
@@ -348,7 +346,6 @@ let projectionSet = new Set();
 const updateProjections = () => {
 	projectionSet.clear();
 	getAllProjections().then((projections) => {
-		console.log(projections);
 		if (Array.isArray(projections)) {
 			projections.forEach((projection) => {
 				if (projectionSet.has(projection.tmdbID)) return;
@@ -511,7 +508,6 @@ const prepareSeats = () => {
 
 const confirmWorkerReservation = async (idPro) => {
 	let preparedSeats = prepareSeats();
-	console.log(preparedSeats);
 
 	let postData = {
 		idPro: idPro,
@@ -523,7 +519,6 @@ const confirmWorkerReservation = async (idPro) => {
 		fd.append(i, postData[i]);
 	}
 
-	console.log(`Confirming for ${idPro}`);
 	let response = await fetch(`http://localhost:8080/worker/confirm`, {
 		method: "POST",
 		body: fd,
@@ -538,7 +533,6 @@ const initiateWorkerConfirm = () => {
 	confirmButton.classList.add("reservationButtonDisabled");
 
 	confirmWorkerReservation(searchPro).then((data) => {
-		console.log(data);
 		if (data == "OK") {
 			confirmSuccess.classList.remove("hideModal");
 			setTimeout(() => {

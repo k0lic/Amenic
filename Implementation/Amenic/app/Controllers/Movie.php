@@ -15,8 +15,6 @@ use App\Models\TechnologyModel;
 
 use function App\Helpers\isAuthenticated;
 use function App\Helpers\isValid;
-use function App\Helpers\generateToken;
-use function App\Helpers\setToken;
 
 use CodeIgniter\I18n\Time;
 
@@ -140,7 +138,6 @@ class Movie extends BaseController {
 
         if($_REQUEST['cinema'] != '') {
             $newRes = array_filter($results, function($result) {
-                //return !strcmp($result['email'], $_REQUEST['cinema']);
                 return $result->email == $_REQUEST['cinema'];
             });
         }
@@ -220,9 +217,9 @@ class Movie extends BaseController {
      * @return JSON
      */
     public function getCinemas() {
-        $idCountry = $_REQUEST['country'];
-        $idCity = $_REQUEST['city'];
-        $tmdbID = $_REQUEST['tmdbID'];
+        $idCountry =    $_REQUEST['country'];
+        $idCity =       $_REQUEST['city'];
+        $tmdbID =       $_REQUEST['tmdbID'];
 
         $var = '';
 

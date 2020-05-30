@@ -365,7 +365,6 @@ body {
 
 .movies {
 	display: grid;
-	/* TODO: Remove the auto-fll when you integrate media queries*/
 	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 	grid-gap: 50px;
 	justify-items: center;

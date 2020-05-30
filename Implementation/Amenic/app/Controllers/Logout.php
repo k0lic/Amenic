@@ -5,8 +5,6 @@
     Github: zivkovicmilos
 */
 
-use function App\Helpers\generateToken;
-use function App\Helpers\setToken;
 use function App\Helpers\wipeToken;
 
 /** Logout – Controller that handles user logout

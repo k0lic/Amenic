@@ -10,6 +10,16 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 if(!function_exists('sendMail')) {
 
+    /**
+     *  The brains of this entire helper. It contacts Google's servers and sends the email
+     * 
+     *  @param string $to Recepient
+     *  @param string $subject Subject of the email
+     *  @param string $content HTML message to be sent
+     * 
+     *  @return bool success
+     */
+
     function sendMail($to, $subject, $content) {
 
         $mail = new PHPMailer(true);

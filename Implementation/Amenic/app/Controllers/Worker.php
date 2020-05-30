@@ -81,7 +81,7 @@ class Worker extends BaseController
             'email' =>  $token->email,
             ];
 
-        //you have to save admin info twice beacause this page is being used by all users
+        //you have to save admin info twice because this page is being used by all users
         return view('SettingsView',['data' => $data, 'actMenu' => 5, 'image' => $token->image, 'userType' => 'Worker', 'token' => $token, 'errors' => '' ]);    
     }
 

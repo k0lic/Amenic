@@ -42,7 +42,7 @@ const updateDate = (element, offset, date) => {
 		date.getMonth(),
 		date.getDate() + offset
 	);
-	console.log(`Rendering new date! ${newDate.getDay()} ${newDate}`);
+
 	children[0].innerHTML = monthToStr(newDate.getMonth());
 	children[1].innerHTML = newDate.getDate();
 	children[2].innerHTML = dayToStr(newDate.getDay());

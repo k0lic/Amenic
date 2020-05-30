@@ -10,9 +10,17 @@ use \Firebase\JWT\JWT;
 
 if(!function_exists('isValid')) {
 
-    // Validate the token, if it's not valid return false
-    // otherwise, return an object with fields firstName, lastName, email and type
+    /**
+     *  Decodes the token and checks its validity
+     * 
+     *  @param string token
+     * 
+     *  @return bool|object
+     */
     function isValid($token) {
+
+        // Validate the token, if it's not valid return false
+        // otherwise, return an object with fields firstName, lastName, email and type
 
         $decoded = null;
         try {
@@ -25,7 +33,14 @@ if(!function_exists('isValid')) {
 }
 
 if(!function_exists('isAuthenticated')) {
-
+    
+    /**
+     *  Checks if the user is of a certain type
+     * 
+     *  @param string type
+     * 
+     *  @return bool
+     */
     function isAuthenticated($type) {
         if(isset($_COOKIE['token'])) {
 
@@ -42,6 +57,13 @@ if(!function_exists('isAuthenticated')) {
 
 if(!function_exists('setToken')) {
 
+    /**
+     *  Sets the token to a cookie
+     * 
+     *  @param string token
+     * 
+     *  @return void
+     */
     function setToken($token) {
         wipeToken();
     
@@ -58,7 +80,11 @@ if(!function_exists('setToken')) {
 
 if(!function_exists('wipeToken')) {
 
-    // Destroy the cookie
+    /**
+     *  Destroys the cookie with the token
+     *  
+     *  @return void
+     */
     function wipeToken() {
         if(isset($_COOKIE['token'])) {
             unset($_COOKIE['token']);
@@ -70,6 +96,13 @@ if(!function_exists('wipeToken')) {
 
 if(!function_exists('generateToken')) {
 
+    /**
+     *  Generates the JSON Web Token
+     * 
+     *  @param object payload
+     * 
+     *  @return string
+     */
     function generateToken($payload) {
         return JWT::encode($payload, base64_decode(strtr(jwtSecret, '-_', '+/')), 'HS256');
     }
@@ -78,6 +111,13 @@ if(!function_exists('generateToken')) {
 
 if(!function_exists('deleteCookie')) {
 
+    /**
+     *  Delete a specific cookie
+     * 
+     *  @param string name
+     * 
+     *  @return void
+     */
     function deleteCookie($name) {
         setcookie($name, null, time() - 3600, '/');
         if(isset($_COOKIE[$name])) {

@@ -261,11 +261,6 @@ const setFilterParam = (className, value) => {
 		default:
 			return error;
 	}
-	/*
-	console.log("CINEMA " + cinema);
-	console.log("TIME " + time);
-	console.log("COUNTRY " + country);
-	console.log("CITY " + city);
-	*/
+
 	renderTable();
 };

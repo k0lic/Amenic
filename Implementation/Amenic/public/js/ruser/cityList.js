@@ -4,43 +4,39 @@
 */
 
 const countryList = document.getElementById("countryList");
-const cityList = document.getElementById('cityList');
+const cityList = document.getElementById("cityList");
 
 function generateCity(data) {
-    var x = document.createElement("OPTION");
-    x.value = data.idCity;
-    x.innerHTML = data.name;
-    return x;
+	var x = document.createElement("OPTION");
+	x.value = data.idCity;
+	x.innerHTML = data.name;
+	return x;
 }
 
 const getCities = async () => {
-    //console.log(countryList[countryList.selectedIndex].innerHTML);
+	let response = await fetch(
+		`http://localhost:8080/HomeController/getCities/${countryList.selectedIndex}`,
+		{
+			method: "GET",
+			mode: "cors"
+		}
+	);
 
-    let response = await fetch(
-        `http://localhost:8080/HomeController/getCities/${countryList.selectedIndex}`,
-        {
-            method: 'GET',
-            mode: "cors"
-        }
-    );
+	let data = await response.json();
 
-    let data = await response.json();
+	while (cityList.firstChild) {
+		cityList.removeChild(cityList.lastChild);
+	}
 
-    while (cityList.firstChild) {
-        cityList.removeChild(cityList.lastChild);
-    };
+	let zeroOption = generateCity({ idCity: 0, name: "" });
+	cityList.appendChild(zeroOption);
+	for (let i = 0; i < data.length; i++) {
+		let element = generateCity(data[i]);
+		cityList.appendChild(element);
+	}
+	cityList.selectedIndex = 0;
 
-    let zeroOption = generateCity({ idCity: 0, name: "" });
-    cityList.appendChild(zeroOption);
-    for (let i = 0; i < data.length; i++) {
-        let element = generateCity(data[i]);
-        cityList.appendChild(element);
-    }
-    cityList.selectedIndex = 0;
-
-    return;
+	return;
 };
 
-
-countryList.addEventListener('change', getCities);
-
+countryList.addEventListener("change", getCities);

@@ -9,6 +9,13 @@ use PHPHtmlParser\Dom;
 
 if(!function_exists('getReviews')) {
 
+    /**
+     *  Scrape the user reviews directly from the IMDB website
+     * 
+     *  @param string imdbID
+     * 
+     *  @return Array
+     */
     function getReviews($imdbID) {
 
         $dom = new Dom;

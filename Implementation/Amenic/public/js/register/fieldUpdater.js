@@ -48,7 +48,6 @@ const renderCountries = () => {
 				e.preventDefault();
 
 				countryField.value = countryDropdown.selectedIndex + 1;
-				console.log(`Someone selected country ${countryField.value}!`);
 				renderCities();
 			});
 		});

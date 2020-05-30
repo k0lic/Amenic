@@ -11,9 +11,6 @@ use \App\Models\AdminModel;
 use \App\Models\CinemaModel;
 use \App\Models\WorkerModel;
 
-use \Firebase\JWT\JWT;
-use PHPMailer\PHPMailer\PHPMailer;
-
 use Exception;
 
 use function App\Helpers\deleteCookie;
@@ -37,6 +34,7 @@ class Login extends BaseController {
     public function clearErrors() {
 
         helper('auth');
+        
         // Delete the error cookies
         deleteCookie('resetError');
         deleteCookie('loginError');
