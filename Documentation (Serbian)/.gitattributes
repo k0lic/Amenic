@@ -1,0 +1,5 @@
+# do not count these files as code, count them as binary files
+# done to make commit insights more accurate
+
+*.uml -diff
+*.~ml -diff
