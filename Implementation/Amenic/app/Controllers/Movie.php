@@ -72,7 +72,21 @@ class Movie extends BaseController {
         
         $movie = $movieModel->find($tmdbID);
 
-        $reviews = getReviews($movie->imdbID);
+        $reviewStr = $movie->reviews;
+
+        $reviewPattern = '/(.*)#1#(.*)#0#(.*)#1#(.*)/';
+        preg_match($reviewPattern, $reviewStr, $reviewMatches);
+
+        $reviews = [
+            'firstAuthor' => [
+                'name' => $reviewMatches[1],
+                'text' => $reviewMatches[2]
+            ],
+            'secondAuthor' => [
+                'name' => $reviewMatches[3],
+                'text' => $reviewMatches[4]
+            ]
+        ];
         
         return view('Movies/movie.php', ['movie' => $movie, 'reviews' => $reviews, 'authenticated' => $authenticated, 'token' => $token]);
     }
