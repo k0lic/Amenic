@@ -52,7 +52,7 @@ class Movie extends BaseController {
 
     /**
      * Returns the movie search page view
-     * @param TMDBID of the projection in the database
+     * @param String tmdbID of the projection in the database
      * @return view
      */
 
