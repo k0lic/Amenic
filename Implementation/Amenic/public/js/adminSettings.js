@@ -7,7 +7,7 @@ function showPicture() {
 
 
     let file = document.getElementById("profilePicture");
-    console.log(file['files'][0]);
+    //console.log(file['files'][0]);
 
     if (file && file['files'] && file['files'][0]) {
         let img = document.getElementById('adminPic');

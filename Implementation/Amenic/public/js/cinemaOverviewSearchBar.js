@@ -261,6 +261,6 @@ const getEmployeeSearchResults = async function (match) {
 	);
 
 	let data = await response.json();
-	console.log(data);
+	//console.log(data);
 	return data;
 };

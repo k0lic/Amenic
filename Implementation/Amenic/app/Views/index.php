@@ -108,7 +108,10 @@ use function App\Helpers\isValid;
 										foreach($countries as $country)
 										{
 											echo "<option value=\"".$country->idCountry."\"". 
-											(strcmp($token->country,"") != 0 && strcmp($token->country,$country->idCountry) == 0 ? "selected" : "").
+											(isset($token) ?
+											 strcmp($token->country,"") != 0 && strcmp($token->country,$country->idCountry) == 0 ? "selected" : "" :
+											 ""
+											).
 											">".$country->name."</option>";
 										}		
 								echo"</select>";											

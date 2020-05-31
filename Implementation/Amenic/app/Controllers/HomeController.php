@@ -107,7 +107,7 @@ class HomeController extends BaseController
             return view('AdminBreachMessage',[]);
 
 		$movieArray=[];
-		$projections = (new ProjectionModel())->select('tmdbID')->groupBy('tmdbID')->findAll();
+		$projections = (new ProjectionModel())->select('tmdbID')->where('canceled',0)->groupBy('tmdbID')->findAll();
 		
 		foreach($projections as $projection)
 		{
@@ -128,13 +128,16 @@ class HomeController extends BaseController
             return view('AdminBreachMessage',[]);
 
 		$movieArray=[];
-		$comingSoon = (new ComingSoonModel())->findAll();	
-
+        $comingSoon = (new ComingSoonModel())->select('tmdbID')->groupBy('tmdbID')->findAll();	
+        
 		foreach($comingSoon as $movie)
 		{
-			$curMovie = (new MovieModel())->find($movie->tmdbID);
-			if (!isset($movieArray[$curMovie->tmdbID]))
-				$movieArray[$curMovie->tmdbID] = $curMovie;
+            $curMovie = (new ProjectionModel())->where('tmdbID',$movie->tmdbID)->where('canceled',0)->findAll();
+            if (count($curMovie) == 0)
+            {
+                $newMovie = (new MovieModel())->find($movie->tmdbID);
+                array_push($movieArray,$newMovie);
+            }
 		}
 		return $movieArray;
 	}
@@ -148,7 +151,7 @@ class HomeController extends BaseController
         if (is_null($token) && isset($_COOKIE['token']))
             return view('AdminBreachMessage',[]);
 
-		$movieArray = $this->getComingSoonMovies();
+        $movieArray = $this->getComingSoonMovies();
 		return view('index.php',[ 'movies' => $movieArray, 'actMenu' => 2, 'token' => $token]);
 	}
 
@@ -159,13 +162,13 @@ class HomeController extends BaseController
      */
 	private function getWantedPlayingMovies($title)
 	{
-		$movieArray=[];
+        $movieArray=[];
 		$movies = (new MovieModel())
 			->like('title',$title, $insensitiveSearch = TRUE)
 			->findAll();
 		foreach($movies as $movie)
 		{
-			$curMovie = (new ProjectionModel())->where(['tmdbID' => $movie->tmdbID])->find();
+			$curMovie = (new ProjectionModel())->where(['tmdbID' => $movie->tmdbID])->where('canceled',0)->find();
 			if (count($curMovie) > 0)
 				array_push($movieArray,$movie);
 		}
@@ -184,7 +187,7 @@ class HomeController extends BaseController
 		
 		foreach($comingSoon as $movie)
 		{
-			$projection = (new ProjectionModel())->where('tmdbID',$movie->tmdbID)->findAll();
+			$projection = (new ProjectionModel())->where('tmdbID',$movie->tmdbID)->where('canceled',0)->findAll();
 			if (count($projection) == 0)
 			{
 				$curMovie = (new MovieModel())->like('title',$title, $insensitiveSearch = TRUE)->find($movie->tmdbID);

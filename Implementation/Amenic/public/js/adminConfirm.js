@@ -48,14 +48,8 @@ if (confirmModal != null)
 
 function showModal(mail, actMenu) {
 
-    console.log(mail);
-    console.log(actMenu);
-
     let element = document.getElementById('deleteModalWrapper');
     element.style.display = "block";
-
-    console.log(mail);
-    console.log(actMenu);
 
     let el = document.getElementById("key");
     if (el == null) {

@@ -135,7 +135,7 @@ function modeChanged(newMode) {
 
 function pageChanged(newPage) {
     pageNum = newPage;
-    console.log("pageNum= " + pageNum + "; totalItems= " + totalItems + "; maxPageNumber= " + maxPageNumber());
+    //console.log("pageNum= " + pageNum + "; totalItems= " + totalItems + "; maxPageNumber= " + maxPageNumber());
     let firstIndex = (pageNum - 1) * uiPageSize;
     if (firstIndex >= collection.length || collection[firstIndex] == null) {
         if (mode == 0) {
@@ -162,7 +162,7 @@ function comingSoonRun(email, page) {
 function firstMovieRun(email, date, page) {
     countMovieRepertoire(email, date).then((data) => {
         totalItems = data;
-        console.log("totalItems= " + totalItems);
+        //console.log("totalItems= " + totalItems);
         movieRun(email, date, page);
     });
 }
@@ -170,7 +170,7 @@ function firstMovieRun(email, date, page) {
 function firstComingSoonRun(email, page) {
     countComingSoonRepertoire(email).then((data) => {
         totalItems = data;
-        console.log("totalItems= " + totalItems);
+        //console.log("totalItems= " + totalItems);
         comingSoonRun(email, page);
     });
 }
