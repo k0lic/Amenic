@@ -1,0 +1,7 @@
+# detect SQL
+
+*.sql linguist-detectable=true
+
+# recognise .php
+
+*.php linguist-language=PHP
