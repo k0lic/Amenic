@@ -1,9 +1,0 @@
-# do not count these files as code, count them as binary files
-
-*.uml -diff
-*.~ml -diff
-
-# UML is documentation
-
-*.uml linguist-documentation
-*.~ml linguist-documentation
