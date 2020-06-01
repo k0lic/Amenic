@@ -145,7 +145,7 @@ class Login extends BaseController {
             // Email the link to the user
             $subject = 'Amenic - Password reset';
             $message = "Dear user, <br /> Someone has requested a password reset for your account. If this wasn't you, please ignore this message. <br /> <br />To reset the password, follow the link below: <br/>
-            <a href=\"http://localhost:8080/login/reset/$token\">Password reset</a>
+            <a href=\"".base_url()."/login/reset/$token\">Password reset</a>
             ";
 
             if(!sendMail($email, $subject, $message)) {

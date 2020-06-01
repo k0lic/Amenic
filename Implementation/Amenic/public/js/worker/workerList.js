@@ -22,7 +22,7 @@ let gracePeriod = null;
 
 const getReservations = async () => {
 	let response = await fetch(
-		`http://localhost:8080/worker/getReservations?cinemaEmail=${cinemaEmail}&phrase=${phrase}`,
+		`http://` + window.location.host + `/worker/getReservations?cinemaEmail=${cinemaEmail}&phrase=${phrase}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -35,7 +35,7 @@ const getReservations = async () => {
 
 const getSeats = async (idRes) => {
 	let response = await fetch(
-		`http://localhost:8080/worker/getSeats?idRes=${idRes}`,
+		`http://` + window.location.host + `/worker/getSeats?idRes=${idRes}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -48,7 +48,7 @@ const getSeats = async (idRes) => {
 
 const getUser = async (userEmail) => {
 	let response = await fetch(
-		`http://localhost:8080/worker/getUser?userEmail=${userEmail}`,
+		`http://` + window.location.host + `/worker/getUser?userEmail=${userEmail}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -61,7 +61,7 @@ const getUser = async (userEmail) => {
 
 const getProjection = async (idPro) => {
 	let response = await fetch(
-		`http://localhost:8080/worker/getProjection?idPro=${idPro}`,
+		`http://` + window.location.host + `/worker/getProjection?idPro=${idPro}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -74,7 +74,7 @@ const getProjection = async (idPro) => {
 
 const getMovie = async (tmdbID) => {
 	let response = await fetch(
-		`http://localhost:8080/worker/getMovie?tmdbID=${tmdbID}`,
+		`http://` + window.location.host + `/worker/getMovie?tmdbID=${tmdbID}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -87,7 +87,7 @@ const getMovie = async (tmdbID) => {
 
 const getTechnology = async (idTech) => {
 	let response = await fetch(
-		`http://localhost:8080/worker/getTechnology?idTech=${idTech}`,
+		`http://` + window.location.host + `/worker/getTechnology?idTech=${idTech}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -326,7 +326,7 @@ renderReservations();
 
 const confirmReservation = async (idRes) => {
 	let response = await fetch(
-		`http://localhost:8080/worker/confirmReservation?idRes=${idRes}`,
+		`http://` + window.location.host + `/worker/confirmReservation?idRes=${idRes}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -355,7 +355,7 @@ const deleteReservation = async (idRes) => {
 		fd.append(i, postData[i]);
 	}
 
-	let response = await fetch(`http://localhost:8080/worker/deleteReservation`, {
+	let response = await fetch(`http://` + window.location.host + `/worker/deleteReservation`, {
 		method: "POST",
 		body: fd,
 		mode: "cors"

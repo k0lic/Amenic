@@ -128,7 +128,7 @@ const getUsers = async () => {
 		fd.append(i, postData[i]);
 	}
 
-	let response = await fetch(`http://localhost:8080/AdminController/search`, {
+	let response = await fetch(`http://` + window.location.host + `/AdminController/search`, {
 		method: "POST",
 		body: fd,
 		mode: "cors"

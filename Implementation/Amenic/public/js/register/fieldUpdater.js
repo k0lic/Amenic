@@ -9,7 +9,7 @@ const countryDropdown = document.getElementById("countryDropdown");
 const cityDropdown = document.getElementById("cityDropdown");
 
 const getCountries = async () => {
-	let response = await fetch(`http://localhost:8080/register/getCountries`, {
+	let response = await fetch(`http://` + window.location.host + `/register/getCountries`, {
 		method: "GET",
 		mode: "cors"
 	});
@@ -56,7 +56,7 @@ const renderCountries = () => {
 
 const getCities = async () => {
 	let response = await fetch(
-		`http://localhost:8080/register/getCities?idCountry=${Number(
+		`http://` + window.location.host + `/register/getCities?idCountry=${Number(
 			countryField.value
 		)}`,
 		{

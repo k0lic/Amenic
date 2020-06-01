@@ -342,7 +342,7 @@ function updatePageNumberControls() {
 
 const getMovies = async () => {
     let response = await fetch(
-        "http://localhost:8080/Cinema/getSomeMovies?",
+        "http://" + window.location.host + "/Cinema/getSomeMovies?",
         {
             method: "GET",
             mode: "cors"
@@ -355,7 +355,7 @@ const getMovies = async () => {
 
 const countHowManyMoviesLike = async function (match) {
     let response = await fetch(
-        "http://localhost:8080/Cinema/countHowManyMoviesLike?match=" + match,
+        "http://" + window.location.host + "/Cinema/countHowManyMoviesLike?match=" + match,
         {
             method: "GET",
             mode: "cors"
@@ -368,7 +368,7 @@ const countHowManyMoviesLike = async function (match) {
 
 const getMoviesLike = async function (match, page) {
     let response = await fetch(
-        "http://localhost:8080/Cinema/getMoviesLike?match=" + match + "&page=" + page,
+        "http://" + window.location.host + "/Cinema/getMoviesLike?match=" + match + "&page=" + page,
         {
             method: "GET",
             mode: "cors"
@@ -381,7 +381,7 @@ const getMoviesLike = async function (match, page) {
 
 const getMoviesLikeInTMDB = async function (match, page) {
     let response = await fetch(
-        "http://localhost:8080/Cinema/getMoviesLikeInTMDB?match=" + match + "&page=" + page,
+        "http://" + window.location.host + "/Cinema/getMoviesLikeInTMDB?match=" + match + "&page=" + page,
         {
             method: "GET",
             mode: "cors"
@@ -394,7 +394,7 @@ const getMoviesLikeInTMDB = async function (match, page) {
 
 const addMovieIfNotExisting = async function (tmdbID) {
     fetch(
-        "http://localhost:8080/Cinema/addMovieIfNotExisting?tmdbID=" + tmdbID,
+        "http://" + window.location.host + "/Cinema/addMovieIfNotExisting?tmdbID=" + tmdbID,
         {
             method: "GET",
             mode: "cors"

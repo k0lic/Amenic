@@ -115,7 +115,7 @@ const prepareDate = () => {
 const getProjections = async () => {
 	let fixedDate = prepareDate();
 	let response = await fetch(
-		`http://localhost:8080/movie/getProjections?tmdbID=${tmdbID}&date=${fixedDate}&time=${time}&cinema=${cinema}&country=${country}&city=${city}`,
+		`http://` + window.location.host + `/movie/getProjections?tmdbID=${tmdbID}&date=${fixedDate}&time=${time}&cinema=${cinema}&country=${country}&city=${city}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -128,7 +128,7 @@ const getProjections = async () => {
 
 const getCinemaName = async (email) => {
 	let response = await fetch(
-		`http://localhost:8080/movie/getCinemaName?email=${email}`,
+		`http://` + window.location.host + `/movie/getCinemaName?email=${email}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -141,7 +141,7 @@ const getCinemaName = async (email) => {
 
 const getCinemaImage = async (email) => {
 	let response = await fetch(
-		`http://localhost:8080/movie/getCinemaImage?email=${email}`,
+		`http://` + window.location.host + `/movie/getCinemaImage?email=${email}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -154,7 +154,7 @@ const getCinemaImage = async (email) => {
 
 const getTechName = async (idTech) => {
 	let response = await fetch(
-		`http://localhost:8080/movie/getTechName?idTech=${idTech}`,
+		`http://` + window.location.host + `/movie/getTechName?idTech=${idTech}`,
 		{
 			method: "GET",
 			mode: "cors"

@@ -389,7 +389,7 @@ async function getMovieRepertoire(email, day, page) {
     //urlEncodeEmail = urlEncodeEmail.replace(/\./g, "%2E");
     //console.log(urlEncodeEmail);
     let response = await fetch(
-        "http://localhost:8080/Theatre/getMyRepertoire?cinemaEmail=" + email + "&day=" + day + "&page=" + page,
+        "http://" + window.location.host + "/Theatre/getMyRepertoire?cinemaEmail=" + email + "&day=" + day + "&page=" + page,
         {
             method: "GET",
             mode: "cors"
@@ -402,7 +402,7 @@ async function getMovieRepertoire(email, day, page) {
 
 async function getComingSoonRepertoire(email, page) {
     let response = await fetch(
-        "http://localhost:8080/Theatre/getMyComingSoons?cinemaEmail=" + email + "&page=" + page,
+        "http://" + window.location.host + "/Theatre/getMyComingSoons?cinemaEmail=" + email + "&page=" + page,
         {
             method: "GET",
             mode: "cors"
@@ -415,7 +415,7 @@ async function getComingSoonRepertoire(email, page) {
 
 async function countMovieRepertoire(email, day) {
     let response = await fetch(
-        "http://localhost:8080/Theatre/countMyRepertoire?cinemaEmail=" + email + "&day=" + day,
+        "http://" + window.location.host + "/Theatre/countMyRepertoire?cinemaEmail=" + email + "&day=" + day,
         {
             method: "GET",
             mode: "cors"
@@ -428,7 +428,7 @@ async function countMovieRepertoire(email, day) {
 
 async function countComingSoonRepertoire(email) {
     let response = await fetch(
-        "http://localhost:8080/Theatre/countMyComingSoons?cinemaEmail=" + email,
+        "http://" + window.location.host + "/Theatre/countMyComingSoons?cinemaEmail=" + email,
         {
             method: "GET",
             mode: "cors"

@@ -67,10 +67,10 @@ const getMoviesAndCinemas = async () => {
     }
 
     if (aM) {
-        path = `http://localhost:8080/HomeController/cinemasSearch/${countryListSearch.selectedIndex}/${cityListSearch[cityListSearch.selectedIndex].value}/${searchBar.value}`;
+        path = `http://` + window.location.host + `/HomeController/cinemasSearch/${countryListSearch.selectedIndex}/${cityListSearch[cityListSearch.selectedIndex].value}/${searchBar.value}`;
     }
     else {
-        path = `http://localhost:8080/HomeController/titleSearch?actMenu=${menu}&title=${searchBar.value}`;
+        path = `http://` + window.location.host + `/HomeController/titleSearch?actMenu=${menu}&title=${searchBar.value}`;
     }
 
 

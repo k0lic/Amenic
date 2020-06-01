@@ -181,7 +181,7 @@ updatePrice(0);
 
 const getReservations = async () => {
 	let response = await fetch(
-		`http://localhost:8080/reservation/getReservations?idPro=${idPro}`,
+		`http://` + window.location.host + `/reservation/getReservations?idPro=${idPro}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -264,7 +264,7 @@ const confirmReservation = async () => {
 		fd.append(i, postData[i]);
 	}
 
-	let response = await fetch(`http://localhost:8080/reservation/confirm`, {
+	let response = await fetch(`http://` + window.location.host + `/reservation/confirm`, {
 		method: "POST",
 		body: fd,
 		mode: "cors"
