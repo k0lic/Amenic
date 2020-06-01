@@ -1,7 +1,4 @@
-<div class="modalWrapper" id="reservationModal" 
-        onclick="
-        closeResModal()
-        ">
+<div class="modalWrapper" id="reservationModal">
     <div class="modal centerX" id="resConfirm">
             <div class="modalHead centerX spaceBetween">
                 <span>Reservation</span>
