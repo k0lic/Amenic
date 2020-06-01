@@ -14,6 +14,13 @@
 	--movieDate: #43324a;
 }
 
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+	outline: 0;
+}
+
 * {
 	margin: 0;
 	padding: 0;

@@ -28,6 +28,7 @@ class Login extends BaseController {
 
     /**
      * Clears errors stored in cookies
+     * @param bool redirect
      * @return void
      */
 
@@ -38,6 +39,20 @@ class Login extends BaseController {
         // Delete the error cookies
         deleteCookie('resetError');
         deleteCookie('loginError');
+
+    }
+
+    /**
+     * Clears the cookie errors but also redirects
+     * @return void
+     */
+
+    public function clearErrorsRedirect() {
+
+        $this->clearErrors();
+
+        header('Location: /');
+        exit();
     }
 
     /**

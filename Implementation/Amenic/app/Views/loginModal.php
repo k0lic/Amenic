@@ -11,7 +11,7 @@
         <form method="POST" action="/login">
             <div class="modalHead centerX spaceBetween">
                 <span>Log in</span>
-                <a href="/login/clearErrors" onclick="
+                <a href="/login/clearErrorsRedirect" onclick="
                     document.getElementById('loginModal').classList.remove('showModal');
                     document.getElementById('passResetInner').classList.remove('showModal');
                     document.getElementById('loginModalInner').classList.remove('hideModal');
