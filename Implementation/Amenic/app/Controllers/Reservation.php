@@ -20,6 +20,7 @@ use Exception;
 use function App\Helpers\isAuthenticated;
 use function App\Helpers\isValid;
 use function App\Helpers\sendMail;
+use function App\Helpers\sendReservationInfo;
 
 /** Reservation – Controller that controls ticket reservations
  * 
@@ -243,15 +244,11 @@ class Reservation extends BaseController {
                 $resSeatsStr .= "$el ";
             }
 
-            $content = "Dear user, <br />
-                        Thank you for using the Amenic platform for your cinema booking needs. <br />
-                        Your reservation has been logged, and you can see the details below: <br /><br />
-                        $movie->title · $hour h $minutes m · $cinema->name, $res->roomName · $tech->name <br />
-                        Reserved seats: <br />
-                        $resSeatsStr <br />
-            ";
 
-            $ret = sendMail($token->email, "Reservation - $movie->title", $content);
+            $last = $reservationModel->where('email', $token->email)->findAll();
+            $lastReservation = $last[count($last)-1];
+
+            $ret = sendReservationInfo($lastReservation, $resSeatsStr, $res, $movie, $cinema, $tech, false);
         }
 
         echo json_encode($message);
