@@ -342,8 +342,8 @@ class Worker extends BaseController
     public function deleteReservation() {
         $idRes = $_POST['idRes'];
 
-        $seatModel = new SeatModel();
-        $seatModel->where('idRes', $idRes)->delete();
+        // $seatModel = new SeatModel();
+        // $seatModel->where('idRes', $idRes)->delete();
 
         $reservationModel = new ReservationModel();
 
@@ -355,7 +355,8 @@ class Worker extends BaseController
             sendMailOnReservationDelete($reservation);
         }
 
-        $reservationModel->where('idRes', $idRes)->delete();
+        // $reservationModel->where('idRes', $idRes)->delete();
+        $reservationModel->transSmartDelete($idRes);
         
         echo json_encode('ok');
     }
