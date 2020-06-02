@@ -6,7 +6,7 @@ Amenic is an online platform dedicated to making the entire process of booking a
 
 # :tada: Project launch :tada:
 
-As of June 2020, the Amenic project can be viewed live [here](http://http://34.107.60.47/). The app is hosted on a Google Cloud server and is still experimental.
+As of June 2020, the Amenic project can be viewed live [here](http://34.107.60.47/). The app is hosted on a Google Cloud server and is still experimental.
 
 # Types of users :boy:
 
