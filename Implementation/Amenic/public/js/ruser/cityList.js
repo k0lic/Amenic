@@ -15,7 +15,9 @@ function generateCity(data) {
 
 const getCities = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/HomeController/getCities/${countryList.selectedIndex}`,
+		`//` +
+			window.location.host +
+			`/HomeController/getCities/${countryList.selectedIndex}`,
 		{
 			method: "GET",
 			mode: "cors"

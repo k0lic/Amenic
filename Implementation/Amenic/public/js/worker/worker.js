@@ -208,7 +208,9 @@ updatePrice(0);
 
 const getAllProjections = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/worker/getAllProjections?cinemaEmail=${cinemaEmail}`,
+		`//` +
+			window.location.host +
+			`/worker/getAllProjections?cinemaEmail=${cinemaEmail}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -221,7 +223,9 @@ const getAllProjections = async () => {
 
 const getDates = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/worker/getDates?tmdbID=${tmdbID}&cinemaEmail=${cinemaEmail}`,
+		`//` +
+			window.location.host +
+			`/worker/getDates?tmdbID=${tmdbID}&cinemaEmail=${cinemaEmail}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -234,7 +238,9 @@ const getDates = async () => {
 
 const getTimes = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/worker/getTimes?tmdbID=${tmdbID}&cinemaEmail=${cinemaEmail}&date=${searchDate}`,
+		`//` +
+			window.location.host +
+			`/worker/getTimes?tmdbID=${tmdbID}&cinemaEmail=${cinemaEmail}&date=${searchDate}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -247,7 +253,9 @@ const getTimes = async () => {
 
 const getRooms = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/worker/getRooms?tmdbID=${tmdbID}&cinemaEmail=${cinemaEmail}&date=${searchDate}&time=${searchTime}`,
+		`//` +
+			window.location.host +
+			`/worker/getRooms?tmdbID=${tmdbID}&cinemaEmail=${cinemaEmail}&date=${searchDate}&time=${searchTime}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -260,7 +268,9 @@ const getRooms = async () => {
 
 const getTech = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/worker/getTech?tmdbID=${tmdbID}&cinemaEmail=${cinemaEmail}&date=${searchDate}&time=${searchTime}&roomName=${searchRoom}`,
+		`//` +
+			window.location.host +
+			`/worker/getTech?tmdbID=${tmdbID}&cinemaEmail=${cinemaEmail}&date=${searchDate}&time=${searchTime}&roomName=${searchRoom}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -273,7 +283,9 @@ const getTech = async () => {
 
 const getSpecProjection = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/worker/getSpecProjection?idPro=${searchPro}`,
+		`//` +
+			window.location.host +
+			`/worker/getSpecProjection?idPro=${searchPro}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -308,7 +320,7 @@ let reservations = [];
 
 const getNewSeats = async (idPro) => {
 	let response = await fetch(
-		`http://` + window.location.host + `/worker/getProjSeats?idPro=${idPro}`,
+		`//` + window.location.host + `/worker/getProjSeats?idPro=${idPro}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -519,7 +531,7 @@ const confirmWorkerReservation = async (idPro) => {
 		fd.append(i, postData[i]);
 	}
 
-	let response = await fetch(`http://` + window.location.host + `/worker/confirm`, {
+	let response = await fetch(`//` + window.location.host + `/worker/confirm`, {
 		method: "POST",
 		body: fd,
 		mode: "cors"

@@ -12,7 +12,7 @@ let currCountry = 1;
 
 const getCountries = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/register/getCountries`,
+		`//` + window.location.host + `/register/getCountries`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -55,7 +55,7 @@ const renderCountries = () => {
 const getCities = async () => {
 	console.log(`Current country is ${currCountry}`);
 	let response = await fetch(
-		`http://` +
+		`//` +
 			window.location.host +
 			`/register/getCities?idCountry=${Number(currCountry)}`,
 		{

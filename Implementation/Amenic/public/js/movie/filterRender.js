@@ -12,7 +12,7 @@ let gracePeriod = null;
 
 const getCities = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/movie/getCities?country=${country}`,
+		`//` + window.location.host + `/movie/getCities?country=${country}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -24,10 +24,13 @@ const getCities = async () => {
 };
 
 const getCountries = async () => {
-	let response = await fetch(`http://` + window.location.host + `/movie/getCountries`, {
-		method: "GET",
-		mode: "cors"
-	});
+	let response = await fetch(
+		`//` + window.location.host + `/movie/getCountries`,
+		{
+			method: "GET",
+			mode: "cors"
+		}
+	);
 
 	let data = await response.json();
 	return data;
@@ -35,7 +38,9 @@ const getCountries = async () => {
 
 const getCinemas = async () => {
 	let response = await fetch(
-		`http://` + window.location.host + `/movie/getCinemas?country=${country}&city=${city}&tmdbID=${tmdbID}`,
+		`//` +
+			window.location.host +
+			`/movie/getCinemas?country=${country}&city=${city}&tmdbID=${tmdbID}`,
 		{
 			method: "GET",
 			mode: "cors"
@@ -49,7 +54,9 @@ const getCinemas = async () => {
 const getTimes = async () => {
 	let fixedDate = prepareDate();
 	let response = await fetch(
-		`http://` + window.location.host + `/movie/getTimes?tmdbID=${tmdbID}&cinema=${cinema}&date=${fixedDate}`,
+		`//` +
+			window.location.host +
+			`/movie/getTimes?tmdbID=${tmdbID}&cinema=${cinema}&date=${fixedDate}`,
 		{
 			method: "GET",
 			mode: "cors"

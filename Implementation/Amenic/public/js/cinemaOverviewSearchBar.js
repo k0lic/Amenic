@@ -214,7 +214,7 @@ function employeeTemplate(employee) {
 
 const getMovieSearchResults = async function (match) {
 	let response = await fetch(
-		"http://" + window.location.host + "/Cinema/getMyProjectionsLike?match=" + match,
+		"//" + window.location.host + "/Cinema/getMyProjectionsLike?match=" + match,
 		{
 			method: "GET",
 			mode: "cors"
@@ -227,7 +227,7 @@ const getMovieSearchResults = async function (match) {
 
 const getSoonSearchResults = async function (match) {
 	let response = await fetch(
-		"http://" + window.location.host + "/Cinema/getMyComingSoonsLike?match=" + match,
+		"//" + window.location.host + "/Cinema/getMyComingSoonsLike?match=" + match,
 		{
 			method: "GET",
 			mode: "cors"
@@ -240,7 +240,7 @@ const getSoonSearchResults = async function (match) {
 
 const getRoomSearchResults = async function (match) {
 	let response = await fetch(
-		"http://" + window.location.host + "/Cinema/getMyRoomsLike?match=" + match,
+		"//" + window.location.host + "/Cinema/getMyRoomsLike?match=" + match,
 		{
 			method: "GET",
 			mode: "cors"
@@ -253,7 +253,7 @@ const getRoomSearchResults = async function (match) {
 
 const getEmployeeSearchResults = async function (match) {
 	let response = await fetch(
-		"http://" + window.location.host + "/Cinema/getMyEmployeesLike?match=" + match,
+		"//" + window.location.host + "/Cinema/getMyEmployeesLike?match=" + match,
 		{
 			method: "GET",
 			mode: "cors"
