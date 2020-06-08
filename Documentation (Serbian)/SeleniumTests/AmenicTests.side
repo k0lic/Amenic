@@ -3216,6 +3216,453 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "4be81763-307d-4c36-954a-bca2fdc82528",
+    "name": "AddRoomSuccess",
+    "commands": [{
+      "id": "6792680d-3e67-43b6-a6b8-268058db7d41",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9dd79a9c-913b-4209-b8fd-b92801c6e91e",
+      "comment": "",
+      "command": "run",
+      "target": "LoginCinema",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e9e733c3-ec0d-423c-bdee-77424b2e5f7c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Rooms",
+      "targets": [
+        ["linkText=Rooms", "linkText"],
+        ["css=.nav > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Rooms')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Cinema/Rooms')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Rooms')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7f3590f3-986e-46db-a66c-b86a8fac9819",
+      "comment": "",
+      "command": "click",
+      "target": "css=.standardButton",
+      "targets": [
+        ["css=.standardButton", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add room')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2df96c87-a413-4225-9d4a-6681fa52cde9",
+      "comment": "",
+      "command": "click",
+      "target": "name=roomName",
+      "targets": [
+        ["name=roomName", "name"],
+        ["css=.w35 > input", "css:finder"],
+        ["xpath=//input[@name='roomName']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "57ca6e97-1637-4284-bfca-a0a0ca02165c",
+      "comment": "",
+      "command": "type",
+      "target": "name=roomName",
+      "targets": [
+        ["name=roomName", "name"],
+        ["css=.w35 > input", "css:finder"],
+        ["xpath=//input[@name='roomName']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "NewRoom"
+    }, {
+      "id": "9c443d82-4ac4-4d63-b2eb-4913e6273816",
+      "comment": "",
+      "command": "click",
+      "target": "id=seatingRows",
+      "targets": [
+        ["id=seatingRows", "id"],
+        ["name=rows", "name"],
+        ["css=#seatingRows", "css:finder"],
+        ["xpath=//input[@id='seatingRows']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "465ba49e-9b3b-48c1-a3e7-91d41b79985e",
+      "comment": "",
+      "command": "type",
+      "target": "id=seatingRows",
+      "targets": [
+        ["id=seatingRows", "id"],
+        ["name=rows", "name"],
+        ["css=#seatingRows", "css:finder"],
+        ["xpath=//input[@id='seatingRows']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "10"
+    }, {
+      "id": "d0d15673-7e28-43aa-b2c0-d5c28f1c1bc1",
+      "comment": "",
+      "command": "click",
+      "target": "id=seatingColumns",
+      "targets": [
+        ["id=seatingColumns", "id"],
+        ["name=columns", "name"],
+        ["css=#seatingColumns", "css:finder"],
+        ["xpath=//input[@id='seatingColumns']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "471f9fd0-007c-4503-91f3-00c0f7fba48b",
+      "comment": "",
+      "command": "type",
+      "target": "id=seatingColumns",
+      "targets": [
+        ["id=seatingColumns", "id"],
+        ["name=columns", "name"],
+        ["css=#seatingColumns", "css:finder"],
+        ["xpath=//input[@id='seatingColumns']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "10"
+    }, {
+      "id": "07ee2113-cd06-4402-9ad1-341505a5e259",
+      "comment": "",
+      "command": "addSelection",
+      "target": "name=tech[]",
+      "targets": [
+        ["name=tech[]", "name"],
+        ["css=.formSelect", "css:finder"],
+        ["xpath=//select[@name='tech[]']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=2D"
+    }, {
+      "id": "5fee0e16-983e-483f-9f51-ae066887b621",
+      "comment": "",
+      "command": "click",
+      "target": "css=.goodButton",
+      "targets": [
+        ["css=.goodButton", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add room')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6030fe30-897e-4b1d-a082-ed3dbc99d4c6",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.coolLink:nth-child(1) .movieImgText > div",
+      "targets": [
+        ["css=.coolLink:nth-child(1) .movieImgText > div", "css:finder"],
+        ["xpath=//div[@id='actualContent']/a/div/div/div", "xpath:idRelative"],
+        ["xpath=//a/div/div/div", "xpath:position"]
+      ],
+      "value": "NewRoom"
+    }]
+  }, {
+    "id": "11e29231-1c05-4a10-ae16-c70ea90a3ae2",
+    "name": "AddRoomDuplicate",
+    "commands": [{
+      "id": "9d597db8-81b8-45db-8cd2-9a1a6f77b404",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "03ad8c58-ed7b-43b4-85cd-648fd1f347d3",
+      "comment": "",
+      "command": "run",
+      "target": "LoginCinema",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4ff68170-6e93-4ddc-805c-c79f0526f794",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Rooms",
+      "targets": [
+        ["linkText=Rooms", "linkText"],
+        ["css=.nav > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Rooms')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Cinema/Rooms')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Rooms')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "58107783-b2b3-45d3-9803-1de2109a6c95",
+      "comment": "",
+      "command": "click",
+      "target": "css=.standardButton",
+      "targets": [
+        ["css=.standardButton", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add room')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "570d84f3-b5eb-459b-88b0-986b6a9b5935",
+      "comment": "",
+      "command": "click",
+      "target": "name=roomName",
+      "targets": [
+        ["name=roomName", "name"],
+        ["css=.w35 > input", "css:finder"],
+        ["xpath=//input[@name='roomName']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0bc771b2-eb71-4b4d-afdc-95266c13d593",
+      "comment": "",
+      "command": "type",
+      "target": "name=roomName",
+      "targets": [
+        ["name=roomName", "name"],
+        ["css=.w35 > input", "css:finder"],
+        ["xpath=//input[@name='roomName']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "NewRoom"
+    }, {
+      "id": "32136454-0f2e-46c0-823a-2d0aa514e76f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.goodButton",
+      "targets": [
+        ["css=.goodButton", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add room')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3e25a300-1c28-4af4-95df-95d9fe3bbd7e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.formWrapper",
+      "targets": [
+        ["css=.formWrapper", "css:finder"],
+        ["xpath=//div[2]/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0dce68a0-0491-4eae-a9e1-58efb67f83b6",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.w35 > .formError:nth-child(3)",
+      "targets": [
+        ["css=.w35 > .formError:nth-child(3)", "css:finder"],
+        ["xpath=//form/div/div/div", "xpath:position"]
+      ],
+      "value": "An existing room already has this name"
+    }]
+  }, {
+    "id": "1b0508f3-bcef-4e9b-9d33-af736ac02238",
+    "name": "AddRoomNoTech",
+    "commands": [{
+      "id": "4c831add-e886-4bee-bac9-412657cb8495",
+      "comment": "",
+      "command": "run",
+      "target": "LoginCinema",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "98261276-80e6-46ff-af59-7239d9710bce",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Rooms",
+      "targets": [
+        ["linkText=Rooms", "linkText"],
+        ["css=.nav > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Rooms')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Cinema/Rooms')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Rooms')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9c7d1430-9e7d-4048-83b3-31f864bcf829",
+      "comment": "",
+      "command": "click",
+      "target": "css=.standardButton",
+      "targets": [
+        ["css=.standardButton", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add room')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "94258a92-4333-4a27-8994-23c25051cf90",
+      "comment": "",
+      "command": "click",
+      "target": "css=.goodButton",
+      "targets": [
+        ["css=.goodButton", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add room')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a0a3b247-a6cc-4dcb-b002-cb590b0fedff",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.w20 > .formError",
+      "targets": [
+        ["css=.w20 > .formError", "css:finder"],
+        ["xpath=//form/div[2]/div/div", "xpath:position"]
+      ],
+      "value": "The Technologies field is required."
+    }]
+  }, {
+    "id": "364f5a35-f13d-492e-aa42-a6d01d34079c",
+    "name": "ModifyRoom",
+    "commands": [{
+      "id": "53491caf-8434-4a52-bf91-373c35dea67e",
+      "comment": "",
+      "command": "run",
+      "target": "LoginCinema",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1db885ad-42e5-44ef-a88f-e212889baa6d",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Rooms",
+      "targets": [
+        ["linkText=Rooms", "linkText"],
+        ["css=.nav > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Rooms')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Cinema/Rooms')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Rooms')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b11b541a-48c0-4f7e-8e45-ab3ce7fc1363",
+      "comment": "",
+      "command": "click",
+      "target": "css=.coolLink:nth-child(1) .movieImg",
+      "targets": [
+        ["css=.coolLink:nth-child(1) .movieImg", "css:finder"],
+        ["xpath=//div[@id='actualContent']/a/div/img", "xpath:idRelative"],
+        ["xpath=//a/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d0910930-41bd-4c82-97f0-6ac7c12b755e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.row:nth-child(3)",
+      "targets": [
+        ["css=.row:nth-child(3)", "css:finder"],
+        ["xpath=//form/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d0017f51-8b7e-4c0e-9ee4-9b370e6e1452",
+      "comment": "",
+      "command": "type",
+      "target": "id=seatingRows",
+      "targets": [
+        ["id=seatingRows", "id"],
+        ["name=rows", "name"],
+        ["css=#seatingRows", "css:finder"],
+        ["xpath=//input[@id='seatingRows']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "25"
+    }, {
+      "id": "84f06860-4acf-4b06-8f80-c7ed1aa6ffd9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.goodButton",
+      "targets": [
+        ["css=.goodButton", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save changes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "c810a259-05f2-46f0-bdef-a0db279e3925",
+    "name": "DeleteRoom",
+    "commands": [{
+      "id": "3d5f7fb0-ad76-44e6-bddc-423883d6e619",
+      "comment": "",
+      "command": "run",
+      "target": "LoginCinema",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2ffe2f16-2d74-4664-ab36-75ac5ac08c74",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Rooms",
+      "targets": [
+        ["linkText=Rooms", "linkText"],
+        ["css=.nav > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Rooms')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Cinema/Rooms')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Rooms')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1c21b733-191d-4d20-9e87-162f3bfa3306",
+      "comment": "",
+      "command": "click",
+      "target": "css=.coolLink:nth-child(1) .movieImg",
+      "targets": [
+        ["css=.coolLink:nth-child(1) .movieImg", "css:finder"],
+        ["xpath=//div[@id='actualContent']/a/div/img", "xpath:idRelative"],
+        ["xpath=//a/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a81fa7ab-e093-4032-bd69-b83237efcce8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.badButton",
+      "targets": [
+        ["css=.badButton", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete room')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7d2c7e5c-f480-4e74-973d-c7f41c27c926",
+      "comment": "",
+      "command": "click",
+      "target": "id=areYouSureAction",
+      "targets": [
+        ["id=areYouSureAction", "id"],
+        ["css=#areYouSureAction", "css:finder"],
+        ["xpath=//button[@id='areYouSureAction']", "xpath:attributes"],
+        ["xpath=//div[@id='areYouSureModal']/div[3]/div/button", "xpath:idRelative"],
+        ["xpath=//div[3]/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Yes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "b17e606f-efe2-4bfb-9f25-84233b96c39c",
@@ -3266,6 +3713,13 @@
     "parallel": false,
     "timeout": 300,
     "tests": ["b3968fe5-17ef-40a6-9fe3-4e6263d82368"]
+  }, {
+    "id": "72f94d5c-7a09-430b-b92b-b1269331c84b",
+    "name": "CinemaRooms",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["4be81763-307d-4c36-954a-bca2fdc82528", "11e29231-1c05-4a10-ae16-c70ea90a3ae2", "1b0508f3-bcef-4e9b-9d33-af736ac02238", "364f5a35-f13d-492e-aa42-a6d01d34079c", "c810a259-05f2-46f0-bdef-a0db279e3925"]
   }],
   "urls": ["https://amenic.tech/", "http://localhost:8080/"],
   "plugins": []
