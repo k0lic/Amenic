@@ -357,6 +357,7 @@ let projectionSet = new Set();
 
 const updateProjections = () => {
 	projectionSet.clear();
+	movieDropdown.textContent = "";
 	getAllProjections().then((projections) => {
 		if (Array.isArray(projections)) {
 			projections.forEach((projection) => {

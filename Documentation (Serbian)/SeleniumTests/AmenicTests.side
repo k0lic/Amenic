@@ -3098,6 +3098,124 @@
       "targets": [],
       "value": ""
     }]
+  }, {
+    "id": "b3968fe5-17ef-40a6-9fe3-4e6263d82368",
+    "name": "AddAdmin",
+    "commands": [{
+      "id": "f0e36eae-87a6-47c7-8e66-9f4c498d787a",
+      "comment": "",
+      "command": "run",
+      "target": "LoginAdmin",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "78e53cf9-357f-4fac-8c9a-32d323baf088",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Admins",
+      "targets": [
+        ["linkText=Admins", "linkText"],
+        ["css=li:nth-child(4) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Admins')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/AdminController/admins')]", "xpath:href"],
+        ["xpath=//li[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Admins')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5c02a0ed-8738-447c-bb4d-fce89e792aea",
+      "comment": "",
+      "command": "click",
+      "target": "css=.addAdminButton",
+      "targets": [
+        ["css=.addAdminButton", "css:finder"],
+        ["xpath=//button[@onclick=\"showSpecModal('addAdminWrapper')\"]", "xpath:attributes"],
+        ["xpath=//div[4]/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add admin')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c8f4f616-ed60-44b8-b326-8a77a145b173",
+      "comment": "",
+      "command": "type",
+      "target": "id=fNameNA",
+      "targets": [
+        ["id=fNameNA", "id"],
+        ["name=fNameNA", "name"],
+        ["css=#fNameNA", "css:finder"],
+        ["xpath=//input[@id='fNameNA']", "xpath:attributes"],
+        ["xpath=//div[@id='addAdminModal']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Ime"
+    }, {
+      "id": "f85129e6-eb03-466e-8912-24d87421184e",
+      "comment": "",
+      "command": "type",
+      "target": "id=lNameNA",
+      "targets": [
+        ["id=lNameNA", "id"],
+        ["name=lNameNA", "name"],
+        ["css=#lNameNA", "css:finder"],
+        ["xpath=//input[@id='lNameNA']", "xpath:attributes"],
+        ["xpath=//div[@id='addAdminModal']/div[2]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Prezime"
+    }, {
+      "id": "3002cf9e-d266-428c-babd-0a25c6dbb83c",
+      "comment": "",
+      "command": "type",
+      "target": "id=emailNA",
+      "targets": [
+        ["id=emailNA", "id"],
+        ["name=emailNA", "name"],
+        ["css=#emailNA", "css:finder"],
+        ["xpath=//input[@id='emailNA']", "xpath:attributes"],
+        ["xpath=//div[@id='addAdminModal']/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "mail@gmail.com"
+    }, {
+      "id": "89c97a88-3927-4ac3-b639-4fe1a694bcda",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=passwordNA", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='addAdminModal']/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": "password"
+    }, {
+      "id": "76d600a5-82f8-490a-a4b5-cbfafbfe2323",
+      "comment": "",
+      "command": "type",
+      "target": "id=passwordConfirmNA",
+      "targets": [
+        ["id=passwordConfirmNA", "id"],
+        ["name=passwordConfirmNA", "name"],
+        ["css=#passwordConfirmNA", "css:finder"],
+        ["xpath=//input[@id='passwordConfirmNA']", "xpath:attributes"],
+        ["xpath=//div[@id='addAdminModal']/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": "password"
+    }, {
+      "id": "1356ec82-d03e-450d-97db-b6d610ca602c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.confirmModuleButtons:nth-child(7) > button:nth-child(1)",
+      "targets": [
+        ["css=.confirmModuleButtons:nth-child(7) > button:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='addAdminModal']/div[7]/button", "xpath:idRelative"],
+        ["xpath=//div[7]/button", "xpath:position"]
+      ],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "b17e606f-efe2-4bfb-9f25-84233b96c39c",
@@ -3141,6 +3259,13 @@
     "parallel": false,
     "timeout": 300,
     "tests": ["9a90ffa4-755b-435c-b4e2-7f1c3ef53266", "fa7ef786-56bf-481b-bc14-c047316d1ead"]
+  }, {
+    "id": "d9f0132f-7b3b-492a-80c3-7164edefc2c2",
+    "name": "AddAdmin",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["b3968fe5-17ef-40a6-9fe3-4e6263d82368"]
   }],
   "urls": ["https://amenic.tech/", "http://localhost:8080/"],
   "plugins": []
