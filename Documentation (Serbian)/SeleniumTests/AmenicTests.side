@@ -3029,6 +3029,75 @@
       ],
       "value": "Kupina"
     }]
+  }, {
+    "id": "9a90ffa4-755b-435c-b4e2-7f1c3ef53266",
+    "name": "CloseCinema",
+    "commands": [{
+      "id": "ea4a0a19-7c67-4d95-b8d9-e71db41e173e",
+      "comment": "",
+      "command": "run",
+      "target": "LoginCinema",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "71599ba4-09b7-4ac9-bf5a-d3cb5db6dda6",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Settings",
+      "targets": [
+        ["linkText=Settings", "linkText"],
+        ["css=.menuBar > a:nth-child(3)", "css:finder"],
+        ["xpath=//a[contains(@href, '/Cinema/Settings')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,' Settings')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1dd2897e-caf4-4e90-8e79-8f35ea72654d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.requestDeleteButton",
+      "targets": [
+        ["css=.requestDeleteButton", "css:finder"],
+        ["xpath=//button[@onclick=\"showSpecModal('deleteModalWrapper')\"]", "xpath:attributes"],
+        ["xpath=//div[8]/div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Delete account')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9e332c1e-3441-4555-8a09-ebfc63db9d5e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.confirmModuleButtons > button:nth-child(1)",
+      "targets": [
+        ["css=.confirmModuleButtons > button:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='deleteModal']/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Yes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6891cc3d-0cd4-4375-95c0-c9ebf500bb26",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Cinemas",
+      "targets": [
+        ["linkText=Cinemas", "linkText"],
+        ["css=.nav > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Cinemas')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/HomeController/cinemas')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Cinemas')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aab0ed68-529d-49ab-8a1c-de6505bd3347",
+      "comment": "",
+      "command": "assertElementNotPresent",
+      "target": "xpath=//p[contains(.,'Test Cinema')]",
+      "targets": [],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "b17e606f-efe2-4bfb-9f25-84233b96c39c",
@@ -3065,6 +3134,13 @@
     "parallel": false,
     "timeout": 300,
     "tests": ["be978e51-9368-4dcf-8d73-2919e1e16051", "d021ca15-0fc2-4009-8f8b-c078a7163384", "ee2fa97c-e8eb-467d-8a2e-dc6f6ecc442a"]
+  }, {
+    "id": "3b4646ef-8d44-4d54-adec-6b2e2cabef79",
+    "name": "CinemaClose",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["9a90ffa4-755b-435c-b4e2-7f1c3ef53266", "fa7ef786-56bf-481b-bc14-c047316d1ead"]
   }],
   "urls": ["https://amenic.tech/", "http://localhost:8080/"],
   "plugins": []
