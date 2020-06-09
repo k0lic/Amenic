@@ -57,7 +57,7 @@
         <form method="POST" action="/login/forgot" id="passResetForm">
             <div class="modalHead centerX spaceBetween mb-2">
                 <span class="mr-2">Account recovery</span>
-                <a href="/login/clearErrors" onclick="
+                <a href="/login/clearErrorsRedirect" onclick="
                     document.getElementById('loginModal').classList.remove('showModal');
                     document.getElementById('passResetInner').classList.remove('showModal');
                     document.getElementById('loginModalInner').classList.remove('hideModal');
