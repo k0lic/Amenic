@@ -1,5 +1,9 @@
 ![Banner](imgs/github/banner.jpg)
 
+# Fork
+
+I created this fork just to have a copy of the project on my Github account. The original can be found [here](https://github.com/zivkovicmilos/Amenic).
+
 # Project description
 
 Amenic is an online platform dedicated to making the entire process of booking a movie ticket as seamless, and easy, as possible.
